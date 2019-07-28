@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="warn" packages="org.apache.logging.log4j.core,io.sentry.log4j2">
+    <appenders>
+        <Sentry name="Sentry" />
+    </appenders>
+
+    <loggers>
+        <root level="INFO">
+            <!-- Note that the Sentry logging threshold is overridden to the WARN level -->
+            <appender-ref ref="Sentry" level="WARN" />
+        </root>
+    </loggers>
+</configuration>
