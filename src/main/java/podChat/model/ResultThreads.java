@@ -1,12 +1,12 @@
 package podChat.model;
 
 
-import podChat.mainmodel.ThreadVo;
+import podChat.mainmodel.Thread;
 
 import java.util.List;
 
 public class ResultThreads {
-    private List<ThreadVo> threadVos;
+    private List<Thread> threads;
     private long contentCount;
     private boolean hasNext;
     private long nextOffset;
@@ -35,11 +35,11 @@ public class ResultThreads {
         this.nextOffset = nextOffset;
     }
 
-    public List<ThreadVo> getThreadVos() {
-        return threadVos;
+    public List<Thread> getThreads() {
+        return threads;
     }
 
-    public void setThreadVos(List<ThreadVo> threadVos) {
-        this.threadVos = threadVos;
+    public void setThreads(List<Thread> threads) {
+        this.threads = threads;
     }
 }

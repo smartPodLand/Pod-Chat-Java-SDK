@@ -1,21 +1,22 @@
 package podChat.mainmodel;
 
-
 public class Participant {
     private long id;
-    private long orderId;
-
-    private long threadId;
 
     private String name;
     private String firstName;
     private String lastName;
+
     private String image;
     private long notSeenDuration;
+
     private long contactId;
+    private long coreUserId;
+
     private String contactName;
     private String contactFirstName;
     private String contactLastName;
+
     private Boolean sendEnable;
     private Boolean receiveEnable;
     private String cellphoneNumber;
@@ -25,11 +26,51 @@ public class Participant {
     private Boolean blocked;
     private Boolean admin;
 
-    @Override
-    public String toString() {
-        return super.toString();
 
+    public Participant() {
     }
+
+    public Participant(
+            long id,
+            String name,
+            String firstName,
+            String lastName,
+            String image,
+            long notSeenDuration,
+            long contactId,
+            String contactName,
+            String contactFirstName,
+            String contactLastName,
+            Boolean sendEnable,
+            Boolean receiveEnable,
+            String cellphoneNumber,
+            String email,
+            Boolean myFriend,
+            Boolean online,
+            Boolean blocked,
+            Boolean admin
+    ) {
+
+        this.id=id;
+        this.name=name;
+        this.firstName=firstName;
+        this.lastName=lastName;
+        this.image=image;
+        this.notSeenDuration=notSeenDuration;
+        this.contactId=contactId;
+        this.contactName=contactName;
+        this.contactFirstName=contactFirstName;
+        this.contactLastName=contactLastName;
+        this.sendEnable=sendEnable;
+        this.receiveEnable=receiveEnable;
+        this.cellphoneNumber=cellphoneNumber;
+        this.email=email;
+        this.myFriend=myFriend;
+        this.online=online;
+        this.blocked=blocked;
+        this.admin=admin;
+    }
+
 
     public long getId() {
         return id;
@@ -77,38 +118,6 @@ public class Participant {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public long getContactId() {
-        return contactId;
-    }
-
-    public void setContactId(long contactId) {
-        this.contactId = contactId;
-    }
-
-    public String getContactName() {
-        return contactName;
-    }
-
-    public void setContactName(String contactName) {
-        this.contactName = contactName;
-    }
-
-    public String getContactFirstName() {
-        return contactFirstName;
-    }
-
-    public void setContactFirstName(String contactFirstName) {
-        this.contactFirstName = contactFirstName;
-    }
-
-    public String getContactLastName() {
-        return contactLastName;
-    }
-
-    public void setContactLastName(String contactLastName) {
-        this.contactLastName = contactLastName;
     }
 
     public Boolean getSendEnable() {
@@ -159,6 +168,22 @@ public class Participant {
         this.online = online;
     }
 
+    public long getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(long contactId) {
+        this.contactId = contactId;
+    }
+
+    public String getContactName() {
+        return contactName;
+    }
+
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
+    }
+
     public Boolean getBlocked() {
         return blocked;
     }
@@ -175,19 +200,27 @@ public class Participant {
         this.admin = admin;
     }
 
-    public long getOrderId() {
-        return orderId;
+    public String getContactFirstName() {
+        return contactFirstName;
     }
 
-    public void setOrderId(long orderId) {
-        this.orderId = orderId;
+    public void setContactFirstName(String contactFirstName) {
+        this.contactFirstName = contactFirstName;
     }
 
-    public long getThreadId() {
-        return threadId;
+    public String getContactLastName() {
+        return contactLastName;
     }
 
-    public void setThreadId(long threadId) {
-        this.threadId = threadId;
+    public void setContactLastName(String contactLastName) {
+        this.contactLastName = contactLastName;
+    }
+
+    public long getCoreUserId() {
+        return coreUserId;
+    }
+
+    public void setCoreUserId(long coreUserId) {
+        this.coreUserId = coreUserId;
     }
 }

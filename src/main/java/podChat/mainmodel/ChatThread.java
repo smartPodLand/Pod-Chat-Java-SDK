@@ -1,24 +1,25 @@
 package podChat.mainmodel;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
- * + CreateThreadRequest    {object}
- *    - ownerSsoId          {string}
- *    + invitees            {object}
- *       -id                {string}
- *       -idType            {int} ** inviteeVOidTypes
- *    - title               {string}
- *    - type                {int} ** createThreadTypes
+ * + RequestCreateThread    {object}
+ * - ownerSsoId          {string}
+ * + invitees            {object}
+ * -id                {string}
+ * -idType            {int} ** inviteeVOidTypes
+ * - title               {string}
+ * - type                {int} ** createThreadTypes
  */
-public class ChatThread implements Serializable {
+public class ChatThread {
 
     private int type;
     private String ownerSsoId;
     private List<Invitee> invitees;
-    private List<Invitee[]> arrayInvitees;
     private String title;
+    private String description;
+    private String image;
+    private String metadata;
 
     public String getOwnerSsoId() {
         return ownerSsoId;
@@ -44,19 +45,35 @@ public class ChatThread implements Serializable {
         this.title = title;
     }
 
-    public List<Invitee[]> getArrayInvitees() {
-        return arrayInvitees;
-    }
-
-    public void setArrayInvitees(List<Invitee[]> arrayInvitees) {
-        this.arrayInvitees = arrayInvitees;
-    }
-
     public int getType() {
         return type;
     }
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(String metadata) {
+        this.metadata = metadata;
     }
 }

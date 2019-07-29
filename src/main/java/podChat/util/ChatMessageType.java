@@ -2,6 +2,7 @@ package podChat.util;
 
 public class ChatMessageType {
 
+
     public static final int INVITATION = 1;
     public static final int MESSAGE = 2;
     public static final int SENT = 3;
@@ -33,7 +34,13 @@ public class ChatMessageType {
     public static final int DELETE_MESSAGE = 29;
     public static final int THREAD_INFO_UPDATED = 30;
     public static final int LAST_SEEN_UPDATED = 31;
+    public static final int SEEN_MESSAGE_LIST = 32;
+    public static final int DELIVERED_MESSAGE_LIST = 33;
     public static final int SPAM_PV_THREAD = 41;
+    public static final int SET_RULE_TO_USER = 42;
+    public static final int CLEAR_HISTORY = 44;
+    public static final int SIGNAL_MESSAGE = 45;
+    public static final int GET_THREAD_ADMINS = 48;
     public static final int ERROR = 999;
 
 }

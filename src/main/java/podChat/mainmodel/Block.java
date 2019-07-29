@@ -1,8 +1,6 @@
 package podChat.mainmodel;
 
-import java.io.Serializable;
-
-public class Block implements Serializable {
+public class Block {
     private long id;
     private String name;
     private String profileImage;

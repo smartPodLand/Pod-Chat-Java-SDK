@@ -1,5 +1,6 @@
 package podChat.mainmodel;
 
+import podChat.model.ReplyInfoVO;
 
 public class LastMessageVO {
     private long id;
@@ -7,13 +8,44 @@ public class LastMessageVO {
     private String message;
     private boolean edited;
     private boolean editable;
+    private boolean delivered;
+    private boolean seen;
+    private boolean deletable;
     private long time;
     private Participant participant;
-    private Long participantId;
     private ReplyInfoVO replyInfoVO;
-    private Long replyInfoVOId;
     private ForwardInfo forwardInfo;
-    private Long forwardInfoId;
+
+    public LastMessageVO(
+            long id,
+            String uniqueId,
+            String message,
+            boolean edited,
+            boolean editable,
+            boolean delivered,
+            boolean seen,
+            boolean deletable,
+            long time,
+            Participant participant,
+            ReplyInfoVO replyInfoVO,
+            ForwardInfo forwardInfo) {
+        this.id = id;
+        this.uniqueId = uniqueId;
+        this.message = message;
+        this.edited = edited;
+        this.editable = editable;
+        this.delivered = delivered;
+        this.seen = seen;
+        this.deletable = deletable;
+        this.time = time;
+        this.participant = participant;
+        this.replyInfoVO = replyInfoVO;
+        this.forwardInfo = forwardInfo;
+
+    }
+
+    public LastMessageVO() { }
+
 
     public Participant getParticipant() {
         return participant;
@@ -87,27 +119,27 @@ public class LastMessageVO {
         this.forwardInfo = forwardInfo;
     }
 
-    public Long getParticipantId() {
-        return participantId;
+    public boolean isDelivered() {
+        return delivered;
     }
 
-    public void setParticipantId(Long participantId) {
-        this.participantId = participantId;
+    public void setDelivered(boolean delivered) {
+        this.delivered = delivered;
     }
 
-    public Long getReplyInfoVOId() {
-        return replyInfoVOId;
+    public boolean isSeen() {
+        return seen;
     }
 
-    public void setReplyInfoVOId(Long replyInfoVOId) {
-        this.replyInfoVOId = replyInfoVOId;
+    public void setSeen(boolean seen) {
+        this.seen = seen;
     }
 
-    public Long getForwardInfoId() {
-        return forwardInfoId;
+    public boolean isDeletable() {
+        return deletable;
     }
 
-    public void setForwardInfoId(Long forwardInfoId) {
-        this.forwardInfoId = forwardInfoId;
+    public void setDeletable(boolean deletable) {
+        this.deletable = deletable;
     }
 }

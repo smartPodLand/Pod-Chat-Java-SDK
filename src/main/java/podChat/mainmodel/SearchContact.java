@@ -1,10 +1,9 @@
 package podChat.mainmodel;
 
+
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
-public class SearchContact implements Serializable {
+public class SearchContact {
     private String firstName;
     private String lastName;
     private String cellphoneNumber;
@@ -97,6 +96,7 @@ public class SearchContact implements Serializable {
             this.size = size;
         }
 
+
         public Builder lastName(String lastName) {
             this.lastName = lastName;
             return this;
@@ -107,30 +107,36 @@ public class SearchContact implements Serializable {
             return this;
         }
 
+
         public Builder id(String id) {
             this.id = id;
             return this;
         }
+
 
         public Builder email(String email) {
             this.email = email;
             return this;
         }
 
+
         public Builder typeCode(String typeCode) {
             this.typeCode = typeCode;
             return this;
         }
+
 
         public Builder query(String query) {
             this.query = query;
             return this;
         }
 
+
         public Builder cellphoneNumber(String cellphoneNumber) {
             this.cellphoneNumber = cellphoneNumber;
             return this;
         }
+
 
         public SearchContact build() {
             return new SearchContact(this);

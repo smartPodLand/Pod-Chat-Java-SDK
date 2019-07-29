@@ -1,14 +1,13 @@
 package podChat.mainmodel;
 
-import java.io.Serializable;
-
-public class BaseMessage implements Serializable {
+public class BaseMessage  {
     private String content;
     private String token;
     private String tokenIssuer;
     private int type;
     private long subjectId;
     private String uniqueId;
+    private String typeCode;
 
     public String getContent() {
         return content;
@@ -56,5 +55,13 @@ public class BaseMessage implements Serializable {
 
     public void setUniqueId(String uniqueId) {
         this.uniqueId = uniqueId;
+    }
+
+    public String getTypeCode() {
+        return typeCode;
+    }
+
+    public void setTypeCode(String typeCode) {
+        this.typeCode = typeCode;
     }
 }

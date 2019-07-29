@@ -1,5 +1,6 @@
 package podChat.model;
 
+
 import podChat.mainmodel.UserInfo;
 
 public class ResultUserInfo {

@@ -2,10 +2,10 @@ package podChat.model;
 
 public abstract class BaseOutPut {
     private boolean hasError;
+    private boolean cache;
     private String errorMessage;
     private long errorCode;
     private String uniqueId;
-    private boolean cache;
 
     public boolean isHasError() {
         return hasError;
@@ -29,5 +29,21 @@ public abstract class BaseOutPut {
 
     public void setErrorCode(long errorCode) {
         this.errorCode = errorCode;
+    }
+
+    public String getUniqueId() {
+        return uniqueId;
+    }
+
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
+    }
+
+    public boolean isCache() {
+        return cache;
+    }
+
+    public void setCache(boolean cache) {
+        this.cache = cache;
     }
 }

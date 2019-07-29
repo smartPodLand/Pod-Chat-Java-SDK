@@ -2,7 +2,6 @@ package config;
 
 import util.log.ChatLogger;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -20,9 +19,10 @@ public class QueueConfig {
     public static String sendMessageTimeOut;
     public static int queueReconnectTime;
 
-    public static void setConfig() {
+    public void setConfig() {
 
-        try (InputStream input = new FileInputStream("config.properties")) {
+        try {
+            InputStream input = this.getClass().getClassLoader().getResourceAsStream("config.properties");
 
             Properties prop = new Properties();
             prop.load(input);

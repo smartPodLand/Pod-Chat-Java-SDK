@@ -1,20 +1,10 @@
 package podChat.model;
 
 
-public class OutPutBlock {
-    private Boolean hasError;
+public class OutPutBlock extends BaseOutPut {
     private String referenceNumber;
-    private Integer errorCode;
     private String ott;
     private ResultBlock result;
-
-    public Boolean getHasError() {
-        return hasError;
-    }
-
-    public void setHasError(Boolean hasError) {
-        this.hasError = hasError;
-    }
 
     public String getReferenceNumber() {
         return referenceNumber;
@@ -22,14 +12,6 @@ public class OutPutBlock {
 
     public void setReferenceNumber(String referenceNumber) {
         this.referenceNumber = referenceNumber;
-    }
-
-    public Integer getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(Integer errorCode) {
-        this.errorCode = errorCode;
     }
 
     public String getOtt() {

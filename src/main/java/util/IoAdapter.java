@@ -7,7 +7,6 @@ import java.io.IOException;
  */
 public interface IoAdapter {
     public void onReceiveMessage(String message) throws IOException;
-    public void onStateChanged(String message);
     public void onSendError();
     public void onReceiveError();
     public void onSessionCloseError();

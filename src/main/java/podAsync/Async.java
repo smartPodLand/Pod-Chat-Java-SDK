@@ -1,6 +1,7 @@
 package podAsync;
 
 import com.google.gson.Gson;
+import config.MainConfig;
 import config.QueueConfig;
 import podAsync.model.*;
 import podChat.util.ChatStateType;
@@ -46,6 +47,9 @@ public class Async implements IoAdapter {
 
             QueueConfig queueConfig = new QueueConfig();
             queueConfig.setConfig();
+
+            MainConfig mainConfig = new MainConfig();
+            mainConfig.setConfig();
         }
         return instance;
     }
@@ -95,13 +99,6 @@ public class Async implements IoAdapter {
         }
     }
 
-    @Override
-    public void onStateChanged(String message) {
-        asyncListenerManager.callOnStateChanged(message);
-
-        setState("OPEN");
-    }
-
 
     @Override
     public void onSendError() {
@@ -121,13 +118,40 @@ public class Async implements IoAdapter {
 
     public void connect(String socketServerAddress, final String appId, String serverName, String token, String ssoHost, String deviceID) {
         try {
+
+            //  setAppId(appId);
+            setServerAddress(socketServerAddress);
+            setToken(token);
+            setServerName(serverName);
+            setSsoHost(ssoHost);
+
             activeMq = new ActiveMq(this);
+
+            setState(AsyncConstant.ASYNC_STATE_OPEN);
+
+            asyncListenerManager.callOnStateChanged(ChatStateType.OPEN);
+            asyncListenerManager.callOnStateChanged(ChatStateType.ASYNC_READY);
 
         } catch (Exception e) {
             ChatLogger.error(e.getCause().getMessage());
 
         }
     }
+
+    private void ping() {
+        if (getState().equals(AsyncConstant.ASYNC_STATE_OPEN)) {
+            message = getMessageWrapper(gson, "", AsyncMessageType.PING);
+            try {
+                sendData(activeMq, message);
+            } catch (Exception e) {
+                ChatLogger.error(e.getMessage());
+            }
+            ChatLogger.info("SEND_ASYNC_PING");
+        } else {
+            ChatLogger.error(TAG + "Socket Is", "Closed");
+        }
+    }
+
 
     /**
      * @Param textContent
@@ -159,7 +183,7 @@ public class Async implements IoAdapter {
     public void sendMessage(String textContent, int messageType) {
         try {
             if (getState() != null) {
-                if (getState().equals("OPEN")) {
+                if (getState().equals(AsyncConstant.ASYNC_STATE_OPEN)) {
                     long ttl = new Date().getTime();
                     Message message = new Message();
                     message.setContent(textContent);

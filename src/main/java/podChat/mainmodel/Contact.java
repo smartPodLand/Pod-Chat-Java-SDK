@@ -1,22 +1,50 @@
 package podChat.mainmodel;
 
-
-import java.io.Serializable;
-
-public class Contact implements Serializable {
-
+public class Contact {
     private long id;
     private String firstName;
     private long userId;
     private String lastName;
-    private String profileImage;
-    private LinkedUser linkedUser;
     private Boolean blocked;
+    private long creationDate;
+    private LinkedUser linkedUser;
     private String cellphoneNumber;
     private String email;
     private String uniqueId;
     private long notSeenDuration;
     private boolean hasUser;
+
+    public Contact() {
+    }
+
+    public Contact(
+            long id,
+            String firstName,
+            long userId,
+            String lastName,
+            Boolean blocked,
+            long creationDate,
+            LinkedUser linkedUser,
+            String cellphoneNumber,
+            String email,
+            String uniqueId,
+            long notSeenDuration,
+            boolean hasUser
+    ) {
+        this.id = id;
+        this.firstName = firstName;
+        this.userId = userId;
+        this.lastName = lastName;
+        this.blocked = blocked;
+        this.creationDate = creationDate;
+        this.linkedUser = linkedUser;
+        this.cellphoneNumber = cellphoneNumber;
+        this.email = email;
+        this.uniqueId = uniqueId;
+        this.notSeenDuration = notSeenDuration;
+        this.hasUser = hasUser;
+    }
+
 
     public String getFirstName() {
         return firstName;
@@ -90,14 +118,6 @@ public class Contact implements Serializable {
         this.notSeenDuration = notSeenDuration;
     }
 
-    public String getProfileImage() {
-        return profileImage;
-    }
-
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
-    }
-
     public long getUserId() {
         return userId;
     }
@@ -112,5 +132,13 @@ public class Contact implements Serializable {
 
     public void setBlocked(Boolean blocked) {
         this.blocked = blocked;
+    }
+
+    public long getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(long creationDate) {
+        this.creationDate = creationDate;
     }
 }

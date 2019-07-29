@@ -7,7 +7,6 @@ import podChat.model.AddContacts;
 import podChat.model.ContactRemove;
 import podChat.model.Contacts;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.http.*;
 

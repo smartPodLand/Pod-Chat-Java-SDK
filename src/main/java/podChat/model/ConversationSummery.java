@@ -2,7 +2,6 @@ package podChat.model;
 
 
 public class ConversationSummery {
-
     private long id;
     private String title;
     private String metadata;

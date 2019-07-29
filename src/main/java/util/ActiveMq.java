@@ -42,7 +42,7 @@ public class ActiveMq {
         this.ioAdapter = ioAdapter;
 
         inputQueue = new QueueImpl(QueueConfig.queueInput);
-        outputQueue = new QueueImpl(QueueConfig.queueInput);
+        outputQueue = new QueueImpl(QueueConfig.queueOutput);
 
         factory = new ActiveMQConnectionFactory(
                 QueueConfig.queueUserName,
@@ -83,8 +83,6 @@ public class ActiveMq {
                             QueueConfig.queuePassword);
                     conConnection.start();
 
-                    ioAdapter.onStateChanged(ChatStateType.OPEN);
-
                     proSession = proConnection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
 
                     conSession = conConnection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
@@ -98,6 +96,7 @@ public class ActiveMq {
 
                     proConnection.setExceptionListener(new QueueExceptionListener());
                     ChatLogger.info("connection established");
+
 
                     break;
 

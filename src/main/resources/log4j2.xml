@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration status="warn" packages="org.apache.logging.log4j.core,io.sentry.log4j2">
     <appenders>
+        <RollingFile name="Logfile" fileName="chat-log.out" filePattern="debug-backup-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
+            <PatternLayout pattern="[%-5level]  %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %m%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="20MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
         <Sentry name="Sentry" />
     </appenders>
 
     <loggers>
         <root level="INFO">
+            <appender-ref ref="Logfile"/>
             <!-- Note that the Sentry logging threshold is overridden to the WARN level -->
             <appender-ref ref="Sentry" level="WARN" />
         </root>

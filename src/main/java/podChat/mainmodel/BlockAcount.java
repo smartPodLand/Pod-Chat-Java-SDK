@@ -1,8 +1,6 @@
 package podChat.mainmodel;
 
-import java.io.Serializable;
-
-public class BlockAcount implements Serializable {
+public class BlockAcount  {
     private long contactId;
     private long threadId;
 

@@ -1,9 +1,10 @@
 package podChat.mainmodel;
 
 public class MapItem {
-    private String title;
     private String address;
     private String neighbourhood;
+    private String title;
+
     private String region;
     private String type;
     private String category;

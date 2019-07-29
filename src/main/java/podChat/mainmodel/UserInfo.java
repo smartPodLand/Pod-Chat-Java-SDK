@@ -1,15 +1,14 @@
 package podChat.mainmodel;
 
-import java.io.Serializable;
 
-public class UserInfo implements Serializable {
+public class UserInfo {
+
     private long id;
     private boolean sendEnable;
     private boolean receiveEnable;
     private String name;
     private String cellphoneNumber;
     private String image;
-    private String email;
 
     public long getId() {
         return id;
@@ -57,13 +56,5 @@ public class UserInfo implements Serializable {
 
     public void setImage(String image) {
         this.image = image;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }

@@ -1,9 +1,9 @@
 package podChat.mainmodel;
 
-import java.io.Serializable;
 
-public class ThreadInfoVO implements Serializable {
+public class ThreadInfoVO {
     private String image;
+    private String name;
     private String description;
     private String metadata;
 
@@ -11,6 +11,15 @@ public class ThreadInfoVO implements Serializable {
         this.description = threadInfoVOBuilder.description;
         this.image = threadInfoVOBuilder.image;
         this.metadata = threadInfoVOBuilder.metadata;
+        this.name = threadInfoVOBuilder.name;
+    }
+
+    public String getTitle() {
+        return name;
+    }
+
+    public void setTitle(String title) {
+        this.name = title;
     }
 
     public static class Builder {
@@ -18,24 +27,35 @@ public class ThreadInfoVO implements Serializable {
         private String image;
         private String description;
         private String metadata;
+        private String name;
+
 
         public Builder image(String image) {
             this.image = image;
             return this;
         }
 
+
+        public Builder title(String title) {
+            this.name = title;
+            return this;
+        }
+
+
         public Builder description(String description) {
             this.description = description;
             return this;
         }
+
 
         public Builder metadat(String metadata) {
             this.metadata = metadata;
             return this;
         }
 
-        public ThreadInfoVO build(){
-           return new ThreadInfoVO(this);
+
+        public ThreadInfoVO build() {
+            return new ThreadInfoVO(this);
         }
 
     }

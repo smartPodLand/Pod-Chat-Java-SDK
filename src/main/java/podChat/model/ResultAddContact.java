@@ -1,11 +1,10 @@
 package podChat.model;
 
-
 import podChat.mainmodel.Contact;
 
 public class ResultAddContact {
 
-    private podChat.mainmodel.Contact Contact;
+    private Contact contact;
     private long contentCount;
 
     public long getContentCount() {
@@ -17,10 +16,10 @@ public class ResultAddContact {
     }
 
     public Contact getContact() {
-        return Contact;
+        return contact;
     }
 
     public void setContact(Contact contact) {
-        Contact = contact;
+        this.contact = contact;
     }
 }

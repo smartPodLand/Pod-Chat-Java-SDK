@@ -1,19 +1,15 @@
 package podChat.mainmodel;
 
-
-import podChat.model.ResultContacts;
-
-import java.io.Serializable;
 import java.util.List;
 
-public class UpdateContact implements Serializable {
+public class UpdateContact  {
     private Boolean hasError;
     private String referenceNumber;
     private String message;
     private Integer errorCode;
     private Integer count;
     private String ott;
-    private List<ResultContacts> result ;
+    private List<Contact> result ;
 
     public Boolean getHasError() {
         return hasError;
@@ -63,11 +59,11 @@ public class UpdateContact implements Serializable {
         this.ott = ott;
     }
 
-    public List<ResultContacts> getResult() {
+    public List<Contact> getResult() {
         return result;
     }
 
-    public void setResult(List<ResultContacts> result) {
+    public void setResult(List<Contact> result) {
         this.result = result;
     }
 }

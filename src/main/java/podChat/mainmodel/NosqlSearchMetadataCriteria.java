@@ -47,10 +47,13 @@ public class NosqlSearchMetadataCriteria {
         public Builder has(String has) {
             this.has = has;
             return this;
-        }public Builder is(String is) {
+        }
+
+        public Builder is(String is) {
             this.is = is;
             return this;
         }
+
         public Builder gt(String gt) {
             this.gt = gt;
             return this;
@@ -59,26 +62,32 @@ public class NosqlSearchMetadataCriteria {
             this.gte = gte;
             return this;
         }
+
         public Builder lt(String lt) {
             this.lt = lt;
             return this;
         }
+
         public Builder lte(String lte) {
             this.lte = lte;
             return this;
         }
+
         public Builder and(List<NosqlSearchMetadataCriteria> and) {
             this.and = and;
             return this;
         }
+
         public Builder or(List<NosqlSearchMetadataCriteria> or) {
             this.or = or;
             return this;
         }
+
         public Builder not(List<NosqlSearchMetadataCriteria> not) {
             this.not = not;
             return this;
         }
+
         public NosqlSearchMetadataCriteria build(){
             return new NosqlSearchMetadataCriteria(this);
         }

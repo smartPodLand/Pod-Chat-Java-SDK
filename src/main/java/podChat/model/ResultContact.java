@@ -3,10 +3,10 @@ package podChat.model;
 
 import podChat.mainmodel.Contact;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class ResultContact {
-    private List<Contact> contacts;
+    private ArrayList<Contact> contacts;
     private long contentCount;
     private boolean hasNext;
     private long nextOffset;
@@ -35,11 +35,11 @@ public class ResultContact {
         this.nextOffset = nextOffset;
     }
 
-    public List<Contact> getContacts() {
+    public ArrayList<Contact> getContacts() {
         return contacts;
     }
 
-    public void setContacts(List<Contact> contacts) {
+    public void setContacts(ArrayList<Contact> contacts) {
         this.contacts = contacts;
     }
 }

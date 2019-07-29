@@ -1,15 +1,16 @@
 package podChat.model;
 
-import podChat.mainmodel.ThreadVo;
+
+import podChat.mainmodel.Thread;
 
 public class ResultThread {
-    private ThreadVo threadVo;
+    private Thread thread;
 
-    public ThreadVo getThreadVo() {
-        return threadVo;
+    public Thread getThread() {
+        return thread;
     }
 
-    public void setThreadVo(ThreadVo threadVo) {
-        this.threadVo = threadVo;
+    public void setThread(Thread thread) {
+        this.thread = thread;
     }
 }

@@ -1,12 +1,16 @@
 package podChat.mainmodel;
 
-public class Inviter {
+
+public class Inviter  {
+
 
     private long id;
     private String name;
     private String firstName;
+    private String image;
     private String lastName;
     private long notSeenDuration;
+    private long coreUserId;
 
     public long getId() {
         return id;
@@ -46,5 +50,21 @@ public class Inviter {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public long getCoreUserId() {
+        return coreUserId;
+    }
+
+    public void setCoreUserId(long coreUserId) {
+        this.coreUserId = coreUserId;
     }
 }

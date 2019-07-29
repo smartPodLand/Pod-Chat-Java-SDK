@@ -1,6 +1,6 @@
 package podChat.model;
 
-public class OutPutUpdateContact {
+public class OutPutUpdateContact  {
     private Boolean hasError;
     private String referenceNumber;
     private String message;

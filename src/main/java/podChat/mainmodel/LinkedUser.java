@@ -1,10 +1,10 @@
 package podChat.mainmodel;
 
 
-import java.io.Serializable;
 
-public class LinkedUser implements Serializable {
+public class LinkedUser  {
     private long id;
+    private long coreUserId;
     private String username;
     private String nickname;
     private String name;
@@ -48,5 +48,13 @@ public class LinkedUser implements Serializable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getCoreUserId() {
+        return coreUserId;
+    }
+
+    public void setCoreUserId(long coreUserId) {
+        this.coreUserId = coreUserId;
     }
 }

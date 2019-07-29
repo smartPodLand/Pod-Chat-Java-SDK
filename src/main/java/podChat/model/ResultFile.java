@@ -1,16 +1,17 @@
 package podChat.model;
 
 public class ResultFile {
-    private int id;
+    private long id;
     private String name;
     private String hashCode;
     private String description;
+    private long size;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -36,5 +37,13 @@ public class ResultFile {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public long getSize() {
+        return size;
+    }
+
+    public void setSize(long size) {
+        this.size = size;
     }
 }

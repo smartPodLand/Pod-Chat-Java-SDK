@@ -1,14 +1,13 @@
 package podChat.model;
 
 public class FileMetaDataContent {
-    private long id;
     private String link;
     private String hashCode;
     private String name;
+    private long id;
     private String originalName;
     private long size;
     private String mimeType;
-    private String localPath;
 
     public String getLink() {
         return link;
@@ -42,14 +41,6 @@ public class FileMetaDataContent {
         this.id = id;
     }
 
-    public String getOriginalName() {
-        return originalName;
-    }
-
-    public void setOriginalName(String originalName) {
-        this.originalName = originalName;
-    }
-
     public long getSize() {
         return size;
     }
@@ -64,13 +55,5 @@ public class FileMetaDataContent {
 
     public void setMimeType(String mimeType) {
         this.mimeType = mimeType;
-    }
-
-    public String getLocalPath() {
-        return localPath;
-    }
-
-    public void setLocalPath(String localPath) {
-        this.localPath = localPath;
     }
 }

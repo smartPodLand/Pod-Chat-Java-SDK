@@ -1,11 +1,11 @@
 package podChat.mainmodel;
 
-import java.io.Serializable;
-
-public class ChatMessage implements Serializable {
+public class ChatMessage {
     private String token;
+    private String typeCode;
     private String tokenIssuer;
     private int type;
+    private Integer messageType;
     private long subjectId;
     private String uniqueId;
     private String content;
@@ -63,7 +63,6 @@ public class ChatMessage implements Serializable {
         this.time = time;
     }
 
-
     public long getRepliedTo() {
         return repliedTo;
     }
@@ -102,5 +101,21 @@ public class ChatMessage implements Serializable {
 
     public void setMetadata(String metadata) {
         this.metadata = metadata;
+    }
+
+    public String getTypeCode() {
+        return typeCode;
+    }
+
+    public void setTypeCode(String typeCode) {
+        this.typeCode = typeCode;
+    }
+
+    public Integer getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(Integer messageType) {
+        this.messageType = messageType;
     }
 }

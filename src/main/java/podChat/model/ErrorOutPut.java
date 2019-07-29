@@ -4,13 +4,15 @@ public class ErrorOutPut {
     private boolean hasError;
     private String errorMessage;
     private long errorCode;
+    private String uniqueId;
 
     public ErrorOutPut(){}
 
-    public ErrorOutPut(boolean hasError, String errorMessage, long errorCode) {
+    public ErrorOutPut(boolean hasError, String errorMessage, long errorCode,String uniqueId) {
         this.errorCode = errorCode;
         this.errorMessage = errorMessage;
         this.hasError = hasError;
+        this.uniqueId = uniqueId;
     }
 
     public boolean isHasError() {
@@ -35,5 +37,13 @@ public class ErrorOutPut {
 
     public void setErrorCode(long errorCode) {
         this.errorCode = errorCode;
+    }
+
+    public String getUniqueId() {
+        return uniqueId;
+    }
+
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
     }
 }

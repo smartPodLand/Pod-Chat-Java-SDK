@@ -1,6 +1,5 @@
 package podChat.model;
 
-
 import podChat.mainmodel.Participant;
 
 import java.util.List;

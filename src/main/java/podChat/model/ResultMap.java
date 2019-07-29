@@ -1,6 +1,5 @@
 package podChat.model;
 
-
 import podChat.mainmodel.MapItem;
 
 import java.util.List;

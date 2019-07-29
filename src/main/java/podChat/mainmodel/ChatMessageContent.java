@@ -2,12 +2,11 @@ package podChat.mainmodel;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /** [ asc | desc ] change sort of order message. default is desc */
-public class ChatMessageContent implements Serializable {
+public class ChatMessageContent {
     private long count;
     private String name;
     @SerializedName("new")
@@ -22,7 +21,7 @@ public class ChatMessageContent implements Serializable {
         return count;
     }
 
-    public void setCount(int count) {
+    public void setCount(long count) {
         this.count = count;
     }
 

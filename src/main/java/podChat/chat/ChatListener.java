@@ -1,74 +1,73 @@
 package podChat.chat;
 
 
+import podChat.mainmodel.ResultDeleteMessage;
 import podChat.model.*;
 
 public interface ChatListener {
 
+    default void onError(String content, ErrorOutPut error) {
+    }
 
-    void onError(String content, ErrorOutPut OutPutError);
+    default void onGetContacts(String content, ChatResponse<ResultContact> response) {
+    }
 
-    default void onGetContacts(String content, OutPutContact outPutContact) {
+    default void onGetHistory(String content, ChatResponse<ResultHistory> history) {
+    }
+
+    default void onGetThread(String content, ChatResponse<ResultThreads> thread) {
 
     }
 
-    default void onGetHistory(String content, OutPutHistory history) {
+    default void onThreadInfoUpdated(String content, ChatResponse<ResultThread> response) {
 
     }
 
-    default void onGetThread(String content, OutPutThreads thread) {
+    default void onBlock(String content, ChatResponse<ResultBlock> response) {
 
     }
 
-    default void onThreadInfoUpdated(String content) {
+    default void onUnBlock(String content, ChatResponse<ResultBlock> response) {
 
     }
 
-    default void onBlock(String content, OutPutBlock outPutBlock) {
+    default void onSeen(String content, ChatResponse<ResultMessage> response) {
 
     }
 
-    default void onUnBlock(String content, OutPutBlock outPutBlock) {
+    default void onDeliver(String content, ChatResponse<ResultMessage> response) {
 
     }
 
-    default void onSeen(String content) {
+    default void onSent(String content, ChatResponse<ResultMessage> response) {
 
     }
 
-    default void onDeliver(String content) {
+    default void onMuteThread(String content, ChatResponse<ResultMute> response) {
 
     }
 
-    default void onSent(String content) {
+    default void onUnmuteThread(String content, ChatResponse<ResultMute> response) {
 
     }
 
-    default void onMuteThread(String content, OutPutMute outPutMute) {
+    default void onUserInfo(String content, ChatResponse<ResultUserInfo> response) {
 
     }
 
-    default void onUnmuteThread(String content, OutPutMute outPutUnMute) {
+    default void onCreateThread(String content, ChatResponse<ResultThread> response) {
 
     }
 
-    default void onUserInfo(String content, OutPutUserInfo outPutUserInfo) {
+    default void onGetThreadParticipant(String content, ChatResponse<ResultParticipant> response) {
 
     }
 
-    default void onCreateThread(String content, OutPutThread outPutThread) {
+    default void onEditedMessage(String content, ChatResponse<ResultNewMessage> response) {
 
     }
 
-    default void onGetThreadParticipant(String content, OutPutParticipant outPutParticipant) {
-
-    }
-
-    default void onEditedMessage(String content) {
-
-    }
-
-    default void onContactAdded(String content) {
+    default void onContactAdded(String content, ChatResponse<ResultAddContact> response) {
 
     }
 
@@ -76,7 +75,7 @@ public interface ChatListener {
 
     }
 
-    default void onRemoveContact(String content) {
+    default void onRemoveContact(String content, ChatResponse<ResultRemoveContact> response) {
 
     }
 
@@ -92,51 +91,82 @@ public interface ChatListener {
 
     }
 
-    default void onNewMessage(String content, OutPutNewMessage outPutNewMessage) {
+    default void onNewMessage(String content, ChatResponse<ResultNewMessage> response) {
 
     }
 
-    default void onDeleteMessage(String content, OutPutDeleteMessage outPutDeleteMessage) {
+    default void onDeleteMessage(String content, ChatResponse<ResultDeleteMessage> response) {
 
     }
 
-    default void onUpdateContact(String content) {
+    default void onUpdateContact(String content, ChatResponse<ResultUpdateContact> response) {
 
     }
 
-    default void onUploadFile(String content) {
+    default void onUploadFile(String content, ChatResponse<ResultFile> response) {
 
     }
 
-    default void onUploadImageFile(String content, FileImageUpload fileImageUpload) {
+    default void onUploadImageFile(String content, ChatResponse<ResultImageFile> response) {
 
     }
 
-    default void onSyncContact(String content) {
+    default void onSyncContact(String content, ChatResponse<Contacts> chatResponse) {
 
     }
 
-    default void onSearchContact(String content, ChatResponse<ResultContact> chatResponse) {
+    default void onSearchContact(String content, ChatResponse<ResultContact> response) {
 
     }
 
-    default void onThreadAddParticipant(String content, OutPutAddParticipant outPutAddParticipant) {
+    default void onThreadAddParticipant(String content, ChatResponse<ResultAddParticipant> response) {
 
     }
 
-    default void onThreadRemoveParticipant(String content, OutPutParticipant outPutParticipant) {
+    default void onThreadRemoveParticipant(String content, ChatResponse<ResultParticipant> response) {
 
     }
 
-    default void onThreadLeaveParticipant(String content, OutPutLeaveThread outPutLeaveThread) {
+    default void onThreadLeaveParticipant(String content, ChatResponse<ResultLeaveThread> response) {
 
     }
 
-    void onLastSeenUpdated(String content);
+    default void OnMapReverse(String json, ChatResponse<ResultMapReverse> response) {
+    }
 
-    void onChatState(String state);
+    default void onLastSeenUpdated(String content) {
+    }
 
-    void onGetBlockList(String content, OutPutBlockList outPutBlockList);
+    default void onChatState(String state) {
+    }
 
+    default void onGetBlockList(String content, ChatResponse<ResultBlockList> response) {
+    }
 
+    default void onUpdateThreadInfo(String threadJson, ChatResponse<ResultThread> response) {
+    }
+
+    default void OnDeliveredMessageList(String content, ChatResponse<ResultParticipant> response) {
+    }
+
+    default void OnSeenMessageList(String content, ChatResponse<ResultParticipant> response) {
+    }
+
+//    default void OnStaticMap(ChatResponse<ResultStaticMapImage> response) {
+   // }
+
+    default void OnRemovedFromThread(String content, ChatResponse<ResultThread> chatResponse) {
+
+    }
+
+    default void OnLogEvent(String log) {
+
+    }
+
+    default void OnClearHistory(String content, ChatResponse<ResultClearHistory> chatResponse) {
+
+    }
+
+    default void OnGetThreadAdmin(String content) {
+    }
 }
