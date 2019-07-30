@@ -14,6 +14,8 @@ import podChat.model.Error;
 import podChat.networking.api.ContactApi;
 import podChat.requestobject.*;
 import podChat.util.*;
+import retrofit2.Call;
+import retrofit2.Response;
 import util.log.ChatLogger;
 
 import java.io.IOException;
@@ -27,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 public class Chat extends AsyncAdapter {
     private static Async async;
     private String token;
-    private String typeCode;
+    private String typeCode = "default";
     private String platformHost;
     private String fileServer;
     private static Chat instance;
@@ -57,7 +59,6 @@ public class Chat extends AsyncAdapter {
     private int signalIntervalTime;
     private int expireAmount;
     private static Gson gson;
-    private boolean checkToken = false;
     private boolean userInfoResponse = false;
     private long ttl;
     private String ssoHost;
@@ -176,7 +177,7 @@ public class Chat extends AsyncAdapter {
                 handleResponseMessage(callback, chatMessage, messageUniqueId);
                 break;
             case ChatMessageType.PING:
-                handleOnPing(chatMessage);
+                // handleOnPing(chatMessage);
                 break;
             case ChatMessageType.RELATION_INFO:
                 break;
@@ -243,6 +244,8 @@ public class Chat extends AsyncAdapter {
 
     @Override
     public void onStateChanged(String state) throws IOException {
+        ChatLogger.info("State change: " + state);
+
         super.onStateChanged(state);
         listenerManager.callOnChatState(state);
 
@@ -323,7 +326,7 @@ public class Chat extends AsyncAdapter {
                 handlerSend = new HashMap<>();
                 async.addListener(this);
 
-                // contactApi = RetrofitUtil.getInstance(ContactApi.class);
+                //  contactApi = RetrofitUtil.getInstance().create(ContactApi.class);
 
                 setPlatformHost(platformHost);
                 setToken(token);
@@ -475,38 +478,6 @@ public class Chat extends AsyncAdapter {
         return sendTextMessage(textMessage, threadId, messageType, jsonMetaData, handler);
     }
 
-    /**
-     * First we get the contact from server then at the respond of that
-     *
-     * @param activity its for check the permission of reading the phone contact
-     *                 {@link #getPhoneContact(Context)}
-     */
-   /* public String syncContact(Activity activity) {
-        String uniqueId = generateUniqueId();
-        if (Permission.Check_READ_CONTACTS(activity)) {
-            if (chatReady) {
-                List<PhoneContact> phoneContacts = getPhoneContact(getContext());
-
-                if (phoneContacts.size() > 0) {
-                    addContacts(phoneContacts, uniqueId);
-                } else {
-                    ChatResponse<Contacts> chatResponse = new ChatResponse<>();
-                    listenerManager.callOnSyncContact("", chatResponse);
-
-                    if (log) Log.i(TAG, "SYNC_CONTACT_COMPLETED");
-                }
-
-            } else {
-                String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-                if (log) Log.e(TAG, jsonError);
-            }
-        } else {
-            String jsonError = getErrorOutPut(ChatConstant.ERROR_READ_CONTACT_PERMISSION, ChatConstant.ERROR_CODE_READ_CONTACT_PERMISSION
-                    , uniqueId);
-            if (log) Log.e(TAG, jsonError);
-        }
-        return uniqueId;
-    }*/
 
     /**
      * This method first check the type of the file and then choose the right
@@ -1804,6 +1775,7 @@ public class Chat extends AsyncAdapter {
         long partnerCoreUserId = requestThread.getPartnerCoreUserId();
         String threadName = requestThread.getThreadName();
         long count = requestThread.getCount();
+
         return getThreads((int) count, offset, threadIds, threadName, creatorCoreUserId, partnerCoreUserId, partnerCoreContactId, handler);
     }
 
@@ -2079,7 +2051,7 @@ public class Chat extends AsyncAdapter {
     }
 
 
-    //TODO test again on cache
+    //TODO ChatContract again on cache
   /*  public String searchContact(SearchContact searchContact) {
         String uniqueId = generateUniqueId();
         String type_code;
@@ -2180,7 +2152,7 @@ public class Chat extends AsyncAdapter {
      * @param cellphoneNumber Notice: If you just  put the cellPhoneNumber doesn't necessary to add email
      * @param email           email of the contact
      */
-    /*public String addContact(String firstName, String lastName, String cellphoneNumber, String email) {
+    public String addContact(String firstName, String lastName, String cellphoneNumber, String email) {
 
         typeCode = getTypeCode();
 
@@ -2198,18 +2170,22 @@ public class Chat extends AsyncAdapter {
         }
 
         String uniqueId = generateUniqueId();
-        Observable<Response<Contacts>> addContactObservable;
+
+        Call<Contacts> addContactService;
+
         if (chatReady) {
             if (Util.isNullOrEmpty(getTypeCode())) {
-                addContactObservable = contactApi.addContact(getToken(), 1, firstName, lastName, email, uniqueId, cellphoneNumber);
+                addContactService = contactApi.addContact(getToken(), 1, firstName, lastName, email, uniqueId, cellphoneNumber);
 
             } else {
-                addContactObservable = contactApi.addContact(getToken(), 1, firstName, lastName, email, uniqueId, cellphoneNumber, typeCode);
+                addContactService = contactApi.addContact(getToken(), 1, firstName, lastName, email, uniqueId, cellphoneNumber, typeCode);
 
             }
-            addContactObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(addContactResponse -> {
-                if (addContactResponse.isSuccessful()) {
-                    Contacts contacts = addContactResponse.body();
+            addContactService.enqueue(new retrofit2.Callback<Contacts>() {
+                @Override
+                public void onResponse(Call<Contacts> call, Response<Contacts> response) {
+
+                    Contacts contacts = response.body();
                     if (!contacts.getHasError()) {
 
                         ChatResponse<ResultAddContact> chatResponse = Util.getReformatOutPutAddContact(contacts, uniqueId);
@@ -2217,26 +2193,26 @@ public class Chat extends AsyncAdapter {
                         String contactsJson = gson.toJson(chatResponse);
 
                         listenerManager.callOnAddContact(contactsJson, chatResponse);
+
                         showLog("RECEIVED_ADD_CONTACT", contactsJson);
-
-                        if (cache) {
-
-                            messageDatabaseHelper.saveContact(chatResponse.getResult().getContact(), getExpireAmount());
-                        }
                     } else {
                         String jsonError = getErrorOutPut(contacts.getMessage(), contacts.getErrorCode(), uniqueId);
                     }
+
                 }
-            }, (Throwable throwable) ->
-            {
-                Log.e("Error on add contact", throwable.getMessage());
-                Log.e(TAG, throwable.getMessage());
+
+                @Override
+                public void onFailure(Call<Contacts> call, Throwable throwable) {
+                    ChatLogger.error("Error on add contact", throwable.getMessage());
+                    ChatLogger.error(TAG, throwable.getMessage());
+                }
             });
+
         } else {
             String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
         }
         return uniqueId;
-    }*/
+    }
 
     /**
      * Add one contact to the contact list
@@ -2246,7 +2222,7 @@ public class Chat extends AsyncAdapter {
      * cellphoneNumber Notice: If you just  put the cellPhoneNumber doesn't necessary to add email
      * email           email of the contact
      */
-   /* public String addContact(RequestAddContact request) {
+    public String addContact(RequestAddContact request) {
 
         String firstName = request.getFirstName();
         String lastName = request.getLastName();
@@ -2256,7 +2232,7 @@ public class Chat extends AsyncAdapter {
         typeCode = getTypeCode();
 
         return addContact(firstName, lastName, cellphoneNumber, email);
-    }*/
+    }
 
     /**
      * Remove contact with the user id
@@ -3044,8 +3020,9 @@ public class Chat extends AsyncAdapter {
      */
     public String createThread(int threadType, Invitee[] invitee, String threadTitle, String description, String image
             , String metadata, ChatHandler handler) {
-        String uniqueId;
-        uniqueId = generateUniqueId();
+
+        String uniqueId = generateUniqueId();
+
         if (chatReady) {
             List<Invitee> invitees = new ArrayList<>(Arrays.asList(invitee));
             ChatThread chatThread = new ChatThread();
@@ -3461,11 +3438,8 @@ public class Chat extends AsyncAdapter {
      */
     public String getUserInfo(ChatHandler handler) {
         String uniqueId = generateUniqueId();
-
         try {
-
             if (asyncReady) {
-
                 ChatMessage chatMessage = new ChatMessage();
                 chatMessage.setType(ChatMessageType.USER_INFO);
                 chatMessage.setUniqueId(uniqueId);
@@ -3484,7 +3458,9 @@ public class Chat extends AsyncAdapter {
                 }
 
                 String asyncContent = jsonObject.toString();
-                showLog("SEND_USER_INFO", asyncContent);
+
+                ChatLogger.info("SEND_USER_INFO", asyncContent);
+
                 async.sendMessage(asyncContent, 3);
 
                 if (handler != null) {
@@ -3893,7 +3869,7 @@ public class Chat extends AsyncAdapter {
      * Ping for staying chat alive
      */
     private void ping() {
-        if (chatReady && async.getPeerId() != null) {
+        if (chatReady) {
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.setType(ChatMessageType.PING);
             chatMessage.setTokenIssuer("1");
@@ -3904,21 +3880,11 @@ public class Chat extends AsyncAdapter {
         }
     }
 
-    private void pingAfterSetToken() {
-        ChatMessage chatMessage = new ChatMessage();
-        chatMessage.setType(ChatMessageType.PING);
-        chatMessage.setTokenIssuer("1");
-        chatMessage.setToken(getToken());
-        checkToken = true;
-
-        String asyncContent = gson.toJson(chatMessage);
-        async.sendMessage(asyncContent, 4);
-        showLog("**SEND_CHAT PING FOR CHECK TOKEN AUTHENTICATION", asyncContent);
-    }
 
     private void showLog(String i, String json) {
         ChatLogger.info(TAG, i);
         ChatLogger.info(TAG, json);
+
         if (!Util.isNullOrEmpty(json)) {
             listenerManager.callOnLogEvent(json);
         }
@@ -4021,17 +3987,15 @@ public class Chat extends AsyncAdapter {
 
         showLog("RECEIVED_CHAT_PING", "");
 
-        if (checkToken) {
-            chatReady = true;
-            checkToken = false;
+        chatReady = true;
 
-            retrySetToken = 1;
-            getInfoExecutor.stopThread();
+        retrySetToken = 1;
+        getInfoExecutor.stopThread();
 
-            listenerManager.callOnChatState(ChatStateType.CHAT_READY);
-            showLog("** CLIENT_AUTHENTICATED_NOW", "");
-            pingWithDelay();
-        }
+        listenerManager.callOnChatState(ChatStateType.CHAT_READY);
+        showLog("** CLIENT_AUTHENTICATED_NOW", "");
+        pingWithDelay();
+
     }
 
     /**
@@ -4075,9 +4039,7 @@ public class Chat extends AsyncAdapter {
 
     //TODO Problem in message id in forwardMessage
     private void handleSent(ChatMessage chatMessage, String messageUniqueId, long threadId) {
-
-
-        waitQList.remove(messageUniqueId);
+     //   waitQList.remove(messageUniqueId);
 
         try {
             if (threadCallbacks.containsKey(threadId)) {
@@ -4651,8 +4613,10 @@ public class Chat extends AsyncAdapter {
         ChatResponse<ResultThread> chatResponse = reformatCreateThread(chatMessage);
 
         String inviteJson = gson.toJson(chatResponse);
+
         listenerManager.callOnCreateThread(inviteJson, chatResponse);
         messageCallbacks.remove(messageUniqueId);
+
         showLog("RECEIVE_CREATE_THREAD", inviteJson);
 
     }
@@ -4697,15 +4661,23 @@ public class Chat extends AsyncAdapter {
     private void handleOnGetUserInfo(ChatMessage chatMessage, String messageUniqueId, Callback callback) {
 
         if (callback.isResult()) {
+            getInfoExecutor.stopThread();
+
             userInfoResponse = true;
             ChatResponse<ResultUserInfo> chatResponse = new ChatResponse<>();
+
             UserInfo userInfo = gson.fromJson(chatMessage.getContent(), UserInfo.class);
             String userInfoJson = reformatUserInfo(chatMessage, chatResponse, userInfo);
-            listenerManager.callOnUserInfo(userInfoJson, chatResponse);
-            messageCallbacks.remove(messageUniqueId);
+
             showLog("RECEIVE_USER_INFO", userInfoJson);
 
-            //ping start after the response of the get userInfo
+            chatReady = true;
+
+            retrySetToken = 1;
+
+            listenerManager.callOnUserInfo(userInfoJson, chatResponse);
+            messageCallbacks.remove(messageUniqueId);
+
             pingWithDelay();
         }
     }
@@ -5212,7 +5184,7 @@ public class Chat extends AsyncAdapter {
         return uniqueId;
     }
 
-    //TODO test cache
+    //TODO ChatContract cache
     private ChatResponse<ResultParticipant> reformatThreadParticipants(Callback callback, ChatMessage chatMessage) {
 
         ArrayList<Participant> participants = gson.fromJson(chatMessage.getContent(), new TypeToken<ArrayList<Participant>>() {
@@ -5369,8 +5341,11 @@ public class Chat extends AsyncAdapter {
     private void sendAsyncMessage(String asyncContent, int asyncMsgType, String logMessage) {
         if (chatReady) {
             showLog(logMessage, asyncContent);
+
             try {
+
                 async.sendMessage(asyncContent, asyncMsgType);
+
             } catch (Exception e) {
                 ChatLogger.error(TAG, e.getMessage());
                 return;
@@ -6298,10 +6273,5 @@ public class Chat extends AsyncAdapter {
 //        }
     }
 
-    private void checkForSetToken() {
-        if (retrySetToken < 60) retrySetToken *= 4;
-        pingAfterSetToken();
-        showLog("Ping for check Token Authentication is retry after " + retrySetToken + " s", "");
-    }
 
 }

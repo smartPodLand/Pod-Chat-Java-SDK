@@ -16,23 +16,54 @@ public interface ContactApi {
 
     @POST("nzh/addContacts")
     @FormUrlEncoded
-    Call<Response<Contacts>> addContact(@Header("_token_") String token
+    Call<Contacts> addContact(@Header("_token_") String token
             , @Header("_token_issuer_") int tokenIssuer
             , @Field("firstName") String firstName
             , @Field("lastName") String lastName
             , @Field("email") String email
             , @Field("uniqueId") String uniqueId
-            , @Field("cellphoneNumber") String cellphoneNumber);
+            , @Field("cellphoneNumber") String cellphoneNumber
+    );
+
+    /* addContact Without type code */
 
     @POST("nzh/addContacts")
     @FormUrlEncoded
-    Call<Response<AddContacts>> addContacts(@Header("_token_") String token
+    Call<Contacts> addContact(@Header("_token_") String token
+            , @Header("_token_issuer_") int tokenIssuer
+            , @Field("firstName") String firstName
+            , @Field("lastName") String lastName
+            , @Field("email") String email
+            , @Field("uniqueId") String uniqueId
+            , @Field("cellphoneNumber") String cellphoneNumber
+            , @Field("typeCode") String typeCode
+    );
+
+    /* addContacts With type code*/
+    @POST("nzh/addContacts")
+    @FormUrlEncoded
+    Call<Response<Contacts>> addContacts(@Header("_token_") String token
             , @Header("_token_issuer_") int tokenIssuer
             , @Field("firstName") ArrayList<String> firstName
             , @Field("lastName") ArrayList<String> lastName
             , @Field("email") ArrayList<String> email
             , @Field("uniqueId") ArrayList<String> uniqueId
-            , @Field("cellphoneNumber") ArrayList<String> cellphoneNumber);
+            , @Field("cellphoneNumber") ArrayList<String> cellphoneNumber
+            , @Field("typeCode") ArrayList<String> typeCode
+    );
+
+    /* addContacts Without type code*/
+    @POST("nzh/addContacts")
+    @FormUrlEncoded
+    Call<Response<Contacts>> addContacts(@Header("_token_") String token
+            , @Header("_token_issuer_") int tokenIssuer
+            , @Field("firstName") ArrayList<String> firstName
+            , @Field("lastName") ArrayList<String> lastName
+            , @Field("email") ArrayList<String> email
+            , @Field("uniqueId") ArrayList<String> uniqueId
+            , @Field("cellphoneNumber") ArrayList<String> cellphoneNumber
+    );
+
 
     @POST("nzh/removeContacts")
     @FormUrlEncoded

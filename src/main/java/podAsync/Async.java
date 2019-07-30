@@ -364,12 +364,13 @@ public class Async implements IoAdapter {
                 handleOnMessage(clientMessage);
 
                 Message messageSenderAckNeeded = new Message();
-                messageSenderAckNeeded.setMessageId(clientMessage.getSenderMessageId());
+                messageSenderAckNeeded.setMessageId(clientMessage.getId());
 
                 String jsonSenderAckNeeded = gson.toJson(messageSenderAckNeeded);
                 String jsonSenderAckNeededWrapper = getMessageWrapper(gson, jsonSenderAckNeeded, AsyncMessageType.ACK);
 
                 sendData(activeMq, jsonSenderAckNeededWrapper);
+
             } else {
                 ChatLogger.error("WebSocket Is Null ");
             }

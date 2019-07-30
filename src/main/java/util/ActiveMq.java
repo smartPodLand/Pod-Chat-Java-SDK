@@ -5,8 +5,6 @@ import config.QueueConfig;
 import exception.ConnectionException;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.qpid.amqp_1_0.jms.impl.QueueImpl;
-import podAsync.model.AsyncConstant;
-import podChat.util.ChatStateType;
 import util.log.ChatLogger;
 
 import javax.jms.*;
@@ -116,6 +114,9 @@ public class ActiveMq {
     }
 
     public void sendMessage(String messageWrapperVO) throws JMSException, UnsupportedEncodingException, ConnectionException {
+
+        ChatLogger.info("sent message: " + messageWrapperVO + '\n');
+
         byte[] bytes = messageWrapperVO.getBytes("utf-8");
         BytesMessage bytesMessage = proSession.createBytesMessage();
         bytesMessage.writeBytes(bytes);
@@ -167,6 +168,8 @@ public class ActiveMq {
                     }
 
                     String json = new String(buffer/*, "utf-8"*/);
+
+                    ChatLogger.info("received message:    " + json + '\n');
 
                     ioAdapter.onReceiveMessage(json);
 
