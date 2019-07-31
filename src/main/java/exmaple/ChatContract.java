@@ -1,8 +1,10 @@
 package exmaple;
 
+import exception.ConnectionException;
 import podChat.chat.ChatHandler;
 import podChat.mainmodel.*;
 import podChat.model.ChatResponse;
+import podChat.model.ResultAddContact;
 import podChat.model.ResultThread;
 import podChat.model.ResultThreads;
 import podChat.requestobject.*;
@@ -66,7 +68,7 @@ public interface ChatContract {
         default void onRenameGroupThread() {
         }
 
-        default void onAddContact() {
+        default void onAddContact(String content, ChatResponse<ResultAddContact> chatResponse) {
         }
 
         default void onUpdateContact() {
@@ -167,7 +169,7 @@ public interface ChatContract {
         void setToke(String token);
 
         void connect(String serverAddress, String appId, String severName, String token, String ssoHost
-                , String platformHost, String fileServer, String typeCode);
+                , String platformHost, String fileServer, String typeCode) throws ConnectionException;
 
         void mapSearch(String searchTerm, Double latitude, Double longitude);
 
@@ -186,6 +188,8 @@ public interface ChatContract {
         void searchHistory(NosqlListMessageCriteriaVO messageCriteriaVO, ChatHandler handler);
 
         void getContact(Integer count, Long offset, ChatHandler handler);
+
+        void getContact(RequestGetContact request, ChatHandler handler);
 
         void createThread(int threadType, Invitee[] invitee, String threadTitle, String description, String image
                 , String metaData, ChatHandler handler);
@@ -211,6 +215,8 @@ public interface ChatContract {
         void getThreadParticipant(int count, Long offset, long threadId, ChatHandler handler);
 
         void addContact(String firstName, String lastName, String cellphoneNumber, String email);
+
+        void addContact(RequestAddContact request);
 
         void removeContact(long id);
 

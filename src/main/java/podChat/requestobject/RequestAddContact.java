@@ -1,6 +1,8 @@
 package podChat.requestobject;
 
 
+import podChat.util.Util;
+
 public class RequestAddContact extends GeneralRequestObject {
 
     private String firstName;
@@ -8,7 +10,7 @@ public class RequestAddContact extends GeneralRequestObject {
     private String cellphoneNumber;
     private String email;
 
-    RequestAddContact( Builder builder) {
+    RequestAddContact(Builder builder) {
         super(builder);
         this.firstName = builder.firstName;
         this.lastName = builder.lastName;
@@ -75,7 +77,21 @@ public class RequestAddContact extends GeneralRequestObject {
         }
 
 
-        public RequestAddContact build(){
+        public RequestAddContact build() {
+
+            if (Util.isNullOrEmpty(this.firstName)) {
+                this.firstName = "";
+            }
+            if (Util.isNullOrEmpty(this.lastName)) {
+                this.lastName = "";
+            }
+            if (Util.isNullOrEmpty(this.email)) {
+                this.email = "";
+            }
+            if (Util.isNullOrEmpty(this.cellphoneNumber)) {
+                this.cellphoneNumber = "";
+            }
+
             return new RequestAddContact(this);
         }
 

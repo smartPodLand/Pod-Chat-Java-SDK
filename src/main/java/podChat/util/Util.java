@@ -31,8 +31,11 @@ public class Util {
         contact.setId(contacts.getResult().get(0).getId());
         contact.setLastName(contacts.getResult().get(0).getLastName());
         contact.setUniqueId(contacts.getResult().get(0).getUniqueId());
+
         resultAddContact.setContact(contact);
+
         chatResponse.setResult(resultAddContact);
+
         return chatResponse;
     }
 

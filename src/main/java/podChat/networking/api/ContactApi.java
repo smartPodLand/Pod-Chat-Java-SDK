@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public interface ContactApi {
 
-    @POST("nzh/addContacts")
+    @POST("/srv/basic-platform/nzh/addContacts")
     @FormUrlEncoded
     Call<Contacts> addContact(@Header("_token_") String token
             , @Header("_token_issuer_") int tokenIssuer
@@ -27,7 +27,7 @@ public interface ContactApi {
 
     /* addContact Without type code */
 
-    @POST("nzh/addContacts")
+    @POST("/srv/basic-platform/nzh/addContacts")
     @FormUrlEncoded
     Call<Contacts> addContact(@Header("_token_") String token
             , @Header("_token_issuer_") int tokenIssuer

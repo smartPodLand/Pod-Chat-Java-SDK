@@ -15,7 +15,7 @@ public class ChatListenerManager {
     public ChatListenerManager() {
     }
 
-    public void addListener(ChatListener listener, boolean log) {
+    public void addListener(ChatListener listener) {
         if (listener == null) {
             return;
         }

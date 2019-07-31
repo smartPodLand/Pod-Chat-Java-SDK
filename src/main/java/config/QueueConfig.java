@@ -1,6 +1,8 @@
 package config;
 
-import util.log.ChatLogger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import podChat.chat.Chat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,6 +12,8 @@ import java.util.Properties;
  * Created By Khojasteh on 7/24/2019
  */
 public class QueueConfig {
+    private static Logger logger = LogManager.getLogger(QueueConfig.class);
+
     public static String queueInput;
     public static String queueOutput;
     public static String queueServer;
@@ -38,7 +42,7 @@ public class QueueConfig {
 
 
         } catch (IOException ex) {
-            ChatLogger.error(ex);
+            if (Chat.isLoggable) logger.error(ex);
         }
     }
 }

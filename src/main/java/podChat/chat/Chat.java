@@ -1,25 +1,30 @@
 package podChat.chat;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import exception.ConnectionException;
 import io.sentry.Sentry;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import podAsync.Async;
 import podAsync.AsyncAdapter;
 import podChat.cachemodel.queue.SendingQueueCache;
-import podChat.cachemodel.queue.UploadingQueueCache;
-import podChat.cachemodel.queue.WaitQueueCache;
 import podChat.mainmodel.*;
+import podChat.mainmodel.Thread;
 import podChat.model.*;
 import podChat.model.Error;
 import podChat.networking.api.ContactApi;
+import podChat.networking.retrofithelper.ApiListener;
+import podChat.networking.retrofithelper.RetrofitHelperPlatformHost;
+import podChat.networking.retrofithelper.RetrofitUtil;
 import podChat.requestobject.*;
 import podChat.util.*;
 import retrofit2.Call;
-import retrofit2.Response;
-import util.log.ChatLogger;
 
 import java.io.IOException;
-import java.lang.Thread;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -27,6 +32,8 @@ import java.util.concurrent.TimeUnit;
  * Created By Khojasteh on 7/29/2019
  */
 public class Chat extends AsyncAdapter {
+    private static Logger logger = LogManager.getLogger(Chat.class);
+
     private static Async async;
     private String token;
     private String typeCode = "default";
@@ -38,30 +45,20 @@ public class Chat extends AsyncAdapter {
     private ContactApi contactApi;
     private static HashMap<String, Callback> messageCallbacks;
     private static HashMap<Long, ArrayList<Callback>> threadCallbacks;
-    private static String TAG = "CHAT_SDK";
-
     private static HashMap<String, ChatHandler> handlerSend;
-    private static HashMap<String, SendingQueueCache> sendingQList;
-    private static HashMap<String, UploadingQueueCache> uploadingQList;
-    private static HashMap<String, WaitQueueCache> waitQList;
-    // private ProgressHandler.cancelUpload cancelUpload;
     private long lastSentMessageTime;
     private boolean chatReady = false;
-    private boolean rawLog = false;
     private boolean asyncReady = false;
-
-    private static boolean cache = false;
-    private static boolean permit = false;
     private static final int TOKEN_ISSUER = 1;
     private long retryStepUserInfo = 1;
-    private long retrySetToken = 1;
-    private boolean currentDeviceExist;
     private int signalIntervalTime;
     private int expireAmount;
     private static Gson gson;
     private boolean userInfoResponse = false;
     private long ttl;
     private String ssoHost;
+
+    public static boolean isLoggable;
 
 
     private Chat() {
@@ -70,12 +67,11 @@ public class Chat extends AsyncAdapter {
     /**
      * Initialize the Chat
      **/
-    public synchronized static Chat init(boolean useSentry, boolean isLoggable) {
+    public synchronized static Chat init(boolean useSentry, boolean loggable) {
         if (instance == null) {
             //TODO
             if (useSentry) Sentry.init("");
-            ChatLogger.isLoggable = isLoggable;
-
+            isLoggable = loggable;
             async = Async.getInstance();
             instance = new Chat();
             gson = new Gson();
@@ -244,7 +240,7 @@ public class Chat extends AsyncAdapter {
 
     @Override
     public void onStateChanged(String state) throws IOException {
-        ChatLogger.info("State change: " + state);
+        showInfoLog("State change: " + state);
 
         super.onStateChanged(state);
         listenerManager.callOnChatState(state);
@@ -263,12 +259,10 @@ public class Chat extends AsyncAdapter {
                 break;
             case ChatStateType.CLOSING:
                 chatReady = false;
-                retrySetToken = 1;
                 TokenExecutor.stopThread();
                 break;
             case ChatStateType.CLOSED:
                 chatReady = false;
-                retrySetToken = 1;
                 TokenExecutor.stopThread();
                 break;
         }
@@ -285,7 +279,7 @@ public class Chat extends AsyncAdapter {
      * fileServer    {**REQUIRED**}
      * ssoHost       {**REQUIRED**}
      */
-    public void connect(RequestConnect requestConnect) {
+    public void connect(RequestConnect requestConnect) throws ConnectionException {
         String platformHost = requestConnect.getPlatformHost();
         String token = requestConnect.getToken();
         String fileServer = requestConnect.getFileServer();
@@ -299,15 +293,6 @@ public class Chat extends AsyncAdapter {
 
 
     /**
-     * It shows the message that come from Async without any changes
-     *
-     * @param rawLog {@code true} to allow show of the raw logs.
-     */
-    public void rawLog(boolean rawLog) {
-        this.rawLog = rawLog;
-    }
-
-    /**
      * It's Connected to the Async .
      *
      * @param socketAddress {**REQUIRED**}  Address of the socket
@@ -319,36 +304,29 @@ public class Chat extends AsyncAdapter {
      * @param ssoHost       {**REQUIRED**}  Address of the SSO Host
      */
     public void connect(String socketAddress, String appId, String severName, String token,
-                        String ssoHost, String platformHost, String fileServer, String typeCode) {
+                        String ssoHost, String platformHost, String fileServer, String typeCode) throws ConnectionException {
         try {
-            if (platformHost.endsWith("/")) {
-                messageCallbacks = new HashMap<>();
-                handlerSend = new HashMap<>();
-                async.addListener(this);
+            messageCallbacks = new HashMap<>();
+            handlerSend = new HashMap<>();
+            async.addListener(this);
 
-                //  contactApi = RetrofitUtil.getInstance().create(ContactApi.class);
+            setPlatformHost(platformHost);
+            setToken(token);
+            setSsoHost(ssoHost);
+            setTypeCode(typeCode);
+            setFileServer(fileServer);
 
-                setPlatformHost(platformHost);
-                setToken(token);
-                setSsoHost(ssoHost);
-                setTypeCode(typeCode);
-                setFileServer(fileServer);
+            contactApi = RetrofitUtil.getInstance(getPlatformHost()).create(ContactApi.class);
 
-                gson = new Gson();
+            gson = new Gson();
 
-                async.connect(socketAddress, appId, severName, token, ssoHost, "");
+            async.connect(socketAddress, appId, severName, token, ssoHost, "");
 
-            } else {
-                String jsonError = getErrorOutPut("PlatformHost " + ChatConstant.ERROR_CHECK_URL
-                        , ChatConstant.ERROR_CODE_CHECK_URL, null);
-
-                ChatLogger.error(TAG, jsonError);
-                listenerManager.callOnLogEvent(jsonError);
-
-            }
+        } catch (ConnectionException e) {
+            throw e;
         } catch (Throwable throwable) {
+            showErrorLog(throwable.getMessage());
 
-            ChatLogger.error(TAG, throwable.getMessage());
             listenerManager.callOnLogEvent(throwable.getMessage());
 
         }
@@ -363,12 +341,10 @@ public class Chat extends AsyncAdapter {
      * @param threadId           Id of the destination thread
      * @param jsonSystemMetadata It should be Json,if you don't have metaData you can set it to "null"
      */
-    public String sendTextMessage(String textMessage, long threadId, Integer messageType, String jsonSystemMetadata
-            , ChatHandler handler) {
+    public String sendTextMessage(String textMessage, long threadId, Integer messageType, String jsonSystemMetadata, ChatHandler handler) {
 
         String asyncContentWaitQueue;
-        String uniqueId;
-        uniqueId = generateUniqueId();
+        String uniqueId = generateUniqueId();
 
         try {
 
@@ -415,11 +391,11 @@ public class Chat extends AsyncAdapter {
 
             } else {
                 String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-                ChatLogger.error(TAG, jsonError);
 
+                showErrorLog(jsonError);
             }
         } catch (Throwable throwable) {
-            ChatLogger.error(TAG, throwable.getMessage());
+            showErrorLog(throwable.getMessage());
         }
         return uniqueId;
     }
@@ -431,7 +407,9 @@ public class Chat extends AsyncAdapter {
      */
     public String setAdmin(RequestAddAdmin requestAddAdmin) {
         long threadId = requestAddAdmin.getThreadId();
+
         ArrayList<RequestRole> roles = requestAddAdmin.getRoles();
+
         String uniqueId = generateUniqueId();
 
         if (chatReady) {
@@ -478,1122 +456,6 @@ public class Chat extends AsyncAdapter {
         return sendTextMessage(textMessage, threadId, messageType, jsonMetaData, handler);
     }
 
-
-    /**
-     * This method first check the type of the file and then choose the right
-     * server and send that
-     *
-     * @param description    Its the description that you want to send with file in the thread
-     * @param fileUri        Uri of the file that you want to send to thread
-     * @param threadId       Id of the thread that you want to send file
-     * @param systemMetaData [optional]
-     * @param handler        it is for send file message with progress
-     */
-    /*public String sendFileMessage(Activity activity, String description, long threadId
-            , Uri fileUri, String systemMetaData, Integer messageType, ProgressHandler.sendFileMessage handler) {
-        String uniqueId;
-
-        uniqueId = generateUniqueId();
-
-        com.fanap.podchat.localmodel.LFileUpload lFileUpload = new LFileUpload();
-        lFileUpload.setActivity(activity);
-        lFileUpload.setDescription(description);
-        lFileUpload.setFileUri(fileUri);
-        lFileUpload.setHandler(handler);
-        lFileUpload.setMessageType(messageType);
-        lFileUpload.setThreadId(threadId);
-        lFileUpload.setUniqueId(uniqueId);
-        lFileUpload.setSystemMetaData(systemMetaData);
-
-        try {
-            if (fileUri != null) {
-                File file = new File(fileUri.getPath());
-                String mimeType = handleMimType(fileUri, file);
-                lFileUpload.setMimeType(mimeType);
-
-                if (FileUtils.isImage(mimeType)) {
-                    uploadImageFileMessage(lFileUpload);
-                } else {
-                    uploadFileMessage(lFileUpload);
-                }
-                return uniqueId;
-            } else {
-                String jsonError = getErrorOutPut(ChatConstant.ERROR_INVALID_FILE_URI
-                        , ChatConstant.ERROR_CODE_INVALID_FILE_URI, uniqueId);
-                ErrorOutPut error = new ErrorOutPut(true, ChatConstant.ERROR_INVALID_FILE_URI, ChatConstant.ERROR_CODE_INVALID_FILE_URI, uniqueId);
-                listenerManager.callOnLogEvent(jsonError);
-                if (handler != null) {
-                    handler.onError(jsonError, error);
-                }
-            }
-        } catch (Exception e) {
-            if (log) Log.e(TAG, e.getCause().getMessage());
-            return null;
-        }
-        return uniqueId;
-    }
-*/
-
-    /**
-     * This method first check the type of the file and then choose the right
-     * server and send that
-     * <p>
-     * description    Its the description that you want to send with file in the thread
-     * fileUri        Uri of the file that you want to send to thread
-     * threadId       Id of the thread that you want to send file
-     * systemMetaData [optional]
-     * handler        it is for send file message with progress
-     */
-   /* public String sendFileMessage(RequestFileMessage requestFileMessage, ProgressHandler.sendFileMessage handler) {
-        long threadId = requestFileMessage.getThreadId();
-        Activity activity = requestFileMessage.getActivity();
-        Uri fileUri = requestFileMessage.getFileUri();
-        String description = requestFileMessage.getDescription();
-        int messageType = requestFileMessage.getMessageType();
-        String systemMetadata = requestFileMessage.getSystemMetadata();
-
-        return sendFileMessage(activity, description, threadId, fileUri, systemMetadata, messageType, handler);
-    }*/
-    //  @Deprecated
-    /*public String uploadImageProgress(Context context, Activity activity, Uri fileUri, ProgressHandler.onProgress handler) {
-        String uniqueId;
-        uniqueId = generateUniqueId();
-        if (chatReady) {
-            if (fileServer != null) {
-                if (Permission.Check_READ_STORAGE(activity)) {
-                    String mimeType = context.getContentResolver().getType(fileUri);
-                    RetrofitHelperFileServer retrofitHelperFileServer = new RetrofitHelperFileServer(getFileServer());
-                    FileApi fileApi = retrofitHelperFileServer.getService(FileApi.class);
-                    File file = new File(getRealPathFromURI(context, fileUri));
-                    if (!Util.isNullOrEmpty(mimeType) && FileUtils.isImage(mimeType)) {
-
-                        ProgressRequestBody requestFile = new ProgressRequestBody(file, mimeType, uniqueId, new ProgressRequestBody.UploadCallbacks() {
-
-                            @Override
-                            public void onProgress(String uniqueId, int bytesSent, int totalBytesSent, int totalBytesToSend) {
-                                handler.onProgressUpdate(uniqueId, bytesSent, totalBytesSent, totalBytesToSend);
-                            }
-
-                            @Override
-                            public void onError() {
-
-                            }
-
-                            @Override
-                            public void onFinish() {
-
-                            }
-                        });
-
-                        MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
-                        RequestBody name = RequestBody.create(MediaType.parse("text/plain"), file.getName());
-
-                        Observable<Response<FileImageUpload>> uploadObservable = fileApi.sendImageFile(body, getToken(), TOKEN_ISSUER, name);
-                        uploadObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(fileUploadResponse -> {
-                            if (fileUploadResponse.body() != null && fileUploadResponse.isSuccessful()) {
-
-                                boolean hasError = fileUploadResponse.body().isHasError();
-                                if (hasError) {
-                                    String errorMessage = fileUploadResponse.body().getMessage();
-                                    if (Util.isNullOrEmpty(errorMessage)) {
-                                        errorMessage = "";
-                                    }
-                                    int errorCode = fileUploadResponse.body().getErrorCode();
-                                    String jsonError = getErrorOutPut(errorMessage, errorCode, uniqueId);
-                                    if (log) Log.e(TAG, jsonError);
-                                } else {
-                                    FileImageUpload fileImageUpload = fileUploadResponse.body();
-
-                                    ChatResponse<ResultImageFile> chatResponse = new ChatResponse<>();
-                                    ResultImageFile resultImageFile = new ResultImageFile();
-                                    chatResponse.setUniqueId(uniqueId);
-                                    resultImageFile.setId(fileImageUpload.getResult().getId());
-                                    resultImageFile.setHashCode(fileImageUpload.getResult().getHashCode());
-                                    resultImageFile.setName(fileImageUpload.getResult().getName());
-                                    resultImageFile.setHeight(fileImageUpload.getResult().getHeight());
-                                    resultImageFile.setWidth(fileImageUpload.getResult().getWidth());
-                                    resultImageFile.setActualHeight(fileImageUpload.getResult().getActualHeight());
-                                    resultImageFile.setActualWidth(fileImageUpload.getResult().getActualWidth());
-
-                                    chatResponse.setResult(resultImageFile);
-
-                                    String imageJson = gson.toJson(chatResponse);
-
-                                    if (log) Log.i(TAG, "RECEIVE_UPLOAD_IMAGE");
-                                    listenerManager.callOnLogEvent(imageJson);
-
-                                    handler.onFinish(imageJson, chatResponse);
-                                }
-                            }
-                        }, new Action1<Throwable>() {
-                            @Override
-                            public void call(Throwable throwable) {
-                                ErrorOutPut error = new ErrorOutPut(true, throwable.getMessage(), 0, null);
-                                String jsonError = gson.toJson(error);
-                                handler.onError(jsonError, error);
-                                if (log) Log.e(TAG, throwable.getMessage());
-                            }
-                        });
-                    } else {
-                        String jsonError = getErrorOutPut(ChatConstant.ERROR_NOT_IMAGE, ChatConstant.ERROR_CODE_NOT_IMAGE, null);
-                        ErrorOutPut error = new ErrorOutPut(true, ChatConstant.ERROR_NOT_IMAGE, ChatConstant.ERROR_CODE_NOT_IMAGE, null);
-                        handler.onError(jsonError, error);
-                        if (log) Log.e(TAG, jsonError);
-                        return null;
-                    }
-                } else {
-                    String jsonError = getErrorOutPut(ChatConstant.ERROR_READ_EXTERNAL_STORAGE_PERMISSION, ChatConstant.ERROR_CODE_READ_EXTERNAL_STORAGE_PERMISSION, null);
-                    ErrorOutPut error = new ErrorOutPut(true, ChatConstant.ERROR_NOT_IMAGE, ChatConstant.ERROR_CODE_NOT_IMAGE, null);
-                    handler.onError(jsonError, error);
-                    if (log) Log.e(TAG, jsonError);
-                    return null;
-                }
-            } else {
-                String jsonError = getErrorOutPut(ChatConstant.ERROR_READ_EXTERNAL_STORAGE_PERMISSION, ChatConstant.ERROR_CODE_READ_EXTERNAL_STORAGE_PERMISSION, null);
-                ErrorOutPut error = new ErrorOutPut(true, ChatConstant.ERROR_READ_EXTERNAL_STORAGE_PERMISSION, ChatConstant.ERROR_CODE_READ_EXTERNAL_STORAGE_PERMISSION, null);
-                handler.onError(jsonError, error);
-                if (log) Log.e(TAG, "FileServer url Is null");
-                return null;
-            }
-        } else {
-            String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-            listenerManager.callOnLogEvent(jsonError);
-        }
-        return uniqueId;
-    }
-*/
-    /**
-     * It uploads image to the server just by pass image uri
-     */
-   /* @Deprecated
-    public String uploadImage(Activity activity, Uri fileUri) {
-        String uniqueId;
-        uniqueId = generateUniqueId();
-        if (chatReady) {
-            try {
-                if (fileServer != null && fileUri != null) {
-                    if (Permission.Check_READ_STORAGE(activity)) {
-                        String path = FilePick.getSmartFilePath(getContext(), fileUri);
-                        if (Util.isNullOrEmpty(path)) {
-                            path = "";
-                        }
-                        File file = new File(path);
-                        if (file.exists()) {
-                            String mimeType = handleMimType(fileUri, file);
-                            if (mimeType.equals("image/png") || mimeType.equals("image/jpeg")) {
-                                RetrofitHelperFileServer retrofitHelperFileServer = new RetrofitHelperFileServer(getFileServer());
-                                FileApi fileApi = retrofitHelperFileServer.getService(FileApi.class);
-                                RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
-                                MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
-                                RequestBody name = RequestBody.create(MediaType.parse("text/plain"), file.getName());
-
-                                Observable<Response<FileImageUpload>> uploadObservable = fileApi.sendImageFile(body, getToken(), TOKEN_ISSUER, name);
-                                String finalUniqueId = uniqueId;
-                                String finalUniqueId1 = uniqueId;
-                                uploadObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Response<FileImageUpload>>() {
-                                    @Override
-                                    public void call(Response<FileImageUpload> fileUploadResponse) {
-                                        if (fileUploadResponse.body() != null && fileUploadResponse.isSuccessful()) {
-                                            boolean hasError = fileUploadResponse.body().isHasError();
-                                            if (hasError) {
-                                                String errorMessage = fileUploadResponse.body().getMessage();
-                                                int errorCode = fileUploadResponse.body().getErrorCode();
-                                                String jsonError = getErrorOutPut(errorMessage, errorCode, finalUniqueId1);
-                                                if (log) Log.e(TAG, jsonError);
-                                            } else {
-                                                FileImageUpload fileImageUpload = fileUploadResponse.body();
-                                                ChatResponse<ResultImageFile> chatResponse = new ChatResponse<>();
-                                                ResultImageFile resultImageFile = new ResultImageFile();
-                                                chatResponse.setUniqueId(finalUniqueId);
-                                                resultImageFile.setId(fileImageUpload.getResult().getId());
-                                                resultImageFile.setHashCode(fileImageUpload.getResult().getHashCode());
-                                                resultImageFile.setName(fileImageUpload.getResult().getName());
-                                                resultImageFile.setHeight(fileImageUpload.getResult().getHeight());
-                                                resultImageFile.setWidth(fileImageUpload.getResult().getWidth());
-                                                resultImageFile.setActualHeight(fileImageUpload.getResult().getActualHeight());
-                                                resultImageFile.setActualWidth(fileImageUpload.getResult().getActualWidth());
-
-                                                chatResponse.setResult(resultImageFile);
-
-                                                String imageJson = gson.toJson(chatResponse);
-
-                                                listenerManager.callOnUploadImageFile(imageJson, chatResponse);
-                                                if (log) Log.i(TAG, "RECEIVE_UPLOAD_IMAGE");
-                                                listenerManager.callOnLogEvent(imageJson);
-                                            }
-                                        }
-                                    }
-                                }, throwable -> {
-                                    String jsonError = getErrorOutPut(ChatConstant.ERROR_UNKNOWN_EXCEPTION, ChatConstant.ERROR_CODE_UNKNOWN_EXCEPTION, null);
-                                    if (log) Log.e(TAG, jsonError);
-                                });
-                            } else {
-                                String jsonError = getErrorOutPut(ChatConstant.ERROR_NOT_IMAGE, ChatConstant.ERROR_CODE_NOT_IMAGE, null);
-                                if (log) Log.e(TAG, jsonError);
-                                uniqueId = null;
-                            }
-                        }
-                    } else {
-                        String jsonError = getErrorOutPut(ChatConstant.ERROR_READ_EXTERNAL_STORAGE_PERMISSION, ChatConstant.ERROR_CODE_READ_EXTERNAL_STORAGE_PERMISSION, null);
-                        if (log) Log.e(TAG, jsonError);
-                        uniqueId = null;
-                    }
-                } else {
-                    if (log) Log.e(TAG, "FileServer url Is null");
-                    uniqueId = null;
-                }
-            } catch (Exception e) {
-                if (log) Log.e(TAG, e.getCause().getMessage());
-                uniqueId = null;
-            }
-        } else {
-            String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-        }
-        return uniqueId;
-    }
-
-    *//**
-     * It uploads image to the server just by pass image uri
-     *//*
-    public String uploadImage(RequestUploadImage requestUploadImage) {
-        Activity activity = requestUploadImage.getActivity();
-        Uri fileUri = requestUploadImage.getFileUri();
-        return uploadImage(activity, fileUri);
-    }
-
-    public String uploadImageProgress(RequestUploadImage requestUploadImage, ProgressHandler.onProgress handler) {
-        Activity activity = requestUploadImage.getActivity();
-        Uri fileUri = requestUploadImage.getFileUri();
-        return uploadImageProgress(getContext(), activity, fileUri, handler);
-    }
-
-    *//**
-     * It uploads file to file server
-     *//*
-    @Deprecated
-    public String uploadFile(@NonNull Activity activity, @NonNull Uri uri) {
-
-        String uniqueId;
-        uniqueId = generateUniqueId();
-        if (chatReady) {
-            try {
-                if (Permission.Check_READ_STORAGE(activity)) {
-                    if (getFileServer() != null) {
-                        String path = FilePick.getSmartFilePath(getContext(), uri);
-                        if (Util.isNullOrEmpty(path)) {
-                            path = "";
-                        }
-
-                        File file = new File(path);
-                        String mimeType = handleMimType(uri, file);
-                        if (file.exists()) {
-                            long fileSize = file.length();
-                            RetrofitHelperFileServer retrofitHelperFileServer = new RetrofitHelperFileServer(getFileServer());
-                            FileApi fileApi = retrofitHelperFileServer.getService(FileApi.class);
-                            RequestBody name = RequestBody.create(MediaType.parse("text/plain"), file.getName());
-                            RequestBody requestFile = RequestBody.create(MediaType.parse(mimeType), file);
-
-                            MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
-                            Observable<Response<FileUpload>> uploadObservable = fileApi.sendFile(body, getToken(), TOKEN_ISSUER, name);
-                            uploadObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(fileUploadResponse -> {
-                                if (fileUploadResponse.body() != null && fileUploadResponse.isSuccessful()) {
-                                    boolean hasError = fileUploadResponse.body().isHasError();
-                                    if (hasError) {
-                                        String errorMessage = fileUploadResponse.body().getMessage();
-                                        int errorCode = fileUploadResponse.body().getErrorCode();
-                                        String jsonError = getErrorOutPut(errorMessage, errorCode, uniqueId);
-                                        if (log) Log.e(TAG, jsonError);
-                                    } else {
-                                        ResultFile result = fileUploadResponse.body().getResult();
-
-                                        ChatResponse<ResultFile> chatResponse = new ChatResponse<>();
-                                        result.setSize(fileSize);
-                                        chatResponse.setUniqueId(uniqueId);
-                                        chatResponse.setResult(result);
-                                        String json = gson.toJson(chatResponse);
-
-                                        listenerManager.callOnUploadFile(json, chatResponse);
-                                        if (log) Log.i(TAG, "RECEIVE_UPLOAD_FILE");
-                                        listenerManager.callOnLogEvent(json);
-                                    }
-                                }
-                            }, throwable -> {
-                                String jsonError = getErrorOutPut(throwable.getCause().getMessage(), ChatConstant.ERROR_CODE_UNKNOWN_EXCEPTION, uniqueId);
-                                if (log) Log.e(TAG, jsonError);
-                            });
-
-//                            uploadObservable.unsubscribeOn(Schedulers.io());
-
-                        } else {
-                            if (log) Log.e(TAG, "File is not Exist");
-                            return null;
-                        }
-                    } else {
-                        if (log) Log.e(TAG, "FileServer url Is null");
-                        return null;
-                    }
-                } else {
-                    String jsonError = getErrorOutPut(ChatConstant.ERROR_READ_EXTERNAL_STORAGE_PERMISSION, ChatConstant.ERROR_CODE_READ_EXTERNAL_STORAGE_PERMISSION, uniqueId);
-                    if (log) Log.e(TAG, jsonError);
-                    return uniqueId;
-                }
-            } catch (Exception e) {
-                if (log) Log.e(TAG, e.getCause().getMessage());
-                return uniqueId;
-            }
-        } else {
-            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-        }
-
-        return uniqueId;
-    }
-
-    public String uploadFile(@NonNull RequestUploadFile requestUploadFile) {
-        return uploadFile(requestUploadFile.getActivity(), requestUploadFile.getFileUri());
-    }
-
-    *//**
-     * It uploads file and it shows progress of the file downloading
-     *//*
-    public String uploadFileProgress(Context context, Activity activity, String fileUri, Uri uri, ProgressHandler.onProgressFile handler) {
-        String uniqueId = generateUniqueId();
-        try {
-            if (chatReady) {
-                if (Permission.Check_READ_STORAGE(activity)) {
-                    if (getFileServer() != null) {
-                        String mimeType = context.getContentResolver().getType(uri);
-//                    File file = new File(getRealPathFromURI(context, uri));
-                        String path = FilePick.getSmartFilePath(getContext(), uri);
-                        File file = new File(path);
-
-                        RetrofitHelperFileServer retrofitHelperFileServer = new RetrofitHelperFileServer(getFileServer());
-                        FileApi fileApi = retrofitHelperFileServer.getService(FileApi.class);
-                        RequestBody name = RequestBody.create(MediaType.parse("text/plain"), file.getName());
-                        ProgressRequestBody requestFile = new ProgressRequestBody(file, mimeType, uniqueId, new ProgressRequestBody.UploadCallbacks() {
-
-                            @Override
-                            public void onProgress(String uniqueId, int bytesSent, int totalBytesSent, int totalBytesToSend) {
-                                handler.onProgress(uniqueId, bytesSent, totalBytesSent, totalBytesToSend);
-                            }
-
-                            @Override
-                            public void onError() {
-
-                            }
-
-                            @Override
-                            public void onFinish() {
-
-                            }
-                        });
-
-                        MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
-                        Observable<Response<FileUpload>> uploadObservable = fileApi.sendFile(body, getToken(), TOKEN_ISSUER, name);
-                        uploadObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Response<FileUpload>>() {
-                            @Override
-                            public void call(Response<FileUpload> fileUploadResponse) {
-                                if (fileUploadResponse.isSuccessful()) {
-                                    boolean hasError = fileUploadResponse.body().isHasError();
-                                    if (hasError) {
-                                        String errorMessage = fileUploadResponse.body().getMessage();
-                                        int errorCode = fileUploadResponse.body().getErrorCode();
-                                        String jsonError = getErrorOutPut(errorMessage, errorCode, null);
-                                        ErrorOutPut error = new ErrorOutPut(true, errorMessage, errorCode, null);
-                                        handler.onError(jsonError, error);
-                                    } else {
-                                        FileUpload result = fileUploadResponse.body();
-                                        String json = gson.toJson(result);
-
-                                        handler.onFinish(json, result);
-                                        listenerManager.callOnLogEvent(json);
-                                    }
-                                }
-                            }
-                        }, throwable -> {
-                            ErrorOutPut error = new ErrorOutPut(true, throwable.getMessage(), 0, uniqueId);
-                            String json = gson.toJson(error);
-                            handler.onError(json, error);
-                            if (log) Log.e(TAG, throwable.getMessage());
-                        });
-                    } else {
-
-                        if (log) Log.e(TAG, "FileServer url Is null");
-                    }
-
-                } else {
-                    String jsonError = getErrorOutPut(ChatConstant.ERROR_READ_EXTERNAL_STORAGE_PERMISSION
-                            , ChatConstant.ERROR_CODE_READ_EXTERNAL_STORAGE_PERMISSION, uniqueId);
-                    ErrorOutPut error = new ErrorOutPut(true, ChatConstant.ERROR_READ_EXTERNAL_STORAGE_PERMISSION
-                            , ChatConstant.ERROR_CODE_READ_EXTERNAL_STORAGE_PERMISSION, uniqueId);
-                    handler.onError(jsonError, error);
-                }
-            } else {
-                getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-            }
-
-        } catch (Throwable throwable) {
-            if (log) Log.e(TAG, throwable.getMessage());
-        }
-        return uniqueId;
-    }
-*/
-    /**
-     * If you want to resend the message that is stored in waitQueue
-     *
-     * @param uniqueId the unique id of the waitQueue message
-     */
-   /* public void resendMessage(String uniqueId) {
-        if (uniqueId != null) {
-            SendingQueueCache sendingQueueCache;
-            if (cache) {
-                sendingQueueCache = messageDatabaseHelper.getWaitQueueMsgByUnique(uniqueId);
-                setThreadCallbacks(sendingQueueCache.getThreadId(), uniqueId);
-                messageDatabaseHelper.deleteWaitQueueMsgs(uniqueId);
-                messageDatabaseHelper.insertSendingMessageQueue(sendingQueueCache);
-            } else {
-                sendingQueueCache = sendingQList.get(uniqueId);
-            }
-
-            JsonObject jsonObject = (new JsonParser()).parse(sendingQueueCache.getAsyncContent()).getAsJsonObject();
-            jsonObject.remove("token");
-            jsonObject.addProperty("token", getToken());
-
-            sendAsyncMessage(jsonObject.toString(), 4, "SEND_TEXT_MESSAGE_FROM_MESSAGE_QUEUE");
-        }
-    }*/
-
-    /**
-     * It cancels message if its still in the Queue
-     */
-   /* public void cancelMessage(String uniqueId) {
-        if (uniqueId != null) {
-            if (cache) {
-                messageDatabaseHelper.deleteSendingMessageQueue(uniqueId);
-                messageDatabaseHelper.deleteWaitQueueMsgs(uniqueId);
-            } else {
-                sendingQList.remove(uniqueId);
-                waitQList.remove(uniqueId);
-            }
-        }
-    }*/
-
- /*   public void cancelUpload(String uniqueId) {
-        if (uniqueId != null) {
-            if (cache) {
-                messageDatabaseHelper.deleteUploadingQueue(uniqueId);
-            } else {
-                uploadingQList.remove(uniqueId);
-            }
-            cancelUpload.cancelUpload(uniqueId);
-        }
-    }*/
-
-    /**
-     * It retry upload that they didn't send
-     */
-
-    /*public void retryUpload(RetryUpload retry, ProgressHandler.sendFileMessage handler) {
-        String uniqueId = retry.getUniqueId();
-        Activity activity = retry.getActivity();
-
-        UploadingQueueCache uploadingQ;
-        if (cache) {
-            uploadingQ = messageDatabaseHelper.getUploadingQ(uniqueId);
-        } else {
-            uploadingQ = uploadingQList.get(uniqueId);
-        }
-
-        if (uploadingQ != null) {
-            long messageId = uploadingQ.getId();
-            int messageType = uploadingQ.getMessageType();
-            long threadId = uploadingQ.getThreadId();
-            String message = uploadingQ.getMessage();
-            String systemMetadata = uploadingQ.getSystemMetadata();
-            MetaDataFile metaDataFile = gson.fromJson(systemMetadata, MetaDataFile.class);
-            String link = metaDataFile.getFile().getLink();
-            String mimeType = metaDataFile.getFile().getMimeType();
-
-            LFileUpload lFileUpload = new LFileUpload();
-            lFileUpload.setActivity(activity);
-            lFileUpload.setDescription(message);
-            lFileUpload.setFileUri(Uri.parse(link));
-            lFileUpload.setHandler(handler);
-            lFileUpload.setMessageType(messageType);
-            lFileUpload.setThreadId(threadId);
-            lFileUpload.setUniqueId(uniqueId);
-            lFileUpload.setSystemMetaData(systemMetadata);
-            lFileUpload.setHandler(handler);
-            lFileUpload.setMimeType(mimeType);
-
-            if (!Util.isNullOrEmpty(messageId)) {
-                String methodName = ChatConstant.METHOD_REPLY_MSG;
-                lFileUpload.setMethodName(methodName);
-            }
-            if (FileUtils.isImage(mimeType)) {
-
-                if (cache) {
-                    messageDatabaseHelper.deleteUploadingQueue(uniqueId);
-                } else {
-                    uploadingQList.remove(uniqueId);
-                }
-                uploadImageFileMessage(lFileUpload);
-            } else {
-                if (cache) {
-                    messageDatabaseHelper.deleteUploadingQueue(uniqueId);
-                } else {
-                    uploadingQList.remove(uniqueId);
-                }
-                uploadFileMessage(lFileUpload);
-            }
-        }
-    }
-
-    *//**
-     * This method generate url that you can use to get your file
-     *//*
-    public String getFile(long fileId, String hashCode, boolean downloadable) {
-        return getFileServer() + "nzh/file/" + "?fileId=" + fileId + "&downloadable=" + downloadable + "&hashCode=" + hashCode;
-    }
-
-    *//**
-     * This method generate url that you can use to get your file
-     *//*
-    public String getFile(RequestGetFile requestGetFile) {
-        return getFileServer() + "nzh/file/"
-                + "?fileId=" + requestGetFile.getFileId()
-                + "&downloadable=" + requestGetFile.isDownloadable()
-                + "&hashCode=" + requestGetFile.getHashCode();
-    }
-
-    *//**
-     * This method generate url based on your input params that you can use to get your image
-     *//*
-    public String getImage(long imageId, String hashCode, boolean downloadable) {
-        String url;
-        if (downloadable) {
-            url = getFileServer() + "nzh/image/" + "?imageId=" + imageId + "&downloadable=" + downloadable + "&hashCode=" + hashCode;
-        } else {
-            url = getFileServer() + "nzh/image/" + "?imageId=" + imageId + "&hashCode=" + hashCode;
-        }
-        return url;
-    }
-
-    *//**
-     * This method generate url based on your input params that you can use to get your image
-     *//*
-    public String getImage(RequestGetImage requestGetImage) {
-        String url;
-        if (requestGetImage.isDownloadable()) {
-            url = getFileServer() + "nzh/image/"
-                    + "?imageId=" + requestGetImage.getImageId()
-                    + "&downloadable=" + requestGetImage.isDownloadable()
-                    + "&hashCode=" + requestGetImage.getHashCode();
-        } else {
-            url = getFileServer() + "nzh/image/"
-                    + "?imageId=" + requestGetImage.getImageId()
-                    + "&hashCode=" + requestGetImage.getHashCode();
-        }
-        return url;
-    }
-
-    *//**
-     * Remove the peerId and send ping again but this time
-     * peerId that was set in the server was removed
-     *//*
-    public void logOutSocket() {
-        async.logOut();
-    }
-
-    *//**
-     * Notice : You should consider that this method is for rename group and you have to be the admin
-     * to change the thread name if not you don't have the Permission
-     *//*
-    @Deprecated
-    public String renameThread(long threadId, String title, ChatHandler handler) {
-        String uniqueId = generateUniqueId();
-        ChatMessage chatMessage = new ChatMessage();
-        chatMessage.setType(Constants.RENAME);
-        chatMessage.setSubjectId(threadId);
-        chatMessage.setContent(title);
-        chatMessage.setToken(getToken());
-        chatMessage.setTokenIssuer("1");
-        chatMessage.setUniqueId(uniqueId);
-        setCallBacks(null, null, null, true, Constants.RENAME, null, uniqueId);
-        String asyncContent = gson.toJson(chatMessage);
-        sendAsyncMessage(asyncContent, 4, "SEND_RENAME_THREAD");
-        if (handler != null) {
-            handler.onRenameThread(uniqueId);
-        }
-        return uniqueId;
-    }
-
-    *//**
-     * @param contactIds List of CONTACT IDs
-     * @param threadId   Id of the thread that you are {*NOTICE*}admin of that and you want to
-     *                   add someone as a participant.
-     *//*
-    public String addParticipants(long threadId, List<Long> contactIds, ChatHandler handler) {
-        String uniqueId = generateUniqueId();
-        try {
-            if (chatReady) {
-                AddParticipant addParticipant = new AddParticipant();
-                addParticipant.setSubjectId(threadId);
-                addParticipant.setUniqueId(uniqueId);
-                JsonArray contacts = new JsonArray();
-                for (Long p : contactIds) {
-                    contacts.add(p);
-                }
-                addParticipant.setContent(contacts.toString());
-                addParticipant.setSubjectId(threadId);
-                addParticipant.setToken(getToken());
-                addParticipant.setTokenIssuer("1");
-                addParticipant.setUniqueId(uniqueId);
-                addParticipant.setType(Constants.ADD_PARTICIPANT);
-
-                JsonObject jsonObject = (JsonObject) gson.toJsonTree(addParticipant);
-
-                if (Util.isNullOrEmpty(getTypeCode())) {
-                    jsonObject.remove("typeCode");
-                } else {
-                    jsonObject.remove("typeCode");
-                    jsonObject.addProperty("typeCode", getTypeCode());
-                }
-
-                String asyncContent = jsonObject.toString();
-
-                setCallBacks(null, null, null, true, Constants.ADD_PARTICIPANT, null, uniqueId);
-                sendAsyncMessage(asyncContent, 4, "SEND_ADD_PARTICIPANTS");
-                if (handler != null) {
-                    handler.onAddParticipants(uniqueId);
-                }
-
-            } else {
-                String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-            }
-
-
-        } catch (Throwable t) {
-            if (log) Log.e(TAG, t.getCause().getMessage());
-        }
-
-        return uniqueId;
-    }
-
-    *//**
-     * contactIds  List of CONTACT IDs
-     * threadId   Id of the thread that you are {*NOTICE*}admin of that and you are going to
-     * add someone as a participant.
-     *//*
-    public String addParticipants(RequestAddParticipants request, ChatHandler handler) {
-
-        String uniqueId = generateUniqueId();
-        if (chatReady) {
-            JsonArray contacts = new JsonArray();
-            for (Long p : request.getContactIds()) {
-                contacts.add(p);
-            }
-            ChatMessage chatMessage = new ChatMessage();
-
-            chatMessage.setTokenIssuer("1");
-            chatMessage.setToken(getToken());
-            chatMessage.setContent(contacts.toString());
-            chatMessage.setSubjectId(request.getThreadId());
-            chatMessage.setUniqueId(uniqueId);
-            chatMessage.setType(Constants.ADD_PARTICIPANT);
-
-            JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
-            jsonObject.remove("contentCount");
-            jsonObject.remove("systemMetadata");
-            jsonObject.remove("metadata");
-            jsonObject.remove("repliedTo");
-
-            String typeCode = request.getTypeCode();
-            if (Util.isNullOrEmpty(typeCode)) {
-                jsonObject.addProperty("typeCode", getTypeCode());
-            } else {
-                jsonObject.remove("typeCode");
-            }
-
-            setCallBacks(null, null, null, true, Constants.ADD_PARTICIPANT, null, uniqueId);
-            sendAsyncMessage(jsonObject.toString(), 4, "SEND_ADD_PARTICIPANTS");
-            if (handler != null) {
-                handler.onAddParticipants(uniqueId);
-            }
-        } else {
-            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-        }
-
-        return uniqueId;
-    }
-
-    *//**
-     * @param participantIds List of PARTICIPANT IDs that gets from {@link #getThreadParticipants}
-     * @param threadId       Id of the thread that we wants to remove their participant
-     *//*
-    public String removeParticipants(long threadId, List<Long> participantIds, ChatHandler handler) {
-        String uniqueId;
-        uniqueId = generateUniqueId();
-        if (chatReady) {
-            RemoveParticipant removeParticipant = new RemoveParticipant();
-            removeParticipant.setTokenIssuer("1");
-            removeParticipant.setType(Constants.REMOVE_PARTICIPANT);
-            removeParticipant.setSubjectId(threadId);
-            removeParticipant.setToken(getToken());
-            removeParticipant.setUniqueId(uniqueId);
-
-            JsonArray contacts = new JsonArray();
-            for (Long p : participantIds) {
-                contacts.add(p);
-            }
-            removeParticipant.setContent(contacts.toString());
-
-            JsonObject jsonObject = (JsonObject) gson.toJsonTree(removeParticipant);
-            jsonObject.remove("contentCount");
-            jsonObject.remove("systemMetadata");
-            jsonObject.remove("metadata");
-            jsonObject.remove("repliedTo");
-
-            if (Util.isNullOrEmpty(getTypeCode())) {
-                jsonObject.remove("typeCode");
-            } else {
-                jsonObject.remove("typeCode");
-                jsonObject.addProperty("typeCode", getTypeCode());
-            }
-
-            String asyncContent = jsonObject.toString();
-
-            sendAsyncMessage(asyncContent, 4, "SEND_REMOVE_PARTICIPANT");
-            setCallBacks(null, null, null, true, Constants.REMOVE_PARTICIPANT, null, uniqueId);
-            if (handler != null) {
-                handler.onRemoveParticipants(uniqueId);
-            }
-
-        } else {
-            String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-        }
-        return uniqueId;
-    }
-
-    *//**
-     * participantIds List of PARTICIPANT IDs from Thread's Participants object
-     * threadId       Id of the thread that we wants to remove their participant
-     *//*
-    public String removeParticipants(RequestRemoveParticipants request, ChatHandler handler) {
-
-        List<Long> participantIds = request.getParticipantIds();
-        long threadId = request.getThreadId();
-        String typeCode = request.getTypeCode();
-
-        return removeParticipants(threadId, participantIds, handler);
-    }
-
-    *//**
-     * It leaves the thread that you are in there
-     *//*
-    public String leaveThread(long threadId, ChatHandler handler) {
-        String uniqueId = generateUniqueId();
-        if (chatReady) {
-            RemoveParticipant removeParticipant = new RemoveParticipant();
-
-            removeParticipant.setSubjectId(threadId);
-            removeParticipant.setToken(getToken());
-            removeParticipant.setTokenIssuer("1");
-            removeParticipant.setUniqueId(uniqueId);
-            removeParticipant.setType(Constants.LEAVE_THREAD);
-
-            JsonObject jsonObject = (JsonObject) gson.toJsonTree(removeParticipant);
-
-            if (Util.isNullOrEmpty(getTypeCode())) {
-                jsonObject.remove("typeCode");
-            } else {
-                jsonObject.remove("typeCode");
-                jsonObject.addProperty("typeCode", getTypeCode());
-            }
-
-            String asyncContent = jsonObject.toString();
-
-            setCallBacks(null, null, null, true, Constants.LEAVE_THREAD, null, uniqueId);
-            sendAsyncMessage(asyncContent, 4, "SEND_LEAVE_THREAD");
-
-            if (handler != null) {
-                handler.onLeaveThread(uniqueId);
-            }
-        } else {
-            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-        }
-
-        return uniqueId;
-    }
-
-    *//**
-     * leaves the thread
-     * @ param threadId id of the thread
-     *//*
-    public String leaveThread(RequestLeaveThread request, ChatHandler handler) {
-
-        return leaveThread(request.getThreadId(), handler);
-    }
-
-    *//**
-     * forward message
-     *
-     * @param threadId   destination thread id
-     * @param messageIds Array of message ids that we want to forward them
-     *//*
-    public List<String> forwardMessage(long threadId, ArrayList<Long> messageIds) {
-        ArrayList<String> uniqueIds = new ArrayList<>();
-        ArrayList<Callback> callbacks = new ArrayList<>();
-
-        for (long messageId : messageIds) {
-            String uniqueId = generateUniqueId();
-            uniqueIds.add(uniqueId);
-            Callback callback = new Callback();
-            callback.setDelivery(true);
-            callback.setSeen(true);
-            callback.setSent(true);
-            callback.setUniqueId(uniqueId);
-            callbacks.add(callback);
-            *//*
-     * add to message Queue
-     * *//*
-            SendingQueueCache sendingQueue = new SendingQueueCache();
-            sendingQueue.setUniqueId(uniqueId);
-
-            MessageVO messageVO = new MessageVO();
-            messageVO.setId(messageId);
-            messageVO.setUniqueId(uniqueId);
-
-            sendingQueue.setThreadId(threadId);
-            String queueAsyncContent = CreateAsyncContentForQueue(threadId, messageId, uniqueId);
-            sendingQueue.setAsyncContent(queueAsyncContent);
-            if (cache) {
-                messageDatabaseHelper.insertSendingMessageQueue(sendingQueue);
-            } else {
-                sendingQList.put(uniqueId, sendingQueue);
-            }
-        }
-
-        if (log)
-            Log.i(TAG, "Messages " + messageIds + "with this" + "uniqueIds" + uniqueIds + "has been added to Message Queue");
-
-        if (chatReady) {
-            ChatMessageForward chatMessageForward = new ChatMessageForward();
-//            ObjectMapper mapper = new ObjectMapper();
-            chatMessageForward.setSubjectId(threadId);
-
-            threadCallbacks.put(threadId, callbacks);
-            String jsonUniqueIds = Util.listToJson(uniqueIds, gson);
-            chatMessageForward.setUniqueId(jsonUniqueIds);
-
-            chatMessageForward.setContent(messageIds.toString());
-            chatMessageForward.setToken(getToken());
-            chatMessageForward.setTokenIssuer("1");
-            chatMessageForward.setType(Constants.FORWARD_MESSAGE);
-
-            JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessageForward);
-            jsonObject.remove("contentCount");
-            jsonObject.remove("systemMetadata");
-            jsonObject.remove("metadata");
-            jsonObject.remove("repliedTo");
-
-            if (Util.isNullOrEmpty(getTypeCode())) {
-                jsonObject.remove("typeCode");
-            } else {
-                jsonObject.remove("typeCode");
-                jsonObject.addProperty("typeCode", getTypeCode());
-            }
-
-            String asyncContent = jsonObject.toString();
-            for (String uniqueId : uniqueIds) {
-                SendingQueueCache queueCache;
-                if (cache) {
-                    queueCache = messageDatabaseHelper.getSendingQueueCache(uniqueId);
-                    messageDatabaseHelper.insertWaitMessageQueue(queueCache);
-                    messageDatabaseHelper.deleteSendingMessageQueue(uniqueId);
-                } else {
-                    queueCache = sendingQList.get(uniqueId);
-                    WaitQueueCache waitMessageQueue = new WaitQueueCache();
-
-                    waitMessageQueue.setUniqueId(queueCache.getUniqueId());
-                    waitMessageQueue.setId(queueCache.getId());
-                    waitMessageQueue.setAsyncContent(queueCache.getAsyncContent());
-                    waitMessageQueue.setMessage(queueCache.getMessage());
-                    waitMessageQueue.setThreadId(queueCache.getThreadId());
-                    waitMessageQueue.setMessageType(queueCache.getMessageType());
-                    waitMessageQueue.setSystemMetadata(queueCache.getSystemMetadata());
-                    waitMessageQueue.setMetadata(queueCache.getMetadata());
-                    waitQList.put(uniqueId, waitMessageQueue);
-                }
-            }
-            sendAsyncMessage(asyncContent, 4, "SEND_FORWARD_MESSAGE");
-        } else {
-            if (Util.isNullOrEmpty(uniqueIds)) {
-                for (String uniqueId : uniqueIds) {
-                    getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-                }
-            }
-        }
-        return uniqueIds;
-    }
-
-
-    *//**
-     * forward message
-     * <p>
-     * threadId   destination thread id
-     * messageIds Array of message ids that we want to forward them
-     *//*
-    public List<String> forwardMessage(RequestForwardMessage request) {
-        return forwardMessage(request.getThreadId(), request.getMessageIds());
-    }
-
-    *//**
-     * Reply the message in the current thread and send az message and receive at the
-     * <p>
-     * messageContent content of the reply message
-     * threadId       id of the thread
-     * messageId      of the message that we want to reply
-     * metaData       meta data of the message
-     *//*
-    public String replyFileMessage(RequestReplyFileMessage request, ProgressHandler.sendFileMessage handler) {
-        String uniqueId = generateUniqueId();
-        long threadId = request.getThreadId();
-        String messageContent = request.getMessageContent();
-        String systemMetaData = request.getSystemMetaData();
-        Uri fileUri = request.getFileUri();
-        long messageId = request.getMessageId();
-        Activity activity = request.getActivity();
-        int messageType = request.getMessageType();
-        String methodName = ChatConstant.METHOD_REPLY_MSG;
-
-        LFileUpload lFileUpload = new LFileUpload();
-        lFileUpload.setActivity(activity);
-        lFileUpload.setDescription(messageContent);
-        lFileUpload.setFileUri(fileUri);
-        lFileUpload.setHandler(handler);
-        lFileUpload.setMessageType(messageType);
-        lFileUpload.setMessageId(messageId);
-        lFileUpload.setMethodName(methodName);
-        lFileUpload.setThreadId(threadId);
-        lFileUpload.setUniqueId(uniqueId);
-        lFileUpload.setSystemMetaData(systemMetaData);
-        lFileUpload.setHandler(handler);
-        lFileUpload.setMessageType(messageType);
-
-        try {
-            if (fileUri != null) {
-                File file = new File(fileUri.getPath());
-                String mimeType = handleMimType(fileUri, file);
-                lFileUpload.setMimeType(mimeType);
-                if (FileUtils.isImage(mimeType)) {
-                    uploadImageFileMessage(lFileUpload);
-                } else {
-                    String path = FilePick.getSmartFilePath(context, fileUri);
-                    uploadFileMessage(lFileUpload);
-                }
-                return uniqueId;
-            } else {
-                getErrorOutPut(ChatConstant.ERROR_INVALID_URI, ChatConstant.ERROR_CODE_INVALID_URI, uniqueId);
-            }
-        } catch (Exception e) {
-            if (log) Log.e(TAG, e.getCause().getMessage());
-            return null;
-        }
-        return uniqueId;
-    }
-
-    *//**
-     * Reply the message in the current thread and send az message and receive at the
-     * <p>
-     * messageContent content of the reply message
-     * threadId       id of the thread
-     * messageId      of the message that we want to reply
-     * metaData       meta data of the message
-     *//*
-    public String replyMessage(RequestReplyMessage request, ChatHandler handler) {
-        long threadId = request.getThreadId();
-        long messageId = request.getMessageId();
-        String messageContent = request.getMessageContent();
-        String systemMetaData = request.getSystemMetaData();
-        int messageType = request.getMessageType();
-
-        return mainReplyMessage(messageContent, threadId, messageId, systemMetaData, messageType, null, handler);
-    }
-
-    *//**
-     * Reply the message in the current thread and send az message and receive at the
-     *
-     * @param messageContent content of the reply message
-     * @param threadId       id of the thread
-     * @param messageId      of the message that we want to reply
-     * @param systemMetaData meta data of the message
-     *//*
-    public String replyMessage(String messageContent, long threadId, long messageId, String systemMetaData, Integer messageType, ChatHandler handler) {
-        return mainReplyMessage(messageContent, threadId, messageId, systemMetaData, messageType, null, handler);
-    }
-
-    *//**
-     * It deletes message from the thread
-     *
-     * @param messageIds   Id of the message that you want to be removed.
-     * @param deleteForAll If you want to delete message for everyone you can set it true if u don't want
-     *                     you can set it false or even null.
-     *//*
-    public String deleteMessage(ArrayList<Long> messageIds, Boolean deleteForAll, ChatHandler handler) {
-        String uniqueId;
-        uniqueId = generateUniqueId();
-        if (chatReady) {
-            deleteForAll = deleteForAll != null ? deleteForAll : false;
-            BaseMessage baseMessage = new BaseMessage();
-
-            JsonObject contentObj = new JsonObject();
-            contentObj.addProperty("deleteForAll", deleteForAll);
-
-            JsonElement element = gson.toJsonTree(messageIds, new TypeToken<List<Long>>() {
-            }.getType());
-
-            JsonArray jsonArray = element.getAsJsonArray();
-            contentObj.add("ids", jsonArray);
-
-            baseMessage.setContent(contentObj.toString());
-            baseMessage.setToken(getToken());
-            baseMessage.setTokenIssuer("1");
-            baseMessage.setType(Constants.DELETE_MESSAGE);
-            baseMessage.setUniqueId(uniqueId);
-
-            JsonObject jsonObject = (JsonObject) gson.toJsonTree(baseMessage);
-            jsonObject.remove("subjectId");
-            if (Util.isNullOrEmpty(getTypeCode())) {
-                jsonObject.remove("typeCode");
-            } else {
-                jsonObject.remove("typeCode");
-                jsonObject.addProperty("typeCode", getTypeCode());
-            }
-
-            String asyncContent = jsonObject.toString();
-
-            sendAsyncMessage(asyncContent, 4, "SEND_DELETE_MESSAGE");
-            setCallBacks(null, null, null, true, Constants.DELETE_MESSAGE, null, uniqueId);
-            if (handler != null) {
-                handler.onDeleteMessage(uniqueId);
-            }
-        } else {
-            String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-        }
-        return uniqueId;
-    }
-
-    *//**
-     * DELETE MESSAGE IN THREAD
-     * <p>
-     * messageId    Id of the message that you want to be removed.
-     * deleteForAll If you want to delete message for everyone you can set it true if u don't want
-     * you can set it false or even null.
-     *//*
-    public String deleteMessage(RequestDeleteMessage request, ChatHandler handler) {
-
-        return deleteMessage(request.getMessageIds(), request.isDeleteForAll(), handler);
-    }*/
 
     /**
      * Get the list of threads or you can just pass the thread id that you want
@@ -1665,7 +527,7 @@ public class Chat extends AsyncAdapter {
             }
 
         } catch (Throwable e) {
-            ChatLogger.error(TAG, e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
         return uniqueId;
     }
@@ -1757,11 +619,11 @@ public class Chat extends AsyncAdapter {
                     handler.onGetThread(uniqueId);
                 }
             } else {
-                String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+                getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
             }
 
         } catch (Throwable e) {
-            ChatLogger.error(TAG, e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
         return uniqueId;
     }
@@ -1779,10 +641,6 @@ public class Chat extends AsyncAdapter {
         return getThreads((int) count, offset, threadIds, threadName, creatorCoreUserId, partnerCoreUserId, partnerCoreContactId, handler);
     }
 
-    /*
-      firstMessageId is going to deprecate
-      lastMessageId is going to deprecate
-      */
 
     /**
      * Get history of the thread
@@ -1845,6 +703,7 @@ public class Chat extends AsyncAdapter {
         String uniqueId = generateUniqueId();
 
         if (chatReady) {
+
             History history = new History.Builder()
                     .count(request.getCount())
                     .firstMessageId(request.getFirstMessageId())
@@ -1855,10 +714,11 @@ public class Chat extends AsyncAdapter {
                     .toTime(request.getToTime())
                     .toTimeNanos(request.getToTimeNanos())
                     .order(request.getOrder()).build();
+
             getHistoryMain(history, request.getThreadId(), handler, uniqueId);
 
         } else {
-            String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
         }
 
         return uniqueId;
@@ -1893,8 +753,8 @@ public class Chat extends AsyncAdapter {
      * ------ List<NosqlSearchMetadataCriteria> not
      **/
     public String searchHistory(NosqlListMessageCriteriaVO messageCriteriaVO, ChatHandler handler) {
-        String uniqueId;
-        uniqueId = generateUniqueId();
+        String uniqueId = generateUniqueId();
+
         if (chatReady) {
             String content = gson.toJson(messageCriteriaVO);
 
@@ -1923,115 +783,11 @@ public class Chat extends AsyncAdapter {
                 handler.onSearchHistory(uniqueId);
             }
         } else {
-            String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
         }
         return uniqueId;
     }
 
-    /**
-     * You an have Signal Type from ChatMessageType.SignalMsg{
-     * IS_TYPING = 1 ;
-     * int RECORD_VOICE = 2 ;
-     * int UPLOAD_PICTURE = 3 ;
-     * int UPLOAD_VIDEO = 4 ;
-     * int UPLOAD_SOUND = 5 ;
-     * int UPLOAD_FILE = 6 ;
-     * }
-     */
-
- /*   public String startSignalMessage(RequestSignalMsg requestSignalMsg) {
-        String uniqueId = generateUniqueId();
-
-        int signalType = requestSignalMsg.getSignalType();
-
-        switch (signalType) {
-            case ChatMessageType.SignalMsg.IS_TYPING:
-                Handler handler = new Handler();
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        signalMessage(requestSignalMsg);
-                        handler.postDelayed(this, getSignalIntervalTime());
-                    }
-                };
-                handler.post(runnable);
-                handlerSignal.put(uniqueId, handler);
-                break;
-
-            case ChatMessageType.SignalMsg.RECORD_VOICE:
-                Handler handlerRV = new Handler();
-                Runnable runnableRV = new Runnable() {
-                    @Override
-                    public void run() {
-                        signalMessage(requestSignalMsg);
-                        handlerRV.postDelayed(this, getSignalIntervalTime());
-                    }
-                };
-                handlerRV.post(runnableRV);
-                handlerSignal.put(uniqueId, handlerRV);
-                break;
-
-            case ChatMessageType.SignalMsg.UPLOAD_FILE:
-                Handler handlerUF = new Handler();
-                Runnable runnableUF = new Runnable() {
-                    @Override
-                    public void run() {
-                        signalMessage(requestSignalMsg);
-                        handlerUF.postDelayed(this, getSignalIntervalTime());
-                    }
-                };
-                handlerUF.post(runnableUF);
-                handlerSignal.put(uniqueId, handlerUF);
-                break;
-
-            case ChatMessageType.SignalMsg.UPLOAD_PICTURE:
-                Handler handlerUP = new Handler();
-                Runnable runnableUP = new Runnable() {
-                    @Override
-                    public void run() {
-                        signalMessage(requestSignalMsg);
-                        handlerUP.postDelayed(this, getSignalIntervalTime());
-                    }
-                };
-                handlerUP.post(runnableUP);
-                handlerSignal.put(uniqueId, handlerUP);
-                break;
-
-            case ChatMessageType.SignalMsg.UPLOAD_SOUND:
-                Handler handlerUS = new Handler();
-                Runnable runnableUS = new Runnable() {
-                    @Override
-                    public void run() {
-                        signalMessage(requestSignalMsg);
-                        handlerUS.postDelayed(this, getSignalIntervalTime());
-                    }
-                };
-                handlerUS.post(runnableUS);
-                handlerSignal.put(uniqueId, handlerUS);
-                break;
-
-            case ChatMessageType.SignalMsg.UPLOAD_VIDEO:
-                Handler handlerUV = new Handler();
-                Runnable runnableUV = new Runnable() {
-                    @Override
-                    public void run() {
-                        signalMessage(requestSignalMsg);
-                        handlerUV.postDelayed(this, getSignalIntervalTime());
-                    }
-                };
-                handlerUV.post(runnableUV);
-                handlerSignal.put(uniqueId, handlerUV);
-                break;
-        }
-        return uniqueId;
-    }*/
-
-   /* public void stopSignalMessage(String uniqueId) {
-        if (handlerSignal.containsKey(uniqueId)) {
-            handlerSignal.get(uniqueId).removeCallbacksAndMessages(null);
-            showLog("STOP_SIGNAL", "");
-        }
-    }*/
 
     /**
      * Get all of the contacts of the user
@@ -2040,6 +796,7 @@ public class Chat extends AsyncAdapter {
 
         Long offset = request.getOffset();
         Long count = request.getCount();
+
         return getContacts(count.intValue(), offset, handler);
     }
 
@@ -2049,100 +806,6 @@ public class Chat extends AsyncAdapter {
     public String getContacts(Integer count, Long offset, ChatHandler handler) {
         return getContactMain(count, offset, false, handler);
     }
-
-
-    //TODO ChatContract again on cache
-  /*  public String searchContact(SearchContact searchContact) {
-        String uniqueId = generateUniqueId();
-        String type_code;
-
-        if (cache) {
-            List<Contact> contacts = new ArrayList<>();
-            if (searchContact.getId() != null) {
-                Contact contact = messageDatabaseHelper.getContactById(Long.valueOf(searchContact.getId()));
-                contacts.add(contact);
-            } else if (searchContact.getFirstName() != null) {
-                contacts = messageDatabaseHelper.getContactsByFirst(searchContact.getFirstName());
-            } else if (searchContact.getFirstName() != null && searchContact.getLastName() != null && !searchContact.getFirstName().isEmpty() && !searchContact.getLastName().isEmpty()) {
-                contacts = messageDatabaseHelper.getContactsByFirstAndLast(searchContact.getFirstName(), searchContact.getLastName());
-            } else if (searchContact.getEmail() != null && !searchContact.getEmail().isEmpty()) {
-                contacts = messageDatabaseHelper.getContactsByEmail(searchContact.getEmail());
-            } else if (searchContact.getCellphoneNumber() != null && !searchContact.getCellphoneNumber().isEmpty()) {
-                contacts = messageDatabaseHelper.getContactByCell(searchContact.getCellphoneNumber());
-            }
-
-            ChatResponse<ResultContact> chatResponse = new ChatResponse<>();
-
-            ResultContact resultContact = new ResultContact();
-            ArrayList<Contact> listContact = new ArrayList<>(contacts);
-            resultContact.setContacts(listContact);
-
-            chatResponse.setHasError(false);
-            chatResponse.setErrorCode(0);
-            chatResponse.setErrorMessage("");
-            chatResponse.setResult(resultContact);
-
-            String jsonContact = gson.toJson(chatResponse);
-
-            listenerManager.callOnLogEvent(jsonContact);
-            if (log) Log.i(TAG, "CACHE_SEARCH_CONTACT");
-
-        }
-
-        if (searchContact.getTypeCode() != null && !searchContact.getTypeCode().isEmpty()) {
-            type_code = searchContact.getTypeCode();
-        } else {
-            type_code = getTypeCode();
-        }
-
-        if (chatReady) {
-            Observable<Response<SearchContactVO>> observable = contactApi.searchContact(getToken(), TOKEN_ISSUER,
-                    searchContact.getId()
-                    , searchContact.getFirstName()
-                    , searchContact.getLastName()
-                    , searchContact.getEmail()
-                    , generateUniqueId()
-                    , searchContact.getOffset()
-                    , searchContact.getSize()
-                    , type_code
-                    , searchContact.getQuery()
-                    , searchContact.getCellphoneNumber());
-            observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(contactResponse -> {
-
-                if (contactResponse.isSuccessful()) {
-
-                    if (contactResponse.body().getResult() != null) {
-                        ArrayList<Contact> contacts = new ArrayList<>(contactResponse.body().getResult());
-
-                        ResultContact resultContacts = new ResultContact();
-                        resultContacts.setContacts(contacts);
-
-                        ChatResponse<ResultContact> chatResponse = new ChatResponse<>();
-                        chatResponse.setUniqueId(uniqueId);
-                        chatResponse.setResult(resultContacts);
-
-                        String content = gson.toJson(chatResponse);
-
-                        listenerManager.callOnSearchContact(content, chatResponse);
-                        listenerManager.callOnLogEvent(content);
-                        if (log) Log.i(TAG, "RECEIVE_SEARCH_CONTACT");
-                    }
-
-                } else {
-
-                    if (contactResponse.body() != null) {
-                        String errorMessage = contactResponse.body().getMessage() != null ? contactResponse.body().getMessage() : "";
-                        int errorCode = contactResponse.body().getErrorCode() != null ? contactResponse.body().getErrorCode() : 0;
-                        String error = getErrorOutPut(errorMessage, errorCode, uniqueId);
-                    }
-                }
-
-            }, (Throwable throwable) -> Log.e(TAG, throwable.getMessage()));
-        } else {
-            String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-        }
-        return uniqueId;
-    }*/
 
     /**
      * Add one contact to the contact list
@@ -2181,11 +844,9 @@ public class Chat extends AsyncAdapter {
                 addContactService = contactApi.addContact(getToken(), 1, firstName, lastName, email, uniqueId, cellphoneNumber, typeCode);
 
             }
-            addContactService.enqueue(new retrofit2.Callback<Contacts>() {
+            RetrofitHelperPlatformHost.request(addContactService, new ApiListener<Contacts>() {
                 @Override
-                public void onResponse(Call<Contacts> call, Response<Contacts> response) {
-
-                    Contacts contacts = response.body();
+                public void onSuccess(Contacts contacts) {
                     if (!contacts.getHasError()) {
 
                         ChatResponse<ResultAddContact> chatResponse = Util.getReformatOutPutAddContact(contacts, uniqueId);
@@ -2194,22 +855,27 @@ public class Chat extends AsyncAdapter {
 
                         listenerManager.callOnAddContact(contactsJson, chatResponse);
 
-                        showLog("RECEIVED_ADD_CONTACT", contactsJson);
+                        showInfoLog("RECEIVED_ADD_CONTACT", contactsJson);
+
                     } else {
-                        String jsonError = getErrorOutPut(contacts.getMessage(), contacts.getErrorCode(), uniqueId);
+                        getErrorOutPut(contacts.getMessage(), contacts.getErrorCode(), uniqueId);
                     }
 
                 }
 
                 @Override
-                public void onFailure(Call<Contacts> call, Throwable throwable) {
-                    ChatLogger.error("Error on add contact", throwable.getMessage());
-                    ChatLogger.error(TAG, throwable.getMessage());
+                public void onError(Throwable throwable) {
+                    showErrorLog(throwable.getMessage());
+                }
+
+                @Override
+                public void onServerError(String errorMessage) {
+                    showErrorLog(errorMessage);
                 }
             });
 
         } else {
-            String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
         }
         return uniqueId;
     }
@@ -2234,779 +900,6 @@ public class Chat extends AsyncAdapter {
         return addContact(firstName, lastName, cellphoneNumber, email);
     }
 
-    /**
-     * Remove contact with the user id
-     *
-     * @param userId id of the user that we want to remove from contact list
-     */
-    /*public String removeContact(long userId) {
-        String uniqueId = generateUniqueId();
-        Observable<Response<ContactRemove>> removeContactObservable;
-        if (chatReady) {
-            if (Util.isNullOrEmpty(getTypeCode())) {
-                removeContactObservable = contactApi.removeContact(getToken(), 1, userId);
-            } else {
-                removeContactObservable = contactApi.removeContact(getToken(), 1, userId, getTypeCode());
-            }
-
-            removeContactObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(response -> {
-                if (response.body() != null && response.isSuccessful()) {
-                    ContactRemove contactRemove = response.body();
-                    if (!contactRemove.getHasError()) {
-                        ChatResponse<ResultRemoveContact> chatResponse = new ChatResponse<>();
-                        chatResponse.setUniqueId(uniqueId);
-                        ResultRemoveContact resultRemoveContact = new ResultRemoveContact();
-                        resultRemoveContact.setResult(contactRemove.isResult());
-
-                        chatResponse.setResult(resultRemoveContact);
-
-                        String json = gson.toJson(chatResponse);
-                        if (cache) {
-                            messageDatabaseHelper.deleteContactById(userId);
-                        }
-                        listenerManager.callOnRemoveContact(json, chatResponse);
-                        showLog("RECEIVED_REMOVE_CONTACT", json);
-                    } else {
-                        String jsonError = getErrorOutPut(contactRemove.getErrorMessage(), contactRemove.getErrorCode(), uniqueId);
-                    }
-                }
-            }, (Throwable throwable) -> {
-                String jsonError = getErrorOutPut(throwable.getCause().getMessage(), ChatConstant.ERROR_CODE_UNKNOWN_EXCEPTION, uniqueId);
-            });
-        } else {
-            String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-        }
-        return uniqueId;
-    }
-
-    *//**
-     * Remove contact with the user id
-     * <p>
-     * userId id of the user that we want to remove from contact list
-     *//*
-    public String removeContact(RequestRemoveContact request) {
-        long userId = request.getUserId();
-        return removeContact(userId);
-    }
-*/
-    /**
-     * Update contacts
-     * all of the params all required to update
-     */
-    /*public String updateContact(long userId, String firstName, String lastName, String cellphoneNumber, String email) {
-
-        String uniqueId = generateUniqueId();
-
-        if (Util.isNullOrEmpty(firstName)) {
-            firstName = "";
-        }
-
-        if (Util.isNullOrEmpty(lastName)) {
-            lastName = "";
-        }
-
-        if (Util.isNullOrEmpty(cellphoneNumber)) {
-            cellphoneNumber = "";
-        }
-
-        if (Util.isNullOrEmpty(email)) {
-            email = "";
-        }
-
-        if (chatReady) {
-            Observable<Response<UpdateContact>> updateContactObservable;
-            if (Util.isNullOrEmpty(getTypeCode())) {
-                updateContactObservable = contactApi.updateContact(
-                        getToken(),
-                        1,
-                        userId,
-                        firstName,
-                        lastName,
-                        email,
-                        uniqueId,
-                        cellphoneNumber);
-            } else {
-                updateContactObservable = contactApi.updateContact(
-                        getToken(),
-                        1,
-                        userId,
-                        firstName,
-                        lastName,
-                        email,
-                        uniqueId,
-                        cellphoneNumber,
-                        getTypeCode());
-            }
-            updateContactObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(response -> {
-                UpdateContact updateContact = response.body();
-                if (updateContact != null && response.isSuccessful()) {
-                    if (!response.body().getHasError()) {
-
-                        ChatResponse<ResultUpdateContact> chatResponse = new ChatResponse<>();
-                        chatResponse.setUniqueId(uniqueId);
-                        ResultUpdateContact resultUpdateContact = new ResultUpdateContact();
-
-                        if (!Util.isNullOrEmpty(updateContact.getCount())) {
-                            resultUpdateContact.setContentCount(updateContact.getCount());
-                        }
-                        resultUpdateContact.setContacts(updateContact.getResult());
-                        chatResponse.setResult(resultUpdateContact);
-
-                        String json = gson.toJson(chatResponse);
-                        listenerManager.callOnUpdateContact(json, chatResponse);
-
-                        if (cache) {
-                            messageDatabaseHelper.saveContact(updateContact.getResult().get(0), getExpireAmount());
-                        }
-
-                        showLog("RECEIVE_UPDATE_CONTACT", json);
-                    } else {
-                        String errorMsg = response.body().getMessage();
-                        int errorCodeMsg = response.body().getErrorCode();
-
-                        errorMsg = errorMsg != null ? errorMsg : "";
-
-                        String jsonError = getErrorOutPut(errorMsg, errorCodeMsg, uniqueId);
-                    }
-                }
-            }, (Throwable throwable) ->
-            {
-                if (throwable != null) {
-                    String jsonError = getErrorOutPut(throwable.getCause().getMessage(), ChatConstant.ERROR_CODE_UNKNOWN_EXCEPTION, uniqueId);
-                }
-            });
-        } else {
-            String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-        }
-
-        return uniqueId;
-    }
-
-    *//**
-     * Update contacts
-     * all of the params all required
-     *//*
-    public String updateContact(RequestUpdateContact request) {
-        String firstName = request.getFirstName();
-        String lastName = request.getLastName();
-        String email = request.getEmail();
-        String cellphoneNumber = request.getCellphoneNumber();
-        long userId = request.getUserId();
-
-        return updateContact(userId, firstName, lastName, cellphoneNumber, email);
-    }
-
-    public String mapSearch(String searchTerm, Double latitude, Double longitude) {
-        String uniqueId = generateUniqueId();
-
-        if (chatReady) {
-            RetrofitHelperMap retrofitHelperMap = new RetrofitHelperMap("https://api.neshan.org/");
-
-            MapApi mapApi = retrofitHelperMap.getService(MapApi.class);
-            Observable<Response<MapNeshan>> observable = mapApi.mapSearch("8b77db18704aa646ee5aaea13e7370f4f88b9e8c"
-                    , searchTerm, latitude, longitude);
-            observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Response<MapNeshan>>() {
-                @Override
-                public void call(Response<MapNeshan> mapNeshanResponse) {
-                    OutPutMapNeshan outPutMapNeshan = new OutPutMapNeshan();
-                    if (mapNeshanResponse.isSuccessful()) {
-                        MapNeshan mapNeshan = mapNeshanResponse.body();
-
-                        outPutMapNeshan = new OutPutMapNeshan();
-                        outPutMapNeshan.setCount(mapNeshan.getCount());
-                        ResultMap resultMap = new ResultMap();
-                        resultMap.setMaps(mapNeshan.getItems());
-                        outPutMapNeshan.setResult(resultMap);
-                        String json = gson.toJson(outPutMapNeshan);
-                        listenerManager.callOnMapSearch(json, outPutMapNeshan);
-                        showLog("RECEIVE_MAP_SEARCH", json);
-                    } else {
-                        ErrorOutPut errorOutPut = new ErrorOutPut();
-                        errorOutPut.setErrorCode(mapNeshanResponse.code());
-                        errorOutPut.setErrorMessage(mapNeshanResponse.message());
-                        errorOutPut.setHasError(true);
-                        String json = gson.toJson(outPutMapNeshan);
-                        listenerManager.callOnError(json, errorOutPut);
-                    }
-                }
-            }, (Throwable throwable) -> {
-                ErrorOutPut errorOutPut = new ErrorOutPut();
-                errorOutPut.setErrorMessage(throwable.getMessage());
-                errorOutPut.setHasError(true);
-                String json = gson.toJson(errorOutPut);
-
-                listenerManager.callOnError(json, errorOutPut);
-            });
-        } else {
-            String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-        }
-        return uniqueId;
-    }
-
-    *//**
-     * String searchTerm ;
-     * double latitude  ;
-     * double longitude ;
-     *//*
-
-    public String mapSearch(RequestMapSearch request) {
-        String searchTerm = request.getSearchTerm();
-        double latitude = request.getLatitude();
-        double longitude = request.getLongitude();
-        return mapSearch(searchTerm, latitude, longitude);
-    }
-
-    public String mapRouting(String origin, String destination) {
-        String uniqueId = generateUniqueId();
-
-        if (chatReady) {
-            RetrofitHelperMap retrofitHelperMap = new RetrofitHelperMap("https://api.neshan.org/");
-            MapApi mapApi = retrofitHelperMap.getService(MapApi.class);
-            Observable<Response<MapRout>> responseObservable = mapApi.mapRouting("8b77db18704aa646ee5aaea13e7370f4f88b9e8c"
-                    , origin, destination, true);
-            responseObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mapRoutResponse -> {
-                if (mapRoutResponse.isSuccessful()) {
-                    MapRout mapRout = mapRoutResponse.body();
-                    OutPutMapRout outPutMapRout = new OutPutMapRout();
-                    outPutMapRout.setResult(mapRout);
-                    String jsonMapRout = gson.toJson(outPutMapRout);
-                    listenerManager.callOnMapRouting(jsonMapRout);
-                    showLog("RECEIVE_MAP_ROUTING", jsonMapRout);
-                }
-            }, (Throwable throwable) -> {
-                Log.e(TAG, throwable.getMessage());
-            });
-        } else {
-            String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-        }
-        return uniqueId;
-    }
-
-    public String mapRouting(RequestMapRouting request) {
-        String origin = request.getOrigin();
-        String destination = request.getDestination();
-        String uniqueId;
-        RetrofitHelperMap retrofitHelperMap = new RetrofitHelperMap("https://api.neshan.org/");
-        MapApi mapApi = retrofitHelperMap.getService(MapApi.class);
-        uniqueId = generateUniqueId();
-        Observable<Response<MapRout>> responseObservable = mapApi.mapRouting("8b77db18704aa646ee5aaea13e7370f4f88b9e8c"
-                , origin, destination, true);
-        String finalUniqueId = uniqueId;
-        responseObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Response<MapRout>>() {
-            @Override
-            public void call(Response<MapRout> mapRoutResponse) {
-                if (mapRoutResponse.isSuccessful()) {
-                    MapRout mapRout = mapRoutResponse.body();
-                    OutPutMapRout outPutMapRout = new OutPutMapRout();
-                    outPutMapRout.setResult(mapRout);
-                    String jsonMapRout = gson.toJson(outPutMapRout);
-                    listenerManager.callOnMapRouting(jsonMapRout);
-                    showLog("RECEIVE_MAP_ROUTING", jsonMapRout);
-                } else {
-                    String jsonError = getErrorOutPut(mapRoutResponse.message(), mapRoutResponse.code(), finalUniqueId);
-                }
-            }
-        }, (Throwable throwable) -> {
-            String jsonError = getErrorOutPut(throwable.getMessage(), ChatConstant.ERROR_CODE_UNKNOWN_EXCEPTION, finalUniqueId);
-        });
-        return uniqueId;
-    }*/
-
-    /**
-     * [Required] center
-     * if these params don't set they have default values :
-     * [default value] type = "standard-night"
-     * [default value] zoom = 15
-     * [default value] width = 800
-     * [default value] height = 500
-     */
- /*   private String mainMapStaticImage(RequestLocationMessage request, Activity activity, String uniqueId, boolean isMessage) {
-
-        try {
-            if (Util.isNullOrEmpty(uniqueId)) {
-                uniqueId = generateUniqueId();
-            }
-            if (chatReady) {
-                String type = request.getType();
-                int zoom = request.getZoom();
-                int width = request.getWidth();
-                int height = request.getHeight();
-                String center = request.getCenter();
-                long threadId = request.getThreadId();
-                int messageType = request.getMessageType();
-                String systemMetadata = request.getSystemMetadata();
-
-                if (Util.isNullOrEmpty(type)) {
-                    type = "standard-night";
-                }
-                if (Util.isNullOrEmpty(zoom)) {
-                    zoom = 15;
-                }
-                if (Util.isNullOrEmpty(width)) {
-                    width = 800;
-                }
-                if (Util.isNullOrEmpty(height)) {
-                    height = 500;
-                }
-
-                RetrofitHelperMap retrofitHelperMap = new RetrofitHelperMap("https://api.neshan.org/");
-                MapApi mapApi = retrofitHelperMap.getService(MapApi.class);
-
-                Call<ResponseBody> call = mapApi.mapStaticCall(API_KEY_MAP,
-                        type,
-                        zoom,
-                        center,
-                        width,
-                        height);
-                String finalUniqueId = uniqueId;
-
-                call.enqueue(new retrofit2.Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful()) {
-                            if (response.body() != null) {
-                                Bitmap bitmap = BitmapFactory.decodeStream(response.body().byteStream());
-                                ChatResponse<ResultStaticMapImage> chatResponse = new ChatResponse<>();
-                                ResultStaticMapImage result = new ResultStaticMapImage();
-                                result.setBitmap(bitmap);
-                                chatResponse.setUniqueId(finalUniqueId);
-                                chatResponse.setResult(result);
-                                listenerManager.callOnStaticMap(chatResponse);
-                                showLog("RECEIVE_MAP_STATIC", null);
-                                if (!call.isCanceled()) {
-                                    call.cancel();
-                                }
-
-                                if (isMessage) {
-                                    File file = FileUtils.saveBitmap(bitmap, "map");
-                                    Uri fileUri = Uri.fromFile(file);
-                                    String newPath = FilePick.getSmartFilePath(getContext(), fileUri);
-
-                                    String mimType = handleMimType(fileUri, file);
-                                    LFileUpload lFileUpload = new LFileUpload();
-
-                                    lFileUpload.setFileUri(fileUri);
-                                    if (activity != null) {
-                                        lFileUpload.setActivity(activity);
-                                    }
-                                    lFileUpload.setThreadId(threadId);
-                                    lFileUpload.setUniqueId(finalUniqueId);
-                                    lFileUpload.setMessageType(messageType);
-                                    lFileUpload.setMimeType(mimType);
-                                    lFileUpload.setMethodName(ChatConstant.METHOD_LOCATION_MSG);
-                                    lFileUpload.setSystemMetaData(systemMetadata);
-                                    lFileUpload.setCenter(center);
-
-                                    uploadImageFileMessage(lFileUpload);
-                                }
-                            }
-                        } else {
-                            try {
-                                String errorBody;
-                                if (response.errorBody() != null) {
-                                    errorBody = response.errorBody().string();
-                                    JSONObject jObjError = new JSONObject(errorBody);
-                                    String errorMessage = jObjError.getString("message");
-                                    int errorCode = jObjError.getInt("code");
-                                    String jsonError = getErrorOutPut(errorMessage, errorCode, finalUniqueId);
-                                }
-
-                            } catch (JSONException e) {
-                                if (log) Log.e(TAG, e.getCause().getMessage());
-                            } catch (IOException e) {
-                                if (log) Log.e(TAG, e.getCause().getMessage());
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        String jsonError = getErrorOutPut(t.getMessage(), ChatConstant.ERROR_CODE_UNKNOWN_EXCEPTION, finalUniqueId);
-                    }
-                });
-            } else {
-                String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-            }
-
-        } catch (Throwable throwable) {
-            if (log) Log.e(TAG, throwable.getMessage());
-        }
-        return uniqueId;
-    }
-
-    public String mapStaticImage(RequestMapStaticImage request) {
-
-        int zoom = request.getZoom();
-        int width = request.getWidth();
-        int height = request.getHeight();
-        String center = request.getCenter();
-
-        RequestLocationMessage requestLMsg = new RequestLocationMessage.Builder()
-                .height(height)
-                .width(width)
-                .center(center)
-                .zoom(zoom)
-                .build();
-        return mainMapStaticImage(requestLMsg, null, null, false);
-    }
-
-    public String sendLocationMessage(RequestLocationMessage request) {
-        String uniqueId = generateUniqueId();
-        Activity activity = request.getActivity();
-        mainMapStaticImage(request, activity, uniqueId, true);
-
-        return uniqueId;
-    }
-
-    public String mapReverse(RequestMapReverse request) {
-        String uniqueId = null;
-        if (chatReady) {
-
-            double lat = request.getLat();
-            double lng = request.getLng();
-            uniqueId = generateUniqueId();
-            RetrofitHelperMap retrofitHelperMap = new RetrofitHelperMap("https://api.neshan.org/");
-            MapApi mapApi = retrofitHelperMap.getService(MapApi.class);
-            Observable<Response<MapReverse>> observable = mapApi.mapReverse(API_KEY_MAP, lat, lng);
-            String finalUniqueId = uniqueId;
-            observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Response<MapReverse>>() {
-                @Override
-                public void call(Response<MapReverse> mapReverseResponse) {
-                    MapReverse mapReverse = mapReverseResponse.body();
-                    if (mapReverseResponse.isSuccessful()) {
-                        ChatResponse<ResultMapReverse> chatResponse = new ChatResponse<>();
-
-                        ResultMapReverse resultMap = new ResultMapReverse();
-                        String address = mapReverse.getAddress();
-                        if (!Util.isNullOrEmpty(address)) {
-                            resultMap.setAddress(address);
-                        }
-                        resultMap.setCity(mapReverse.getCity());
-                        resultMap.setIn_odd_even_zone(mapReverse.isIn_odd_even_zone());
-                        resultMap.setIn_traffic_zone(mapReverse.isIn_traffic_zone());
-                        resultMap.setMunicipality_zone(mapReverse.getMunicipality_zone());
-                        resultMap.setNeighbourhood(mapReverse.getNeighbourhood());
-                        resultMap.setState(mapReverse.getState());
-
-                        chatResponse.setUniqueId(finalUniqueId);
-                        chatResponse.setResult(resultMap);
-                        String json = gson.toJson(chatResponse);
-                        listenerManager.callOnMapReverse(json, chatResponse);
-                        showLog("RECEIVE_MAP_REVERSE", json);
-                    } else {
-                        try {
-                            String errorBody;
-                            if (mapReverseResponse.errorBody() != null) {
-                                errorBody = mapReverseResponse.errorBody().string();
-                                JSONObject jObjError = new JSONObject(errorBody);
-                                String errorMessage = jObjError.getString("message");
-                                int errorCode = jObjError.getInt("code");
-                                String jsonError = getErrorOutPut(errorMessage, errorCode, finalUniqueId);
-                            }
-
-                        } catch (JSONException e) {
-                            if (log) Log.e(TAG, e.getCause().getMessage());
-                        } catch (IOException e) {
-                            if (log) Log.e(TAG, e.getCause().getMessage());
-                        }
-                    }
-                }
-            }, (Throwable throwable) -> {
-                String jsonError = getErrorOutPut(throwable.getCause().getMessage(), ChatConstant.ERROR_CODE_UNKNOWN_EXCEPTION, finalUniqueId);
-            });
-        }
-        return uniqueId;
-    }
-
-
-    *//**
-     * It blocks the thread
-     *
-     * @param contactId id of the contact
-     * @param threadId  id of the thread
-     * @param userId    id of the user
-     *//*
-    public String block(Long contactId, Long userId, Long threadId, ChatHandler handler) {
-        String uniqueId;
-        uniqueId = generateUniqueId();
-        if (chatReady) {
-
-            JsonObject contentObject = new JsonObject();
-            if (!Util.isNullOrEmpty(contactId)) {
-                contentObject.addProperty("contactId", contactId);
-            }
-            if (!Util.isNullOrEmpty(userId)) {
-                contentObject.addProperty("userId", userId);
-            }
-            if (!Util.isNullOrEmpty(threadId)) {
-                contentObject.addProperty("threadId", threadId);
-            }
-
-            String json = contentObject.toString();
-            ChatMessage chatMessage = new ChatMessage();
-            chatMessage.setContent(json);
-            chatMessage.setToken(getToken());
-            chatMessage.setUniqueId(uniqueId);
-            chatMessage.setTokenIssuer("1");
-            chatMessage.setType(Constants.BLOCK);
-
-            JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
-
-            if (Util.isNullOrEmpty(getTypeCode())) {
-                jsonObject.remove("typeCode");
-            } else {
-                jsonObject.remove("typeCode");
-                jsonObject.addProperty("typeCode", getTypeCode());
-            }
-
-            String asyncContent = jsonObject.toString();
-
-            setCallBacks(null, null, null, true, Constants.BLOCK, null, uniqueId);
-            sendAsyncMessage(asyncContent, 4, "SEND_BLOCK");
-            if (handler != null) {
-                handler.onBlock(uniqueId);
-            }
-        } else {
-            String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-        }
-
-        return uniqueId;
-    }
-
-    *//**
-     * It blocks the thread
-     * @ param contactId id of the contact
-     * @ param threadId  id of the thread
-     * @ param userId    id of the user
-     *//*
-    public String block(RequestBlock request, ChatHandler handler) {
-        Long contactId = request.getContactId();
-        long threadId = request.getThreadId();
-        long userId = request.getUserId();
-        return block(contactId, userId, threadId, handler);
-    }
-
-    *//**
-     * It unblocks thread with three way
-     *
-     * @param blockId   the id that came from getblockList
-     * @param userId
-     * @param threadId  Id of the thread
-     * @param contactId Id of the contact
-     *//*
-    public String unblock(Long blockId, Long userId, Long threadId, Long contactId, ChatHandler handler) {
-        String uniqueId = generateUniqueId();
-        if (chatReady) {
-            ChatMessage chatMessage = new ChatMessage();
-
-            JsonObject contentObject = new JsonObject();
-            if (!Util.isNullOrEmpty(contactId)) {
-                contentObject.addProperty("contactId", contactId);
-            }
-            if (!Util.isNullOrEmpty(userId)) {
-                contentObject.addProperty("userId", userId);
-            }
-            if (!Util.isNullOrEmpty(threadId)) {
-                contentObject.addProperty("threadId", threadId);
-            }
-
-            String jsonContent = contentObject.toString();
-
-
-            chatMessage.setContent(jsonContent);
-            chatMessage.setToken(getToken());
-            chatMessage.setUniqueId(uniqueId);
-            chatMessage.setTokenIssuer("1");
-            chatMessage.setType(Constants.UNBLOCK);
-
-            JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
-            jsonObject.remove("contentCount");
-            jsonObject.remove("systemMetadata");
-            jsonObject.remove("metadata");
-            jsonObject.remove("repliedTo");
-
-            if (Util.isNullOrEmpty(blockId)) {
-                jsonObject.remove("subjectId");
-            } else {
-                jsonObject.remove("subjectId");
-                jsonObject.addProperty("subjectId", blockId);
-            }
-
-
-            if (Util.isNullOrEmpty(getTypeCode())) {
-                jsonObject.remove("typeCode");
-            } else {
-                jsonObject.remove("typeCode");
-                jsonObject.addProperty("typeCode", getTypeCode());
-            }
-
-            String asyncContent = jsonObject.toString();
-
-            setCallBacks(null, null, null, true, Constants.UNBLOCK, null, uniqueId);
-            sendAsyncMessage(asyncContent, 4, "SEND_UN_BLOCK");
-            if (handler != null) {
-                handler.onUnBlock(uniqueId);
-            }
-        } else {
-            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-        }
-
-        return uniqueId;
-    }
-
-    *//**
-     * It unblocks thread with three way
-     * @ param blockId it can be found in the response of getBlockList
-     * @ param userId Id of the user
-     * @ param threadId Id of the thread
-     * @ param contactId Id of the contact
-     *//*
-    public String unblock(RequestUnBlock request, ChatHandler handler) {
-        long contactId = request.getContactId();
-        long threadId = request.getThreadId();
-        long userId = request.getUserId();
-        long blockId = request.getBlockId();
-
-        return unblock(blockId, userId, threadId, contactId, handler);
-    }
-
-    *//**
-     * If someone that is not in your contacts send message to you
-     * their spam is false
-     *//*
-    @Deprecated
-    public String spam(long threadId) {
-        String uniqueId;
-        uniqueId = generateUniqueId();
-        if (chatReady) {
-            ChatMessage chatMessage = new ChatMessage();
-            chatMessage.setType(Constants.SPAM_PV_THREAD);
-            chatMessage.setTokenIssuer("1");
-            chatMessage.setToken(getToken());
-            chatMessage.setUniqueId(uniqueId);
-            chatMessage.setSubjectId(threadId);
-
-            JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
-
-            if (Util.isNullOrEmpty(getTypeCode())) {
-                jsonObject.remove("typeCode");
-            } else {
-                jsonObject.remove("typeCode");
-                jsonObject.addProperty("typeCode", getTypeCode());
-            }
-
-            String asyncContent = jsonObject.toString();
-
-            setCallBacks(null, null, null, true, Constants.SPAM_PV_THREAD, null, uniqueId);
-            sendAsyncMessage(asyncContent, 4, "SEND_REPORT_SPAM");
-        } else {
-            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-        }
-        return uniqueId;
-    }
-
-    *//**
-     * If someone that is not in your contact list tries to send message to you
-     * their spam value is true and you can call this method in order to set that to false
-     * @ param long threadId Id of the thread
-     *//*
-    public String spam(RequestSpam request) {
-        String uniqueId;
-        JsonObject jsonObject;
-        uniqueId = generateUniqueId();
-        try {
-            if (chatReady) {
-                long threadId = request.getThreadId();
-                String typeCode = request.getTypeCode();
-
-                ChatMessage chatMessage = new ChatMessage();
-                chatMessage.setType(Constants.SPAM_PV_THREAD);
-                chatMessage.setTokenIssuer("1");
-                chatMessage.setToken(getToken());
-                chatMessage.setUniqueId(uniqueId);
-                chatMessage.setSubjectId(threadId);
-
-                jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
-                jsonObject.remove("contentCount");
-                jsonObject.remove("systemMetadata");
-                jsonObject.remove("metadata");
-                jsonObject.remove("repliedTo");
-
-                if (Util.isNullOrEmpty(typeCode)) {
-                    if (Util.isNullOrEmpty(getTypeCode())) {
-                        jsonObject.remove("typeCode");
-                    } else {
-                        jsonObject.addProperty("typeCode", getTypeCode());
-                    }
-                } else {
-                    jsonObject.addProperty("typeCode", request.getTypeCode());
-                }
-                setCallBacks(null, null, null, true, Constants.SPAM_PV_THREAD, null, uniqueId);
-                sendAsyncMessage(jsonObject.toString(), 4, "SEND_REPORT_SPAM");
-            } else {
-                getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-            }
-        } catch (Exception e) {
-            if (log) Log.e(TAG, e.getCause().getMessage());
-        }
-        return uniqueId;
-    }
-
-
-    *//**
-     * It gets the list of the contacts that is on block list
-     *//*
-    public String getBlockList(Long count, Long offset, ChatHandler handler) {
-
-        String uniqueId = generateUniqueId();
-        if (chatReady) {
-            ChatMessageContent chatMessageContent = new ChatMessageContent();
-            if (offset != null) {
-                chatMessageContent.setOffset(offset);
-            }
-            if (count != null) {
-                chatMessageContent.setCount(count);
-            } else {
-                chatMessageContent.setCount(50);
-            }
-
-            String json = gson.toJson(chatMessageContent);
-
-            ChatMessage chatMessage = new ChatMessage();
-            chatMessage.setContent(json);
-            chatMessage.setType(Constants.GET_BLOCKED);
-            chatMessage.setTokenIssuer("1");
-            chatMessage.setToken(getToken());
-            chatMessage.setUniqueId(uniqueId);
-            JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
-
-            if (Util.isNullOrEmpty(getTypeCode())) {
-                jsonObject.remove("typeCode");
-            } else {
-                jsonObject.remove("typeCode");
-                jsonObject.addProperty("typeCode", getTypeCode());
-            }
-
-            String asyncContent = jsonObject.toString();
-
-            setCallBacks(null, null, null, true, Constants.GET_BLOCKED, null, uniqueId);
-            sendAsyncMessage(asyncContent, 4, "SEND_BLOCK_List");
-            if (handler != null) {
-                handler.onGetBlockList(uniqueId);
-            }
-        } else {
-            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-        }
-        return uniqueId;
-    }
-
-
-    *//**
-     * It gets the list of the contacts that is on block list
-     *//*
-    public String getBlockList(RequestBlockList request, ChatHandler handler) {
-        return getBlockList(request.getCount(), request.getOffset(), handler);
-    }*/
 
     /**
      * Create the thread to p to p/channel/group. The list below is showing all of the threads type
@@ -3025,6 +918,7 @@ public class Chat extends AsyncAdapter {
 
         if (chatReady) {
             List<Invitee> invitees = new ArrayList<>(Arrays.asList(invitee));
+
             ChatThread chatThread = new ChatThread();
             chatThread.setType(threadType);
             chatThread.setInvitees(invitees);
@@ -3069,12 +963,15 @@ public class Chat extends AsyncAdapter {
             String asyncContent = jsonObject.toString();
 
             setCallBacks(null, null, null, true, ChatMessageType.INVITATION, null, uniqueId);
+
             sendAsyncMessage(asyncContent, 4, "SEND_CREATE_THREAD");
+
             if (handler != null) {
                 handler.onCreateThread(uniqueId);
             }
+
         } else {
-            String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
         }
 
         return uniqueId;
@@ -3189,7 +1086,7 @@ public class Chat extends AsyncAdapter {
             }
 
         } catch (Throwable e) {
-            ChatLogger.error(TAG, e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
         return uniqueIds;
     }
@@ -3246,10 +1143,10 @@ public class Chat extends AsyncAdapter {
                     handler.onUpdateThreadInfo(uniqueId);
                 }
             } else {
-                String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+                getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
             }
         } catch (Exception e) {
-            ChatLogger.error(TAG, e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
 
         return uniqueId;
@@ -3273,112 +1170,6 @@ public class Chat extends AsyncAdapter {
         return updateThreadInfo(request.getThreadId(), threadInfoVO, handler);
     }
 
-    /**
-     * Get the participant list of specific thread
-     * <p>
-     *
-     * @ param long threadId id of the thread we want to get the participant list
-     * @ param long count number of the participant wanted to get
-     * @ param long offset offset of the participant list
-     */
-//    public String getThreadParticipants(RequestThreadParticipant request, ChatHandler handler) {
-//
-//        long count = request.getCount();
-//        long offset = request.getOffset();
-//        long threadId = request.getThreadId();
-//        String typeCode = request.getTypeCode();
-//
-//        return getThreadParticipantsMain((int) count, offset, threadId, typeCode, handler);
-//    }
-
-    /**
-     * Get the participant list of specific thread
-     *
-     * @param threadId id of the thread we want to ge the participant list
-     */
-//    @Deprecated
-//    public String getThreadParticipants(Integer count, Long offset, long threadId, ChatHandler handler) {
-//        return getThreadParticipantsMain(count, offset, threadId, null, handler);
-//    }
-
-   /* private String getThreadParticipantsMain(Integer count, Long offset, long threadId, String typeCode, ChatHandler handler) {
-        String uniqueId;
-        uniqueId = generateUniqueId();
-
-        offset = offset != null ? offset : 0;
-        count = count != null ? count : 50;
-        if (cache) {
-            List<Participant> participants = messageDatabaseHelper.getThreadParticipant(offset, count, threadId);
-            if (participants != null) {
-                long participantCount = messageDatabaseHelper.getParticipantCount(threadId);
-                ChatResponse<ResultParticipant> chatResponse = new ChatResponse<>();
-                ResultParticipant resultParticipant = new ResultParticipant();
-
-                resultParticipant.setContentCount(participants.size());
-                if (participants.size() + offset < participantCount) {
-                    resultParticipant.setHasNext(true);
-                } else {
-                    resultParticipant.setHasNext(false);
-                }
-                resultParticipant.setParticipants(participants);
-                chatResponse.setResult(resultParticipant);
-                chatResponse.setCache(true);
-
-                resultParticipant.setNextOffset(offset + participants.size());
-                String jsonParticipant = gson.toJson(chatResponse);
-                listenerManager.callOnGetThreadParticipant(jsonParticipant, chatResponse);
-                showLog("Cache Thread Participant", jsonParticipant);
-
-            }
-        }
-
-        if (chatReady) {
-
-            ChatMessageContent chatMessageContent = new ChatMessageContent();
-
-            chatMessageContent.setCount(count);
-            chatMessageContent.setOffset(offset);
-
-            String content = gson.toJson(chatMessageContent);
-
-            ChatMessage chatMessage = new ChatMessage();
-            chatMessage.setContent(content);
-            chatMessage.setType(Constants.THREAD_PARTICIPANTS);
-            chatMessage.setTokenIssuer("1");
-            chatMessage.setToken(getToken());
-            chatMessage.setUniqueId(uniqueId);
-            chatMessage.setSubjectId(threadId);
-
-            JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
-
-            if (Util.isNullOrEmpty(getTypeCode())) {
-                jsonObject.remove("typeCode");
-            } else {
-                jsonObject.remove("typeCode");
-                jsonObject.addProperty("typeCode", getTypeCode());
-            }
-
-            jsonObject.remove("lastMessageId");
-            jsonObject.remove("firstMessageId");
-            jsonObject.remove("contentCount");
-            jsonObject.remove("systemMetadata");
-            jsonObject.remove("metadata");
-            jsonObject.remove("repliedTo");
-
-            String asyncContent = jsonObject.toString();
-
-            setCallBacks(null, null, null, true, Constants.THREAD_PARTICIPANTS, offset, uniqueId);
-            sendAsyncMessage(asyncContent, 3, "SEND_THREAD_PARTICIPANT");
-            if (handler != null) {
-                handler.onGetThreadParticipant(uniqueId);
-            }
-        } else {
-            String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-        }
-
-        return uniqueId;
-
-    }*/
 
     /**
      * In order to send seen message you have to call this method
@@ -3459,7 +1250,7 @@ public class Chat extends AsyncAdapter {
 
                 String asyncContent = jsonObject.toString();
 
-                ChatLogger.info("SEND_USER_INFO", asyncContent);
+                showInfoLog("SEND_USER_INFO", asyncContent);
 
                 async.sendMessage(asyncContent, 3);
 
@@ -3469,7 +1260,7 @@ public class Chat extends AsyncAdapter {
             }
 
         } catch (Exception e) {
-            ChatLogger.error(TAG, e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
         return uniqueId;
     }
@@ -3517,11 +1308,11 @@ public class Chat extends AsyncAdapter {
                     handler.onMuteThread(uniqueId);
                 }
             } else {
-                String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+                getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
             }
 
         } catch (Exception e) {
-            ChatLogger.error(TAG, e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
 
         return uniqueId;
@@ -3575,10 +1366,10 @@ public class Chat extends AsyncAdapter {
                     handler.onUnMuteThread(uniqueId);
                 }
             } else {
-                String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+                getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
             }
         } catch (Exception e) {
-            ChatLogger.error(TAG, e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
         return uniqueId;
     }
@@ -3615,11 +1406,11 @@ public class Chat extends AsyncAdapter {
                     handler.onUnMuteThread(uniqueId);
                 }
             } else {
-                String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+                getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
             }
 
         } catch (Exception e) {
-            ChatLogger.error(TAG, e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
         return uniqueId;
     }
@@ -3661,11 +1452,11 @@ public class Chat extends AsyncAdapter {
                     handler.onEditMessage(uniqueId);
                 }
             } else {
-                String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+                getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
             }
 
         } catch (Throwable e) {
-            ChatLogger.error(TAG, e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
         return uniqueId;
     }
@@ -3710,15 +1501,16 @@ public class Chat extends AsyncAdapter {
                 }
 
                 setCallBacks(null, null, null, true, ChatMessageType.EDIT_MESSAGE, null, uniqueId);
+
                 sendAsyncMessage(jsonObject.toString(), 4, "SEND_EDIT_MESSAGE");
             } else {
-                String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+                getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
             }
             if (handler != null) {
                 handler.onEditMessage(uniqueId);
             }
         } catch (Exception e) {
-            ChatLogger.error(TAG, e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
         return uniqueId;
     }
@@ -3738,7 +1530,7 @@ public class Chat extends AsyncAdapter {
      * @return {@code this} object.
      */
     public Chat addListener(ChatListener listener) {
-        listenerManager.addListener(listener, ChatLogger.isLoggable);
+        listenerManager.addListener(listener);
         return this;
     }
 
@@ -3809,7 +1601,9 @@ public class Chat extends AsyncAdapter {
 
     public String getAdminList(RequestGetAdmin requestGetAdmin) {
         String uniqueId = generateUniqueId();
+
         long threadId = requestGetAdmin.getThreadId();
+
         if (chatReady) {
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.setType(ChatMessageType.GET_THREAD_ADMINS);
@@ -3881,43 +1675,36 @@ public class Chat extends AsyncAdapter {
     }
 
 
-    private void showLog(String i, String json) {
-        ChatLogger.info(TAG, i);
-        ChatLogger.info(TAG, json);
+    private void showInfoLog(String i, String json) {
+        if (isLoggable) logger.info(i + "\n \n" + json);
 
         if (!Util.isNullOrEmpty(json)) {
             listenerManager.callOnLogEvent(json);
         }
     }
 
-   /* private String handleMimType(Uri uri, File file) {
-        String mimType;
+    private void showInfoLog(String json) {
+        if (isLoggable) logger.info("\n \n" + json);
+    }
 
-        if (context.getContentResolver().getType(uri) != null) {
-            mimType = context.getContentResolver().getType(uri);
-        } else {
-            MimeTypeMap mime = MimeTypeMap.getSingleton();
-            int index = file.getName().lastIndexOf('.') + 1;
-            String ext = file.getName().substring(index).toLowerCase();
-            mimType = mime.getMimeTypeFromExtension(ext);
+
+    private void showErrorLog(String i, String json) {
+        if (isLoggable) logger.error(i + "\n \n" + json);
+
+        if (!Util.isNullOrEmpty(json)) {
+            listenerManager.callOnLogEvent(json);
         }
-        return mimType;
-    }*/
+    }
 
-    /* @SuppressLint("MissingPermission")
-     private boolean isConnected(Activity context) {
-         boolean isConnected = false;
-         if (Permission.Check_ACCESS_NETWORK_STATE(context)) {
-             NetworkInfo activeNetwork;
-             ConnectivityManager cm =
-                     (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-             activeNetwork = cm.getActiveNetworkInfo();
-             isConnected = activeNetwork != null &&
-                     activeNetwork.isConnectedOrConnecting();
-         }
-         return isConnected;
-     }
- */
+    private void showErrorLog(String e) {
+        if (isLoggable) logger.error("\n \n" + e);
+
+    }
+
+    private void showErrorLog(Throwable throwable) {
+        if (isLoggable) logger.error("\n \n" + throwable.getMessage());
+    }
+
     private void handleError(ChatMessage chatMessage) {
 
         Error error = gson.fromJson(chatMessage.getContent(), Error.class);
@@ -3929,11 +1716,10 @@ public class Chat extends AsyncAdapter {
             chatReady = false;
 
             getInfoExecutor.stopThread();
-            retrySetToken = 1;
 
             String errorMessage = error.getMessage();
             long errorCode = error.getCode();
-            String errorJson = getErrorOutPut(errorMessage, errorCode, chatMessage.getUniqueId());
+            getErrorOutPut(errorMessage, errorCode, chatMessage.getUniqueId());
 
             PingExecutor.stopThread();
 
@@ -3949,8 +1735,9 @@ public class Chat extends AsyncAdapter {
     }
 
     private void handleLastSeenUpdated(ChatMessage chatMessage) {
-        showLog("LAST_SEEN_UPDATED", "");
-        showLog(chatMessage.getContent(), "");
+        showInfoLog("LAST_SEEN_UPDATED", "");
+        showInfoLog(chatMessage.getContent(), "");
+
         listenerManager.callOnLastSeenUpdated(chatMessage.getContent());
     }
 
@@ -3964,7 +1751,8 @@ public class Chat extends AsyncAdapter {
         chatResponse.setUniqueId(chatMessage.getUniqueId());
 
         listenerManager.callOnThreadInfoUpdated(chatMessage.getContent(), chatResponse);
-        showLog("THREAD_INFO_UPDATED", chatMessage.getContent());
+
+        showInfoLog("THREAD_INFO_UPDATED", chatMessage.getContent());
     }
 
     private void handleRemoveFromThread(ChatMessage chatMessage) {
@@ -3975,7 +1763,8 @@ public class Chat extends AsyncAdapter {
         resultThread.setThread(thread);
         String content = gson.toJson(chatResponse);
 
-        showLog("RECEIVED_REMOVED_FROM_THREAD", content);
+        showInfoLog("RECEIVED_REMOVED_FROM_THREAD", content);
+
         listenerManager.callOnRemovedFromThread(content, chatResponse);
     }
 
@@ -3985,15 +1774,14 @@ public class Chat extends AsyncAdapter {
      */
     private void handleOnPing(ChatMessage chatMessage) {
 
-        showLog("RECEIVED_CHAT_PING", "");
+        showInfoLog("RECEIVED_CHAT_PING", "");
 
         chatReady = true;
 
-        retrySetToken = 1;
         getInfoExecutor.stopThread();
 
         listenerManager.callOnChatState(ChatStateType.CHAT_READY);
-        showLog("** CLIENT_AUTHENTICATED_NOW", "");
+        showInfoLog("** CLIENT_AUTHENTICATED_NOW", "");
         pingWithDelay();
 
     }
@@ -4022,31 +1810,32 @@ public class Chat extends AsyncAdapter {
             if (messageVO != null) {
                 ownerId = messageVO.getParticipant().getId();
             }
-            showLog("RECEIVED_NEW_MESSAGE", json);
+            showInfoLog("RECEIVED_NEW_MESSAGE", json);
             if (ownerId != getUserId()) {
                 ChatMessage message = getChatMessage(messageVO);
 
                 String asyncContent = gson.toJson(message);
                 async.sendMessage(asyncContent, 4);
-                ChatLogger.info(TAG, "SEND_DELIVERY_MESSAGE");
+                showInfoLog("SEND_DELIVERY_MESSAGE");
                 listenerManager.callOnLogEvent(asyncContent);
             }
         } catch (Exception e) {
-            ChatLogger.error(TAG, e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
 
     }
 
     //TODO Problem in message id in forwardMessage
     private void handleSent(ChatMessage chatMessage, String messageUniqueId, long threadId) {
-     //   waitQList.remove(messageUniqueId);
 
         try {
             if (threadCallbacks.containsKey(threadId)) {
                 ArrayList<Callback> callbacks = threadCallbacks.get(threadId);
                 for (Callback callback : callbacks) {
+
                     if (messageUniqueId.equals(callback.getUniqueId())) {
                         int indexUnique = callbacks.indexOf(callback);
+
                         if (callbacks.get(indexUnique).isSent()) {
 
                             ChatResponse<ResultMessage> chatResponse = new ChatResponse<>();
@@ -4065,15 +1854,6 @@ public class Chat extends AsyncAdapter {
                             String json = gson.toJson(chatResponse);
                             listenerManager.callOnSentMessage(json, chatResponse);
 
-//                            runOnUIThread(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    if (handlerSend.get(callback.getUniqueId()) != null) {
-//                                        handlerSend.get(callback.getUniqueId()).onSentResult(chatMessage.getContent());
-//                                    }
-//                                }
-//                            });
-
                             Callback callbackUpdateSent = new Callback();
                             callbackUpdateSent.setSent(false);
                             callbackUpdateSent.setDelivery(callback.isDelivery());
@@ -4081,58 +1861,17 @@ public class Chat extends AsyncAdapter {
                             callbackUpdateSent.setUniqueId(callback.getUniqueId());
 
                             callbacks.set(indexUnique, callbackUpdateSent);
+
                             threadCallbacks.put(threadId, callbacks);
-                            showLog("RECEIVED_SENT_MESSAGE", json);
+
+                            showInfoLog("RECEIVED_SENT_MESSAGE", json);
                         }
                         break;
                     }
                 }
             }
         } catch (Throwable e) {
-            ChatLogger.error(TAG, e.getCause().getMessage());
-        }
-    }
-
-
-    /**
-     * When chat is ready its checking the message that was stored in the Sending Queue and if there is any,
-     * it's sent them to async
-     */
-    private void checkMessageQueue() {
-
-        try {
-            if (!sendingQList.isEmpty()) {
-                for (SendingQueueCache sendingQueue : sendingQList.values()) {
-                    String uniqueId = sendingQueue.getUniqueId();
-                    long threadId = sendingQueue.getThreadId();
-                    setThreadCallbacks(threadId, uniqueId);
-
-                    WaitQueueCache waitMessageQueue = new WaitQueueCache();
-
-                    waitMessageQueue.setUniqueId(uniqueId);
-                    waitMessageQueue.setId(sendingQueue.getId());
-                    waitMessageQueue.setAsyncContent(sendingQueue.getAsyncContent());
-                    waitMessageQueue.setMessage(sendingQueue.getMessage());
-                    waitMessageQueue.setThreadId(sendingQueue.getThreadId());
-                    waitMessageQueue.setMessageType(sendingQueue.getMessageType());
-                    waitMessageQueue.setSystemMetadata(sendingQueue.getSystemMetadata());
-                    waitMessageQueue.setMetadata(sendingQueue.getMetadata());
-
-                    waitQList.put(uniqueId, waitMessageQueue);
-//                        sendingQList.remove(uniqueId);
-
-                    JsonObject jsonObject = (new JsonParser()).parse(sendingQueue.getAsyncContent()).getAsJsonObject();
-
-                    jsonObject.remove("token");
-                    jsonObject.addProperty("token", getToken());
-                    sendAsyncMessage(jsonObject.toString(), 4, "SEND_TEXT_MESSAGE_FROM_MESSAGE_QUEUE");
-                }
-                sendingQList.clear();
-
-            }
-
-        } catch (Throwable throwable) {
-            ChatLogger.error(TAG, throwable.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
     }
 
@@ -4168,7 +1907,7 @@ public class Chat extends AsyncAdapter {
 
                                 callbacks.set(indexUnique, callbackUpdateSent);
                                 threadCallbacks.put(threadId, callbacks);
-                                showLog("RECEIVED_DELIVERED_MESSAGE", json);
+                                showInfoLog("RECEIVED_DELIVERED_MESSAGE", json);
                             }
 
                             ChatResponse<ResultMessage> chatResponse = new ChatResponse<>();
@@ -4183,7 +1922,7 @@ public class Chat extends AsyncAdapter {
                             listenerManager.callOnSeenMessage(json, chatResponse);
                             callbacks.remove(indexUnique);
                             threadCallbacks.put(threadId, callbacks);
-                            showLog("RECEIVED_SEEN_MESSAGE", json);
+                            showInfoLog("RECEIVED_SEEN_MESSAGE", json);
 
                         }
                         indexUnique--;
@@ -4223,7 +1962,7 @@ public class Chat extends AsyncAdapter {
                                 callbackUpdateSent.setUniqueId(callback.getUniqueId());
                                 callbacks.set(indexUnique, callbackUpdateSent);
                                 threadCallbacks.put(threadId, callbacks);
-                                showLog("RECEIVED_DELIVERED_MESSAGE", json);
+                                showInfoLog("RECEIVED_DELIVERED_MESSAGE", json);
                             }
                             indexUnique--;
                         }
@@ -4232,7 +1971,7 @@ public class Chat extends AsyncAdapter {
                 }
             }
         } catch (Exception e) {
-            ChatLogger.error(TAG, e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
     }
 
@@ -4249,14 +1988,14 @@ public class Chat extends AsyncAdapter {
         if (messageVO != null) {
             ownerId = messageVO.getParticipant().getId();
         }
-        showLog("RECEIVED_FORWARD_MESSAGE", json);
+        showInfoLog("RECEIVED_FORWARD_MESSAGE", json);
 
         listenerManager.callOnNewMessage(json, chatResponse);
         if (ownerId != getUserId()) {
             ChatMessage message = getChatMessage(messageVO);
 
             String asyncContent = gson.toJson(message);
-            showLog("SEND_DELIVERY_MESSAGE", asyncContent);
+            showInfoLog("SEND_DELIVERY_MESSAGE", asyncContent);
 
             async.sendMessage(asyncContent, 4);
         }
@@ -4298,7 +2037,7 @@ public class Chat extends AsyncAdapter {
                                 String muteThreadJson = reformatMuteThread(chatMessage, chatResponse);
                                 listenerManager.callOnMuteThread(muteThreadJson, chatResponse);
                                 messageCallbacks.remove(messageUniqueId);
-                                showLog("RECEIVE_MUTE_THREAD", muteThreadJson);
+                                showInfoLog("RECEIVE_MUTE_THREAD", muteThreadJson);
                             }
                             break;
                         case ChatMessageType.UN_MUTE_THREAD:
@@ -4308,7 +2047,7 @@ public class Chat extends AsyncAdapter {
                                 String unmuteThreadJson = reformatMuteThread(chatMessage, chatResponse);
                                 listenerManager.callOnUnmuteThread(unmuteThreadJson, chatResponse);
                                 messageCallbacks.remove(messageUniqueId);
-                                showLog("RECEIVE_UN_MUTE_THREAD", unmuteThreadJson);
+                                showInfoLog("RECEIVE_UN_MUTE_THREAD", unmuteThreadJson);
 
                             }
                             break;
@@ -4331,7 +2070,7 @@ public class Chat extends AsyncAdapter {
                                 String jsonParticipant = gson.toJson(chatResponse);
                                 listenerManager.callOnGetThreadParticipant(jsonParticipant, chatResponse);
                                 messageCallbacks.remove(messageUniqueId);
-                                showLog("RECEIVE_PARTICIPANT", jsonParticipant);
+                                showInfoLog("RECEIVE_PARTICIPANT", jsonParticipant);
                             }
 
                             break;
@@ -4392,7 +2131,7 @@ public class Chat extends AsyncAdapter {
                 }
             }
         } catch (Throwable e) {
-            ChatLogger.error(TAG, e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
     }
 
@@ -4407,7 +2146,7 @@ public class Chat extends AsyncAdapter {
         chatResponse.setUniqueId(chatMessage.getUniqueId());
 
         String content = gson.toJson(chatResponse);
-        showLog("RECEIVE_EDIT_MESSAGE", content);
+        showInfoLog("RECEIVE_EDIT_MESSAGE", content);
 
         listenerManager.callOnEditedMessage(content, chatResponse);
         messageCallbacks.remove(messageUniqueId);
@@ -4435,56 +2174,16 @@ public class Chat extends AsyncAdapter {
 
             chatResponse.setResult(resultParticipant);
             String content = gson.toJson(chatResponse);
+
             listenerManager.callOnSeenMessageList(content, chatResponse);
-            showLog("RECEIVE_SEEN_MESSAGE_LIST", content);
+
+            showInfoLog("RECEIVE_SEEN_MESSAGE_LIST", content);
 
         } catch (Exception e) {
-            ChatLogger.error(TAG, e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
     }
 
-    /**
-     * After getting the key ChatState is 'CHAT_READY' and cache is working
-     */
-
-
-    /**
-     * It is sent uniqueIds of messages from waitQueue to ensure all of them have been sent.
-     */
-    /* private void checkMessagesValidation(long threadId) {
-
-     *//*  if waitQueue had these messages then send request's getHistory and in onSent remove them from wait queue
-     *//*
-        List<WaitQueueCache> uniqueIds = messageDatabaseHelper.getWaitQueueMsg(threadId);
-        if (!Util.isNullOrEmpty(uniqueIds)) {
-
-            String uniqueId = generateUniqueId();
-            Type uniqueIdsType = new TypeToken<ArrayList<String>>() {
-            }.getType();
-            String listUniqueIds = gson.toJson(uniqueIds, uniqueIdsType);
-
-            ChatMessage chatMessage = new ChatMessage();
-            chatMessage.setContent(listUniqueIds);
-            chatMessage.setType(Constants.GET_HISTORY);
-            chatMessage.setToken(getToken());
-            chatMessage.setTokenIssuer("1");
-            chatMessage.setUniqueId(uniqueId);
-            chatMessage.setSubjectId(threadId);
-
-            JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
-
-            if (Util.isNullOrEmpty(getTypeCode())) {
-                jsonObject.remove("typeCode");
-            } else {
-                jsonObject.remove("typeCode");
-                jsonObject.addProperty("typeCode", getTypeCode());
-            }
-
-            String asyncContent = jsonObject.toString();
-
-            sendAsyncMessage(asyncContent, 3, "CHECK_HISTORY_MESSAGES");
-        }
-    }*/
 
     /**
      * order    If order is empty [default = desc] and also you have two option [ asc | desc ]
@@ -4591,10 +2290,10 @@ public class Chat extends AsyncAdapter {
             chatResponse.setResult(resultParticipant);
             String content = gson.toJson(chatResponse);
             listenerManager.callOnDeliveredMessageList(content, chatResponse);
-            showLog("RECEIVE_DELIVERED_MESSAGE_LIST", content);
+            showInfoLog("RECEIVE_DELIVERED_MESSAGE_LIST", content);
 
         } catch (Exception e) {
-            ChatLogger.error(TAG, e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
     }
 
@@ -4602,9 +2301,11 @@ public class Chat extends AsyncAdapter {
 
         ChatResponse<ResultContact> chatResponse = reformatGetContactResponse(chatMessage, callback);
         String contactJson = gson.toJson(chatResponse);
+
         listenerManager.callOnGetContacts(contactJson, chatResponse);
         messageCallbacks.remove(messageUniqueId);
-        showLog("RECEIVE_GET_CONTACT", contactJson);
+
+        showInfoLog("RECEIVE_GET_CONTACT", contactJson);
 
     }
 
@@ -4617,7 +2318,7 @@ public class Chat extends AsyncAdapter {
         listenerManager.callOnCreateThread(inviteJson, chatResponse);
         messageCallbacks.remove(messageUniqueId);
 
-        showLog("RECEIVE_CREATE_THREAD", inviteJson);
+        showInfoLog("RECEIVE_CREATE_THREAD", inviteJson);
 
     }
 
@@ -4625,9 +2326,11 @@ public class Chat extends AsyncAdapter {
 
         ChatResponse<ResultThreads> chatResponse = reformatGetThreadsResponse(chatMessage, callback);
         String threadJson = gson.toJson(chatResponse);
+
         listenerManager.callOnGetThread(threadJson, chatResponse);
         messageCallbacks.remove(messageUniqueId);
-        showLog("RECEIVE_GET_THREAD", threadJson);
+
+        showInfoLog("RECEIVE_GET_THREAD", threadJson);
 
     }
 
@@ -4651,7 +2354,7 @@ public class Chat extends AsyncAdapter {
             messageCallbacks.remove(messageUniqueId);
 
             listenerManager.callOnUpdateThreadInfo(threadJson, chatResponse);
-            showLog("RECEIVE_UPDATE_THREAD_INFO", threadJson);
+            showInfoLog("RECEIVE_UPDATE_THREAD_INFO", threadJson);
         }
     }
 
@@ -4669,101 +2372,15 @@ public class Chat extends AsyncAdapter {
             UserInfo userInfo = gson.fromJson(chatMessage.getContent(), UserInfo.class);
             String userInfoJson = reformatUserInfo(chatMessage, chatResponse, userInfo);
 
-            showLog("RECEIVE_USER_INFO", userInfoJson);
+            showInfoLog("RECEIVE_USER_INFO", userInfoJson);
 
             chatReady = true;
-
-            retrySetToken = 1;
 
             listenerManager.callOnUserInfo(userInfoJson, chatResponse);
             messageCallbacks.remove(messageUniqueId);
 
             pingWithDelay();
         }
-    }
-
-    private String mainReplyMessage(String messageContent, long threadId, long messageId, String systemMetaData, Integer messageType, String metaData, ChatHandler handler) {
-        String uniqueId;
-        uniqueId = generateUniqueId();
-
-        /* Add to sending Queue*/
-        SendingQueueCache sendingQueue = new SendingQueueCache();
-        sendingQueue.setSystemMetadata(systemMetaData);
-        sendingQueue.setMessageType(messageType);
-        sendingQueue.setThreadId(threadId);
-        sendingQueue.setUniqueId(uniqueId);
-        sendingQueue.setMessage(messageContent);
-        sendingQueue.setMetadata(metaData);
-
-        ChatMessage chatMessage = new ChatMessage();
-        chatMessage.setUniqueId(uniqueId);
-        chatMessage.setRepliedTo(messageId);
-        chatMessage.setSubjectId(threadId);
-        chatMessage.setTokenIssuer("1");
-        chatMessage.setToken(getToken());
-        chatMessage.setContent(messageContent);
-        chatMessage.setTime(1000);
-        chatMessage.setType(ChatMessageType.MESSAGE);
-
-        JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
-
-        if (Util.isNullOrEmpty(systemMetaData)) {
-            jsonObject.remove("systemMetaData");
-        } else {
-            jsonObject.remove("systemMetaData");
-            jsonObject.addProperty("systemMetaData", systemMetaData);
-        }
-
-        if (Util.isNullOrEmpty(getTypeCode())) {
-            jsonObject.remove("typeCode");
-        } else {
-            jsonObject.remove("typeCode");
-            jsonObject.addProperty("typeCode", getTypeCode());
-        }
-
-        if (Util.isNullOrEmpty(messageType)) {
-            jsonObject.remove("messageType");
-        } else {
-            jsonObject.remove("messageType");
-            jsonObject.addProperty("messageType", messageType);
-        }
-
-        String asyncContent = jsonObject.toString();
-
-        sendingQueue.setAsyncContent(asyncContent);
-
-
-        sendingQList.put(uniqueId, sendingQueue);
-
-        ChatLogger.info(TAG, "Message with this" + "uniqueId" + uniqueId + "has been added to Message Queue");
-
-        if (chatReady) {
-
-            sendingQList.remove(uniqueId);
-            WaitQueueCache waitMessageQueue = new WaitQueueCache();
-
-            waitMessageQueue.setUniqueId(sendingQueue.getUniqueId());
-            waitMessageQueue.setId(sendingQueue.getId());
-            waitMessageQueue.setAsyncContent(sendingQueue.getAsyncContent());
-            waitMessageQueue.setMessage(sendingQueue.getMessage());
-            waitMessageQueue.setThreadId(sendingQueue.getThreadId());
-            waitMessageQueue.setMessageType(sendingQueue.getMessageType());
-            waitMessageQueue.setSystemMetadata(sendingQueue.getSystemMetadata());
-            waitMessageQueue.setMetadata(sendingQueue.getMetadata());
-            waitQList.put(uniqueId, waitMessageQueue);
-
-
-            setThreadCallbacks(threadId, uniqueId);
-            sendAsyncMessage(asyncContent, 4, "SEND_REPLY_MESSAGE");
-
-            if (handler != null) {
-                handler.onReplyMessage(uniqueId);
-            }
-
-        } else {
-            String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-        }
-        return uniqueId;
     }
 
 
@@ -4783,7 +2400,7 @@ public class Chat extends AsyncAdapter {
         } else {
             if (retryStepUserInfo < 60) retryStepUserInfo *= 4;
             getUserInfo(null);
-            showLog("getUserInfo " + " retry in " + retryStepUserInfo + " s ", "");
+            showInfoLog("getUserInfo " + " retry in " + retryStepUserInfo + " s ", "");
         }
     }
 
@@ -4809,7 +2426,7 @@ public class Chat extends AsyncAdapter {
             messageCallbacks.remove(messageUniqueId);
         }
 
-        showLog("RECEIVE_LEAVE_THREAD", jsonThread);
+        showInfoLog("RECEIVE_LEAVE_THREAD", jsonThread);
     }
 
     private void handleAddParticipant(ChatMessage chatMessage, String messageUniqueId) {
@@ -4830,7 +2447,7 @@ public class Chat extends AsyncAdapter {
 
         listenerManager.callOnThreadAddParticipant(jsonAddParticipant, chatResponse);
         messageCallbacks.remove(messageUniqueId);
-        showLog("RECEIVE_ADD_PARTICIPANT", jsonAddParticipant);
+        showInfoLog("RECEIVE_ADD_PARTICIPANT", jsonAddParticipant);
     }
 
     private void handleOutPutDeleteMsg(ChatMessage chatMessage) {
@@ -4847,7 +2464,7 @@ public class Chat extends AsyncAdapter {
         String jsonDeleteMsg = gson.toJson(chatResponse);
 
         listenerManager.callOnDeleteMessage(jsonDeleteMsg, chatResponse);
-        showLog("RECEIVE_DELETE_MESSAGE", jsonDeleteMsg);
+        showInfoLog("RECEIVE_DELETE_MESSAGE", jsonDeleteMsg);
     }
 
     private void handleOutPutBlock(ChatMessage chatMessage, String messageUniqueId) {
@@ -4863,7 +2480,7 @@ public class Chat extends AsyncAdapter {
 
         String jsonBlock = gson.toJson(chatResponse);
         listenerManager.callOnBlock(jsonBlock, chatResponse);
-        showLog("RECEIVE_BLOCK", jsonBlock);
+        showInfoLog("RECEIVE_BLOCK", jsonBlock);
         messageCallbacks.remove(messageUniqueId);
     }
 
@@ -4907,7 +2524,7 @@ public class Chat extends AsyncAdapter {
         chatResponseClrHistory.setUniqueId(chatMessage.getUniqueId());
         String jsonClrHistory = gson.toJson(chatResponseClrHistory);
         listenerManager.callOnClearHistory(jsonClrHistory, chatResponseClrHistory);
-        showLog("RECEIVE_CLEAR_HISTORY", jsonClrHistory);
+        showInfoLog("RECEIVE_CLEAR_HISTORY", jsonClrHistory);
     }
 
     private void handleSetRule(ChatMessage chatMessage) {
@@ -4921,7 +2538,7 @@ public class Chat extends AsyncAdapter {
         chatResponse.setUniqueId(chatMessage.getUniqueId());
         String responseJson = gson.toJson(chatResponse);
         listenerManager.callonSetRuleToUser(responseJson, chatResponse);
-        showLog("RECEIVE_SET_RULE", responseJson);
+        showInfoLog("RECEIVE_SET_RULE", responseJson);
     }
 
     private void handleUnBlock(ChatMessage chatMessage, String messageUniqueId) {
@@ -4937,7 +2554,7 @@ public class Chat extends AsyncAdapter {
 
         String jsonUnBlock = gson.toJson(chatResponse);
         listenerManager.callOnUnBlock(jsonUnBlock, chatResponse);
-        showLog("RECEIVE_UN_BLOCK", jsonUnBlock);
+        showInfoLog("RECEIVE_UN_BLOCK", jsonUnBlock);
         messageCallbacks.remove(messageUniqueId);
     }
 
@@ -4954,7 +2571,7 @@ public class Chat extends AsyncAdapter {
         chatResponse.setResult(resultBlockList);
         String jsonGetBlock = gson.toJson(chatResponse);
         listenerManager.callOnGetBlockList(jsonGetBlock, chatResponse);
-        showLog("RECEIVE_GET_BLOCK_LIST", jsonGetBlock);
+        showInfoLog("RECEIVE_GET_BLOCK_LIST", jsonGetBlock);
     }
 
     private void handleOutPutRemoveParticipant(Callback callback, ChatMessage chatMessage, String messageUniqueId) {
@@ -4965,7 +2582,7 @@ public class Chat extends AsyncAdapter {
 
         listenerManager.callOnThreadRemoveParticipant(jsonRmParticipant, chatResponse);
         messageCallbacks.remove(messageUniqueId);
-        showLog("RECEIVE_REMOVE_PARTICIPANT", jsonRmParticipant);
+        showInfoLog("RECEIVE_REMOVE_PARTICIPANT", jsonRmParticipant);
     }
 
     private void handleOutPutGetHistory(Callback callback, ChatMessage chatMessage, String messageUniqueId) {
@@ -4994,7 +2611,7 @@ public class Chat extends AsyncAdapter {
 
         String json = gson.toJson(chatResponse);
         listenerManager.callOnGetThreadHistory(json, chatResponse);
-        showLog("RECEIVE_GET_HISTORY", json);
+        showInfoLog("RECEIVE_GET_HISTORY", json);
         messageCallbacks.remove(messageUniqueId);
     }
 
@@ -5057,11 +2674,12 @@ public class Chat extends AsyncAdapter {
     private String getErrorOutPut(String errorMessage, long errorCode, String uniqueId) {
         ErrorOutPut error = new ErrorOutPut(true, errorMessage, errorCode, uniqueId);
         String jsonError = gson.toJson(error);
+
         listenerManager.callOnError(jsonError, error);
         listenerManager.callOnLogEvent(jsonError);
 
 
-        ChatLogger.error(TAG, "ErrorMessage :" + errorMessage + " *Code* " + errorCode + " *uniqueId* " + uniqueId);
+        showErrorLog("ErrorMessage :" + errorMessage + " *Code* " + errorCode + " *uniqueId* " + uniqueId);
 
         return jsonError;
     }
@@ -5125,11 +2743,11 @@ public class Chat extends AsyncAdapter {
                 sendAsyncMessage(asyncContent, 4, "SEND_DELIVERED_MESSAGE_LIST");
 
             } else {
-                String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+                getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
             }
 
         } catch (Throwable e) {
-            ChatLogger.error(TAG, e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
         return uniqueId;
     }
@@ -5139,10 +2757,11 @@ public class Chat extends AsyncAdapter {
      * The replacement method is getMessageSeenList.
      * */
     private String seenMessageList(RequestSeenMessageList requestParams) {
-        String uniqueId;
-        uniqueId = generateUniqueId();
+
+        String uniqueId = generateUniqueId();
         if (chatReady) {
             try {
+
                 if (Util.isNullOrEmpty(requestParams.getCount())) {
                     requestParams.setCount(50);
                 }
@@ -5174,12 +2793,14 @@ public class Chat extends AsyncAdapter {
                 String asyncContent = jsonObject.toString();
 
                 setCallBacks(null, null, null, true, ChatMessageType.SEEN_MESSAGE_LIST, requestParams.getOffset(), uniqueId);
+
                 sendAsyncMessage(asyncContent, 4, "SEND_SEEN_MESSAGE_LIST");
+
             } catch (Throwable e) {
-                ChatLogger.error(TAG, e.getCause().getMessage());
+                showErrorLog(e.getCause().getMessage());
             }
         } else {
-            String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
         }
         return uniqueId;
     }
@@ -5251,14 +2872,12 @@ public class Chat extends AsyncAdapter {
 
         sendingQueue.setAsyncContent(asyncContent);
 
-        sendingQList.put(uniqueId, sendingQueue);
-
 
         if (chatReady) {
             setThreadCallbacks(threadId, uniqueId);
             sendAsyncMessage(asyncContent, 4, "SEND_TXT_MSG_WITH_FILE");
         } else {
-            String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
         }
     }
 
@@ -5281,12 +2900,11 @@ public class Chat extends AsyncAdapter {
                 }
             }
         } catch (Exception e) {
-            ChatLogger.error(TAG, e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
     }
 
     private void setCallBacks(Boolean delivery, Boolean sent, Boolean seen, Boolean result, int requestType, Long offset, String uniqueId) {
-
         try {
             if (chatReady || asyncReady) {
                 delivery = delivery != null ? delivery : false;
@@ -5303,10 +2921,11 @@ public class Chat extends AsyncAdapter {
                 callback.setSent(sent);
                 callback.setRequestType(requestType);
                 callback.setResult(result);
+
                 messageCallbacks.put(uniqueId, callback);
             }
         } catch (Exception e) {
-            ChatLogger.error(TAG, e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
     }
 
@@ -5334,20 +2953,19 @@ public class Chat extends AsyncAdapter {
                 messageCallbacks.put(uniqueId, callback);
             }
         } catch (Exception e) {
-            ChatLogger.error(TAG, e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
     }
 
     private void sendAsyncMessage(String asyncContent, int asyncMsgType, String logMessage) {
         if (chatReady) {
-            showLog(logMessage, asyncContent);
+            showInfoLog(logMessage, asyncContent);
 
             try {
-
                 async.sendMessage(asyncContent, asyncMsgType);
 
             } catch (Exception e) {
-                ChatLogger.error(TAG, e.getMessage());
+                showErrorLog(e.getMessage());
                 return;
             }
 
@@ -5358,243 +2976,15 @@ public class Chat extends AsyncAdapter {
         }
     }
 
-    /**
-     * Get the list of the Device Contact
-     */
-    // TODO working progress
-  /*  private List<PhoneContact> getPhoneContact(Context context) {
-        String firstName;
-        String phoneNumber;
-        String lastName;
-        String empty = "";
-        int version;
-        ArrayList<PhoneContact> newPhoneContact = new ArrayList<>();
-
-        try {
-
-            List<PhoneContact> cachePhoneContacts = phoneContactDbHelper.getPhoneContacts();
-
-            HashMap<Long, PhoneContact> map = new HashMap<>();
-
-            if (cachePhoneContacts != null && cachePhoneContacts.size() > 0) {
-                for (PhoneContact contact : cachePhoneContacts) {
-                    map.put(contact.getPhoneNumber(), contact);
-                }
-            }
-
-            Cursor cursor = context.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
-            if (cursor == null) throw new AssertionError();
-
-
-            *//*
-     * get Contact from phone Contact
-     * *//*
-            while (cursor.moveToNext()) {
-                firstName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-                lastName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME));
-                version = cursor.getInt(cursor.getColumnIndex(ContactsContract.RawContacts.VERSION));
-                phoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-
-                char ch1 = phoneNumber.charAt(0);
-
-//            if (!Character.toString(ch1).equals("+")) {
-//                contact.setCellphoneNumber(phoneNumber.replaceAll(Character.toString(ch1), "+98"));
-//            }
-                PhoneContact phoneContact = new PhoneContact();
-
-                if (!Util.isNullOrEmpty(phoneNumber)) {
-                    phoneNumber = phoneNumber.replaceAll(" ", "");
-                    phoneContact.setPhoneNumber(Long.valueOf(phoneNumber));
-
-                    if (!Util.isNullOrEmpty(firstName)) {
-                        phoneContact.setName(firstName.replaceAll(" ", ""));
-                    } else {
-                        phoneContact.setName(empty);
-                    }
-
-                    if (!Util.isNullOrEmpty(lastName)) {
-                        phoneContact.setLastName(lastName.replaceAll(" ", ""));
-                    } else {
-                        phoneContact.setLastName(empty);
-                    }
-                    if (!Util.isNullOrEmpty(version)) {
-                        phoneContact.setVersion(version);
-                    }
-                    if (cachePhoneContacts != null && cachePhoneContacts.size() > 0) {
-                        // if its not in PhoneContactCache and its a contact that added recently
-                        if (map.get(Long.valueOf(phoneNumber)) != null) {
-                            if (version != map.get(Long.valueOf(phoneNumber)).getVersion()) {
-                                newPhoneContact.add(phoneContact);
-                            }
-                        } else {
-                            newPhoneContact.add(phoneContact);
-                        }
-                    } else {
-                        newPhoneContact.add(phoneContact);
-                    }
-                }
-            }
-            cursor.close();
-
-        } catch (Exception e) {
-            Log.e(TAG, e.getCause().getMessage());
-        }
-
-        return newPhoneContact;
-    }
-
-    private String getRealPathFromURI(Context context, Uri contentUri) {
-        String[] strings = {MediaStore.Images.Media.DATA};
-        CursorLoader loader = new CursorLoader(context, contentUri, strings, null, null, null);
-        Cursor cursor = loader.loadInBackground();
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String result = cursor.getString(column_index);
-        cursor.close();
-        return result;
-    }
-
-
-    private String createFileMetadata(File file, String hashCode, long fileId, String mimeType, long fileSize, String filePath) {
-        MetaDataFile metaDataFile = new MetaDataFile();
-        FileMetaDataContent metaDataContent = new FileMetaDataContent();
-
-        metaDataContent.setId(fileId);
-        metaDataContent.setName(file.getName());
-        metaDataContent.setMimeType(mimeType);
-        metaDataContent.setSize(fileSize);
-        if (hashCode != null) {
-            metaDataContent.setHashCode(hashCode);
-            metaDataContent.setLink(getFile(fileId, hashCode, true));
-        } else {
-            metaDataContent.setLink(filePath);
-        }
-
-        metaDataFile.setFile(metaDataContent);
-
-        return gson.toJson(metaDataFile);
-    }
-
-
-    private String createImageMetadata(File fileUri, String hashCode, long imageId, int actualHeight, int actualWidth, String mimeType
-            , long fileSize, String path, boolean isLocation, String center) {
-
-        String originalName = fileUri.getName();
-        FileImageMetaData fileMetaData = new FileImageMetaData();
-
-
-        if (originalName.contains(".")) {
-            String editedName = originalName.substring(0, originalName.lastIndexOf('.'));
-            fileMetaData.setName(editedName);
-        }
-        fileMetaData.setHashCode(hashCode);
-        fileMetaData.setId(imageId);
-        fileMetaData.setOriginalName(originalName);
-        fileMetaData.setActualHeight(actualHeight);
-        fileMetaData.setActualWidth(actualWidth);
-        fileMetaData.setMimeType(mimeType);
-        fileMetaData.setSize(fileSize);
-        if (!Util.isNullOrEmpty(hashCode)) {
-            fileMetaData.setLink(getImage(imageId, hashCode, false));
-        } else {
-            fileMetaData.setLink(path);
-        }
-        if (isLocation) {
-            MetadataLocationFile locationFile = new MetadataLocationFile();
-            MapLocation mapLocation = new MapLocation();
-
-            if (center.contains(",")) {
-                String latitude = center.substring(0, center.lastIndexOf(','));
-                String longitude = center.substring(center.lastIndexOf(',') + 1, center.length());
-                mapLocation.setLatitude(Double.valueOf(latitude));
-                mapLocation.setLongitude(Double.valueOf(longitude));
-            }
-
-            locationFile.setLocation(mapLocation);
-            locationFile.setFile(fileMetaData);
-            return gson.toJson(locationFile);
-
-        } else {
-            MetaDataImageFile metaData = new MetaDataImageFile();
-            metaData.setFile(fileMetaData);
-            return gson.toJson(metaData);
-        }
-    }*/
-
-
-    /**
-     * Add list of contacts with their mobile numbers and their cellphoneNumbers
-     */
-    /*private void addContacts(List<PhoneContact> phoneContacts, String uniqueId) {
-
-        ArrayList<String> firstNames = new ArrayList<>();
-        ArrayList<String> cellphoneNumbers = new ArrayList<>();
-        ArrayList<String> lastNames = new ArrayList<>();
-        ArrayList<String> typeCodes = new ArrayList<>();
-
-        for (PhoneContact contact : phoneContacts) {
-            firstNames.add(contact.getName());
-            lastNames.add(contact.getLastName());
-            cellphoneNumbers.add(String.valueOf(contact.getPhoneNumber()));
-        }
-
-        ArrayList<String> emails = new ArrayList<>();
-        for (int i = 0; i < cellphoneNumbers.size(); i++) {
-            emails.add("");
-            typeCodes.add(getTypeCode());
-        }
-
-        Observable<Response<Contacts>> addContactsObservable;
-        if (getPlatformHost() != null) {
-            if (!Util.isNullOrEmpty(getTypeCode())) {
-                addContactsObservable = contactApi.addContacts(getToken(), TOKEN_ISSUER, firstNames, lastNames, emails, cellphoneNumbers
-                        , cellphoneNumbers, typeCodes);
-            } else {
-                addContactsObservable = contactApi.addContacts(getToken(), TOKEN_ISSUER, firstNames, lastNames, emails, cellphoneNumbers
-                        , cellphoneNumbers);
-            }
-            addContactsObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(contactsResponse -> {
-                boolean error = contactsResponse.body().getHasError();
-                if (contactsResponse.isSuccessful()) {
-                    if (error) {
-                        getErrorOutPut(contactsResponse.body().getMessage(), contactsResponse.body().getErrorCode()
-                                , uniqueId);
-                    } else {
-                        Contacts contacts = contactsResponse.body();
-                        ChatResponse<Contacts> chatResponse = new ChatResponse<>();
-
-                        chatResponse.setResult(contacts);
-                        chatResponse.setUniqueId(uniqueId);
-
-                        String contactsJson = gson.toJson(chatResponse);
-
-                        if (cache) {
-                            messageDatabaseHelper.saveContacts(chatResponse.getResult().getResult(), getExpireAmount());
-                        }
-
-                        listenerManager.callOnSyncContact(contactsJson, chatResponse);
-
-                        phoneContactDbHelper.addPhoneContacts(phoneContacts);
-
-                        showLog("SYNC_CONTACT_COMPLETED", contactsJson);
-                    }
-                }
-            }, new Action1<Throwable>() {
-                @Override
-                public void call(Throwable throwable) {
-                    getErrorOutPut(throwable.getCause().getMessage(), ChatConstant.ERROR_CODE_UNKNOWN_EXCEPTION, uniqueId);
-                }
-            });
-        }
-    }
-*/
     private ChatMessage getChatMessage(String contentThreadChat, String uniqueId, String typeCode) {
         ChatMessage chatMessage = new ChatMessage();
+
         chatMessage.setContent(contentThreadChat);
         chatMessage.setType(ChatMessageType.INVITATION);
         chatMessage.setToken(getToken());
         chatMessage.setUniqueId(uniqueId);
         chatMessage.setTokenIssuer("1");
+
         if (typeCode != null && !typeCode.isEmpty()) {
             chatMessage.setTypeCode(typeCode);
         } else {
@@ -5613,12 +3003,14 @@ public class Chat extends AsyncAdapter {
 
     private ChatMessage getChatMessage(MessageVO jsonMessage) {
         ChatMessage message = new ChatMessage();
+
         message.setType(ChatMessageType.DELIVERY);
         message.setContent(String.valueOf(jsonMessage.getId()));
         message.setTokenIssuer("1");
         message.setToken(getToken());
         message.setUniqueId(generateUniqueId());
         message.setTime(1000);
+
         return message;
     }
 
@@ -5663,437 +3055,11 @@ public class Chat extends AsyncAdapter {
     }
 
     /**
-     * description    description of the message
-     * threadId       id of the thread its wanted to send in
-     * fileUri        uri of the file
-     * mimeType       mime type of the file
-     * systemMetaData metadata of the message
-     * messageType    type of a message
-     * messageId      id of a message
-     * methodName     METHOD_REPLY_MSG or other
-     * handler        description of the interface methods are :
-     * bytesSent        - Bytes sent since the last time this callback was called.
-     * totalBytesSent   - Total number of bytes sent so far.
-     * totalBytesToSend - Total bytes to send.
-     */
-    /*private void uploadImageFileMessage(LFileUpload lFileUpload) {
-
-        Activity activity = lFileUpload.getActivity();
-        String description = lFileUpload.getDescription();
-        Uri fileUri = lFileUpload.getFileUri();
-        Integer messageType = lFileUpload.getMessageType();
-        long threadId = lFileUpload.getThreadId();
-        String uniqueId = lFileUpload.getUniqueId();
-        String systemMetaData = lFileUpload.getSystemMetaData();
-        long messageId = lFileUpload.getMessageId();
-        String mimeType = lFileUpload.getMimeType();
-        String center = lFileUpload.getCenter();
-        String methodName = lFileUpload.getMethodName();
-
-        systemMetaData = systemMetaData != null ? systemMetaData : "";
-        description = description != null ? description : "";
-        messageType = messageType != null ? messageType : 0;
-
-        if (Permission.Check_READ_STORAGE(activity)) {
-            String path = FilePick.getSmartFilePath(getContext(), fileUri);
-            if (Util.isNullOrEmpty(path)) {
-                path = "";
-            }
-            File file = new File(path);
-            if (file.exists()) {
-                long fileSize = file.length();
-                UploadingQueueCache uploadingQueue = new UploadingQueueCache();
-                uploadingQueue.setMessage(description);
-                uploadingQueue.setMessageType(messageType);
-                uploadingQueue.setSystemMetadata(systemMetaData);
-                uploadingQueue.setUniqueId(uniqueId);
-                uploadingQueue.setThreadId(threadId);
-                uploadingQueue.setId(messageId);
-
-                String metaData;
-                if (!Util.isNullOrEmpty(methodName) && methodName.equals(ChatConstant.METHOD_LOCATION_MSG)) {
-
-                    metaData = createImageMetadata(file, null, 0, 0, 0,
-                            mimeType, fileSize, fileUri.toString(), true, center);
-                } else {
-                    metaData = createImageMetadata(file, null, 0, 0, 0,
-                            mimeType, fileSize, fileUri.toString(), false, null);
-                }
-                uploadingQueue.setMetadata(metaData);
-                if (cache) {
-                    messageDatabaseHelper.insertUploadingQueue(uploadingQueue);
-                } else {
-                    uploadingQList.put(uniqueId, uploadingQueue);
-                }
-
-                if (log)
-                    Log.i(TAG, "Message with this" + "  uniqueId  " + uniqueId + "  has been added to Uploading Queue");
-                lFileUpload.setFile(file);
-                lFileUpload.setFileSize(fileSize);
-                lFileUpload.setSystemMetaData(systemMetaData);
-                lFileUpload.setDescription(description);
-                lFileUpload.setMessageType(messageType);
-                lFileUpload.setCenter(center);
-
-                mainUploadImageFileMsg(lFileUpload);
-
-            } else {
-                if (log) Log.e(TAG, "File Is Not Exist");
-            }
-        } else {
-            String jsonError = getErrorOutPut(ChatConstant.ERROR_READ_EXTERNAL_STORAGE_PERMISSION
-                    , ChatConstant.ERROR_CODE_READ_EXTERNAL_STORAGE_PERMISSION, null);
-            listenerManager.callOnLogEvent(jsonError);
-        }
-    }
-
-    private void mainUploadImageFileMsg(LFileUpload fileUpload) {
-
-        String description = fileUpload.getDescription();
-        ProgressHandler.sendFileMessage handler = fileUpload.getHandler();
-        Integer messageType = fileUpload.getMessageType();
-        long threadId = fileUpload.getThreadId();
-        String uniqueId = fileUpload.getUniqueId();
-        String systemMetaData = fileUpload.getSystemMetaData();
-        long messageId = fileUpload.getMessageId();
-        String mimeType = fileUpload.getMimeType();
-        String methodName = fileUpload.getMethodName();
-        long fileSize = fileUpload.getFileSize();
-        String center = fileUpload.getCenter();
-        File file = fileUpload.getFile();
-
-        if (chatReady) {
-
-            if (fileServer != null) {
-                RetrofitHelperFileServer retrofitHelperFileServer = new RetrofitHelperFileServer(getFileServer());
-                FileApi fileApi = retrofitHelperFileServer.getService(FileApi.class);
-
-                ProgressRequestBody requestFile = new ProgressRequestBody(file, mimeType, uniqueId, new ProgressRequestBody.UploadCallbacks() {
-
-                    @Override
-                    public void onProgress(String uniqueId, int bytesSent, int totalBytesSent, int totalBytesToSend) {
-                        if (handler != null) {
-                            handler.onProgressUpdate(uniqueId, bytesSent, totalBytesSent, totalBytesToSend);
-                            if (log)
-                                Log.i(TAG, "uniqueId " + uniqueId + " bytesSent " + bytesSent);
-                        }
-                    }
-
-                    @Override
-                    public void onError() {
-                        if (log)
-                            Log.i(TAG, "Error on upload");
-                    }
-                });
-
-                MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
-                RequestBody name = RequestBody.create(MediaType.parse("text/plain"), file.getName());
-
-                Observable<Response<FileImageUpload>> uploadObservable = fileApi.sendImageFile(body, getToken(), TOKEN_ISSUER, name);
-
-                Subscription subscribe = uploadObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(fileUploadResponse -> {
-                    if (fileUploadResponse.body() != null && fileUploadResponse.isSuccessful()) {
-                        boolean hasError = fileUploadResponse.body().isHasError();
-                        if (hasError) {
-                            String errorMessage = fileUploadResponse.body().getMessage();
-                            int errorCode = fileUploadResponse.body().getErrorCode();
-                            String jsonError = getErrorOutPut(errorMessage, errorCode, uniqueId);
-                            listenerManager.callOnLogEvent(jsonError);
-                            ErrorOutPut error = new ErrorOutPut(true, errorMessage, errorCode, uniqueId);
-
-                            if (handler != null) {
-                                handler.onError(jsonError, error);
-                            }
-                        } else {
-
-                            ResultImageFile result = fileUploadResponse.body().getResult();
-                            long imageId = result.getId();
-                            String hashCode = result.getHashCode();
-
-                            ChatResponse<ResultImageFile> chatResponse = new ChatResponse<>();
-                            ResultImageFile resultImageFile = new ResultImageFile();
-                            chatResponse.setUniqueId(uniqueId);
-                            resultImageFile.setId(result.getId());
-                            resultImageFile.setHashCode(result.getHashCode());
-                            resultImageFile.setName(result.getName());
-                            resultImageFile.setHeight(result.getHeight());
-                            resultImageFile.setWidth(result.getWidth());
-                            resultImageFile.setActualHeight(result.getActualHeight());
-                            resultImageFile.setActualWidth(result.getActualWidth());
-
-                            chatResponse.setResult(resultImageFile);
-
-                            String imageJson = gson.toJson(chatResponse);
-
-                            listenerManager.callOnUploadImageFile(imageJson, chatResponse);
-
-                            if (log) Log.i(TAG, "RECEIVE_UPLOAD_IMAGE");
-                            listenerManager.callOnLogEvent(imageJson);
-                            String metaJson;
-                            if (!Util.isNullOrEmpty(methodName) && methodName.equals(ChatConstant.METHOD_LOCATION_MSG)) {
-                                metaJson = createImageMetadata(file, hashCode, imageId, result.getActualHeight()
-                                        , result.getActualWidth(), mimeType, fileSize, null, true, center);
-
-                            } else {
-                                metaJson = createImageMetadata(file, hashCode, imageId, result.getActualHeight()
-                                        , result.getActualWidth(), mimeType, fileSize, null, false, null);
-                            }
-
-                            //remove from Uploading Queue
-                            messageDatabaseHelper.deleteUploadingQueue(uniqueId);
-
-                            // send to handler
-                            if (handler != null) {
-                                handler.onFinishImage(imageJson, chatResponse);
-                            }
-
-                            if (!Util.isNullOrEmpty(methodName) && methodName.equals(ChatConstant.METHOD_REPLY_MSG)) {
-                                mainReplyMessage(description, threadId, messageId, systemMetaData, messageType, metaJson, null);
-                                if (log) Log.i(TAG, "SEND_REPLY_FILE_MESSAGE");
-                                listenerManager.callOnLogEvent(metaJson);
-                            } else {
-                                sendTextMessageWithFile(description, threadId, metaJson, systemMetaData, uniqueId, typeCode, messageType);
-                            }
-                            listenerManager.callOnLogEvent(metaJson);
-                        }
-                    }
-                }, throwable -> {
-                    String jsonError = getErrorOutPut(throwable.getMessage()
-                            , ChatConstant.ERROR_CODE_UNKNOWN_EXCEPTION, uniqueId);
-                    ErrorOutPut error = new ErrorOutPut(true, throwable.getMessage()
-                            , ChatConstant.ERROR_CODE_UNKNOWN_EXCEPTION, uniqueId);
-
-                    if (log) Log.e(TAG, jsonError);
-                    if (handler != null) {
-                        handler.onError(jsonError, error);
-                    }
-
-                });
-
-                *//*
-     * Cancel Upload request
-     * *//*
-
-                cancelUpload = new ProgressHandler.cancelUpload() {
-                    @Override
-                    public void cancelUpload(String uniqueCancel) {
-                        if (uniqueCancel.equals(uniqueId) && !subscribe.isUnsubscribed()) {
-                            subscribe.unsubscribe();
-                            if (log) Log.e(TAG, "Uploaded Canceled");
-
-                        }
-                    }
-                };
-
-            } else {
-                if (log) Log.e(TAG, "FileServer url Is null");
-            }
-
-        } else {
-            String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-            listenerManager.callOnLogEvent(jsonError);
-        }
-    }
-
-    private void uploadFileMessage(LFileUpload lFileUpload) {
-
-        Activity activity = lFileUpload.getActivity();
-        String description = lFileUpload.getDescription();
-        Uri fileUri = lFileUpload.getFileUri();
-        Integer messageType = lFileUpload.getMessageType();
-        long threadId = lFileUpload.getThreadId();
-        String uniqueId = lFileUpload.getUniqueId();
-        String systemMetadata = lFileUpload.getSystemMetaData();
-        String mimeType = lFileUpload.getMimeType();
-
-        systemMetadata = systemMetadata != null ? systemMetadata : "";
-        description = description != null ? description : "";
-        messageType = messageType != null ? messageType : 0;
-        try {
-
-            if (Permission.Check_READ_STORAGE(activity)) {
-                String path = FilePick.getSmartFilePath(context, fileUri);
-                if (Util.isNullOrEmpty(path)) {
-                    path = "";
-                }
-                File file = new File(path);
-                long file_size;
-                if (file.exists() || file.isFile()) {
-                    file_size = file.length();
-
-                    UploadingQueueCache uploadingQueue = new UploadingQueueCache();
-                    uploadingQueue.setMessage(description);
-                    uploadingQueue.setMessageType(messageType);
-                    uploadingQueue.setSystemMetadata(systemMetadata);
-                    uploadingQueue.setUniqueId(uniqueId);
-                    uploadingQueue.setThreadId(threadId);
-
-                    String metaData = createFileMetadata(file, null, 0, mimeType, file_size, fileUri.toString());
-                    uploadingQueue.setMetadata(metaData);
-                    if (cache) {
-                        messageDatabaseHelper.insertUploadingQueue(uploadingQueue);
-                    } else {
-                        uploadingQList.put(uniqueId, uploadingQueue);
-                    }
-
-                    showLog("Message with this" + "  uniqueId  " + uniqueId + "  has been added to Uploading Queue", null);
-
-                    lFileUpload.setFileSize(file_size);
-
-                    mainUploadFileMessage(lFileUpload);
-
-                } else {
-                    if (log) Log.e(TAG, "File Is Not Exist");
-                }
-            } else {
-                String jsonError = getErrorOutPut(ChatConstant.ERROR_READ_EXTERNAL_STORAGE_PERMISSION
-                        , ChatConstant.ERROR_CODE_READ_EXTERNAL_STORAGE_PERMISSION, null);
-                if (log) Log.e(TAG, jsonError);
-            }
-        } catch (Throwable e) {
-            if (log) Log.e(TAG, e.getCause().getMessage());
-        }
-    }
-
-    private void mainUploadFileMessage(LFileUpload lFileUpload) {
-
-        String description = lFileUpload.getDescription();
-        Integer messageType = lFileUpload.getMessageType();
-        long threadId = lFileUpload.getThreadId();
-        String uniqueId = lFileUpload.getUniqueId();
-        String systemMetadata = lFileUpload.getSystemMetaData();
-        long messageId = lFileUpload.getMessageId();
-        String mimeType = lFileUpload.getMimeType();
-        File file = lFileUpload.getFile();
-        ProgressHandler.sendFileMessage handler = lFileUpload.getHandler();
-        long file_size = lFileUpload.getFileSize();
-        String methodName = lFileUpload.getMethodName();
-
-        if (chatReady) {
-            if (getFileServer() != null) {
-                RetrofitHelperFileServer retrofitHelperFileServer = new RetrofitHelperFileServer(getFileServer());
-                FileApi fileApi = retrofitHelperFileServer.getService(FileApi.class);
-                RequestBody name = RequestBody.create(MediaType.parse("multipart/form-data"), file.getName());
-
-                ProgressRequestBody requestFile = new ProgressRequestBody(file, mimeType, uniqueId, new ProgressRequestBody.UploadCallbacks() {
-
-                    @Override
-                    public void onProgress(String uniqueId, int bytesSent, int totalBytesSent, int totalBytesToSend) {
-                        handler.onProgressUpdate(uniqueId, bytesSent, totalBytesSent, totalBytesToSend);
-                    }
-                });
-
-                MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
-                Observable<Response<FileUpload>> uploadObservable = fileApi.sendFile(body, getToken(), TOKEN_ISSUER, name);
-                File finalFile = file;
-                Subscription subscription = uploadObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(fileUploadResponse -> {
-                    if (fileUploadResponse.isSuccessful() && fileUploadResponse.body() != null) {
-                        boolean error = fileUploadResponse.body().isHasError();
-                        if (error) {
-                            String errorMessage = fileUploadResponse.body().getMessage();
-                            if (log) Log.e(TAG, errorMessage);
-                        } else {
-                            ResultFile result = fileUploadResponse.body().getResult();
-                            if (result != null) {
-                                long fileId = result.getId();
-                                String hashCode = result.getHashCode();
-
-                                ChatResponse<ResultFile> chatResponse = new ChatResponse<>();
-                                chatResponse.setResult(result);
-                                chatResponse.setUniqueId(uniqueId);
-                                result.setSize(file_size);
-                                String json = gson.toJson(chatResponse);
-
-                                listenerManager.callOnUploadFile(json, chatResponse);
-                                if (log) Log.i(TAG, "RECEIVE_UPLOAD_FILE");
-                                listenerManager.callOnLogEvent(json);
-
-                                String jsonMeta = createFileMetadata(finalFile, hashCode, fileId, mimeType, file_size, "");
-
-                                listenerManager.callOnLogEvent(jsonMeta);
-                                if (!Util.isNullOrEmpty(methodName) && methodName.equals(ChatConstant.METHOD_REPLY_MSG)) {
-                                    mainReplyMessage(description, threadId, messageId, systemMetadata, messageType, jsonMeta, null);
-                                    if (log) Log.i(TAG, "SEND_REPLY_FILE_MESSAGE");
-
-                                } else {
-                                    sendTextMessageWithFile(description, threadId, jsonMeta, systemMetadata, uniqueId, typeCode, messageType);
-                                }
-                            }
-
-                        }
-                    }
-                }, throwable -> {
-                    if (log) Log.e(TAG, throwable.getMessage());
-                });
-
-                *//*
-     * Cancel Uploading progress
-     * *//*
-
-                cancelUpload = new ProgressHandler.cancelUpload() {
-                    @Override
-                    public void cancelUpload(String uniqueCancel) {
-                        if (uniqueCancel.equals(uniqueId) && !subscription.isUnsubscribed()) {
-                            subscription.unsubscribe();
-                            if (log) Log.e(TAG, "Uploaded Canceled");
-                        }
-                    }
-                };
-
-            } else {
-                if (log) Log.e(TAG, "FileServer url Is null");
-            }
-
-        } else {
-            String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
-            listenerManager.callOnLogEvent(jsonError);
-        }
-    }
-*/
-   /* private void deviceIdRequest(String ssoHost, String serverAddress, String appId, String severName) {
-
-        showLog("GET_DEVICE_ID", "");
-        currentDeviceExist = false;
-
-        RetrofitHelperSsoHost retrofitHelperSsoHost = new RetrofitHelperSsoHost(ssoHost);
-        SSOApi SSOApi = retrofitHelperSsoHost.getService(SSOApi.class);
-        rx.Observable<Response<DeviceResult>> listObservable = SSOApi.getDeviceId("Bearer" + " " + getToken());
-        listObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(deviceResults -> {
-            if (deviceResults.isSuccessful()) {
-                ArrayList<Device> devices = deviceResults.body().getDevices();
-                for (Device device : devices) {
-                    if (device.isCurrent()) {
-                        currentDeviceExist = true;
-                        showLog("DEVICE_ID :" + device.getUid(), "");
-                        async.connect(serverAddress, appId, severName, token, ssoHost, device.getUid());
-                        break;
-                    }
-                }
-                if (!currentDeviceExist) {
-                    getErrorOutPut(ChatConstant.ERROR_CURRENT_DEVICE, ChatConstant.ERROR_CODE_CURRENT_DEVICE, null);
-                }
-            } else {
-                if (deviceResults.code() == 401) {
-                    getErrorOutPut("unauthorized", deviceResults.code(), null);
-
-                } else {
-                    getErrorOutPut(deviceResults.message(), deviceResults.code(), null);
-                }
-            }
-
-
-        }, (Throwable throwable) -> {
-            if (log) Log.e(TAG, "Error on get devices" + throwable.getMessage());
-
-        });
-    }*/
-
-    /**
      * Reformat the get thread response
      */
     private ChatResponse<ResultThreads> reformatGetThreadsResponse(ChatMessage chatMessage, Callback callback) {
         ChatResponse<ResultThreads> outPutThreads = new ChatResponse<>();
-        ArrayList<podChat.mainmodel.Thread> threads = gson.fromJson(chatMessage.getContent(), new TypeToken<ArrayList<Thread>>() {
+        ArrayList<Thread> threads = gson.fromJson(chatMessage.getContent(), new TypeToken<ArrayList<Thread>>() {
         }.getType());
 
         ResultThreads resultThreads = new ResultThreads();
@@ -6119,47 +3085,15 @@ public class Chat extends AsyncAdapter {
         return outPutThreads;
     }
 
-    /* private String CreateAsyncContentForQueue(long threadId, long messageId, String uniqueId) {
-         ChatMessageForward chatMessageForward = new ChatMessageForward();
-         chatMessageForward.setSubjectId(threadId);
-
-         ArrayList<String> uniqueIds = new ArrayList<>();
-         ArrayList<Long> messageIds = new ArrayList<>();
-         messageIds.add(messageId);
-         uniqueIds.add(uniqueId);
-
-         String jsonUniqueIds = Util.listToJson(uniqueIds, gson);
-
-         chatMessageForward.setUniqueId(jsonUniqueIds);
-         chatMessageForward.setContent(messageIds.toString());
-         chatMessageForward.setToken(getToken());
-         chatMessageForward.setTokenIssuer("1");
-         chatMessageForward.setType(Constants.FORWARD_MESSAGE);
-
-         JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessageForward);
-         jsonObject.remove("contentCount");
-         jsonObject.remove("systemMetadata");
-         jsonObject.remove("metadata");
-         jsonObject.remove("repliedTo");
-
-         if (Util.isNullOrEmpty(getTypeCode())) {
-             jsonObject.remove("typeCode");
-         } else {
-             jsonObject.remove("typeCode");
-             jsonObject.addProperty("typeCode", getTypeCode());
-         }
-
-         return jsonObject.toString();
-     }
- */
     private String reformatError(boolean hasError, ChatMessage chatMessage, OutPutHistory outPut) {
         Error error = gson.fromJson(chatMessage.getContent(), Error.class);
-        ChatLogger.error("RECEIVED_ERROR", chatMessage.getContent());
-        ChatLogger.error("ErrorMessage", error.getMessage());
-        ChatLogger.error("ErrorCode", String.valueOf(error.getCode()));
+        showErrorLog("RECEIVED_ERROR", chatMessage.getContent());
+        showErrorLog("ErrorMessage", error.getMessage());
+        showErrorLog("ErrorCode", String.valueOf(error.getCode()));
         outPut.setHasError(hasError);
         outPut.setErrorMessage(error.getMessage());
         outPut.setErrorCode(error.getCode());
+
         return gson.toJson(outPut);
     }
 
@@ -6172,21 +3106,19 @@ public class Chat extends AsyncAdapter {
             List<MessageVO> messageVOS = gson.fromJson(chatMessage.getContent(), new TypeToken<ArrayList<MessageVO>>() {
             }.getType());
 
-            for (MessageVO messageVO : messageVOS) {
-                waitQList.remove(messageVO.getUniqueId());
-            }
-
         } catch (Throwable throwable) {
-            ChatLogger.error(TAG, throwable.getMessage());
+            showErrorLog(throwable.getMessage());
         }
     }
 
     private ChatResponse<ResultContact> reformatGetContactResponse(ChatMessage chatMessage, Callback callback) {
         ResultContact resultContact = new ResultContact();
+
         ChatResponse<ResultContact> outPutContact = new ChatResponse<>();
+
         ArrayList<Contact> contacts = gson.fromJson(chatMessage.getContent(), new TypeToken<ArrayList<Contact>>() {
         }.getType());
-        ChatLogger.info(String.valueOf(cache), "");
+
         resultContact.setContacts(contacts);
         resultContact.setContentCount(chatMessage.getContentCount());
 
@@ -6195,12 +3127,14 @@ public class Chat extends AsyncAdapter {
         } else {
             resultContact.setHasNext(false);
         }
+
         resultContact.setNextOffset(callback.getOffset() + contacts.size());
         resultContact.setContentCount(chatMessage.getContentCount());
 
         outPutContact.setResult(resultContact);
         outPutContact.setErrorMessage("");
         outPutContact.setUniqueId(chatMessage.getUniqueId());
+
         return outPutContact;
     }
 
@@ -6252,6 +3186,7 @@ public class Chat extends AsyncAdapter {
     public void setSignalIntervalTime(int signalIntervalTime) {
         this.signalIntervalTime = signalIntervalTime;
     }
+
 
     public interface GetThreadHandler {
         void onGetThread();

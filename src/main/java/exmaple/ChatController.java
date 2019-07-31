@@ -1,5 +1,6 @@
 package exmaple;
 
+import exception.ConnectionException;
 import podChat.chat.Chat;
 import podChat.chat.ChatAdapter;
 import podChat.chat.ChatHandler;
@@ -26,8 +27,6 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
         chat.addListener(new ChatListener() {
             @Override
             public void onSent(String content, ChatResponse<ResultMessage> response) {
-                System.out.println(content);
-                System.out.println(response.getResult());
             }
         });
 
@@ -101,7 +100,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void connect(String serverAddress, String appId, String severName, String token, String ssoHost, String platformHost, String fileServer, String typeCode) {
+    public void connect(String serverAddress, String appId, String severName, String token, String ssoHost, String platformHost, String fileServer, String typeCode) throws ConnectionException {
         chat.connect(serverAddress, appId, severName, token, ssoHost, platformHost, fileServer, typeCode);
 
     }
@@ -148,8 +147,15 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     @Override
     public void getContact(Integer count, Long offset, ChatHandler handler) {
+        chat.getContacts(count,offset,handler);
 
     }
+    @Override
+    public void getContact(RequestGetContact request, ChatHandler handler) {
+        chat.getContacts(request,handler);
+
+    }
+
 
     @Override
     public void createThread(int threadType, Invitee[] invitee, String threadTitle, String description, String image, String metaData, ChatHandler handler) {
@@ -203,7 +209,12 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     @Override
     public void addContact(String firstName, String lastName, String cellphoneNumber, String email) {
+        chat.addContact(firstName, lastName, cellphoneNumber, email);
+    }
 
+    @Override
+    public void addContact(RequestAddContact request) {
+        chat.addContact(request);
     }
 
     @Override
@@ -361,7 +372,6 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void onGetContacts(String content, ChatResponse<ResultContact> outPutContact) {
         super.onGetContacts(content, outPutContact);
-
         view.onGetContacts();
     }
 
@@ -428,7 +438,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void onContactAdded(String content, ChatResponse<ResultAddContact> chatResponse) {
         super.onContactAdded(content, chatResponse);
-        view.onAddContact();
+        view.onAddContact(content, chatResponse);
     }
 
     @Override

@@ -3,6 +3,8 @@ package podChat.networking.retrofithelper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import config.MainConfig;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -14,20 +16,25 @@ import java.util.Date;
 public class RetrofitUtil {
 
 
-    private static final String BASE_URL = MainConfig.contactApiUrl;
     private static Retrofit retrofit = null;
 
-    public static synchronized Retrofit getInstance() {
+    public static synchronized Retrofit getInstance(String baseUrl) {
+
         if (retrofit == null) {
             Gson gson = new GsonBuilder()
                     .registerTypeAdapter(Date.class, new MyDateTypeAdapter())
                     .create();
 
+//            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+//            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+//            OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+                    .baseUrl(baseUrl)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
+
         return retrofit;
     }
 

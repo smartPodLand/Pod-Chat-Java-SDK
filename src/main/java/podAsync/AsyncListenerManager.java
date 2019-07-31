@@ -1,12 +1,15 @@
 package podAsync;
 
-
-import util.log.ChatLogger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import podChat.chat.Chat;
 
 import java.util.ArrayList;
 import java.util.List;
 
 class AsyncListenerManager {
+    private static Logger logger = LogManager.getLogger(AsyncListenerManager.class);
+
     private final List<AsyncListener> mListeners = new ArrayList<>();
     private boolean mSyncNeeded = true;
     private List<AsyncListener> mCopiedListeners;
@@ -115,7 +118,7 @@ class AsyncListenerManager {
 
             } catch (Throwable t) {
                 callHandleCallbackError(listener, t);
-                ChatLogger.error( t.getMessage());
+                if (Chat.isLoggable) logger.error(t.getMessage());
             }
         }
     }
@@ -133,7 +136,7 @@ class AsyncListenerManager {
                 listener.onStateChanged(message);
             } catch (Throwable throwable) {
                 callHandleCallbackError(listener, throwable);
-                ChatLogger.error( throwable.getMessage());
+                if (Chat.isLoggable) logger.error(throwable.getMessage());
             }
         }
     }
@@ -144,7 +147,7 @@ class AsyncListenerManager {
                 listener.onDisconnected(message);
             } catch (Throwable throwable) {
                 callHandleCallbackError(listener, throwable);
-                ChatLogger.error(throwable.getMessage());
+                if (Chat.isLoggable) logger.error(throwable.getMessage());
             }
         }
     }
@@ -155,7 +158,7 @@ class AsyncListenerManager {
                 listener.onError(message);
             } catch (Throwable throwable) {
                 callHandleCallbackError(listener, throwable);
-                ChatLogger.error(throwable.getMessage());
+                if (Chat.isLoggable) logger.error(throwable.getMessage());
             }
         }
     }

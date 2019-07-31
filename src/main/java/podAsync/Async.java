@@ -3,11 +3,14 @@ package podAsync;
 import com.google.gson.Gson;
 import config.MainConfig;
 import config.QueueConfig;
+import exception.ConnectionException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import podAsync.model.*;
+import podChat.chat.Chat;
 import podChat.util.ChatStateType;
 import util.ActiveMq;
 import util.IoAdapter;
-import util.log.ChatLogger;
 
 import java.io.IOException;
 import java.util.Date;
@@ -15,6 +18,7 @@ import java.util.List;
 
 
 public class Async implements IoAdapter {
+    private static Logger logger = LogManager.getLogger(Async.class);
 
     private static ActiveMq activeMq;
     private static final String TAG = "Async" + " ";
@@ -116,7 +120,7 @@ public class Async implements IoAdapter {
     }
 
 
-    public void connect(String socketServerAddress, final String appId, String serverName, String token, String ssoHost, String deviceID) {
+    public void connect(String socketServerAddress, final String appId, String serverName, String token, String ssoHost, String deviceID) throws ConnectionException {
         try {
 
             //  setAppId(appId);
@@ -132,26 +136,13 @@ public class Async implements IoAdapter {
             asyncListenerManager.callOnStateChanged(ChatStateType.OPEN);
             asyncListenerManager.callOnStateChanged(ChatStateType.ASYNC_READY);
 
+        } catch (ConnectionException e) {
+            throw e;
         } catch (Exception e) {
-            ChatLogger.error(e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
 
         }
     }
-
-    private void ping() {
-        if (getState().equals(AsyncConstant.ASYNC_STATE_OPEN)) {
-            message = getMessageWrapper(gson, "", AsyncMessageType.PING);
-            try {
-                sendData(activeMq, message);
-            } catch (Exception e) {
-                ChatLogger.error(e.getMessage());
-            }
-            ChatLogger.info("SEND_ASYNC_PING");
-        } else {
-            ChatLogger.error(TAG + "Socket Is", "Closed");
-        }
-    }
-
 
     /**
      * @Param textContent
@@ -172,7 +163,7 @@ public class Async implements IoAdapter {
             //    }
         } catch (Exception e) {
             asyncListenerManager.callOnError(e.getCause().getMessage());
-            ChatLogger.error("Async: connect", e.getCause().getMessage());
+            showErrorLog("Async: connect", e.getCause().getMessage());
         }
     }
 
@@ -201,23 +192,18 @@ public class Async implements IoAdapter {
 
                     sendData(activeMq, json1);
 
-                    ChatLogger.info(TAG + "Send message");
+                    showInfoLog(TAG + "Send message");
                 } else {
                     asyncListenerManager.callOnError("Socket is close");
                 }
             } else {
-                ChatLogger.error(TAG + "Socket Is Not Connected");
+                showErrorLog(TAG + "Socket Is Not Connected");
             }
         } catch (Exception e) {
             asyncListenerManager.callOnError(e.getCause().getMessage());
-            ChatLogger.error("Async: connect", e.getCause().getMessage());
+            showErrorLog("Async: connect", e.getCause().getMessage());
         }
 
-    }
-
-    public void logOut() {
-        isServerRegister = false;
-        isDeviceRegister = false;
     }
 
     /**
@@ -269,7 +255,7 @@ public class Async implements IoAdapter {
                 serverRegister(activeMq);
             }
         } catch (Exception e) {
-            ChatLogger.error(e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
 
     }
@@ -286,10 +272,10 @@ public class Async implements IoAdapter {
                 sendData(activeMq, jsonMessageWrapperVo);
 
             } catch (Exception e) {
-                ChatLogger.error(TAG + e.getCause().getMessage());
+                showErrorLog(TAG + e.getCause().getMessage());
             }
         } else {
-            ChatLogger.error("WebSocket Is Null");
+            showErrorLog("WebSocket Is Null");
         }
     }
 
@@ -301,17 +287,17 @@ public class Async implements IoAdapter {
                     activeMq.sendMessage(jsonMessageWrapperVo);
 
                 } else {
-                    ChatLogger.error(TAG + "message is Null");
+                    showErrorLog(TAG + "message is Null");
                 }
 
             } catch (Exception e) {
-                ChatLogger.error("Async: connect", e.getCause().getMessage());
+                showErrorLog("Async: connect", e.getCause().getMessage());
             }
         }
     }
 
     private void handleOnErrorMessage(ClientMessage clientMessage) {
-        ChatLogger.error(TAG + "OnErrorMessage", clientMessage.getContent());
+        showErrorLog(TAG + "OnErrorMessage", clientMessage.getContent());
         setErrorMessage(clientMessage.getContent());
     }
 
@@ -323,10 +309,10 @@ public class Async implements IoAdapter {
                 asyncListenerManager.callOnTextMessage(clientMessage.getContent());
 
             } catch (Exception e) {
-                ChatLogger.error(e.getCause().getMessage());
+                showErrorLog(e.getCause().getMessage());
             }
         } else {
-            ChatLogger.error("Async: clientMessage Is Null");
+            showErrorLog("Async: clientMessage Is Null");
         }
     }
 
@@ -337,23 +323,23 @@ public class Async implements IoAdapter {
                 deviceRegister(activeMq);
 
             } else {
-                ChatLogger.info("ASYNC_PING_RECEIVED");
+                showInfoLog("ASYNC_PING_RECEIVED");
             }
         } catch (Exception e) {
-            ChatLogger.error(e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
     }
 
     private void handleOnServerRegister(String textMessage) {
         try {
-            ChatLogger.info("SERVER_REGISTERED");
-            ChatLogger.info("ASYNC_IS_READY", textMessage);
+            showInfoLog("SERVER_REGISTERED");
+            showInfoLog("ASYNC_IS_READY", textMessage);
 
             asyncListenerManager.callOnStateChanged(ChatStateType.ASYNC_READY);
 
             isServerRegister = true;
         } catch (Exception e) {
-            ChatLogger.error(e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
     }
 
@@ -372,10 +358,10 @@ public class Async implements IoAdapter {
                 sendData(activeMq, jsonSenderAckNeededWrapper);
 
             } else {
-                ChatLogger.error("WebSocket Is Null ");
+                showErrorLog("WebSocket Is Null ");
             }
         } catch (Exception e) {
-            ChatLogger.error(e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
     }
 
@@ -396,15 +382,15 @@ public class Async implements IoAdapter {
 
                 sendData(activeMq, jsonPeerInfoWrapper);
 
-                ChatLogger.info(TAG + "SEND_SERVER_REGISTER");
-                ChatLogger.info(jsonPeerInfoWrapper);
+                showInfoLog(TAG + "SEND_SERVER_REGISTER");
+                showInfoLog(jsonPeerInfoWrapper);
 
             } else {
-                ChatLogger.error("Queue Is Null ");
+                showErrorLog("Queue Is Null ");
             }
 
         } catch (Exception e) {
-            ChatLogger.error(e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
     }
 
@@ -417,7 +403,7 @@ public class Async implements IoAdapter {
             return gson.toJson(messageWrapperVo);
 
         } catch (Exception e) {
-            ChatLogger.error(e.getCause().getMessage());
+            showErrorLog(e.getCause().getMessage());
         }
         return null;
     }
@@ -507,6 +493,30 @@ public class Async implements IoAdapter {
 
     private String getSsoHost() {
         return ssoHost;
+    }
+
+
+    private void showInfoLog(String i, String json) {
+        if (Chat.isLoggable) logger.info(i + "\n \n" + json);
+
+    }
+
+    private void showInfoLog(String json) {
+        if (Chat.isLoggable) logger.info("\n \n" + json);
+    }
+
+
+    private void showErrorLog(String i, String json) {
+        if (Chat.isLoggable) logger.error(i + "\n \n" + json);
+    }
+
+    private void showErrorLog(String e) {
+        if (Chat.isLoggable) logger.error("\n \n" + e);
+
+    }
+
+    private void showErrorLog(Throwable throwable) {
+        if (Chat.isLoggable) logger.error("\n \n" + throwable.getMessage());
     }
 }
 

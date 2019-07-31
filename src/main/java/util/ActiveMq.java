@@ -4,8 +4,10 @@ package util;
 import config.QueueConfig;
 import exception.ConnectionException;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.qpid.amqp_1_0.jms.impl.QueueImpl;
-import util.log.ChatLogger;
+import podChat.chat.Chat;
 
 import javax.jms.*;
 import java.io.IOException;
@@ -18,6 +20,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Created By Khojasteh on 7/24/2019
  */
 public class ActiveMq {
+    private static Logger logger = LogManager.getLogger(ActiveMq.class);
+
     private MessageProducer producer;
     private MessageConsumer consumer;
 
@@ -58,7 +62,7 @@ public class ActiveMq {
             connect();
 
         } else {
-            ChatLogger.error("An exception occurred...");
+            logger.error("An exception occurred...");
 
             throw new ConnectionException(ConnectionException.ConnectionExceptionType.ACTIVE_MQ_CONNECTION);
         }
@@ -70,7 +74,6 @@ public class ActiveMq {
             while (true) {
 
                 try {
-
                     this.proConnection = factory.createConnection(
                             QueueConfig.queueUserName,
                             QueueConfig.queuePassword);
@@ -93,17 +96,17 @@ public class ActiveMq {
                     proConnection.setExceptionListener(new QueueExceptionListener());
 
                     proConnection.setExceptionListener(new QueueExceptionListener());
-                    ChatLogger.info("connection established");
+                    logger.info("connection established");
 
 
                     break;
 
                 } catch (Exception e) {
-                    ChatLogger.error("Reconnecting exception");
+                    logger.error("Reconnecting exception");
                     try {
                         Thread.sleep(2000);
                     } catch (InterruptedException e1) {
-                        ChatLogger.error(e1);
+                        logger.error(e1);
                     }
                     close();
                 }
@@ -115,8 +118,6 @@ public class ActiveMq {
 
     public void sendMessage(String messageWrapperVO) throws JMSException, UnsupportedEncodingException, ConnectionException {
 
-        ChatLogger.info("sent message: " + messageWrapperVO + '\n');
-
         byte[] bytes = messageWrapperVO.getBytes("utf-8");
         BytesMessage bytesMessage = proSession.createBytesMessage();
         bytesMessage.writeBytes(bytes);
@@ -126,17 +127,17 @@ public class ActiveMq {
             producer.send(bytesMessage);
 
         } catch (IllegalStateException e) {
-            ChatLogger.error("An exception in sending message" + e);
+            logger.error("An exception in sending message" + e);
             throw new ConnectionException(ConnectionException.ConnectionExceptionType.ACTIVE_MQ_SENDING_MESSAGE);
 
         } catch (Exception e) {
-            ChatLogger.error("An exception in sending message:" + e);
-            ChatLogger.error("closing connection");
+            logger.error("An exception in sending message:" + e);
+            logger.error("closing connection");
             close();
-            ChatLogger.error("Reconnecting to queue...");
+            logger.error("Reconnecting to queue...");
             connect();
             producer.send(bytesMessage);
-            ChatLogger.error("Sending message after reconnecting to queue: " + messageWrapperVO);
+            logger.error("Sending message after reconnecting to queue: " + messageWrapperVO);
 
             throw new ConnectionException(ConnectionException.ConnectionExceptionType.ACTIVE_MQ_SENDING_MESSAGE);
         }
@@ -169,8 +170,6 @@ public class ActiveMq {
 
                     String json = new String(buffer/*, "utf-8"*/);
 
-                    ChatLogger.info("received message:    " + json + '\n');
-
                     ioAdapter.onReceiveMessage(json);
 
                 }
@@ -178,10 +177,10 @@ public class ActiveMq {
                 try {
                     throw s;
                 } catch (JMSException e) {
-                    ChatLogger.error("jms Exception: " + e);
+                    showErrorLog("jms Exception: " + e);
                 }
             } catch (Throwable e) {
-                ChatLogger.error("An exception occurred: " + e);
+                showErrorLog("An exception occurred: " + e);
             }
         }
     }
@@ -191,12 +190,12 @@ public class ActiveMq {
         @Override
         public void onException(JMSException exception) {
             close();
-            ChatLogger.error("JMSException occurred: " + exception);
+            showErrorLog("JMSException occurred: " + exception);
             try {
                 Thread.sleep(QueueConfig.queueReconnectTime);
                 connect();
             } catch (InterruptedException e) {
-                ChatLogger.error("An exception occurred: " + e);
+                showErrorLog("An exception occurred: " + e);
             }
         }
     }
@@ -205,14 +204,14 @@ public class ActiveMq {
         try {
             producer.close();
         } catch (JMSException e) {
-            ChatLogger.error("An exception occurred at cloning producer: " + e);
+            showErrorLog("An exception occurred at cloning producer: " + e);
         }
         try {
 
             consumer.close();
 
         } catch (Exception e) {
-            ChatLogger.error("An exception occurred at closing consumer" + e);
+            showErrorLog("An exception occurred at closing consumer" + e);
         }
         try {
             proSession.close();
@@ -220,7 +219,7 @@ public class ActiveMq {
 
 
         } catch (Exception e) {
-            ChatLogger.error("An exception occurred at closing session :" + e);
+            showErrorLog("An exception occurred at closing session :" + e);
 
         }
         try {
@@ -228,10 +227,33 @@ public class ActiveMq {
             conConnection.close();
             proConnection.close();
         } catch (Exception e) {
-            ChatLogger.error("An exception occurred at closing connection : " + e);
+            showErrorLog("An exception occurred at closing connection : " + e);
 
         }
 
         ioAdapter.onSessionCloseError();
+    }
+
+    private void showInfoLog(String i, String json) {
+        if (Chat.isLoggable) logger.info(i + "\n \n" + json);
+
+    }
+
+    private void showInfoLog(String json) {
+        if (Chat.isLoggable) logger.info("\n \n" + json);
+    }
+
+
+    private void showErrorLog(String i, String json) {
+        if (Chat.isLoggable) logger.error(i + "\n \n" + json);
+    }
+
+    private void showErrorLog(String e) {
+        if (Chat.isLoggable) logger.error("\n \n" + e);
+
+    }
+
+    private void showErrorLog(Throwable throwable) {
+        if (Chat.isLoggable) logger.error("\n \n" + throwable.getMessage());
     }
 }
