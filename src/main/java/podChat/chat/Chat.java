@@ -837,6 +837,7 @@ public class Chat extends AsyncAdapter {
         Call<Contacts> addContactService;
 
         if (chatReady) {
+
             if (Util.isNullOrEmpty(getTypeCode())) {
                 addContactService = contactApi.addContact(getToken(), 1, firstName, lastName, email, uniqueId, cellphoneNumber);
 
@@ -844,6 +845,8 @@ public class Chat extends AsyncAdapter {
                 addContactService = contactApi.addContact(getToken(), 1, firstName, lastName, email, uniqueId, cellphoneNumber, typeCode);
 
             }
+            showInfoLog("ADD_CONTACT");
+
             RetrofitHelperPlatformHost.request(addContactService, new ApiListener<Contacts>() {
                 @Override
                 public void onSuccess(Contacts contacts) {
@@ -1800,23 +1803,32 @@ public class Chat extends AsyncAdapter {
             chatResponse.setHasError(false);
             chatResponse.setErrorCode(0);
             chatResponse.setErrorMessage("");
+
             ResultNewMessage resultNewMessage = new ResultNewMessage();
             resultNewMessage.setMessageVO(messageVO);
             resultNewMessage.setThreadId(chatMessage.getSubjectId());
+
             chatResponse.setResult(resultNewMessage);
+
             String json = gson.toJson(chatResponse);
+
             listenerManager.callOnNewMessage(json, chatResponse);
+
             long ownerId = 0;
+
             if (messageVO != null) {
                 ownerId = messageVO.getParticipant().getId();
             }
             showInfoLog("RECEIVED_NEW_MESSAGE", json);
+
             if (ownerId != getUserId()) {
                 ChatMessage message = getChatMessage(messageVO);
 
                 String asyncContent = gson.toJson(message);
                 async.sendMessage(asyncContent, 4);
+
                 showInfoLog("SEND_DELIVERY_MESSAGE");
+
                 listenerManager.callOnLogEvent(asyncContent);
             }
         } catch (Exception e) {

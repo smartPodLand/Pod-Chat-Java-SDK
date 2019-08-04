@@ -3,10 +3,7 @@ package exmaple;
 import exception.ConnectionException;
 import podChat.chat.ChatHandler;
 import podChat.mainmodel.*;
-import podChat.model.ChatResponse;
-import podChat.model.ResultAddContact;
-import podChat.model.ResultThread;
-import podChat.model.ResultThreads;
+import podChat.model.*;
 import podChat.requestobject.*;
 
 import java.util.ArrayList;
@@ -122,7 +119,7 @@ public interface ChatContract {
         default void onMapReverse() {
         }
 
-        default void onError() {
+        default void onError(String content, ErrorOutPut error) {
         }
 
         default void onSpam() {

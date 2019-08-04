@@ -192,7 +192,6 @@ public class Async implements IoAdapter {
 
                     sendData(activeMq, json1);
 
-                    showInfoLog(TAG + "Send message");
                 } else {
                     asyncListenerManager.callOnError("Socket is close");
                 }

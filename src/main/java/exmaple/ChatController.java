@@ -1,5 +1,6 @@
 package exmaple;
 
+import com.google.gson.Gson;
 import exception.ConnectionException;
 import podChat.chat.Chat;
 import podChat.chat.ChatAdapter;
@@ -147,12 +148,13 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     @Override
     public void getContact(Integer count, Long offset, ChatHandler handler) {
-        chat.getContacts(count,offset,handler);
+        chat.getContacts(count, offset, handler);
 
     }
+
     @Override
     public void getContact(RequestGetContact request, ChatHandler handler) {
-        chat.getContacts(request,handler);
+        chat.getContacts(request, handler);
 
     }
 
@@ -499,17 +501,19 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void onNewMessage(String content, ChatResponse<ResultNewMessage> chatResponse) {
         super.onNewMessage(content, chatResponse);
-//        outPutNewMessage = JsonUtil.fromJSON(content, OutPutNewMessage.class);
-//        MessageVO messageVO = outPutNewMessage.getResult();
-//        Participant participant = messageVO.getParticipant();
+        Gson gson = new Gson();
+        OutPutNewMessage outPutNewMessage = gson.fromJson(content, OutPutNewMessage.class);
+        ResultNewMessage result = outPutNewMessage.getResult();
+        MessageVO messageVO =result.getMessageVO();
+        Participant participant = messageVO.getParticipant();
 
-//        long id = messageVO.getId();
-//        chat.seenMessage(id, participant.getId(), new ChatHandler() {
-//            @Override
-//            public void onSeen(String uniqueId) {
-//                super.onSeen(uniqueId);
-//            }
-//        });
+        long id = messageVO.getId();
+        chat.seenMessage(id, participant.getId(), new ChatHandler() {
+            @Override
+            public void onSeen(String uniqueId) {
+                super.onSeen(uniqueId);
+            }
+        });
     }
 
     @Override
@@ -550,6 +554,12 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     public void onSearchContact(String content, ChatResponse<ResultContact> chatResponse) {
         super.onSearchContact(content, chatResponse);
         view.onSearchContact();
+    }
+
+    @Override
+    public void onError(String content, ErrorOutPut error) {
+        super.onError(content, error);
+        view.onError(content, error);
     }
 
 

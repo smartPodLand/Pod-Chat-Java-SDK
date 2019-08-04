@@ -25,10 +25,6 @@ public class RetrofitUtil {
                     .registerTypeAdapter(Date.class, new MyDateTypeAdapter())
                     .create();
 
-//            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-//            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-//            OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
             retrofit = new Retrofit.Builder()
                     .baseUrl(baseUrl)
                     .addConverterFactory(GsonConverterFactory.create(gson))

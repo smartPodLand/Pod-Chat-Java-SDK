@@ -3,13 +3,13 @@ package podChat.model;
 import podChat.mainmodel.MessageVO;
 
 public class OutPutNewMessage extends BaseOutPut {
-    private MessageVO result;
+    private ResultNewMessage result;
 
-    public MessageVO getResult() {
+    public ResultNewMessage getResult() {
         return result;
     }
 
-    public void setResult(MessageVO result) {
+    public void setResult(ResultNewMessage result) {
         this.result = result;
     }
 }
