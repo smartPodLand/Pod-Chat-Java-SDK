@@ -9,6 +9,8 @@ public class Main {
         ChatMain chatMain = new ChatMain();
         chatMain.init();
 
+        chatMain.addContact();
+
     }
 
 }

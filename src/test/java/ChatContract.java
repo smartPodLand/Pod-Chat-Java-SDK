@@ -1,5 +1,3 @@
-package exmaple;
-
 import exception.ConnectionException;
 import podChat.chat.ChatHandler;
 import podChat.mainmodel.*;
@@ -20,31 +18,31 @@ public interface ChatContract {
 
 //        }
 
-        default void onGetUserInfo(ChatResponse<ResultUserInfo> outPutUserInfo) {
+        default void onGetUserInfo(String content, ChatResponse<ResultUserInfo> outPutUserInfo) {
         }
 
         default void onLogEvent(String log) {
         }
 
-        default void onGetThreadList(ChatResponse<ResultThreads> thread) {
+        default void onGetThreadList(String content, ChatResponse<ResultThreads> thread) {
         }
 
         default void onGetThreadHistory() {
         }
 
-        default void onGetContacts(ChatResponse<ResultContact> response) {
+        default void onGetContacts(String content, ChatResponse<ResultContact> response) {
         }
 
         default void onGetThreadParticipant() {
         }
 
-        default void onSentMessage(ChatResponse<ResultMessage> chatResponse) {
+        default void onSentMessage(String content, ChatResponse<ResultMessage> chatResponse) {
         }
 
-        default void onGetDeliverMessage(ChatResponse<ResultMessage> chatResponse) {
+        default void onGetDeliverMessage(String content, ChatResponse<ResultMessage> chatResponse) {
         }
 
-        default void onGetSeenMessage(ChatResponse<ResultMessage> response) {
+        default void onGetSeenMessage(String content, ChatResponse<ResultMessage> response) {
         }
 
         default void onEditMessage() {
@@ -53,7 +51,7 @@ public interface ChatContract {
         default void onDeleteMessage() {
         }
 
-        default void onCreateThread(ChatResponse<ResultThread> outPutThread) {
+        default void onCreateThread(String content, ChatResponse<ResultThread> outPutThread) {
         }
 
         default void onMuteThread() {
@@ -65,7 +63,7 @@ public interface ChatContract {
         default void onRenameGroupThread() {
         }
 
-        default void onAddContact(ChatResponse<ResultAddContact> chatResponse) {
+        default void onAddContact(String content, ChatResponse<ResultAddContact> chatResponse) {
         }
 
         default void onUpdateContact() {
@@ -77,7 +75,7 @@ public interface ChatContract {
         default void onUploadImageFile() {
         }
 
-        default void onRemoveContact(ChatResponse<ResultRemoveContact> response) {
+        default void onRemoveContact() {
         }
 
         default void onAddParticipant() {
@@ -119,7 +117,7 @@ public interface ChatContract {
         default void onMapReverse() {
         }
 
-        default void onError(ErrorOutPut error) {
+        default void onError(String content, ErrorOutPut error) {
         }
 
         default void onSpam() {
@@ -216,9 +214,6 @@ public interface ChatContract {
         void addContact(RequestAddContact request);
 
         void removeContact(long id);
-
-        void removeContact(RequestRemoveContact requestRemoveContact);
-
 
         void searchContact(SearchContact searchContact);
 

@@ -1,4 +1,4 @@
-package util;
+package util.activeMq;
 
 import java.io.IOException;
 

@@ -9,8 +9,8 @@ import org.apache.logging.log4j.Logger;
 import podAsync.model.*;
 import podChat.chat.Chat;
 import podChat.util.ChatStateType;
-import util.ActiveMq;
-import util.IoAdapter;
+import util.activeMq.ActiveMq;
+import util.activeMq.IoAdapter;
 
 import java.io.IOException;
 import java.util.Date;

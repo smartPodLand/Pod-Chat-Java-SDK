@@ -65,11 +65,21 @@ public interface ContactApi {
     );
 
 
-    @POST("nzh/removeContacts")
+    @POST("/srv/basic-platform/nzh/removeContacts")
     @FormUrlEncoded
-    Call<Response<ContactRemove>> removeContact(@Header("_token_") String token
+    Call<ContactRemove> removeContact(@Header("_token_") String token
             , @Header("_token_issuer_") int tokenIssuer
             , @Field("id") long userId);
+
+
+    @POST("/srv/basic-platform/nzh/removeContacts")
+    @FormUrlEncoded
+    Call<ContactRemove> removeContact(@Header("_token_") String token
+            , @Header("_token_issuer_") int tokenIssuer
+            , @Field("id") long userId
+            , @Field("typeCode") String typeCode
+    );
+
 
     @POST("nzh/updateContacts")
     @FormUrlEncoded

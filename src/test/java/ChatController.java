@@ -1,7 +1,6 @@
-package exmaple;
-
 import com.google.gson.Gson;
 import exception.ConnectionException;
+import exmaple.ChatContract;
 import podChat.chat.Chat;
 import podChat.chat.ChatAdapter;
 import podChat.chat.ChatHandler;
@@ -22,7 +21,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     private ChatContract.view view;
 
     public ChatController(ChatContract.view view) {
-        chat = Chat.init(false, false);
+        chat = Chat.init(false, true);
 
         chat.addListener(this);
         chat.addListener(new ChatListener() {
@@ -221,7 +220,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     @Override
     public void removeContact(long id) {
-
+        chat.removeContact(id);
     }
 
     @Override

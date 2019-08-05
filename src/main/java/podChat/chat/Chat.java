@@ -903,6 +903,69 @@ public class Chat extends AsyncAdapter {
         return addContact(firstName, lastName, cellphoneNumber, email);
     }
 
+    /**
+     * Remove contact with the user id
+     *
+     * @param userId id of the user that we want to remove from contact list
+     */
+    public String removeContact(long userId) {
+        String uniqueId = generateUniqueId();
+
+        Call<ContactRemove> removeContactObservable;
+
+        if (chatReady) {
+
+            if (Util.isNullOrEmpty(getTypeCode())) {
+                removeContactObservable = contactApi.removeContact(getToken(), 1, userId);
+            } else {
+                removeContactObservable = contactApi.removeContact(getToken(), 1, userId, getTypeCode());
+            }
+
+            RetrofitHelperPlatformHost.request(removeContactObservable, new ApiListener<ContactRemove>() {
+                @Override
+                public void onSuccess(ContactRemove contactRemove) {
+                    if (!contactRemove.getHasError()) {
+                        ChatResponse<ResultRemoveContact> chatResponse = new ChatResponse<>();
+                        chatResponse.setUniqueId(uniqueId);
+                        ResultRemoveContact resultRemoveContact = new ResultRemoveContact();
+                        resultRemoveContact.setResult(contactRemove.isResult());
+
+                        chatResponse.setResult(resultRemoveContact);
+
+                        String json = gson.toJson(chatResponse);
+
+                        listenerManager.callOnRemoveContact(json, chatResponse);
+                        showInfoLog("RECEIVED_REMOVE_CONTACT", json);
+                    } else {
+                        getErrorOutPut(contactRemove.getErrorMessage(), contactRemove.getErrorCode(), uniqueId);
+                    }
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    showErrorLog(throwable.getMessage());
+                }
+
+                @Override
+                public void onServerError(String errorMessage) {
+                    showErrorLog(errorMessage);
+                }
+            });
+        } else {
+            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+        }
+        return uniqueId;
+    }
+
+    /**
+     * Remove contact with the user id
+     * <p>
+     * userId id of the user that we want to remove from contact list
+     */
+    public String removeContact(RequestRemoveContact request) {
+        long userId = request.getUserId();
+        return removeContact(userId);
+    }
 
     /**
      * Create the thread to p to p/channel/group. The list below is showing all of the threads type
@@ -1797,7 +1860,6 @@ public class Chat extends AsyncAdapter {
         try {
             MessageVO messageVO = gson.fromJson(chatMessage.getContent(), MessageVO.class);
 
-
             ChatResponse<ResultNewMessage> chatResponse = new ChatResponse<>();
             chatResponse.setUniqueId(chatMessage.getUniqueId());
             chatResponse.setHasError(false);
@@ -1811,8 +1873,6 @@ public class Chat extends AsyncAdapter {
             chatResponse.setResult(resultNewMessage);
 
             String json = gson.toJson(chatResponse);
-
-            listenerManager.callOnNewMessage(json, chatResponse);
 
             long ownerId = 0;
 
@@ -1831,6 +1891,9 @@ public class Chat extends AsyncAdapter {
 
                 listenerManager.callOnLogEvent(asyncContent);
             }
+
+            listenerManager.callOnNewMessage(json, chatResponse);
+
         } catch (Exception e) {
             showErrorLog(e.getCause().getMessage());
         }
