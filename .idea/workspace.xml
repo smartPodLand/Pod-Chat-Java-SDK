@@ -2,34 +2,55 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8c596b3-4cd0-4508-8a10-e9a3d895a02b" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/ChatContract.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/ChatController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/ChatMain.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/JUnitExecutionListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/AddContact.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/CreatThreadTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/GetContact.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/GetThreadTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/RemoveConatct.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/ReplyMessage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/SendMessage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/UpdateContact.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chat-log.out" beforeDir="false" afterPath="$PROJECT_DIR$/chat-log.out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/exmaple/ChatContract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/exmaple/ChatContract.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/exmaple/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/exmaple/ChatController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/exmaple/ChatMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/exmaple/ChatMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/exmaple/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/exmaple/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/podAsync/Async.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/podAsync/Async.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/podChat/chat/Chat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/podChat/chat/Chat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/podChat/model/BaseOutPut.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/podChat/model/BaseOutPut.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/podChat/networking/api/ContactApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/podChat/networking/api/ContactApi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/util/ActiveMq.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/activeMq/ActiveMq.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/util/IoAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/activeMq/IoAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/podChat/networking/retrofithelper/RetrofitHelperPlatformHost.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/podChat/networking/retrofithelper/RetrofitHelperPlatformHost.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/podChat/requestobject/RequestUpdateContact.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/podChat/requestobject/RequestUpdateContact.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/podChat/util/InviteType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/podChat/util/InviteType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/podChat/util/getInfoExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/podChat/util/GetInfoExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ChatController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ChatMain.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/exmaple/ChatContract$controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/exmaple/ChatContract$controller.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/exmaple/ChatContract$view.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/exmaple/ChatContract$view.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/exmaple/ChatController$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/exmaple/ChatController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/exmaple/ChatMain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/exmaple/ChatController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/exmaple/ChatController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/exmaple/ChatMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/exmaple/ChatMain.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/exmaple/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/exmaple/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/podAsync/Async.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podAsync/Async.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$10.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$11.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$12.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$8.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$9.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/util/ActiveMq$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/util/ActiveMq$QueueExceptionListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/util/ActiveMq$QueueMessageListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/util/ActiveMq.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/util/IoAdapter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/podChat/networking/api/ContactApi.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/networking/api/ContactApi.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/podChat/networking/retrofithelper/RetrofitHelperPlatformHost$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/networking/retrofithelper/RetrofitHelperPlatformHost$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/podChat/networking/retrofithelper/RetrofitHelperPlatformHost.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/networking/retrofithelper/RetrofitHelperPlatformHost.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/podChat/requestobject/RequestUpdateContact$Builder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/requestobject/RequestUpdateContact$Builder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/podChat/requestobject/RequestUpdateContact.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/requestobject/RequestUpdateContact.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/podChat/util/InviteType.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/util/InviteType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/podChat/util/getInfoExecutor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/util/getInfoExecutor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/ChatController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/ChatController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/ChatMain.class" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -56,60 +77,56 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ChatMain.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/exmaple/ChatMain.java">
+      <file leaf-file-name="GetThreadTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/GetThreadTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="556">
-              <caret line="125" column="44" selection-start-line="125" selection-start-column="44" selection-end-line="125" selection-end-column="44" />
+            <state relative-caret-position="297">
+              <caret line="56" column="63" lean-forward="true" selection-start-line="56" selection-start-column="63" selection-end-line="56" selection-end-column="63" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#4017#4018#0" expanded="true" />
+                <element signature="e#2809#2810#0" expanded="true" />
+                <element signature="e#2840#2841#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ChatMain.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/test/java/ChatMain.java">
+      <file leaf-file-name="BaseOutPut.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/podChat/model/BaseOutPut.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-121">
-              <caret line="31" column="27" lean-forward="true" selection-start-line="31" selection-start-column="27" selection-end-line="31" selection-end-column="27" />
+            <state relative-caret-position="225">
+              <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
               <folding>
-                <element signature="e#1168#1169#0" expanded="true" />
-                <element signature="e#1218#1219#0" expanded="true" />
+                <element signature="e#239#240#0" expanded="true" />
+                <element signature="e#270#271#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ChatResponse.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/podChat/model/ChatResponse.java">
+      <file leaf-file-name="RequestThread.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/podChat/requestobject/RequestThread.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="100">
+              <caret line="4" column="38" lean-forward="true" selection-start-line="4" selection-start-column="38" selection-end-line="4" selection-end-column="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BaseRequestObject.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/podChat/requestobject/BaseRequestObject.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="50">
-              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+              <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ReflectionUtils.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-commons/1.5.1/junit-platform-commons-1.5.1.jar!/org/junit/platform/commons/util/ReflectionUtils.class">
+      <file leaf-file-name="ReplyMessage.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/ReplyMessage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="364" column="9" lean-forward="true" selection-start-line="364" selection-start-column="9" selection-end-line="364" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ChatController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/exmaple/ChatController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="556">
-              <caret line="567" column="21" selection-start-line="567" selection-start-column="21" selection-end-line="567" selection-end-column="21" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#5730#5731#0" expanded="true" />
-                <element signature="e#5750#5751#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="200">
+              <caret line="75" column="25" selection-start-line="75" selection-start-column="25" selection-end-line="75" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -117,99 +134,44 @@
       <file leaf-file-name="ChatController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/ChatController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="392" selection-start-line="392" selection-end-line="392" />
-              <folding>
-                <element signature="e#5643#5644#0" expanded="true" />
-                <element signature="e#5670#5671#0" expanded="true" />
-                <element signature="e#5763#5764#0" expanded="true" />
-                <element signature="e#5790#5791#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="272">
+              <caret line="87" column="31" lean-forward="true" selection-start-line="87" selection-start-column="31" selection-end-line="87" selection-end-column="31" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ChatContract.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/exmaple/ChatContract.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
-              <caret line="80" column="9" lean-forward="true" selection-start-line="80" selection-start-column="9" selection-end-line="80" selection-end-column="9" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Chat.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Chat.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/podChat/chat/Chat.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="227">
-              <caret line="932" column="37" selection-start-line="932" selection-start-column="37" selection-end-line="932" selection-end-column="37" />
-              <folding>
-                <element signature="e#36014#36015#0" expanded="true" />
-                <element signature="e#36090#36091#0" expanded="true" />
-                <element signature="e#36182#36183#0" expanded="true" />
-                <element signature="e#36248#36249#0" expanded="true" />
-                <element signature="e#60559#60560#0" expanded="true" />
-                <element signature="e#60612#60613#0" expanded="true" />
-                <element signature="e#61216#61217#0" expanded="true" />
-                <element signature="e#61256#61257#0" expanded="true" />
-                <element signature="e#61499#61500#0" expanded="true" />
-                <element signature="e#61547#61548#0" expanded="true" />
-                <element signature="e#61575#61576#0" expanded="true" />
-                <element signature="e#61601#61602#0" expanded="true" />
-                <element signature="e#61637#61638#0" expanded="true" />
-                <element signature="e#61667#61668#0" expanded="true" />
-                <element signature="e#65726#65727#0" expanded="true" />
-                <element signature="e#65785#65786#0" expanded="true" />
-                <element signature="e#66163#66164#0" expanded="true" />
-                <element signature="e#66241#66242#0" expanded="true" />
-                <element signature="e#118756#118757#0" expanded="true" />
-                <element signature="e#118794#118795#0" expanded="true" />
-                <element signature="e#124022#124023#0" expanded="true" />
-                <element signature="e#124073#124074#0" expanded="true" />
-                <element signature="e#124107#124108#0" expanded="true" />
-                <element signature="e#124135#124136#0" expanded="true" />
-                <element signature="e#124167#124168#0" expanded="true" />
-                <element signature="e#124196#124197#0" expanded="true" />
-                <element signature="e#124231#124232#0" expanded="true" />
-                <element signature="e#124261#124262#0" expanded="true" />
-                <element signature="e#124308#124309#0" expanded="true" />
-                <element signature="e#124346#124347#0" expanded="true" />
-                <element signature="e#124389#124390#0" expanded="true" />
-                <element signature="e#124425#124426#0" expanded="true" />
-                <element signature="e#124482#124483#0" expanded="true" />
-                <element signature="e#124530#124531#0" expanded="true" />
-                <element signature="e#124570#124571#0" expanded="true" />
-                <element signature="e#124605#124606#0" expanded="true" />
-                <element signature="e#124658#124659#0" expanded="true" />
-                <element signature="e#124702#124703#0" expanded="true" />
-                <element signature="e#124740#124741#0" expanded="true" />
-                <element signature="e#124773#124774#0" expanded="true" />
-                <element signature="e#124816#124817#0" expanded="true" />
-                <element signature="e#124857#124858#0" expanded="true" />
-                <element signature="e#124922#124923#0" expanded="true" />
-                <element signature="e#124982#124983#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-2187">
+              <caret line="2341" column="17" selection-start-line="2341" selection-start-column="17" selection-end-line="2341" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ContactApi.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/podChat/networking/api/ContactApi.java">
+      <file leaf-file-name="ChatMessage.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/podChat/mainmodel/ChatMessage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="74" column="31" selection-start-line="74" selection-start-column="31" selection-end-line="74" selection-end-column="31" />
+            <state relative-caret-position="50">
+              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OkHttpCall.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/com/squareup/retrofit2/retrofit/2.6.0/retrofit-2.6.0.jar!/retrofit2/OkHttpCall.class">
+      <file leaf-file-name="RemoveConatct.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/RemoveConatct.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="344">
-              <caret line="129" selection-start-line="129" selection-end-line="129" />
+            <state relative-caret-position="115">
+              <caret line="87" column="45" selection-start-line="87" selection-start-column="45" selection-end-line="87" selection-end-column="45" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UpdateContact.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/UpdateContact.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-100">
+              <caret line="20" column="42" selection-start-line="20" selection-start-column="42" selection-end-line="20" selection-end-column="42" />
             </state>
           </provider>
         </entry>
@@ -226,26 +188,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>oncreate</find>
-      <find>onGetUser</find>
-      <find>onuserinf</find>
-      <find>onsentme</find>
-      <find>getconta</find>
-      <find>ongetcon</find>
-      <find>seenme</find>
-      <find>GETCON</find>
-      <find>onse</find>
-      <find>chatma</find>
-      <find>deliver</find>
-      <find>createthre</find>
-      <find>sentme</find>
-      <find>sentmess</find>
-      <find>handlene</find>
-      <find>callOnDeliveryMessage</find>
-      <find>callOnse</find>
-      <find>thread</find>
-      <find>newme</find>
-      <find>util</find>
       <find>getthre</find>
       <find>handleth</find>
       <find>onsent</find>
@@ -256,6 +198,26 @@
       <find>removecon</find>
       <find>getco</find>
       <find>requestRemoveContact</find>
+      <find>updatecon</find>
+      <find>reply</find>
+      <find>newme</find>
+      <find>retryStepUserInfo</find>
+      <find>handleonge</find>
+      <find>been added to Message Queue</find>
+      <find>getuserinf</find>
+      <find>getc</find>
+      <find>gett</find>
+      <find>createth</find>
+      <find>sendmess</find>
+      <find>addconta</find>
+      <find>getcon</find>
+      <find>remo</find>
+      <find>update</find>
+      <find>getthread</find>
+      <find>getthreads</find>
+      <find>remove</find>
+      <find>delete</find>
+      <find>DELETE_MESSAGE</find>
     </findStrings>
     <replaceStrings>
       <replace>showInfoLog</replace>
@@ -275,17 +237,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/podChat/requestobject/RequestMapRouting.java" />
-        <option value="$PROJECT_DIR$/src/main/java/podChat/requestobject/RequestUploadFile.java" />
-        <option value="$PROJECT_DIR$/src/main/java/podChat/util/LocalStorageProvider.java" />
-        <option value="$PROJECT_DIR$/src/main/java/podChat/util/Permission.java" />
-        <option value="$PROJECT_DIR$/src/main/java/podChat/cachemodel/queue/Sending.java" />
-        <option value="$PROJECT_DIR$/src/main/java/podChat/cachemodel/queue/SendingQueueCache.java" />
-        <option value="$PROJECT_DIR$/src/main/java/podChat/cachemodel/queue/UploadingQueueCache.java" />
-        <option value="$PROJECT_DIR$/src/main/java/podChat/cachemodel/queue/WaitQueueCache.java" />
-        <option value="$PROJECT_DIR$/src/main/java/podChat/cachemodel/CacheMessageVO.java" />
-        <option value="$PROJECT_DIR$/src/main/java/podChat/requestobject/RequestDeleteMessage.java" />
-        <option value="$PROJECT_DIR$/src/main/java/podChat/requestobject/RequestMapReverse.java" />
         <option value="$PROJECT_DIR$/src/main/java/podChat/requestobject/RequestRemoveParticipants.java" />
         <option value="$PROJECT_DIR$/src/main/java/podChat/requestobject/RequestReplyMessage.java" />
         <option value="$PROJECT_DIR$/src/main/java/podChat/util/DataTypeConverter.java" />
@@ -298,7 +249,6 @@
         <option value="$PROJECT_DIR$/src/main/java/podChat/requestobject/RequestThread.java" />
         <option value="$PROJECT_DIR$/src/main/java/podChat/requestobject/RequestAddContact.java" />
         <option value="$PROJECT_DIR$/src/main/java/podChat/networking/retrofithelper/ApiListener.java" />
-        <option value="$PROJECT_DIR$/src/main/java/podChat/networking/retrofithelper/RetrofitHelperPlatformHost.java" />
         <option value="$PROJECT_DIR$/src/main/java/podChat/networking/AddContacts.java" />
         <option value="$PROJECT_DIR$/src/main/java/podChat/util/Util.java" />
         <option value="$PROJECT_DIR$/src/main/resources/log4j2.xml" />
@@ -312,20 +262,32 @@
         <option value="$PROJECT_DIR$/src/main/java/podChat/networking/retrofithelper/RetrofitUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/podAsync/Async.java" />
         <option value="$PROJECT_DIR$/src/main/java/podChat/model/OutPutNewMessage.java" />
-        <option value="$PROJECT_DIR$/src/main/java/exmaple/Main.java" />
         <option value="$PROJECT_DIR$/chat-log.out" />
         <option value="$PROJECT_DIR$/src/test/java/Tesy.java" />
         <option value="$PROJECT_DIR$/src/test/java/Main.java" />
         <option value="$PROJECT_DIR$/src/test/java/Test.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/test/java/MockListener.java" />
-        <option value="$PROJECT_DIR$/src/main/java/podChat/chat/Chat.java" />
+        <option value="$PROJECT_DIR$/src/main/java/podChat/requestobject/RequestUpdateContact.java" />
+        <option value="$PROJECT_DIR$/src/main/java/podChat/networking/api/ContactApi.java" />
+        <option value="$PROJECT_DIR$/src/main/java/podChat/networking/retrofithelper/RetrofitHelperPlatformHost.java" />
         <option value="$PROJECT_DIR$/src/main/java/exmaple/ChatContract.java" />
+        <option value="$PROJECT_DIR$/src/test/java/ChatController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/exmaple/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/exmaple/ChatController.java" />
         <option value="$PROJECT_DIR$/src/main/java/exmaple/ChatMain.java" />
-        <option value="$PROJECT_DIR$/src/test/java/ChatController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/podChat/networking/api/ContactApi.java" />
+        <option value="$PROJECT_DIR$/src/test/java/SendMessage.java" />
+        <option value="$PROJECT_DIR$/src/test/java/AddContact.java" />
+        <option value="$PROJECT_DIR$/src/main/java/podChat/util/InviteType.java" />
+        <option value="$PROJECT_DIR$/src/test/java/GetContact.java" />
+        <option value="$PROJECT_DIR$/src/test/java/CreatThreadTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/RemoveConatct.java" />
+        <option value="$PROJECT_DIR$/src/test/java/UpdateContact.java" />
         <option value="$PROJECT_DIR$/src/test/java/ChatMain.java" />
+        <option value="$PROJECT_DIR$/src/test/java/ReplyMessage.java" />
+        <option value="$PROJECT_DIR$/src/main/java/podChat/chat/Chat.java" />
+        <option value="$PROJECT_DIR$/src/test/java/GetThreadTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/podChat/model/BaseOutPut.java" />
       </list>
     </option>
   </component>
@@ -378,8 +340,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -488,6 +448,15 @@
               <item name="chat" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="podChat" type="462c0819:PsiDirectoryNode" />
+              <item name="util" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="chat" type="b2602c69:ProjectViewProjectNode" />
+              <item name="chat" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -507,7 +476,9 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -526,6 +497,7 @@
       <recent name="" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="" />
       <recent name="podChat.util" />
       <recent name="async.util" />
     </key>
@@ -549,27 +521,16 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.ChatMain">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="exmaple.Main" />
-      <module name="chat" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="exmaple.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-    </configuration>
+  <component name="RunManager" selected="JUnit.GetThreadTest">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     </configuration>
-    <configuration name="ChatMain" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="GetThreadTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="chat" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="ChatMain" />
+      <option name="MAIN_CLASS_NAME" value="GetThreadTest" />
       <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-ea" />
@@ -581,13 +542,47 @@
       </option>
       <patterns />
     </configuration>
-    <configuration name="ChatMain.init" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="RemoveConatct" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="chat" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="ChatMain" />
-      <option name="METHOD_NAME" value="init" />
+      <option name="MAIN_CLASS_NAME" value="RemoveConatct" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration name="ReplyMessage" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="chat" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="ReplyMessage" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration name="ReplyMessage.connect" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="chat" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="ReplyMessage" />
+      <option name="METHOD_NAME" value="connect" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
@@ -598,29 +593,12 @@
       </option>
       <patterns />
     </configuration>
-    <configuration name="ChatMain.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UpdateContact" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="chat" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="ChatMain" />
-      <option name="METHOD_NAME" value="test" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <patterns />
-    </configuration>
-    <configuration name="Test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="chat" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="Test" />
+      <option name="MAIN_CLASS_NAME" value="UpdateContact" />
       <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-ea" />
@@ -671,19 +649,19 @@
       <listeners />
     </configuration>
     <list>
-      <item itemvalue="Application.Main" />
-      <item itemvalue="JUnit.Test" />
-      <item itemvalue="JUnit.ChatMain.init" />
-      <item itemvalue="JUnit.ChatMain" />
-      <item itemvalue="JUnit.ChatMain.test" />
+      <item itemvalue="JUnit.RemoveConatct" />
+      <item itemvalue="JUnit.UpdateContact" />
+      <item itemvalue="JUnit.ReplyMessage.connect" />
+      <item itemvalue="JUnit.ReplyMessage" />
+      <item itemvalue="JUnit.GetThreadTest" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.ChatMain" />
-        <item itemvalue="JUnit.ChatMain.test" />
-        <item itemvalue="JUnit.ChatMain.init" />
-        <item itemvalue="JUnit.Test" />
-        <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.GetThreadTest" />
+        <item itemvalue="JUnit.ReplyMessage" />
+        <item itemvalue="JUnit.ReplyMessage.connect" />
+        <item itemvalue="JUnit.UpdateContact" />
+        <item itemvalue="JUnit.RemoveConatct" />
       </list>
     </recent_temporary>
   </component>
@@ -707,44 +685,45 @@
       <workItem from="1564803587206" duration="831000" />
       <workItem from="1564824744036" duration="5381000" />
       <workItem from="1564889742787" duration="12131000" />
-      <workItem from="1564975752519" duration="19915000" />
+      <workItem from="1564975752519" duration="21151000" />
+      <workItem from="1565062026585" duration="24290000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="ChatMain - 2019.08.05 at 15h 10m 14s.xml">
-      <configuration name="ChatMain" configurationId="JUnit" />
+    <history-entry file="ReplyMessage_connect - 2019.08.06 at 16h 01m 19s.xml">
+      <configuration name="ReplyMessage.connect" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ChatMain - 2019.08.05 at 15h 11m 32s.xml">
-      <configuration name="ChatMain" configurationId="JUnit" />
+    <history-entry file="ReplyMessage - 2019.08.06 at 16h 01m 32s.xml">
+      <configuration name="ReplyMessage" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ChatMain - 2019.08.05 at 15h 12m 14s.xml">
-      <configuration name="ChatMain" configurationId="JUnit" />
+    <history-entry file="ReplyMessage - 2019.08.06 at 16h 02m 37s.xml">
+      <configuration name="ReplyMessage" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ChatMain - 2019.08.05 at 15h 12m 57s.xml">
-      <configuration name="ChatMain" configurationId="JUnit" />
+    <history-entry file="GetThreadTest - 2019.08.06 at 16h 06m 23s.xml">
+      <configuration name="GetThreadTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ChatMain - 2019.08.05 at 15h 13m 33s.xml">
-      <configuration name="ChatMain" configurationId="JUnit" />
+    <history-entry file="GetThreadTest - 2019.08.06 at 16h 06m 53s.xml">
+      <configuration name="GetThreadTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ChatMain - 2019.08.05 at 15h 14m 30s.xml">
-      <configuration name="ChatMain" configurationId="JUnit" />
+    <history-entry file="GetThreadTest - 2019.08.06 at 16h 07m 47s.xml">
+      <configuration name="GetThreadTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ChatMain - 2019.08.05 at 15h 15m 02s.xml">
-      <configuration name="ChatMain" configurationId="JUnit" />
+    <history-entry file="ReplyMessage - 2019.08.06 at 16h 09m 51s.xml">
+      <configuration name="ReplyMessage" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ChatMain - 2019.08.05 at 15h 17m 05s.xml">
-      <configuration name="ChatMain" configurationId="JUnit" />
+    <history-entry file="GetThreadTest - 2019.08.06 at 16h 50m 42s.xml">
+      <configuration name="GetThreadTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ChatMain - 2019.08.05 at 15h 17m 28s.xml">
-      <configuration name="ChatMain" configurationId="JUnit" />
+    <history-entry file="GetThreadTest - 2019.08.06 at 16h 59m 40s.xml">
+      <configuration name="GetThreadTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ChatMain - 2019.08.05 at 15h 18m 57s.xml">
-      <configuration name="ChatMain" configurationId="JUnit" />
+    <history-entry file="GetThreadTest - 2019.08.06 at 17h 00m 06s.xml">
+      <configuration name="GetThreadTest" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="165650000" />
+    <option name="totallyTimeSpent" value="191176000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -769,26 +748,26 @@
       <window_info id="Structure" order="1" sideWeight="0.5016234" side_tool="true" weight="0.24786781" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="4" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.47821352" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.47821352" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32897604" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.32897604" />
       <window_info anchor="right" id="Palette&#9;" order="6" />
       <window_info id="Image Layers" order="3" />
       <window_info anchor="bottom" id="Java Enterprise" order="11" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.46623093" />
       <window_info anchor="bottom" id="Version Control" order="14" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32897604" />
       <window_info anchor="bottom" id="Sequence" order="8" />
       <window_info anchor="bottom" id="Spring" order="7" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.21023965" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49837664" visible="true" weight="0.2585288" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49837664" visible="true" weight="0.26119402" />
       <window_info id="Web" order="6" side_tool="true" />
       <window_info anchor="bottom" id="JProfiler" order="13" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32897604" />
       <window_info anchor="right" id="Theme Preview" order="7" />
       <window_info id="Favorites" order="5" side_tool="true" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -805,13 +784,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/podChat/chat/Chat.java</url>
-          <line>2251</line>
+          <line>2514</line>
           <properties />
           <option name="timeStamp" value="92" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/podChat/chat/Chat.java</url>
-          <line>2256</line>
+          <line>2519</line>
           <properties />
           <option name="timeStamp" value="94" />
         </line-breakpoint>
@@ -889,103 +868,136 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/exmaple/ChatMain.java</url>
-          <line>81</line>
+          <line>85</line>
           <properties />
           <option name="timeStamp" value="123" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/exmaple/ChatMain.java</url>
-          <line>92</line>
-          <properties />
-          <option name="timeStamp" value="124" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/exmaple/ChatMain.java</url>
-          <line>72</line>
-          <properties />
-          <option name="timeStamp" value="131" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/exmaple/ChatController.java</url>
-          <line>509</line>
-          <properties />
-          <option name="timeStamp" value="133" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/podChat/chat/Chat.java</url>
-          <line>1889</line>
-          <properties />
-          <option name="timeStamp" value="136" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/ChatMain.java</url>
-          <line>115</line>
-          <properties />
-          <option name="timeStamp" value="145" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/ChatMain.java</url>
-          <line>91</line>
-          <properties />
-          <option name="timeStamp" value="148" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/ChatMain.java</url>
-          <line>89</line>
-          <properties />
-          <option name="timeStamp" value="149" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/ChatMain.java</url>
-          <line>142</line>
-          <properties />
-          <option name="timeStamp" value="150" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/ChatMain.java</url>
-          <line>129</line>
-          <properties />
-          <option name="timeStamp" value="151" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/podChat/chat/Chat.java</url>
-          <line>926</line>
+          <line>930</line>
           <properties />
           <option name="timeStamp" value="156" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/podChat/chat/Chat.java</url>
-          <line>945</line>
+          <line>952</line>
           <properties />
           <option name="timeStamp" value="157" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/podChat/chat/Chat.java</url>
-          <line>950</line>
+          <line>957</line>
           <properties />
           <option name="timeStamp" value="158" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/ChatMain.java</url>
-          <line>220</line>
+          <url>file://$PROJECT_DIR$/src/main/java/podChat/chat/Chat.java</url>
+          <line>1004</line>
           <properties />
-          <option name="timeStamp" value="159" />
+          <option name="timeStamp" value="162" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/ChatMain.java</url>
-          <line>222</line>
+          <url>file://$PROJECT_DIR$/src/main/java/podChat/chat/Chat.java</url>
+          <line>1016</line>
           <properties />
-          <option name="timeStamp" value="160" />
+          <option name="timeStamp" value="163" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/podChat/chat/Chat.java</url>
+          <line>1048</line>
+          <properties />
+          <option name="timeStamp" value="164" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/podChat/chat/Chat.java</url>
+          <line>1053</line>
+          <properties />
+          <option name="timeStamp" value="165" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/podChat/chat/Chat.java</url>
+          <line>1014</line>
+          <properties />
+          <option name="timeStamp" value="167" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/podChat/networking/retrofithelper/RetrofitHelperPlatformHost.java</url>
+          <line>12</line>
+          <properties />
+          <option name="timeStamp" value="169" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/exmaple/ChatMain.java</url>
+          <line>111</line>
+          <properties />
+          <option name="timeStamp" value="170" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/exmaple/ChatMain.java</url>
+          <line>91</line>
+          <properties />
+          <option name="timeStamp" value="171" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/podChat/chat/Chat.java</url>
+          <line>1424</line>
+          <properties />
+          <option name="timeStamp" value="184" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/podChat/chat/Chat.java</url>
+          <line>1437</line>
+          <properties />
+          <option name="timeStamp" value="185" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/exmaple/ChatMain.java</url>
+          <line>57</line>
+          <properties />
+          <option name="timeStamp" value="186" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/GetThreadTest.java</url>
+          <line>101</line>
+          <properties />
+          <option name="timeStamp" value="187" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/CreatThreadTest.java</url>
+          <line>184</line>
+          <properties />
+          <option name="timeStamp" value="189" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/podChat/chat/Chat.java</url>
+          <line>1162</line>
+          <properties />
+          <option name="timeStamp" value="190" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="161" />
+      <option name="time" value="191" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>taskExecutor != null &amp;&amp; !taskExecutor.isShutdown()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>if (taskExecutor != null &amp;&amp; !taskExecutor.isShutdown())</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>f (taskExecutor != null &amp;&amp; !taskExecutor.isShutdown())</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>resultThread.getThread().getId()</expression-string>
         <language-id>JAVA</language-id>
@@ -1020,184 +1032,9 @@
         <language-id>JAVA</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
-      <expression>
-        <expression-string>argument.capture()</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>chatResponse</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>gson.fromJson(content,OutPutNewMessage.class)</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/chat-log.out">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="339">
-          <caret line="8" column="30" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/exmaple/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="9" column="19" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/Main.java" />
-    <entry file="file://$PROJECT_DIR$/src/test/java/Test.java" />
-    <entry file="file://$PROJECT_DIR$/src/test/java/JUnitExecutionListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="3" column="35" selection-start-line="3" selection-start-column="35" selection-end-line="3" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/chat/ChatHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="50">
-          <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="781">
-          <caret line="113" selection-start-line="113" selection-end-line="113" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/2.0.2-beta/mockito-all-2.0.2-beta.jar!/org/mockito/MockitoAnnotations.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/2.0.2-beta/mockito-all-2.0.2-beta.jar!/org/mockito/Mockito.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="281">
-          <caret line="82" column="24" selection-start-line="82" selection-start-column="24" selection-end-line="82" selection-end-column="24" />
-          <folding>
-            <element signature="e#3234#3235#0" expanded="true" />
-            <element signature="e#3292#3293#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/podAsync/Async.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="45" column="24" selection-start-line="45" selection-start-column="24" selection-end-line="45" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/MockListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="13" column="32" selection-start-line="13" selection-start-column="32" selection-end-line="13" selection-end-column="32" />
-          <folding>
-            <element signature="e#194#195#0" expanded="true" />
-            <element signature="e#213#214#0" expanded="true" />
-            <element signature="e#274#275#0" expanded="true" />
-            <element signature="e#315#316#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/src.zip!/java/util/Collections.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="1080" column="9" lean-forward="true" selection-start-line="1080" selection-start-column="9" selection-end-line="1080" selection-end-column="9" />
-          <folding>
-            <element signature="e#45477#45478#0" expanded="true" />
-            <element signature="e#45518#45519#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/src.zip!/java/util/ArrayList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="1256" selection-start-line="1256" selection-end-line="1256" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/2.0.2-beta/mockito-all-2.0.2-beta-sources.jar!/org/mockito/MockitoAnnotations.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="88" column="23" selection-start-line="88" selection-start-column="23" selection-end-line="88" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-api/5.5.1/junit-jupiter-api-5.5.1.jar!/org/junit/jupiter/api/TestInstance.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/2.0.2-beta/mockito-all-2.0.2-beta-sources.jar!/org/mockito/Mockito.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="1577" column="46" lean-forward="true" selection-start-line="1577" selection-start-column="46" selection-end-line="1577" selection-end-column="46" />
-          <folding>
-            <element signature="e#70128#70129#0" expanded="true" />
-            <element signature="e#70182#70183#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/2.0.2-beta/mockito-all-2.0.2-beta-sources.jar!/org/mockito/verification/VerificationMode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="33" column="29" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/2.0.2-beta/mockito-all-2.0.2-beta-sources.jar!/org/mockito/internal/verification/api/VerificationData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/2.0.2-beta/mockito-all-2.0.2-beta-sources.jar!/org/mockito/internal/invocation/InvocationMatcher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/model/OutPutUserInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="50">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/mainmodel/UserInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/2.0.2-beta/mockito-all-2.0.2-beta-sources.jar!/org/mockito/internal/matchers/apachecommons/ReflectionEquals.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="17" column="11" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/podChat/model/ResultThread.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="125">
@@ -1258,36 +1095,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/requestobject/BaseRequestObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="50">
-          <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/requestobject/RequestGetContact.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="3" column="50" selection-start-line="3" selection-start-column="50" selection-end-line="3" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/podChat/networking/retrofithelper/ApiListener.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="125">
           <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/networking/retrofithelper/RetrofitHelperPlatformHost.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="8" column="27" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#385#386#0" expanded="true" />
-            <element signature="e#452#453#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1327,20 +1138,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/chat/ChatListenerManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="239" column="34" selection-start-line="239" selection-start-column="34" selection-end-line="239" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/chat/ChatListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
-          <caret line="77" column="22" lean-forward="true" selection-start-line="77" selection-start-column="22" selection-end-line="77" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/podChat/model/ResultRemoveContact.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="50">
@@ -1348,70 +1145,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/exmaple/ChatController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="556">
-          <caret line="567" column="21" selection-start-line="567" selection-start-column="21" selection-end-line="567" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#5730#5731#0" expanded="true" />
-            <element signature="e#5750#5751#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/exmaple/ChatMain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="556">
-          <caret line="125" column="44" selection-start-line="125" selection-start-column="44" selection-end-line="125" selection-end-column="44" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4017#4018#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/exmaple/ChatContract.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="80" column="9" lean-forward="true" selection-start-line="80" selection-start-column="9" selection-end-line="80" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-commons/1.5.1/junit-platform-commons-1.5.1.jar!/org/junit/platform/commons/util/ReflectionUtils.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="364" column="9" lean-forward="true" selection-start-line="364" selection-start-column="9" selection-end-line="364" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ChatController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="392" selection-start-line="392" selection-end-line="392" />
-          <folding>
-            <element signature="e#5643#5644#0" expanded="true" />
-            <element signature="e#5670#5671#0" expanded="true" />
-            <element signature="e#5763#5764#0" expanded="true" />
-            <element signature="e#5790#5791#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/squareup/retrofit2/retrofit/2.6.0/retrofit-2.6.0.jar!/retrofit2/OkHttpCall.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="344">
-          <caret line="129" selection-start-line="129" selection-end-line="129" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/networking/api/ContactApi.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="74" column="31" selection-start-line="74" selection-start-column="31" selection-end-line="74" selection-end-column="31" />
+        <state relative-caret-position="7300">
+          <caret line="364" column="9" selection-start-line="364" selection-start-column="9" selection-end-line="364" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -1422,67 +1159,282 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/chat/Chat.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/requestobject/RequestUpdateContact.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
-          <caret line="932" column="37" selection-start-line="932" selection-start-column="37" selection-end-line="932" selection-end-column="37" />
+        <state relative-caret-position="400">
+          <caret line="34" lean-forward="true" selection-start-line="34" selection-end-line="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/squareup/retrofit2/retrofit/2.6.0/retrofit-2.6.0.jar!/retrofit2/OkHttpCall.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="404">
+          <caret line="114" selection-start-line="114" selection-end-line="114" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/networking/api/ContactApi.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="354">
+          <caret line="101" column="50" lean-forward="true" selection-start-line="101" selection-start-column="50" selection-end-line="101" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/requestobject/RequestReplyMessage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="50">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/chat/ChatAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/chat/ChatListenerManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="455">
+          <caret line="309" column="32" lean-forward="true" selection-start-line="309" selection-start-column="32" selection-end-line="309" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/chat/ChatListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="314">
+          <caret line="93" column="23" lean-forward="true" selection-start-line="93" selection-start-column="23" selection-end-line="93" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/exmaple/ChatContract.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="199" column="18" selection-start-line="199" selection-start-column="13" selection-end-line="199" selection-end-column="18" />
           <folding>
-            <element signature="e#36014#36015#0" expanded="true" />
-            <element signature="e#36090#36091#0" expanded="true" />
-            <element signature="e#36182#36183#0" expanded="true" />
-            <element signature="e#36248#36249#0" expanded="true" />
-            <element signature="e#60559#60560#0" expanded="true" />
-            <element signature="e#60612#60613#0" expanded="true" />
-            <element signature="e#61216#61217#0" expanded="true" />
-            <element signature="e#61256#61257#0" expanded="true" />
-            <element signature="e#61499#61500#0" expanded="true" />
-            <element signature="e#61547#61548#0" expanded="true" />
-            <element signature="e#61575#61576#0" expanded="true" />
-            <element signature="e#61601#61602#0" expanded="true" />
-            <element signature="e#61637#61638#0" expanded="true" />
-            <element signature="e#61667#61668#0" expanded="true" />
-            <element signature="e#65726#65727#0" expanded="true" />
-            <element signature="e#65785#65786#0" expanded="true" />
-            <element signature="e#66163#66164#0" expanded="true" />
-            <element signature="e#66241#66242#0" expanded="true" />
-            <element signature="e#118756#118757#0" expanded="true" />
-            <element signature="e#118794#118795#0" expanded="true" />
-            <element signature="e#124022#124023#0" expanded="true" />
-            <element signature="e#124073#124074#0" expanded="true" />
-            <element signature="e#124107#124108#0" expanded="true" />
-            <element signature="e#124135#124136#0" expanded="true" />
-            <element signature="e#124167#124168#0" expanded="true" />
-            <element signature="e#124196#124197#0" expanded="true" />
-            <element signature="e#124231#124232#0" expanded="true" />
-            <element signature="e#124261#124262#0" expanded="true" />
-            <element signature="e#124308#124309#0" expanded="true" />
-            <element signature="e#124346#124347#0" expanded="true" />
-            <element signature="e#124389#124390#0" expanded="true" />
-            <element signature="e#124425#124426#0" expanded="true" />
-            <element signature="e#124482#124483#0" expanded="true" />
-            <element signature="e#124530#124531#0" expanded="true" />
-            <element signature="e#124570#124571#0" expanded="true" />
-            <element signature="e#124605#124606#0" expanded="true" />
-            <element signature="e#124658#124659#0" expanded="true" />
-            <element signature="e#124702#124703#0" expanded="true" />
-            <element signature="e#124740#124741#0" expanded="true" />
-            <element signature="e#124773#124774#0" expanded="true" />
-            <element signature="e#124816#124817#0" expanded="true" />
-            <element signature="e#124857#124858#0" expanded="true" />
-            <element signature="e#124922#124923#0" expanded="true" />
-            <element signature="e#124982#124983#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/podAsync/Async.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="343">
+          <caret line="144" selection-start-line="144" selection-end-line="144" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/exmaple/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="11" column="9" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/util/PingExecutor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/util/GetInfoExecutor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/exmaple/ChatController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="183" column="19" selection-start-line="183" selection-start-column="19" selection-end-line="183" selection-end-column="19" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4762#4763#0" expanded="true" />
+            <element signature="e#4773#4774#0" expanded="true" />
+            <element signature="e#5730#5731#0" expanded="true" />
+            <element signature="e#5786#5787#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/exmaple/ChatMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="26" column="48" lean-forward="true" selection-start-line="26" selection-start-column="48" selection-end-line="26" selection-end-column="48" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4668#4669#0" expanded="true" />
+            <element signature="e#4709#4710#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/util/activeMq/ActiveMq.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-683">
+          <caret line="217" selection-start-line="217" selection-end-line="217" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/SendMessage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="106">
+          <caret line="92" lean-forward="true" selection-start-line="92" selection-end-line="92" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/networking/retrofithelper/RetrofitHelperPlatformHost.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/requestobject/RequestGetContact.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="12" column="22" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
+          <folding>
+            <element signature="e#283#284#0" expanded="true" />
+            <element signature="e#341#342#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chat-log.out">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="5110" column="986" selection-start-line="5110" selection-end-line="5110" selection-end-column="986" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/util/InviteType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="8" column="45" selection-start-line="8" selection-start-column="45" selection-end-line="8" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/GetContact.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="163">
+          <caret line="34" column="24" selection-start-line="34" selection-start-column="24" selection-end-line="34" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/CreatThreadTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="279">
+          <caret line="184" column="51" selection-start-line="184" selection-start-column="51" selection-end-line="184" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/util/ThreadType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/AddContact.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="142">
+          <caret line="116" column="9" selection-start-line="116" selection-start-column="9" selection-end-line="116" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/RemoveConatct.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="87" column="45" selection-start-line="87" selection-start-column="45" selection-end-line="87" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/UpdateContact.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-100">
+          <caret line="20" column="42" selection-start-line="20" selection-start-column="42" selection-end-line="20" selection-end-column="42" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/ChatMain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-121">
-          <caret line="31" column="27" lean-forward="true" selection-start-line="31" selection-start-column="27" selection-end-line="31" selection-end-column="27" />
+        <state relative-caret-position="1450">
+          <caret line="68" column="4" selection-start-line="68" selection-start-column="4" selection-end-line="68" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ReplyMessage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="75" column="25" selection-start-line="75" selection-start-column="25" selection-end-line="75" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/requestobject/BaseRequestObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="50">
+          <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/requestobject/RequestThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="4" column="38" lean-forward="true" selection-start-line="4" selection-start-column="38" selection-end-line="4" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/mainmodel/ChatMessage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="50">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ChatController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="87" column="31" lean-forward="true" selection-start-line="87" selection-start-column="31" selection-end-line="87" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/model/BaseOutPut.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
           <folding>
-            <element signature="e#1168#1169#0" expanded="true" />
-            <element signature="e#1218#1219#0" expanded="true" />
+            <element signature="e#239#240#0" expanded="true" />
+            <element signature="e#270#271#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/GetThreadTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="56" column="63" lean-forward="true" selection-start-line="56" selection-start-column="63" selection-end-line="56" selection-end-column="63" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2809#2810#0" expanded="true" />
+            <element signature="e#2840#2841#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/podChat/chat/Chat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2187">
+          <caret line="2341" column="17" selection-start-line="2341" selection-start-column="17" selection-end-line="2341" selection-end-column="17" />
         </state>
       </provider>
     </entry>

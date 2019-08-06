@@ -6,7 +6,7 @@ import java.util.concurrent.ScheduledExecutorService;
 /**
  * Created By Khojasteh on 7/28/2019
  */
-public class getInfoExecutor {
+public class GetInfoExecutor {
     static ScheduledExecutorService taskExecutor;
 
     public static ScheduledExecutorService getInstance() {
@@ -17,7 +17,7 @@ public class getInfoExecutor {
     }
 
     public static void setTaskExecutor(ScheduledExecutorService taskExecutor) {
-        getInfoExecutor.taskExecutor = taskExecutor;
+        GetInfoExecutor.taskExecutor = taskExecutor;
     }
 
     public static ScheduledExecutorService getTaskExecutor() {

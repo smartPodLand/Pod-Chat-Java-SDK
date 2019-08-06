@@ -80,10 +80,10 @@ public interface ContactApi {
             , @Field("typeCode") String typeCode
     );
 
-
-    @POST("nzh/updateContacts")
+    /* Update contact without type code*/
+    @POST("/srv/basic-platform/nzh/updateContacts")
     @FormUrlEncoded
-    Call<Response<UpdateContact>> updateContact(@Header("_token_") String token
+    Call<UpdateContact> updateContact(@Header("_token_") String token
             , @Header("_token_issuer_") int tokenIssuer
             , @Field("id") long id
             , @Field("firstName") String firstName
@@ -91,6 +91,20 @@ public interface ContactApi {
             , @Field("email") String email
             , @Field("uniqueId") String uniqueId
             , @Field("cellphoneNumber") String cellphoneNumber);
+
+
+    /* Update contact with type code*/
+    @POST("/srv/basic-platform/nzh/updateContacts")
+    @FormUrlEncoded
+    Call<UpdateContact> updateContact(@Header("_token_") String token
+            , @Header("_token_issuer_") int tokenIssuer
+            , @Field("id") long id
+            , @Field("firstName") String firstName
+            , @Field("lastName") String lastName
+            , @Field("email") String email
+            , @Field("uniqueId") String uniqueId
+            , @Field("cellphoneNumber") String cellphoneNumber
+            , @Field("typeCode") String typeCode);
 
     @GET("nzh/listContacts")
     Call<Response<SearchContactVO>> searchContact(@Header("_token_") String token

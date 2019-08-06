@@ -174,13 +174,13 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void replyMessage(String messageContent, long threadId, long messageId, Integer messageType, ChatHandler handler) {
-
+    public void replyMessage(String messageContent, long threadId, long messageId, String systemMetaData, Integer messageType, ChatHandler handler) {
+        chat.replyMessage(messageContent, threadId, messageId, messageContent, messageType, handler);
     }
 
     @Override
     public void replyMessage(RequestReplyMessage request, ChatHandler handler) {
-
+        chat.replyMessage(request, handler);
     }
 
     @Override
@@ -270,12 +270,12 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     @Override
     public void updateContact(int id, String firstName, String lastName, String cellphoneNumber, String email) {
-
+        chat.updateContact(id, firstName, lastName, cellphoneNumber, email);
     }
 
     @Override
     public void updateContact(RequestUpdateContact updateContact) {
-
+        chat.updateContact(updateContact);
     }
 
     @Override
@@ -451,7 +451,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void onUpdateContact(String content, ChatResponse<ResultUpdateContact> chatResponse) {
         super.onUpdateContact(content, chatResponse);
-        view.onUpdateContact();
+        view.onUpdateContact(chatResponse);
     }
 
     @Override
@@ -519,6 +519,8 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
                 super.onSeen(uniqueId);
             }
         });
+
+        view.onNewMessage(chatResponse);
     }
 
     @Override

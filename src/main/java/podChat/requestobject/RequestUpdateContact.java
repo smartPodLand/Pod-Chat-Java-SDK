@@ -25,28 +25,12 @@ public class RequestUpdateContact extends GeneralRequestObject {
         private String cellphoneNumber;
         private String email;
 
-        public Builder(long userId) {
+        public Builder(long userId, String firstName, String lastName, String cellphoneNumber, String email) {
             this.userId = userId;
-        }
-
-        public Builder firstName(String firstName) {
             this.firstName = firstName;
-            return this;
-        }
-
-        public Builder lastName(String lastName) {
             this.lastName = lastName;
-            return this;
-        }
-
-        public Builder cellphoneNumber(String cellphoneNumber) {
             this.cellphoneNumber = cellphoneNumber;
-            return this;
-        }
-
-        public Builder email(String email) {
             this.email = email;
-            return this;
         }
 
 

@@ -5,21 +5,22 @@ import exception.ConnectionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import podAsync.Async;
-import podChat.mainmodel.Invitee;
+import podChat.mainmodel.MessageVO;
 import podChat.model.*;
 import podChat.requestobject.RequestAddContact;
 import podChat.requestobject.RequestGetContact;
-import podChat.requestobject.RequestThread;
-import podChat.util.InviteType;
+import podChat.requestobject.RequestMessage;
+import podChat.requestobject.RequestReplyMessage;
 
 /**
  * Created By Khojasteh on 7/27/2019
  */
 public class ChatMain implements ChatContract.view {
     private static Logger logger = LogManager.getLogger(Async.class);
+    static boolean temp = false;
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "cf7e7f0495794f438e1dd919af10b7c5";
+    static String token = "0a46b2bb36eb40d6913251506f29ada9";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
@@ -49,32 +50,35 @@ public class ChatMain implements ChatContract.view {
 
     @Override
     public void onGetUserInfo(ChatResponse<ResultUserInfo> outPutUserInfo) {
-        logger.info("GET USER INFO :   " + gson.toJson(outPutUserInfo));
 
-        Invitee[] invitees = new Invitee[1];
-        Invitee invitee = new Invitee();
-        invitee.setIdType(InviteType.TO_BE_USER_CELLPHONE_NUMBER);
-        invitee.setId(9156452709l);
+        RequestMessage requestThread = new RequestMessage
+                .Builder("this is final test", 5461)
+                .build();
 
-        invitees[0] = invitee;
-        chatController.createThread(0, invitees, "sendMessage", "", "", "");
+        chatController.sendTextMessage(requestThread, null);
+
+        //   logger.info("GET USER INFO :   " + gson.toJson(outPutUserInfo));
+//
+//        Invitee[] invitees = new Invitee[1];
+//        Invitee invitee = new Invitee();
+//        invitee.setIdType(InviteType.TO_BE_USER_CELLPHONE_NUMBER);
+//        invitee.setId(9156452709l);
+//
+//        invitees[0] = invitee;
+//        chatController.createThread(0, invitees, "sendMessage", "", "", "");
     }
 
 
     @Override
     public void onCreateThread(ChatResponse<ResultThread> outPutThread) {
-        logger.info("CREATE THREAD:   " + gson.toJson(outPutThread));
+        //logger.info("CREATE THREAD:   " + gson.toJson(outPutThread));
 
         Gson gson = new Gson();
 
 //        ChatResponse<ResultThread> chatResponse = gson.fromJson(content, new TypeToken<ChatResponse<ResultThread>>() {
 //        }.getType());
 //
-//        RequestMessage requestThread = new RequestMessage
-//                .Builder("this is final test", chatResponse.getResult().getThread().getId())
-//                .build();
-//
-//        chatController.sendTextMessage(requestThread, null);
+
     }
 
     @Override
@@ -83,14 +87,33 @@ public class ChatMain implements ChatContract.view {
 
     }
 
+    @Override
+    public void onNewMessage(ChatResponse<ResultNewMessage> chatResponse) {
+        ResultNewMessage resultNewMessage = chatResponse.getResult();
+        if (!temp) {
+            long threadId = resultNewMessage.getThreadId();
+
+            MessageVO messageVO = resultNewMessage.getMessageVO();
+
+            long messageId = messageVO.getId();
+
+            RequestReplyMessage requestReplyMessage = new RequestReplyMessage
+                    .Builder("HELLOOOO", threadId, messageId)
+                    .build();
+
+            chatController.replyMessage(requestReplyMessage, null);
+            temp = true;
+        }
+    }
+
 
     @Override
     public void onSentMessage(ChatResponse<ResultMessage> chatResponse) {
         logger.info("SENT MESSAGE:  " + gson.toJson(chatResponse));
 
-        RequestThread requestThread = new RequestThread.Builder().build();
-
-        chatController.getThreads(requestThread, null);
+//        RequestThread requestThread = new RequestThread.Builder().build();
+//
+//        chatController.getThreads(requestThread, null);
     }
 
     @Override
@@ -102,7 +125,7 @@ public class ChatMain implements ChatContract.view {
     public void onGetDeliverMessage(ChatResponse<ResultMessage> chatResponse) {
         logger.info("DELIVERED MESSAGE:  " + gson.toJson(chatResponse));
 
-        addContact();
+        //addContact();
     }
 
     @Override

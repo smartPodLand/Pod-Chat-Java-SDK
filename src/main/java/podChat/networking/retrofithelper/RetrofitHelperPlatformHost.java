@@ -10,7 +10,10 @@ public class RetrofitHelperPlatformHost {
         addContactService.enqueue(new retrofit2.Callback<T>() {
             @Override
             public void onResponse(Call<T> call, Response<T> response) {
-                listener.onSuccess(response.body());
+                if (response.isSuccessful())
+                    listener.onSuccess(response.body());
+
+                else listener.onServerError(response.errorBody().toString());
             }
 
             @Override

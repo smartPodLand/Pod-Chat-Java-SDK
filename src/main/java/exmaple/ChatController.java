@@ -22,7 +22,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     private ChatContract.view view;
 
     public ChatController(ChatContract.view view) {
-        chat = Chat.init(false, false);
+        chat = Chat.init(false, true);
 
         chat.addListener(this);
         chat.addListener(new ChatListener() {
@@ -175,13 +175,13 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void replyMessage(String messageContent, long threadId, long messageId, Integer messageType, ChatHandler handler) {
-
+    public void replyMessage(String messageContent, long threadId, long messageId, String systemMetaData, Integer messageType, ChatHandler handler) {
+        chat.replyMessage(messageContent, threadId, messageId, systemMetaData, messageType, handler);
     }
 
     @Override
     public void replyMessage(RequestReplyMessage request, ChatHandler handler) {
-
+        chat.replyMessage(request, handler);
     }
 
     @Override
@@ -452,7 +452,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void onUpdateContact(String content, ChatResponse<ResultUpdateContact> chatResponse) {
         super.onUpdateContact(content, chatResponse);
-        view.onUpdateContact();
+        view.onUpdateContact(chatResponse);
     }
 
     @Override
@@ -520,6 +520,8 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
                 super.onSeen(uniqueId);
             }
         });
+
+        view.onNewMessage(chatResponse);
     }
 
     @Override

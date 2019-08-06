@@ -24,6 +24,7 @@ import podChat.requestobject.*;
 import podChat.util.*;
 import retrofit2.Call;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -924,20 +925,26 @@ public class Chat extends AsyncAdapter {
             RetrofitHelperPlatformHost.request(removeContactObservable, new ApiListener<ContactRemove>() {
                 @Override
                 public void onSuccess(ContactRemove contactRemove) {
-                    if (!contactRemove.getHasError()) {
-                        ChatResponse<ResultRemoveContact> chatResponse = new ChatResponse<>();
-                        chatResponse.setUniqueId(uniqueId);
-                        ResultRemoveContact resultRemoveContact = new ResultRemoveContact();
-                        resultRemoveContact.setResult(contactRemove.isResult());
 
-                        chatResponse.setResult(resultRemoveContact);
+                    if (contactRemove != null) {
 
-                        String json = gson.toJson(chatResponse);
+                        if (!contactRemove.getHasError()) {
 
-                        listenerManager.callOnRemoveContact(json, chatResponse);
-                        showInfoLog("RECEIVED_REMOVE_CONTACT", json);
-                    } else {
-                        getErrorOutPut(contactRemove.getErrorMessage(), contactRemove.getErrorCode(), uniqueId);
+                            ChatResponse<ResultRemoveContact> chatResponse = new ChatResponse<>();
+                            chatResponse.setUniqueId(uniqueId);
+                            ResultRemoveContact resultRemoveContact = new ResultRemoveContact();
+                            resultRemoveContact.setResult(contactRemove.isResult());
+
+                            chatResponse.setResult(resultRemoveContact);
+
+                            String json = gson.toJson(chatResponse);
+
+                            listenerManager.callOnRemoveContact(json, chatResponse);
+
+                            showInfoLog("RECEIVED_REMOVE_CONTACT", json);
+                        } else {
+                            getErrorOutPut(contactRemove.getErrorMessage(), contactRemove.getErrorCode(), uniqueId);
+                        }
                     }
                 }
 
@@ -965,6 +972,176 @@ public class Chat extends AsyncAdapter {
     public String removeContact(RequestRemoveContact request) {
         long userId = request.getUserId();
         return removeContact(userId);
+    }
+
+
+    /**
+     * Update contacts
+     * all of the params all required to update
+     */
+    public String updateContact(long userId, String firstName, String lastName, String cellphoneNumber, String email) {
+
+        String uniqueId = generateUniqueId();
+
+        if (Util.isNullOrEmpty(firstName)) {
+            firstName = "";
+        }
+
+        if (Util.isNullOrEmpty(lastName)) {
+            lastName = "";
+        }
+
+        if (Util.isNullOrEmpty(cellphoneNumber)) {
+            cellphoneNumber = "";
+        }
+
+        if (Util.isNullOrEmpty(email)) {
+            email = "";
+        }
+
+        if (chatReady) {
+            Call<UpdateContact> updateContactObservable;
+
+            if (Util.isNullOrEmpty(getTypeCode())) {
+                updateContactObservable = contactApi.updateContact(getToken(), 1, userId, firstName, lastName, email, uniqueId, cellphoneNumber);
+            } else {
+                updateContactObservable = contactApi.updateContact(getToken(), 1, userId, firstName, lastName, email, uniqueId, cellphoneNumber, getTypeCode());
+            }
+
+            RetrofitHelperPlatformHost.request(updateContactObservable, new ApiListener<UpdateContact>() {
+                @Override
+                public void onSuccess(UpdateContact updateContact) {
+
+                    if (updateContact != null) {
+
+                        if (!updateContact.getHasError()) {
+
+                            ChatResponse<ResultUpdateContact> chatResponse = new ChatResponse<>();
+                            chatResponse.setUniqueId(uniqueId);
+
+                            ResultUpdateContact resultUpdateContact = new ResultUpdateContact();
+
+                            if (!Util.isNullOrEmpty(updateContact.getCount())) {
+                                resultUpdateContact.setContentCount(updateContact.getCount());
+                            }
+                            resultUpdateContact.setContacts(updateContact.getResult());
+                            chatResponse.setResult(resultUpdateContact);
+
+                            String json = gson.toJson(chatResponse);
+
+                            listenerManager.callOnUpdateContact(json, chatResponse);
+
+                            showInfoLog("RECEIVE_UPDATE_CONTACT", json);
+
+                        } else {
+                            String errorMsg = updateContact.getMessage();
+                            int errorCodeMsg = updateContact.getErrorCode();
+
+                            errorMsg = errorMsg != null ? errorMsg : "";
+
+                            getErrorOutPut(errorMsg, errorCodeMsg, uniqueId);
+                        }
+                    }
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    showErrorLog(throwable.getMessage());
+                }
+
+                @Override
+                public void onServerError(String errorMessage) {
+                    showErrorLog(errorMessage);
+                }
+            });
+
+        } else {
+            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+        }
+
+        return uniqueId;
+    }
+
+    /**
+     * Update contacts
+     * all of the params all required
+     */
+    public String updateContact(RequestUpdateContact request) {
+        String firstName = request.getFirstName();
+        String lastName = request.getLastName();
+        String email = request.getEmail();
+        String cellphoneNumber = request.getCellphoneNumber();
+        long userId = request.getUserId();
+
+        return updateContact(userId, firstName, lastName, cellphoneNumber, email);
+    }
+
+    /**
+     * It deletes message from the thread
+     *
+     * @param messageIds   Id of the message that you want to be removed.
+     * @param deleteForAll If you want to delete message for everyone you can set it true if u don't want
+     *                     you can set it false or even null.
+     */
+    public String deleteMessage(ArrayList<Long> messageIds, Boolean deleteForAll, ChatHandler handler) {
+        String  uniqueId = generateUniqueId();
+
+        if (chatReady) {
+
+            deleteForAll = deleteForAll != null ? deleteForAll : false;
+            BaseMessage baseMessage = new BaseMessage();
+
+            JsonObject contentObj = new JsonObject();
+            contentObj.addProperty("deleteForAll", deleteForAll);
+
+            JsonElement element = gson.toJsonTree(messageIds, new TypeToken<List<Long>>() {
+            }.getType());
+
+            JsonArray jsonArray = element.getAsJsonArray();
+            contentObj.add("ids", jsonArray);
+
+            baseMessage.setContent(contentObj.toString());
+            baseMessage.setToken(getToken());
+            baseMessage.setTokenIssuer("1");
+            baseMessage.setType(ChatMessageType.DELETE_MESSAGE);
+            baseMessage.setUniqueId(uniqueId);
+
+            JsonObject jsonObject = (JsonObject) gson.toJsonTree(baseMessage);
+            jsonObject.remove("subjectId");
+
+            if (Util.isNullOrEmpty(getTypeCode())) {
+                jsonObject.remove("typeCode");
+            } else {
+                jsonObject.remove("typeCode");
+                jsonObject.addProperty("typeCode", getTypeCode());
+            }
+
+            String asyncContent = jsonObject.toString();
+
+            sendAsyncMessage(asyncContent, 4, "SEND_DELETE_MESSAGE");
+            setCallBacks(null, null, null, true, ChatMessageType.DELETE_MESSAGE, null, uniqueId);
+
+            if (handler != null) {
+                handler.onDeleteMessage(uniqueId);
+            }
+
+        } else {
+            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+        }
+
+        return uniqueId;
+    }
+
+    /**
+     * DELETE MESSAGE IN THREAD
+     * <p>
+     * messageId    Id of the message that you want to be removed.
+     * deleteForAll If you want to delete message for everyone you can set it true if u don't want
+     * you can set it false or even null.
+     */
+    public String deleteMessage(RequestDeleteMessage request, ChatHandler handler) {
+
+        return deleteMessage(request.getMessageIds(), request.isDeleteForAll(), handler);
     }
 
     /**
@@ -1234,6 +1411,92 @@ public class Chat extends AsyncAdapter {
                 .metadat(request.getMetadata())
                 .build();
         return updateThreadInfo(request.getThreadId(), threadInfoVO, handler);
+    }
+
+    /**
+     * Reply the message in the current thread and send az message and receive at the
+     * <p>
+     * messageContent content of the reply message
+     * threadId       id of the thread
+     * messageId      of the message that we want to reply
+     * metaData       meta data of the message
+     */
+    public String replyMessage(RequestReplyMessage request, ChatHandler handler) {
+        long threadId = request.getThreadId();
+        long messageId = request.getMessageId();
+        String messageContent = request.getMessageContent();
+        String systemMetaData = request.getSystemMetaData();
+        int messageType = request.getMessageType();
+
+        return mainReplyMessage(messageContent, threadId, messageId, systemMetaData, messageType, null, handler);
+    }
+
+    private String mainReplyMessage(String messageContent, long threadId, long messageId, String systemMetaData, Integer messageType, String metaData, ChatHandler handler) {
+        String uniqueId;
+        uniqueId = generateUniqueId();
+
+        ChatMessage chatMessage = new ChatMessage();
+        chatMessage.setUniqueId(uniqueId);
+        chatMessage.setRepliedTo(messageId);
+        chatMessage.setSubjectId(threadId);
+        chatMessage.setTokenIssuer("1");
+        chatMessage.setToken(getToken());
+        chatMessage.setContent(messageContent);
+        chatMessage.setTime(1000);
+        chatMessage.setType(ChatMessageType.MESSAGE);
+
+        JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
+
+        if (Util.isNullOrEmpty(systemMetaData)) {
+            jsonObject.remove("systemMetaData");
+        } else {
+            jsonObject.remove("systemMetaData");
+            jsonObject.addProperty("systemMetaData", systemMetaData);
+        }
+
+        if (Util.isNullOrEmpty(getTypeCode())) {
+            jsonObject.remove("typeCode");
+        } else {
+            jsonObject.remove("typeCode");
+            jsonObject.addProperty("typeCode", getTypeCode());
+        }
+
+        if (Util.isNullOrEmpty(messageType)) {
+            jsonObject.remove("messageType");
+        } else {
+            jsonObject.remove("messageType");
+            jsonObject.addProperty("messageType", messageType);
+        }
+
+        String asyncContent = jsonObject.toString();
+
+        if (chatReady) {
+
+            setThreadCallbacks(threadId, uniqueId);
+
+            sendAsyncMessage(asyncContent, 4, "SEND_REPLY_MESSAGE");
+
+            if (handler != null) {
+                handler.onReplyMessage(uniqueId);
+            }
+
+        } else {
+            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+        }
+        return uniqueId;
+    }
+
+
+    /**
+     * Reply the message in the current thread and send az message and receive at the
+     *
+     * @param messageContent content of the reply message
+     * @param threadId       id of the thread
+     * @param messageId      of the message that we want to reply
+     * @param systemMetaData meta data of the message
+     */
+    public String replyMessage(String messageContent, long threadId, long messageId, String systemMetaData, Integer messageType, ChatHandler handler) {
+        return mainReplyMessage(messageContent, threadId, messageId, systemMetaData, messageType, null, handler);
     }
 
 
@@ -1781,7 +2044,7 @@ public class Chat extends AsyncAdapter {
             retryStepUserInfo = 1;
             chatReady = false;
 
-            getInfoExecutor.stopThread();
+            GetInfoExecutor.stopThread();
 
             String errorMessage = error.getMessage();
             long errorCode = error.getCode();
@@ -1844,7 +2107,7 @@ public class Chat extends AsyncAdapter {
 
         chatReady = true;
 
-        getInfoExecutor.stopThread();
+        GetInfoExecutor.stopThread();
 
         listenerManager.callOnChatState(ChatStateType.CHAT_READY);
         showInfoLog("** CLIENT_AUTHENTICATED_NOW", "");
@@ -2439,7 +2702,7 @@ public class Chat extends AsyncAdapter {
     private void handleOnGetUserInfo(ChatMessage chatMessage, String messageUniqueId, Callback callback) {
 
         if (callback.isResult()) {
-            getInfoExecutor.stopThread();
+            GetInfoExecutor.stopThread();
 
             userInfoResponse = true;
             ChatResponse<ResultUserInfo> chatResponse = new ChatResponse<>();
@@ -2461,14 +2724,14 @@ public class Chat extends AsyncAdapter {
 
     private void retryOnGetUserInfo() {
 
-        PingExecutor.getInstance().
-                schedule(() -> checkForGetUserInfo(),
+        GetInfoExecutor.getInstance().
+                scheduleAtFixedRate(() -> checkForGetUserInfo(),1000,
                         retryStepUserInfo * 1000, TimeUnit.MILLISECONDS);
     }
 
     private void checkForGetUserInfo() {
         if (userInfoResponse) {
-            getInfoExecutor.stopThread();
+            GetInfoExecutor.stopThread();
             userInfoResponse = false;
             retryStepUserInfo = 1;
 
@@ -2529,16 +2792,22 @@ public class Chat extends AsyncAdapter {
 
         ChatResponse<ResultDeleteMessage> chatResponse = new ChatResponse<>();
         chatResponse.setUniqueId(chatMessage.getUniqueId());
+
         long messageId = Long.valueOf(chatMessage.getContent());
+
         ResultDeleteMessage resultDeleteMessage = new ResultDeleteMessage();
+
         DeleteMessageContent deleteMessage = new DeleteMessageContent();
         deleteMessage.setId(messageId);
+
         resultDeleteMessage.setDeletedMessage(deleteMessage);
+
         chatResponse.setResult(resultDeleteMessage);
 
         String jsonDeleteMsg = gson.toJson(chatResponse);
 
         listenerManager.callOnDeleteMessage(jsonDeleteMsg, chatResponse);
+
         showInfoLog("RECEIVE_DELETE_MESSAGE", jsonDeleteMsg);
     }
 

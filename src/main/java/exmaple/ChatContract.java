@@ -68,7 +68,7 @@ public interface ChatContract {
         default void onAddContact(ChatResponse<ResultAddContact> chatResponse) {
         }
 
-        default void onUpdateContact() {
+        default void onUpdateContact(ChatResponse<ResultUpdateContact> chatResponse) {
         }
 
         default void onUploadFile() {
@@ -126,6 +126,8 @@ public interface ChatContract {
         }
 
         default void onGetThreadAdmin() {
+        }
+        default void onNewMessage(ChatResponse<ResultNewMessage> chatResponse) {
         }
     }
 
@@ -195,7 +197,7 @@ public interface ChatContract {
 
         void sendTextMessage(RequestMessage requestMessage, ChatHandler handler);
 
-        void replyMessage(String messageContent, long threadId, long messageId, Integer messageType, ChatHandler handler);
+        void replyMessage(String messageContent, long threadId, long messageId, String systemMetaData, Integer messageType, ChatHandler handler);
 
         // void replyFileMessage(RequestReplyFileMessage request, ProgressHandler.sendFileMessage handler);
 

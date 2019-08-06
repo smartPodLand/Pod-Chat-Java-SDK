@@ -7,7 +7,7 @@ public abstract class BaseOutPut {
     private long errorCode;
     private String uniqueId;
 
-    public boolean isHasError() {
+    public boolean hasError() {
         return hasError;
     }
 
