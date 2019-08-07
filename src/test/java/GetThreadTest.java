@@ -7,6 +7,8 @@ import podChat.model.ChatResponse;
 import podChat.model.ResultUserInfo;
 import podChat.requestobject.RequestThread;
 
+import java.util.ArrayList;
+
 /**
  * Created By Khojasteh on 8/6/2019
  */
@@ -21,7 +23,7 @@ public class GetThreadTest implements ChatContract.view {
     static ChatController chatController = Mockito.mock(ChatController.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "b9ee4c528c284cb8a56356b7ee45d068";
+    static String token = "4b9f956b82214febaba162061050ae1d";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
@@ -77,10 +79,6 @@ public class GetThreadTest implements ChatContract.view {
 
     }
 
-    @BeforeAll
-    void reset() {
-        Mockito.reset();
-    }
 
     @Test
     @Order(2)
@@ -100,6 +98,77 @@ public class GetThreadTest implements ChatContract.view {
         Mockito.verify(chatContract, Mockito.atLeastOnce()).onGetThreadList(argument.capture());
 
         ChatResponse chatResponse = (ChatResponse) argument.getValue();
+
+        Assertions.assertTrue(!chatResponse.hasError());
+
+    }
+
+    //Get Thread with Name
+    @Test
+    @Order(2)
+    void getThreatWithName() throws InterruptedException {
+        RequestThread requestThread = new RequestThread
+                .Builder()
+                .threadName("sendMessage")
+                .build();
+
+        chatController.getThreads(requestThread, null);
+
+        Thread.sleep(3000);
+
+        ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
+
+        Mockito.verify(chatContract, Mockito.atLeastOnce()).onGetThreadList(argument.capture());
+
+        ChatResponse chatResponse = argument.getValue();
+
+        Assertions.assertTrue(!chatResponse.hasError());
+
+    }
+
+    //Get Thread with id
+    @Test
+    @Order(2)
+    void getThreatWithId() throws InterruptedException {
+        RequestThread requestThread = new RequestThread
+                .Builder()
+                .threadIds(new ArrayList<Integer>() {{
+                    add(5462);
+                }})
+                .build();
+
+        chatController.getThreads(requestThread, null);
+
+        Thread.sleep(3000);
+
+        ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
+
+        Mockito.verify(chatContract, Mockito.atLeastOnce()).onGetThreadList(argument.capture());
+
+        ChatResponse chatResponse = argument.getValue();
+
+        Assertions.assertTrue(!chatResponse.hasError());
+
+    }
+
+    //Get Thread with partner's contact id
+    @Test
+    @Order(2)
+    void getThreatWithPartnerContactId() throws InterruptedException {
+        RequestThread requestThread = new RequestThread
+                .Builder()
+                .partnerCoreContactId(1181)
+                .build();
+
+        chatController.getThreads(requestThread, null);
+
+        Thread.sleep(3000);
+
+        ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
+
+        Mockito.verify(chatContract, Mockito.atLeastOnce()).onGetThreadList(argument.capture());
+
+        ChatResponse chatResponse = argument.getValue();
 
         Assertions.assertTrue(!chatResponse.hasError());
 

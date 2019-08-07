@@ -50,7 +50,7 @@ public interface ChatContract {
         default void onEditMessage() {
         }
 
-        default void onDeleteMessage() {
+        default void onDeleteMessage(ChatResponse<ResultDeleteMessage> outPutDeleteMessage) {
         }
 
         default void onCreateThread(ChatResponse<ResultThread> outPutThread) {
@@ -269,8 +269,6 @@ public interface ChatContract {
         void updateThreadInfo(long threadId, ThreadInfoVO threadInfoVO, ChatHandler handler);
 
         void updateThreadInfo(RequestThreadInfo request, ChatHandler handler);
-
-        void deleteMessage(ArrayList<Long> messageIds, Boolean deleteForAll, ChatHandler handler);
 
         void deleteMessage(RequestDeleteMessage deleteMessage, ChatHandler handler);
 

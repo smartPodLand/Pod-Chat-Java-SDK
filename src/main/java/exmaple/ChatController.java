@@ -325,13 +325,8 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void deleteMessage(ArrayList<Long> messageIds, Boolean deleteForAll, ChatHandler handler) {
-
-    }
-
-    @Override
     public void deleteMessage(RequestDeleteMessage deleteMessage, ChatHandler handler) {
-
+        chat.deleteMessage(deleteMessage, handler);
     }
 
     @Override
@@ -490,7 +485,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void onDeleteMessage(String content, ChatResponse<ResultDeleteMessage> outPutDeleteMessage) {
         super.onDeleteMessage(content, outPutDeleteMessage);
-        view.onDeleteMessage();
+        view.onDeleteMessage(outPutDeleteMessage);
     }
 
     @Override

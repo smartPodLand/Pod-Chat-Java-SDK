@@ -3,10 +3,14 @@ import exception.ConnectionException;
 import exmaple.ChatContract;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
+import org.mockito.internal.matchers.Any;
 import podChat.mainmodel.UserInfo;
 import podChat.model.ChatResponse;
+import podChat.model.ErrorOutPut;
 import podChat.model.ResultUserInfo;
-import podChat.requestobject.RequestGetContact;
+import podChat.requestobject.RequestDeleteMessage;
+
+import java.util.ArrayList;
 
 /**
  * Created By Khojasteh on 8/6/2019
@@ -15,14 +19,14 @@ import podChat.requestobject.RequestGetContact;
 @TestInstance(value = TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
-public class GetContact implements ChatContract.view {
+public class DeleteMessage implements ChatContract.view {
     @Mock
     static ChatContract.view chatContract;
     @InjectMocks
     static ChatController chatController = Mockito.mock(ChatController.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "aa18f86325374b898c0b3bd9080735c0";
+    static String token = "daa2e621b4e841d38f52565b9a35091f";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
@@ -68,65 +72,50 @@ public class GetContact implements ChatContract.view {
 
     @Test
     @Order(2)
-    void getContactWithPagination() throws InterruptedException {
-        RequestGetContact requestGetContact = new RequestGetContact
-                .Builder()
-                .count(3)
-                .offset(0)
+    void deleteMessage() throws InterruptedException {
+
+        RequestDeleteMessage requestDeleteMessage = new RequestDeleteMessage
+                .Builder(new ArrayList<Long>() {{
+            add(46986L);
+        }})
+                .deleteForAll(true)
                 .build();
-        chatController.getContact(requestGetContact, null);
+
+        chatController.deleteMessage(requestDeleteMessage, null);
 
         Thread.sleep(3000);
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onGetContacts(argument.capture());
+        Mockito.verify(chatContract, Mockito.atMost(1)).onDeleteMessage(argument.capture());
 
-        ChatResponse chatResponse = argument.getValue();
+        ArgumentCaptor<ErrorOutPut> argument2 = ArgumentCaptor.forClass(ErrorOutPut.class);
 
-        Assertions.assertTrue(!chatResponse.hasError());
+        Mockito.verify(chatContract, Mockito.atMost(1)).onError(argument2.capture());
 
     }
 
+    //The messageId does not exist
     @Test
     @Order(2)
-    void getContactWithoutPagination() throws InterruptedException {
-        RequestGetContact requestGetContact = new RequestGetContact
-                .Builder()
+    void deleteMessageError() throws InterruptedException {
+
+        RequestDeleteMessage requestDeleteMessage = new RequestDeleteMessage
+                .Builder(new ArrayList<Long>() {{
+            add(469811L);
+        }})
+                .deleteForAll(true)
                 .build();
-        chatController.getContact(requestGetContact, null);
+
+        chatController.deleteMessage(requestDeleteMessage, null);
 
         Thread.sleep(3000);
 
-        ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
+        ArgumentCaptor<ErrorOutPut> argument = ArgumentCaptor.forClass(ErrorOutPut.class);
 
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onGetContacts(argument.capture());
+        Mockito.verify(chatContract, Mockito.atLeastOnce()).onError(argument.capture());
 
-        ChatResponse chatResponse = argument.getValue();
-
-        Assertions.assertTrue(!chatResponse.hasError());
-
-    }
-
-    @Test
-    @Order(2)
-    void getContactOnlyCount() throws InterruptedException {
-        RequestGetContact requestGetContact = new RequestGetContact
-                .Builder()
-                .count(1)
-                .build();
-        chatController.getContact(requestGetContact, null);
-
-        Thread.sleep(3000);
-
-
-        ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
-
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onGetContacts(argument.capture());
-
-        ChatResponse chatResponse = argument.getValue();
-
-        Assertions.assertTrue(!chatResponse.hasError());
+        Assertions.assertTrue(argument.getValue().isHasError());
 
     }
 

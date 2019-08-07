@@ -24,7 +24,6 @@ import podChat.requestobject.*;
 import podChat.util.*;
 import retrofit2.Call;
 
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -651,8 +650,6 @@ public class Chat extends AsyncAdapter {
      * and order must be lower case
      * lastMessageId
      * FirstMessageId
-     * {@link #checkMessagesValidation(long)} It is checked that if the message had been sent then its removed
-     * it from the messageQueue.
      *
      * @param threadId Id of the thread that we want to get the history
      */
@@ -779,7 +776,9 @@ public class Chat extends AsyncAdapter {
             String asyncContent = jsonObject.toString();
 
             setCallBacks(null, null, null, true, ChatMessageType.GET_HISTORY, messageCriteriaVO.getOffset(), uniqueId);
+
             sendAsyncMessage(asyncContent, 3, "SEND SEARCH0. HISTORY");
+
             if (handler != null) {
                 handler.onSearchHistory(uniqueId);
             }
@@ -1077,18 +1076,70 @@ public class Chat extends AsyncAdapter {
     }
 
     /**
-     * It deletes message from the thread
+     * It deletes message from the thread.
      *
-     * @param messageIds   Id of the message that you want to be removed.
+     * @param messageId    Id of the message that you want to be removed.
      * @param deleteForAll If you want to delete message for everyone you can set it true if u don't want
      *                     you can set it false or even null.
      */
-    public String deleteMessage(ArrayList<Long> messageIds, Boolean deleteForAll, ChatHandler handler) {
-        String  uniqueId = generateUniqueId();
+    public String deleteMessage(Long messageId, Boolean deleteForAll, ChatHandler handler) {
+        String uniqueId = generateUniqueId();
 
         if (chatReady) {
 
             deleteForAll = deleteForAll != null ? deleteForAll : false;
+
+            BaseMessage baseMessage = new BaseMessage();
+
+            JsonObject contentObj = new JsonObject();
+            contentObj.addProperty("deleteForAll", deleteForAll);
+
+
+            baseMessage.setContent(contentObj.toString());
+            baseMessage.setToken(getToken());
+            baseMessage.setTokenIssuer("1");
+            baseMessage.setType(ChatMessageType.DELETE_MESSAGE);
+            baseMessage.setUniqueId(uniqueId);
+            baseMessage.setSubjectId(messageId);
+
+            JsonObject jsonObject = (JsonObject) gson.toJsonTree(baseMessage);
+
+            if (Util.isNullOrEmpty(getTypeCode())) {
+                jsonObject.remove("typeCode");
+            } else {
+                jsonObject.remove("typeCode");
+                jsonObject.addProperty("typeCode", getTypeCode());
+            }
+
+            String asyncContent = jsonObject.toString();
+
+            sendAsyncMessage(asyncContent, 4, "SEND_DELETE_MESSAGE");
+            setCallBacks(null, null, null, true, ChatMessageType.DELETE_MESSAGE, null, uniqueId);
+
+            if (handler != null) {
+                handler.onDeleteMessage(uniqueId);
+            }
+
+        } else {
+            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+        }
+
+        return uniqueId;
+    }
+
+    /**
+     * @param messageIds
+     * @param deleteForAll
+     * @param handler
+     */
+
+    public String deleteMultiMessages(ArrayList<Long> messageIds, Boolean deleteForAll, ChatHandler handler) {
+        String uniqueId = generateUniqueId();
+
+        if (chatReady) {
+
+            deleteForAll = deleteForAll != null ? deleteForAll : false;
+
             BaseMessage baseMessage = new BaseMessage();
 
             JsonObject contentObj = new JsonObject();
@@ -1105,6 +1156,7 @@ public class Chat extends AsyncAdapter {
             baseMessage.setTokenIssuer("1");
             baseMessage.setType(ChatMessageType.DELETE_MESSAGE);
             baseMessage.setUniqueId(uniqueId);
+            baseMessage.setSubjectId(messageIds.get(0));
 
             JsonObject jsonObject = (JsonObject) gson.toJsonTree(baseMessage);
             jsonObject.remove("subjectId");
@@ -1140,8 +1192,12 @@ public class Chat extends AsyncAdapter {
      * you can set it false or even null.
      */
     public String deleteMessage(RequestDeleteMessage request, ChatHandler handler) {
+        if (request.getMessageIds().size() > 1)
 
-        return deleteMessage(request.getMessageIds(), request.isDeleteForAll(), handler);
+            return deleteMultiMessages(request.getMessageIds(), request.isDeleteForAll(), handler);
+        else
+
+            return deleteMessage(request.getMessageIds().get(0), request.isDeleteForAll(), handler);
     }
 
     /**
@@ -1246,7 +1302,9 @@ public class Chat extends AsyncAdapter {
         List<String> forwardUniqueIds;
         JsonObject innerMessageObj;
         JsonObject jsonObject;
+
         String threadUniqueId = generateUniqueId();
+
         ArrayList<String> uniqueIds = new ArrayList<>();
         uniqueIds.add(threadUniqueId);
         try {
@@ -1263,8 +1321,10 @@ public class Chat extends AsyncAdapter {
                     innerMessageObj.remove("message");
                 } else {
                     String newMsgUniqueId = generateUniqueId();
+
                     innerMessageObj.addProperty("uniqueId", newMsgUniqueId);
                     uniqueIds.add(newMsgUniqueId);
+
                     setCallBacks(true, true, true, true, ChatMessageType.MESSAGE, null, newMsgUniqueId);
                 }
 
@@ -1273,10 +1333,13 @@ public class Chat extends AsyncAdapter {
                     /** Its generated new unique id for each forward message*/
                     List<Long> messageIds = threadRequest.getMessage().getForwardedMessageIds();
                     forwardUniqueIds = new ArrayList<>();
+
                     for (long ids : messageIds) {
                         String frwMsgUniqueId = generateUniqueId();
+
                         forwardUniqueIds.add(frwMsgUniqueId);
                         uniqueIds.add(frwMsgUniqueId);
+
                         setCallBacks(true, true, true, true, ChatMessageType.MESSAGE, null, frwMsgUniqueId);
                     }
                     JsonElement element = gson.toJsonTree(forwardUniqueIds, new TypeToken<List<Long>>() {
@@ -1325,7 +1388,7 @@ public class Chat extends AsyncAdapter {
 
                 sendAsyncMessage(jsonObject.toString(), 4, "SEND_CREATE_THREAD_WITH_MESSAGE");
             } else {
-                String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, threadUniqueId);
+                getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, threadUniqueId);
             }
 
         } catch (Throwable e) {
@@ -2696,9 +2759,7 @@ public class Chat extends AsyncAdapter {
         }
     }
 
-    /**
-     * Its check the Failed Queue {@link #checkMessageQueue()} to send all the message that is waiting to be send.
-     */
+
     private void handleOnGetUserInfo(ChatMessage chatMessage, String messageUniqueId, Callback callback) {
 
         if (callback.isResult()) {
@@ -2725,8 +2786,8 @@ public class Chat extends AsyncAdapter {
     private void retryOnGetUserInfo() {
 
         GetInfoExecutor.getInstance().
-                scheduleAtFixedRate(() -> checkForGetUserInfo(),1000,
-                        retryStepUserInfo * 1000, TimeUnit.MILLISECONDS);
+                scheduleAtFixedRate(() -> checkForGetUserInfo(), 0,
+                        10000, TimeUnit.MILLISECONDS);
     }
 
     private void checkForGetUserInfo() {
@@ -2736,9 +2797,17 @@ public class Chat extends AsyncAdapter {
             retryStepUserInfo = 1;
 
         } else {
-            if (retryStepUserInfo < 60) retryStepUserInfo *= 4;
-            getUserInfo(null);
-            showInfoLog("getUserInfo " + " retry in " + retryStepUserInfo + " s ", "");
+            if (retryStepUserInfo < 32) {
+                retryStepUserInfo *= 2;
+
+                getUserInfo(null);
+
+                showInfoLog("getUserInfo " + " retry in " + retryStepUserInfo + " s ", "");
+            } else {
+                GetInfoExecutor.stopThread();
+
+                getErrorOutPut(ChatConstant.ERROR_CANT_GET_USER_INFO, ChatConstant.ERROR_CODE_CANT_GET_USER_INFO, null);
+            }
         }
     }
 

@@ -23,7 +23,7 @@ public class AddContact implements ChatContract.view {
     static ChatController chatController = Mockito.mock(ChatController.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "fa51a58fa1b042baac2738b74978aa26";
+    static String token = "aa18f86325374b898c0b3bd9080735c0";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";

@@ -17,6 +17,10 @@ public class RequestDeleteMessage extends GeneralRequestObject {
         private boolean deleteForAll;
         private ArrayList<Long> messageIds;
 
+        public Builder(ArrayList<Long> messageIds) {
+            this.messageIds = messageIds;
+        }
+
         public Builder messageIds(ArrayList<Long> messageIds) {
             this.messageIds = messageIds;
             return this;
