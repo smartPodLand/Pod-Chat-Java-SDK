@@ -6,11 +6,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import podAsync.Async;
 import podChat.mainmodel.Invitee;
-import podChat.mainmodel.MessageVO;
 import podChat.mainmodel.RequestThreadInnerMessage;
 import podChat.mainmodel.ResultDeleteMessage;
 import podChat.model.*;
-import podChat.requestobject.*;
+import podChat.requestobject.RequestAddContact;
+import podChat.requestobject.RequestCreateThread;
+import podChat.requestobject.RequestGetContact;
+import podChat.requestobject.RequestMessage;
 import podChat.util.InviteType;
 
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ public class ChatMain implements ChatContract.view {
     static boolean temp = false;
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "d3382b5da69643048b5cf0de137fe175";
+    static String token = "5c0b12f7c00e4e32b4dfbccfe8687f3f";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
@@ -53,16 +55,20 @@ public class ChatMain implements ChatContract.view {
 
     @Override
     public void onGetUserInfo(ChatResponse<ResultUserInfo> outPutUserInfo) {
-     /*   RequestMessage requestThread = new RequestMessage
+        RequestMessage requestThread = new RequestMessage
                 .Builder("this is final test", 5461L)
                 .build();
 
-        chatController.sendTextMessage(requestThread, null);*/
+        chatController.sendTextMessage(requestThread, null);
 
 
-        RequestThreadInnerMessage requestThreadInnerMessage = new RequestThreadInnerMessage
+        /*RequestThreadInnerMessage requestThreadInnerMessage = new RequestThreadInnerMessage
                 .Builder()
                 .message("Hello zahraaaa")
+                .forwardedMessageIds(new ArrayList<Long>() {{
+                    add(47181L);
+                    add(47160L);
+                }})
                 .build();
 
         Invitee invitee = new Invitee();
@@ -75,7 +81,7 @@ public class ChatMain implements ChatContract.view {
         }})
                 .message(requestThreadInnerMessage)
                 .build();
-        chatController.createThreadWithMessage(requestCreateThread);
+        chatController.createThreadWithMessage(requestCreateThread);*/
 
 //        RequestDeleteMessage deleteMessage = new RequestDeleteMessage
 //                .Builder(new ArrayList<Long>() {{
@@ -145,10 +151,9 @@ public class ChatMain implements ChatContract.view {
     }
 
 
-
     @Override
     public void onSentMessage(ChatResponse<ResultMessage> chatResponse) {
-        logger.info("SENT MESSAGE:  " + gson.toJson(chatResponse));
+        //logger.info("SENT MESSAGE:  " + gson.toJson(chatResponse));
 
 //        RequestThread requestThread = new RequestThread.Builder().build();
 //
@@ -157,7 +162,7 @@ public class ChatMain implements ChatContract.view {
 
     @Override
     public void onGetSeenMessage(ChatResponse<ResultMessage> response) {
-   //     logger.info("SEEN MESSAGE:  " + gson.toJson(response));
+        //     logger.info("SEEN MESSAGE:  " + gson.toJson(response));
     }
 
     @Override

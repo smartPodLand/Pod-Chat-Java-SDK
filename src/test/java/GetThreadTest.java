@@ -23,7 +23,7 @@ public class GetThreadTest implements ChatContract.view {
     static ChatController chatController = Mockito.mock(ChatController.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "4b9f956b82214febaba162061050ae1d";
+    static String token = "ea3ad8b4101e42ddb6c513025a77d345";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
