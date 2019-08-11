@@ -25,14 +25,14 @@ public class CreatThreadTest implements ChatContract.view {
     static ChatController chatController = Mockito.mock(ChatController.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "f19edb43427f4946a40a960828224d9e";
+    static String token = "315c31c947ba4d09804e91db92e13af7";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
 
     Gson gson = new Gson();
 
-    @BeforeAll
+    @BeforeEach
     public void initMocks() {
         MockitoAnnotations.initMocks(this);
     }
@@ -86,7 +86,7 @@ public class CreatThreadTest implements ChatContract.view {
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onCreateThread(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onCreateThread(argument.capture());
 
         Assertions.assertTrue(!argument.getValue().hasError());
 
@@ -109,7 +109,7 @@ public class CreatThreadTest implements ChatContract.view {
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onCreateThread(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onCreateThread(argument.capture());
 
         /// ResultThread resultThread = (ResultThread) argument.getValue().getResult();
 
@@ -160,7 +160,7 @@ public class CreatThreadTest implements ChatContract.view {
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onCreateThread(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onCreateThread(argument.capture());
 
         Assertions.assertTrue(!argument.getValue().hasError());
 
@@ -189,7 +189,7 @@ public class CreatThreadTest implements ChatContract.view {
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onCreateThread(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onCreateThread(argument.capture());
 
         Assertions.assertTrue(!argument.getValue().hasError());
 
@@ -219,7 +219,7 @@ public class CreatThreadTest implements ChatContract.view {
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onCreateThread(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onCreateThread(argument.capture());
 
         Assertions.assertTrue(!argument.getValue().hasError());
 

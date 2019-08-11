@@ -213,6 +213,10 @@ public interface ChatContract {
 
         void getThreadParticipant(int count, Long offset, long threadId, ChatHandler handler);
 
+        void getThreadParticipant(RequestThreadParticipant request, ChatHandler handler);
+
+        void get(int count, Long offset, long threadId, ChatHandler handler);
+
         void addContact(String firstName, String lastName, String cellphoneNumber, String email);
 
         void addContact(RequestAddContact request);

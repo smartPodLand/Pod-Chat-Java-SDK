@@ -23,14 +23,14 @@ public class RemoveConatct implements ChatContract.view {
     static ChatController chatController = Mockito.mock(ChatController.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "1d2d4f60fece42f8b272510353c20482";
+    static String token = "4fabf6d88ab1499da77ab127de82ad7e";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
 
     Gson gson = new Gson();
 
-    @BeforeAll
+    @BeforeEach
     public void initMocks() {
         MockitoAnnotations.initMocks(this);
     }
@@ -60,7 +60,7 @@ public class RemoveConatct implements ChatContract.view {
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onGetUserInfo(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onGetUserInfo(argument.capture());
         ResultUserInfo resultUserInfo1 = (ResultUserInfo) argument.getValue().getResult();
 
         Assertions.assertEquals(gson.toJson(userInfo), gson.toJson(resultUserInfo1.getUser()));
@@ -81,7 +81,7 @@ public class RemoveConatct implements ChatContract.view {
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract,Mockito.atLeastOnce()).onRemoveContact(argument.capture());
+        Mockito.verify(chatContract,Mockito.times(1)).onRemoveContact(argument.capture());
 
         ResultRemoveContact resultRemoveContact = (ResultRemoveContact) argument.getValue().getResult();
 

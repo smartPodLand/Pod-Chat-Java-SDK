@@ -22,14 +22,14 @@ public class GetContact implements ChatContract.view {
     static ChatController chatController = Mockito.mock(ChatController.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "1e79d1d8d64a4970be9c1539d2b3d8e5";
+    static String token = "4fabf6d88ab1499da77ab127de82ad7e";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
 
     Gson gson = new Gson();
 
-    @BeforeAll
+    @BeforeEach
     public void initMocks() {
         MockitoAnnotations.initMocks(this);
     }
@@ -80,7 +80,7 @@ public class GetContact implements ChatContract.view {
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onGetContacts(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onGetContacts(argument.capture());
 
         ChatResponse chatResponse = argument.getValue();
 
@@ -100,7 +100,7 @@ public class GetContact implements ChatContract.view {
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onGetContacts(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onGetContacts(argument.capture());
 
         ChatResponse chatResponse = argument.getValue();
 
@@ -122,7 +122,7 @@ public class GetContact implements ChatContract.view {
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onGetContacts(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onGetContacts(argument.capture());
 
         ChatResponse chatResponse = argument.getValue();
 

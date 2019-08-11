@@ -23,14 +23,14 @@ public class GetThreadTest implements ChatContract.view {
     static ChatController chatController = Mockito.mock(ChatController.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "ea3ad8b4101e42ddb6c513025a77d345";
+    static String token = "4fabf6d88ab1499da77ab127de82ad7e";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
 
     Gson gson = new Gson();
 
-    @BeforeAll
+    @BeforeEach
     public void initMocks() {
         MockitoAnnotations.initMocks(this);
     }
@@ -49,7 +49,7 @@ public class GetThreadTest implements ChatContract.view {
         Mockito.verify(chatContract).onState("OPEN");
         Mockito.verify(chatContract).onState("ASYNC_READY");
 
-        java.lang.Thread.sleep(3000);
+        java.lang.Thread.sleep(5000);
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
@@ -71,7 +71,7 @@ public class GetThreadTest implements ChatContract.view {
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onGetThreadList(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onGetThreadList(argument.capture());
 
         ChatResponse chatResponse = (ChatResponse) argument.getValue();
 
@@ -95,7 +95,7 @@ public class GetThreadTest implements ChatContract.view {
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onGetThreadList(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onGetThreadList(argument.capture());
 
         ChatResponse chatResponse = (ChatResponse) argument.getValue();
 
@@ -118,7 +118,7 @@ public class GetThreadTest implements ChatContract.view {
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onGetThreadList(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onGetThreadList(argument.capture());
 
         ChatResponse chatResponse = argument.getValue();
 
@@ -143,7 +143,7 @@ public class GetThreadTest implements ChatContract.view {
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onGetThreadList(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onGetThreadList(argument.capture());
 
         ChatResponse chatResponse = argument.getValue();
 
@@ -157,16 +157,16 @@ public class GetThreadTest implements ChatContract.view {
     void getThreatWithPartnerContactId() throws InterruptedException {
         RequestThread requestThread = new RequestThread
                 .Builder()
-                .partnerCoreContactId(1181)
+                .partnerCoreContactId(4781)
                 .build();
 
         chatController.getThreads(requestThread, null);
 
-        Thread.sleep(3000);
+        Thread.sleep(10000);
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onGetThreadList(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onGetThreadList(argument.capture());
 
         ChatResponse chatResponse = argument.getValue();
 

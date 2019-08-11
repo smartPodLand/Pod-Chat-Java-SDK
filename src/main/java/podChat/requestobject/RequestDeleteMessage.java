@@ -1,5 +1,7 @@
 package podChat.requestobject;
 
+import podChat.mainmodel.Thread;
+
 import java.util.ArrayList;
 
 public class RequestDeleteMessage extends GeneralRequestObject {
@@ -12,12 +14,15 @@ public class RequestDeleteMessage extends GeneralRequestObject {
         super(builder);
         this.deleteForAll = builder.deleteForAll;
         this.messageIds = builder.messageIds;
+        this.threadId  =  builder.threadId;
 
     }
 
     public static class Builder extends GeneralRequestObject.Builder<Builder> {
         private boolean deleteForAll;
         private ArrayList<Long> messageIds;
+        private  long threadId;
+
 
         public Builder(ArrayList<Long> messageIds) {
             this.messageIds = messageIds;
@@ -33,6 +38,12 @@ public class RequestDeleteMessage extends GeneralRequestObject {
             this.deleteForAll = deleteForAll;
             return this;
         }
+
+        public Builder threadId(long threadId) {
+            this.threadId = threadId;
+            return this;
+        }
+
 
 
         public RequestDeleteMessage build() {
@@ -61,5 +72,13 @@ public class RequestDeleteMessage extends GeneralRequestObject {
 
     public void setDeleteForAll(boolean deleteForAll) {
         this.deleteForAll = deleteForAll;
+    }
+
+    public long getThreadId() {
+        return threadId;
+    }
+
+    public void setThreadId(long threadId) {
+        this.threadId = threadId;
     }
 }

@@ -31,17 +31,18 @@ public class CreateThreadWithMessage implements ChatContract.view {
     static ChatController chatController = Mockito.mock(ChatController.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "a2925769a1dc487d81b49a40e5eddd53";
+    static String token = "315c31c947ba4d09804e91db92e13af7";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
 
     Gson gson = new Gson();
 
-    @BeforeAll
+    @BeforeEach
     public void initMocks() {
         MockitoAnnotations.initMocks(this);
     }
+
 
     @Test
     @Order(1)
@@ -64,7 +65,7 @@ public class CreateThreadWithMessage implements ChatContract.view {
         Mockito.verify(chatContract).onState("OPEN");
         Mockito.verify(chatContract).onState("ASYNC_READY");
 
-        Thread.sleep(5000);
+        Thread.sleep(15000);
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
@@ -81,10 +82,14 @@ public class CreateThreadWithMessage implements ChatContract.view {
         RequestThreadInnerMessage requestThreadInnerMessage = new RequestThreadInnerMessage
                 .Builder()
                 .message("Hello zahraaaa")
+                .forwardedMessageIds(new ArrayList<Long>() {{
+                    add(47241l);
+                    add(47242l);
+                }})
                 .build();
 
         Invitee invitee = new Invitee();
-        invitee.setId(8508);
+        invitee.setId(4781);
         invitee.setIdType(InviteType.TO_BE_USER_ID);
 
         RequestCreateThread requestCreateThread = new RequestCreateThread
@@ -95,20 +100,18 @@ public class CreateThreadWithMessage implements ChatContract.view {
                 .build();
         chatController.createThreadWithMessage(requestCreateThread);
 
-        Thread.sleep(3000);
+        Thread.sleep(10000);
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onCreateThread(argument.capture());
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onNewMessage(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onCreateThread(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(2)).onSentMessage(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(2)).onNewMessage(argument.capture());
 
-        ResultNewMessage resultNewMessage = (ResultNewMessage) argument.getValue().getResult();
-
-        Assertions.assertTrue(!Util.isNullOrEmpty(resultNewMessage.getThreadId()));
     }
 
 
-    /*@Test
+    @Test
     @Order(3)
     void createThreadWithMessageContactId() throws InterruptedException {
         RequestThreadInnerMessage requestThreadInnerMessage = new RequestThreadInnerMessage
@@ -132,8 +135,9 @@ public class CreateThreadWithMessage implements ChatContract.view {
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onCreateThread(argument.capture());
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onNewMessage(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onCreateThread(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onSentMessage(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onNewMessage(argument.capture());
 
         ResultNewMessage resultNewMessage = (ResultNewMessage) argument.getValue().getResult();
 
@@ -166,47 +170,13 @@ public class CreateThreadWithMessage implements ChatContract.view {
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onCreateThread(argument.capture());
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onNewMessage(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onCreateThread(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onSentMessage(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onNewMessage(argument.capture());
 
-        ResultNewMessage resultNewMessage = (ResultNewMessage) argument.getValue().getResult();
-
-        Assertions.assertTrue(!Util.isNullOrEmpty(resultNewMessage.getThreadId()));
 
     }
 
-    @Test
-    @Order(5)
-    void createThreadWithMessagePublicGroup() throws InterruptedException {
-        RequestThreadInnerMessage requestThreadInnerMessage = new RequestThreadInnerMessage
-                .Builder()
-                .message("Hello zahraaaa")
-                .build();
-
-        Invitee invitee = new Invitee();
-        invitee.setId(4781);
-        invitee.setIdType(InviteType.TO_BE_USER_ID);
-
-        RequestCreateThread requestCreateThread = new RequestCreateThread
-                .Builder(ThreadType.PUBLIC_GROUP, new ArrayList<Invitee>() {{
-            add(invitee);
-        }})
-                .message(requestThreadInnerMessage)
-                .build();
-
-        chatController.createThreadWithMessage(requestCreateThread);
-
-        Thread.sleep(3000);
-        ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
-
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onCreateThread(argument.capture());
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onNewMessage(argument.capture());
-
-        ResultNewMessage resultNewMessage = (ResultNewMessage) argument.getValue().getResult();
-
-        Assertions.assertTrue(!Util.isNullOrEmpty(resultNewMessage.getThreadId()));
-
-    }*/
 
    /* //Only if client is online, the test will passed
     @Test

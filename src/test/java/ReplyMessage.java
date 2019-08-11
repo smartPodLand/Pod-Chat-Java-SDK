@@ -23,14 +23,14 @@ public class ReplyMessage implements ChatContract.view {
     static ChatController chatController = Mockito.mock(ChatController.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "a91aad5917ff439abb8d3b992bb80780";
+    static String token = "c47da654ad944b5c83ca87856b7352af";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
 
     Gson gson = new Gson();
 
-    @BeforeAll
+    @BeforeEach
     public void initMocks() {
         MockitoAnnotations.initMocks(this);
     }
@@ -60,7 +60,7 @@ public class ReplyMessage implements ChatContract.view {
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onGetUserInfo(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onGetUserInfo(argument.capture());
         ResultUserInfo resultUserInfo1 = (ResultUserInfo) argument.getValue().getResult();
 
         Assertions.assertEquals(gson.toJson(userInfo), gson.toJson(resultUserInfo1.getUser()));

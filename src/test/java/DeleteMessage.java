@@ -3,7 +3,6 @@ import exception.ConnectionException;
 import exmaple.ChatContract;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
-import org.mockito.internal.matchers.Any;
 import podChat.mainmodel.UserInfo;
 import podChat.model.ChatResponse;
 import podChat.model.ErrorOutPut;
@@ -11,6 +10,7 @@ import podChat.model.ResultUserInfo;
 import podChat.requestobject.RequestDeleteMessage;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created By Khojasteh on 8/6/2019
@@ -26,14 +26,14 @@ public class DeleteMessage implements ChatContract.view {
     static ChatController chatController = Mockito.mock(ChatController.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "daa2e621b4e841d38f52565b9a35091f";
+    static String token = "4fabf6d88ab1499da77ab127de82ad7e";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
 
     Gson gson = new Gson();
 
-    @BeforeAll
+    @BeforeEach
     public void initMocks() {
         MockitoAnnotations.initMocks(this);
     }
@@ -87,11 +87,16 @@ public class DeleteMessage implements ChatContract.view {
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.atMost(1)).onDeleteMessage(argument.capture());
+        Mockito.verify(chatContract, Mockito.atLeast(0)).onDeleteMessage(argument.capture());
 
         ArgumentCaptor<ErrorOutPut> argument2 = ArgumentCaptor.forClass(ErrorOutPut.class);
 
-        Mockito.verify(chatContract, Mockito.atMost(1)).onError(argument2.capture());
+        Mockito.verify(chatContract, Mockito.atLeast(0)).onError(argument2.capture());
+
+        List<ChatResponse> chatResponse = argument.getAllValues();
+        List<ErrorOutPut> errorOutPut = argument2.getAllValues();
+
+        Assertions.assertTrue(!chatResponse.isEmpty() || !errorOutPut.isEmpty());
 
     }
 
@@ -113,7 +118,7 @@ public class DeleteMessage implements ChatContract.view {
 
         ArgumentCaptor<ErrorOutPut> argument = ArgumentCaptor.forClass(ErrorOutPut.class);
 
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onError(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onError(argument.capture());
 
         Assertions.assertTrue(argument.getValue().isHasError());
 

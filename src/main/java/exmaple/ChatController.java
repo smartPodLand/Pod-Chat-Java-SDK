@@ -210,6 +210,16 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
+    public void getThreadParticipant(RequestThreadParticipant request, ChatHandler handler) {
+        chat.getThreadParticipants(request, handler);
+    }
+
+    @Override
+    public void get(int count, Long offset, long threadId, ChatHandler handler) {
+
+    }
+
+    @Override
     public void addContact(String firstName, String lastName, String cellphoneNumber, String email) {
         chat.addContact(firstName, lastName, cellphoneNumber, email);
     }
@@ -266,7 +276,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     @Override
     public void forwardMessage(RequestForwardMessage request) {
-
+        chat.forwardMessage(request);
     }
 
     @Override

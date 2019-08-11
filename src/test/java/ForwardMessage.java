@@ -3,11 +3,18 @@ import exception.ConnectionException;
 import exmaple.ChatContract;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
+import podChat.mainmodel.Invitee;
+import podChat.mainmodel.RequestThreadInnerMessage;
 import podChat.mainmodel.UserInfo;
 import podChat.model.ChatResponse;
 import podChat.model.ErrorOutPut;
 import podChat.model.ResultUserInfo;
-import podChat.requestobject.RequestAddContact;
+import podChat.requestobject.RequestCreateThread;
+import podChat.requestobject.RequestForwardMessage;
+import podChat.util.InviteType;
+import podChat.util.ThreadType;
+
+import java.util.ArrayList;
 
 /**
  * Created By Khojasteh on 8/6/2019
@@ -16,14 +23,15 @@ import podChat.requestobject.RequestAddContact;
 @TestInstance(value = TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
-public class AddContact implements ChatContract.view {
+public class ForwardMessage implements ChatContract.view {
     @Mock
     static ChatContract.view chatContract;
+
     @InjectMocks
     static ChatController chatController = Mockito.mock(ChatController.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "315c31c947ba4d09804e91db92e13af7";
+    static String token = "e4d8420b3f404ffc9e85250bb3305eba";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
@@ -34,6 +42,7 @@ public class AddContact implements ChatContract.view {
     public void initMocks() {
         MockitoAnnotations.initMocks(this);
     }
+
 
     @Test
     @Order(1)
@@ -56,7 +65,7 @@ public class AddContact implements ChatContract.view {
         Mockito.verify(chatContract).onState("OPEN");
         Mockito.verify(chatContract).onState("ASYNC_READY");
 
-        Thread.sleep(3000);
+        Thread.sleep(5000);
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
@@ -67,69 +76,48 @@ public class AddContact implements ChatContract.view {
 
     }
 
-    // Add contact with phone and last name
     @Test
     @Order(2)
-    void addContactPhoneLName() throws InterruptedException {
-        RequestAddContact requestAddContact = new RequestAddContact
-                .Builder()
-                .cellphoneNumber("09156452709")
-                .lastName("مظلوم")
+    void forwardMessage() throws InterruptedException {
+        RequestForwardMessage forwardMessage = new RequestForwardMessage
+                .Builder(5461, new ArrayList<Long>() {{
+            add(47403l);
+            add(47402l);
+        }})
                 .build();
-        chatController.addContact(requestAddContact);
 
-        Thread.sleep(3000);
+        chatController.forwardMessage(forwardMessage);
+
+        Thread.sleep(5000);
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.times(1)).onAddContact(argument.capture());
-
-        ChatResponse chatResponse = argument.getValue();
-
-        Assertions.assertTrue(!chatResponse.hasError());
+        Mockito.verify(chatContract, Mockito.times(2)).onSentMessage(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(2)).onNewMessage(argument.capture());
 
     }
 
-    // Add contact with email and name
+
     @Test
-    @Order(2)
-    void addContactEmailFName() throws InterruptedException {
-        RequestAddContact requestAddContact = new RequestAddContact
-                .Builder()
-                .email("m@gmail.com")
-                .firstName("mohammad")
+    @Order(3)
+    void ForwardMessageWithNotExistMessageId() throws InterruptedException {
+        RequestForwardMessage forwardMessage = new RequestForwardMessage
+                .Builder(5461, new ArrayList<Long>() {{
+            add(474031l);
+        }})
                 .build();
-        chatController.addContact(requestAddContact);
 
-        Thread.sleep(3000);
-
-        ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
-
-        Mockito.verify(chatContract, Mockito.times(1)).onAddContact(argument.capture());
-
-        ChatResponse chatResponse = argument.getValue();
-
-        Assertions.assertTrue(!chatResponse.hasError());
-
-    }
-
-    //Check the platform server error
-    @Test
-    @Order(2)
-    void addContactError() throws InterruptedException {
-        RequestAddContact requestAddContact = new RequestAddContact
-                .Builder()
-                .cellphoneNumber("09156452709")
-                .build();
-        chatController.addContact(requestAddContact);
+        chatController.forwardMessage(forwardMessage);
 
         Thread.sleep(3000);
 
         ArgumentCaptor<ErrorOutPut> argument = ArgumentCaptor.forClass(ErrorOutPut.class);
 
-        Mockito.verify(chatContract).onError(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onError(argument.capture());
 
-        Assertions.assertTrue(argument.getValue().isHasError());
+        ErrorOutPut errorOutPut =  argument.getValue();
+
+        Assertions.assertTrue(errorOutPut.isHasError());
 
     }
 

@@ -7,7 +7,10 @@ import podChat.mainmodel.UserInfo;
 import podChat.model.ChatResponse;
 import podChat.model.ErrorOutPut;
 import podChat.model.ResultUserInfo;
-import podChat.requestobject.RequestAddContact;
+import podChat.requestobject.RequestDeleteMessage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created By Khojasteh on 8/6/2019
@@ -16,14 +19,14 @@ import podChat.requestobject.RequestAddContact;
 @TestInstance(value = TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
-public class AddContact implements ChatContract.view {
+public class DeleteMutipleMessage implements ChatContract.view {
     @Mock
     static ChatContract.view chatContract;
     @InjectMocks
     static ChatController chatController = Mockito.mock(ChatController.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "315c31c947ba4d09804e91db92e13af7";
+    static String token = "4fabf6d88ab1499da77ab127de82ad7e";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
@@ -67,70 +70,60 @@ public class AddContact implements ChatContract.view {
 
     }
 
-    // Add contact with phone and last name
     @Test
     @Order(2)
-    void addContactPhoneLName() throws InterruptedException {
-        RequestAddContact requestAddContact = new RequestAddContact
-                .Builder()
-                .cellphoneNumber("09156452709")
-                .lastName("مظلوم")
+    void deleteMessage() throws InterruptedException {
+
+        RequestDeleteMessage requestDeleteMessage = new RequestDeleteMessage
+                .Builder(new ArrayList<Long>() {{
+                    add(47241l);
+                    add(47242l);
+                }})
+                .threadId(3042)
                 .build();
-        chatController.addContact(requestAddContact);
+
+        chatController.deleteMessage(requestDeleteMessage, null);
 
         Thread.sleep(3000);
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.times(1)).onAddContact(argument.capture());
+        Mockito.verify(chatContract, Mockito.atLeast(0)).onDeleteMessage(argument.capture());
 
-        ChatResponse chatResponse = argument.getValue();
+        ArgumentCaptor<ErrorOutPut> argument2 = ArgumentCaptor.forClass(ErrorOutPut.class);
 
-        Assertions.assertTrue(!chatResponse.hasError());
+        Mockito.verify(chatContract, Mockito.atLeast(0)).onError(argument2.capture());
 
-    }
+        List<ChatResponse> chatResponse = argument.getAllValues();
+        List<ErrorOutPut> errorOutPut = argument2.getAllValues();
 
-    // Add contact with email and name
-    @Test
-    @Order(2)
-    void addContactEmailFName() throws InterruptedException {
-        RequestAddContact requestAddContact = new RequestAddContact
-                .Builder()
-                .email("m@gmail.com")
-                .firstName("mohammad")
-                .build();
-        chatController.addContact(requestAddContact);
-
-        Thread.sleep(3000);
-
-        ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
-
-        Mockito.verify(chatContract, Mockito.times(1)).onAddContact(argument.capture());
-
-        ChatResponse chatResponse = argument.getValue();
-
-        Assertions.assertTrue(!chatResponse.hasError());
+        Assertions.assertTrue(!chatResponse.isEmpty() || !errorOutPut.isEmpty());
 
     }
 
-    //Check the platform server error
+    //The messageId does not exist
     @Test
     @Order(2)
-    void addContactError() throws InterruptedException {
-        RequestAddContact requestAddContact = new RequestAddContact
-                .Builder()
-                .cellphoneNumber("09156452709")
+    void deleteMessageError() throws InterruptedException {
+
+        RequestDeleteMessage requestDeleteMessage = new RequestDeleteMessage
+                .Builder(new ArrayList<Long>() {{
+            add(469811L);
+        }})
+                .deleteForAll(true)
                 .build();
-        chatController.addContact(requestAddContact);
+
+        chatController.deleteMessage(requestDeleteMessage, null);
 
         Thread.sleep(3000);
 
         ArgumentCaptor<ErrorOutPut> argument = ArgumentCaptor.forClass(ErrorOutPut.class);
 
-        Mockito.verify(chatContract).onError(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onError(argument.capture());
 
         Assertions.assertTrue(argument.getValue().isHasError());
 
     }
+
 
 }
