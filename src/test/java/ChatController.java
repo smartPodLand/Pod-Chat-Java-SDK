@@ -204,6 +204,11 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
+    public void editMessage(RequestEditMessage request, ChatHandler handler) {
+
+    }
+
+    @Override
     public void getThreadParticipant(int count, Long offset, long threadId, ChatHandler handler) {
 
     }

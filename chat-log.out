@@ -17269,3 +17269,1192 @@ State change: ASYNC_READY
 [ERROR]  2019-08-11 12:49:33.852 [ActiveMQ Session Task-2] Chat - 
  
 ErrorMessage :Message با شناسه 474031 وجود ندارد *Code* 78 *uniqueId* 2421256d-89af-422e-bfa9-d2ae6ab3979a
+[INFO ]  2019-08-13 09:09:41.270 [main] ActiveMq - connection established
+[INFO ]  2019-08-13 09:09:41.272 [main] Chat - 
+ 
+State change: OPEN
+[INFO ]  2019-08-13 09:09:41.272 [main] Chat - 
+ 
+State change: ASYNC_READY
+[INFO ]  2019-08-13 09:09:41.372 [pool-2-thread-1] Chat - SEND_USER_INFO
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":23,"subjectId":0,"uniqueId":"bd8e0a2e-52ee-4b2c-a9b9-5a98c7da93f8","time":0,"contentCount":0,"repliedTo":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:09:41.446 [pool-2-thread-1] Chat - getUserInfo  retry in 2 s 
+ 
+
+[INFO ]  2019-08-13 09:09:41.799 [ActiveMQ Session Task-1] Chat - RECEIVE_USER_INFO
+ 
+{"result":{"user":{"id":4101,"sendEnable":true,"receiveEnable":true,"name":"فاطمه خجسته","cellphoneNumber":"09151242904"}},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"bd8e0a2e-52ee-4b2c-a9b9-5a98c7da93f8"}
+[INFO ]  2019-08-13 09:09:41.808 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":1,"uniqueId":"955587ce-9464-48ea-857a-de6b283a2e2e","content":"{\"type\":0,\"invitees\":[{\"id\":4781,\"idType\":5}],\"message\":{\"text\":\"Hello zahraaaa\",\"forwardedMessageIds\":[47241,47242],\"uniqueId\":\"67257439-5e57-4ca5-8c81-63bcbddce6b5\",\"forwardedUniqueIds\":[\"41444d7b-a6aa-46e0-bcc1-4fda2ce317cb\",\"8cc544a9-b662-42af-9444-d82beee23be2\"]}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:09:41.877 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":1,"uniqueId":"2c0b66e6-43b5-45f1-9dfe-2f8fed5d4041","content":"{\"type\":0,\"invitees\":[{\"id\":4781,\"idType\":5}],\"message\":{\"text\":\"Hello zahraaaa\",\"forwardedMessageIds\":[47241,47242],\"uniqueId\":\"393db8cd-e641-496d-aa1f-b5dfb4827fd8\",\"forwardedUniqueIds\":[\"092e43b2-b159-4c18-884e-e2a014e80cd8\",\"7176947c-0926-40df-beaa-dc0b372b706f\"]}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:09:58.314 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":1,"uniqueId":"9f7c240b-4cd9-4711-b462-de2b18dc4def","content":"{\"type\":0,\"invitees\":[{\"id\":0,\"idType\":0}],\"message\":{\"text\":\"Hello zahraaaa final\",\"uniqueId\":\"2ea44596-1f23-4918-a1da-6000ab80805c\"}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:10:32.183 [main] ActiveMq - connection established
+[INFO ]  2019-08-13 09:10:32.183 [main] Chat - 
+ 
+State change: OPEN
+[INFO ]  2019-08-13 09:10:32.183 [main] Chat - 
+ 
+State change: ASYNC_READY
+[INFO ]  2019-08-13 09:10:32.234 [pool-2-thread-1] Chat - SEND_USER_INFO
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":23,"subjectId":0,"uniqueId":"58367632-b59a-406e-b97c-e255a1cd2dc8","time":0,"contentCount":0,"repliedTo":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:10:32.240 [ActiveMQ Session Task-1] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":159607131,"coreUserId":9261},"lastMessageVO":{"id":47427,"uniqueId":"18939d9c-2b84-453f-8344-f09e009bf496","message":"this is final test1","edited":false,"editable":false,"delivered":false,"seen":false,"deletable":false,"time":1565511569397,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":159607126,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":159607113,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":159607089,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":12456,"contactId":0,"coreUserId":11401}],"time":1565511569397,"lastMessage":"this is final test1","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47427,"lastSeenMessageNanos":397887000,"lastSeenMessageTime":1565511569397,"partnerLastSeenMessageId":47353,"partnerLastSeenMessageTime":1565502016525,"partnerLastSeenMessageNanos":525410000,"partnerLastDeliveredMessageId":47353,"partnerLastDeliveredMessageTime":1565502016525,"partnerLastDeliveredMessageNanos":525410000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"2c0b66e6-43b5-45f1-9dfe-2f8fed5d4041"}
+[INFO ]  2019-08-13 09:10:32.309 [pool-2-thread-1] Chat - getUserInfo  retry in 2 s 
+ 
+
+[INFO ]  2019-08-13 09:10:32.415 [ActiveMQ Session Task-1] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":159607132,"coreUserId":9261},"lastMessageVO":{"id":47427,"uniqueId":"18939d9c-2b84-453f-8344-f09e009bf496","message":"this is final test1","edited":false,"editable":false,"delivered":false,"seen":false,"deletable":false,"time":1565511569397,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":159607126,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":159607114,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":159607077,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":12444,"contactId":0,"coreUserId":11401}],"time":1565511569397,"lastMessage":"this is final test1","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47427,"lastSeenMessageNanos":397887000,"lastSeenMessageTime":1565511569397,"partnerLastSeenMessageId":47353,"partnerLastSeenMessageTime":1565502016525,"partnerLastSeenMessageNanos":525410000,"partnerLastDeliveredMessageId":47353,"partnerLastDeliveredMessageTime":1565502016525,"partnerLastDeliveredMessageNanos":525410000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"955587ce-9464-48ea-857a-de6b283a2e2e"}
+[INFO ]  2019-08-13 09:10:32.476 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47442,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"41444d7b-a6aa-46e0-bcc1-4fda2ce317cb"}
+[INFO ]  2019-08-13 09:10:32.543 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47441,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"092e43b2-b159-4c18-884e-e2a014e80cd8"}
+[INFO ]  2019-08-13 09:10:32.594 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47442,"uniqueId":"41444d7b-a6aa-46e0-bcc1-4fda2ce317cb","messageType":0,"previousId":47427,"message":"this is final test","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":2584,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671183059,"timeNanos":59424000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":4,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":2580,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[ERROR]  2019-08-13 09:10:32.602 [ActiveMQ Session Task-1] Chat - 
+ 
+ErrorMessage :Chat is not ready *Code* 6003 *uniqueId* 8d653005-b28a-4aa0-be24-120d2d8a7b46
+[INFO ]  2019-08-13 09:10:32.697 [ActiveMQ Session Task-1] Chat - SEND_DELIVERY_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":4,"subjectId":0,"uniqueId":"2a3cdc97-597f-4756-9ad1-8b5d2cfb328b","content":"47442","time":1000,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:10:32.893 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47441,"uniqueId":"092e43b2-b159-4c18-884e-e2a014e80cd8","messageType":0,"previousId":47443,"message":"this is final test","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":2607,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671183102,"timeNanos":102917000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":4,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":2602,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[ERROR]  2019-08-13 09:10:32.897 [ActiveMQ Session Task-1] Chat - 
+ 
+ErrorMessage :Chat is not ready *Code* 6003 *uniqueId* f6ba8064-1472-4f9d-935b-1038eeda34a1
+[INFO ]  2019-08-13 09:10:32.899 [ActiveMQ Session Task-1] Chat - SEND_DELIVERY_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":4,"subjectId":0,"uniqueId":"fb92052e-17d1-46e8-8798-824ed2e0fe32","content":"47441","time":1000,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:10:33.015 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47443,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"8cc544a9-b662-42af-9444-d82beee23be2"}
+[INFO ]  2019-08-13 09:10:33.077 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47444,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"7176947c-0926-40df-beaa-dc0b372b706f"}
+[INFO ]  2019-08-13 09:10:33.191 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47443,"uniqueId":"8cc544a9-b662-42af-9444-d82beee23be2","messageType":0,"previousId":47442,"message":"this is final test","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":2799,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671183076,"timeNanos":76321000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":4,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":2793,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[ERROR]  2019-08-13 09:10:33.193 [ActiveMQ Session Task-1] Chat - 
+ 
+ErrorMessage :Chat is not ready *Code* 6003 *uniqueId* 26eb2cfb-3e85-486f-a40e-55b1855e7dad
+[INFO ]  2019-08-13 09:10:33.193 [ActiveMQ Session Task-1] Chat - SEND_DELIVERY_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":4,"subjectId":0,"uniqueId":"f3fcf1f0-a979-49b2-b34f-4d7366126451","content":"47443","time":1000,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:10:33.312 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47444,"uniqueId":"7176947c-0926-40df-beaa-dc0b372b706f","messageType":0,"previousId":47441,"message":"this is final test","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":2819,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671183110,"timeNanos":110678000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":4,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":2813,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[ERROR]  2019-08-13 09:10:33.313 [ActiveMQ Session Task-1] Chat - 
+ 
+ErrorMessage :Chat is not ready *Code* 6003 *uniqueId* 27916ab0-548c-4577-a57c-54498f5d3b3f
+[INFO ]  2019-08-13 09:10:33.314 [ActiveMQ Session Task-1] Chat - SEND_DELIVERY_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":4,"subjectId":0,"uniqueId":"58532997-ceb6-468e-97e5-0ec0319f1247","content":"47444","time":1000,"contentCount":0,"repliedTo":0}
+[ERROR]  2019-08-13 09:10:37.212 [ActiveMQ Session Task-1] Chat - 
+ 
+ErrorMessage :به علت خطای داخلی سیستم قادر به پاسخگویی به سرویس مورد نظر نیستیم. *Code* 106 *uniqueId* 9f7c240b-4cd9-4711-b462-de2b18dc4def
+[INFO ]  2019-08-13 09:10:37.259 [ActiveMQ Session Task-1] Chat - RECEIVE_USER_INFO
+ 
+{"result":{"user":{"id":4101,"sendEnable":true,"receiveEnable":true,"name":"فاطمه خجسته","cellphoneNumber":"09151242904"}},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"58367632-b59a-406e-b97c-e255a1cd2dc8"}
+[INFO ]  2019-08-13 09:10:37.259 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":1,"uniqueId":"82211ac9-b5f2-432e-af2f-483d221c91da","content":"{\"type\":0,\"invitees\":[{\"id\":4781,\"idType\":5}],\"message\":{\"text\":\"Hello zahraaaa\",\"forwardedMessageIds\":[47241,47242],\"uniqueId\":\"31ac8fef-c589-436c-86cd-5fd3f1c9432f\",\"forwardedUniqueIds\":[\"e62a1643-941d-43b0-a2cd-d6443dac5b5b\",\"2a59b493-6f43-4d59-ac65-42d21065940d\"]}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:10:37.384 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":1,"uniqueId":"fe7469a8-3371-4102-a4e8-4080d1b165fc","content":"{\"type\":0,\"invitees\":[{\"id\":4781,\"idType\":5}],\"message\":{\"text\":\"Hello zahraaaa\",\"forwardedMessageIds\":[47241,47242],\"uniqueId\":\"db72ada9-f63c-406e-b382-b5704f8da6da\",\"forwardedUniqueIds\":[\"43edee2a-4f87-4b8a-8964-b42f6d46cc2f\",\"04bad08d-0389-4f21-ad97-f02b241819ea\"]}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:10:53.035 [main] ActiveMq - connection established
+[INFO ]  2019-08-13 09:10:53.035 [main] Chat - 
+ 
+State change: OPEN
+[INFO ]  2019-08-13 09:10:53.051 [main] Chat - 
+ 
+State change: ASYNC_READY
+[INFO ]  2019-08-13 09:10:53.082 [ActiveMQ Session Task-1] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":4060,"coreUserId":9261},"lastMessageVO":{"id":47444,"uniqueId":"7176947c-0926-40df-beaa-dc0b372b706f","message":"this is final test","edited":false,"editable":false,"delivered":true,"seen":true,"deletable":true,"time":1565671183110,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":4047,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":4042,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":4017,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":47363,"contactId":0,"coreUserId":11401}],"time":1565671183110,"lastMessage":"this is final test","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47444,"lastSeenMessageNanos":110678000,"lastSeenMessageTime":1565671183110,"partnerLastSeenMessageId":47444,"partnerLastSeenMessageTime":1565671183110,"partnerLastSeenMessageNanos":110678000,"partnerLastDeliveredMessageId":47444,"partnerLastDeliveredMessageTime":1565671183110,"partnerLastDeliveredMessageNanos":110678000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"82211ac9-b5f2-432e-af2f-483d221c91da"}
+[INFO ]  2019-08-13 09:10:53.098 [pool-2-thread-1] Chat - SEND_USER_INFO
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":23,"subjectId":0,"uniqueId":"728581a2-273a-414d-8219-dd17b8ac9c91","time":0,"contentCount":0,"repliedTo":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:10:53.160 [ActiveMQ Session Task-1] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":4208,"coreUserId":9261},"lastMessageVO":{"id":47444,"uniqueId":"7176947c-0926-40df-beaa-dc0b372b706f","message":"this is final test","edited":false,"editable":false,"delivered":true,"seen":true,"deletable":true,"time":1565671183110,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":4205,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":4202,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":4188,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":47534,"contactId":0,"coreUserId":11401}],"time":1565671183110,"lastMessage":"this is final test","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47444,"lastSeenMessageNanos":110678000,"lastSeenMessageTime":1565671183110,"partnerLastSeenMessageId":47444,"partnerLastSeenMessageTime":1565671183110,"partnerLastSeenMessageNanos":110678000,"partnerLastDeliveredMessageId":47444,"partnerLastDeliveredMessageTime":1565671183110,"partnerLastDeliveredMessageNanos":110678000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"fe7469a8-3371-4102-a4e8-4080d1b165fc"}
+[INFO ]  2019-08-13 09:10:53.207 [pool-2-thread-1] Chat - getUserInfo  retry in 2 s 
+ 
+
+[INFO ]  2019-08-13 09:10:53.317 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47445,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"e62a1643-941d-43b0-a2cd-d6443dac5b5b"}
+[INFO ]  2019-08-13 09:10:53.410 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47445,"uniqueId":"e62a1643-941d-43b0-a2cd-d6443dac5b5b","messageType":0,"previousId":47444,"message":"this is final test","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":4354,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671237062,"timeNanos":62156000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":4,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":4349,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[ERROR]  2019-08-13 09:10:53.410 [ActiveMQ Session Task-1] Chat - 
+ 
+ErrorMessage :Chat is not ready *Code* 6003 *uniqueId* 42974402-c19e-456a-bdd5-e5186a28d863
+[INFO ]  2019-08-13 09:10:53.473 [ActiveMQ Session Task-1] Chat - SEND_DELIVERY_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":4,"subjectId":0,"uniqueId":"65c8ddb5-62c5-431e-bbb9-2212a592dd31","content":"47445","time":1000,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:10:53.660 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47447,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"43edee2a-4f87-4b8a-8964-b42f6d46cc2f"}
+[INFO ]  2019-08-13 09:10:53.707 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47446,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"2a59b493-6f43-4d59-ac65-42d21065940d"}
+[INFO ]  2019-08-13 09:10:53.801 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47447,"uniqueId":"43edee2a-4f87-4b8a-8964-b42f6d46cc2f","messageType":0,"previousId":47446,"message":"this is final test","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":4531,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671237141,"timeNanos":141073000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":4527,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[ERROR]  2019-08-13 09:10:53.801 [ActiveMQ Session Task-1] Chat - 
+ 
+ErrorMessage :Chat is not ready *Code* 6003 *uniqueId* b0faee3e-50b4-4486-a22d-2342e6e5f783
+[INFO ]  2019-08-13 09:10:53.801 [ActiveMQ Session Task-1] Chat - SEND_DELIVERY_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":4,"subjectId":0,"uniqueId":"1e738af7-b38e-4605-ba24-aaba124ab1d3","content":"47447","time":1000,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:10:53.957 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47446,"uniqueId":"2a59b493-6f43-4d59-ac65-42d21065940d","messageType":0,"previousId":47445,"message":"this is final test","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":4613,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671237071,"timeNanos":71745000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":4,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":4609,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[ERROR]  2019-08-13 09:10:53.957 [ActiveMQ Session Task-1] Chat - 
+ 
+ErrorMessage :Chat is not ready *Code* 6003 *uniqueId* cc483386-7076-4466-b29e-6d8944344776
+[INFO ]  2019-08-13 09:10:53.957 [ActiveMQ Session Task-1] Chat - SEND_DELIVERY_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":4,"subjectId":0,"uniqueId":"67556f7c-2466-46d9-88f8-78c4b4f75a77","content":"47446","time":1000,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:10:54.191 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47448,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"04bad08d-0389-4f21-ad97-f02b241819ea"}
+[INFO ]  2019-08-13 09:10:54.270 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47448,"uniqueId":"04bad08d-0389-4f21-ad97-f02b241819ea","messageType":0,"previousId":47447,"message":"this is final test","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":4752,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671237150,"timeNanos":150550000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":4748,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[ERROR]  2019-08-13 09:10:54.270 [ActiveMQ Session Task-1] Chat - 
+ 
+ErrorMessage :Chat is not ready *Code* 6003 *uniqueId* bd8439d0-dbee-4569-b76e-ef112acb04bb
+[INFO ]  2019-08-13 09:10:54.270 [ActiveMQ Session Task-1] Chat - SEND_DELIVERY_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":4,"subjectId":0,"uniqueId":"e9f1cb3e-375e-4f37-8520-6b52ebacf89c","content":"47448","time":1000,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:10:54.410 [ActiveMQ Session Task-1] Chat - RECEIVE_USER_INFO
+ 
+{"result":{"user":{"id":4101,"sendEnable":true,"receiveEnable":true,"name":"فاطمه خجسته","cellphoneNumber":"09151242904"}},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"728581a2-273a-414d-8219-dd17b8ac9c91"}
+[INFO ]  2019-08-13 09:10:54.410 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":1,"uniqueId":"26b7374c-0131-4e77-9b1e-e0d53e0c82da","content":"{\"type\":0,\"invitees\":[{\"id\":4781,\"idType\":5}],\"message\":{\"text\":\"Hello zahraaaa\",\"forwardedMessageIds\":[47241,47242],\"uniqueId\":\"75f55a5c-1d14-4c50-bc02-c55e3d60f98b\",\"forwardedUniqueIds\":[\"c9b06e29-12f9-479b-ad72-ce541b3f47af\",\"246a8d84-bfc0-4396-9b3e-5ed647a8b6fe\"]}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:10:54.516 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":1,"uniqueId":"3b7a31cd-067f-4c75-8ea8-f863cd4022ca","content":"{\"type\":0,\"invitees\":[{\"id\":4781,\"idType\":5}],\"message\":{\"text\":\"Hello zahraaaa\",\"forwardedMessageIds\":[47241,47242],\"uniqueId\":\"df237d29-f9fb-4e68-b2ae-bce0ee46e533\",\"forwardedUniqueIds\":[\"603eeac2-146f-401f-b7eb-46420e8c8799\",\"666260cb-1ccb-485f-a6cf-dd53b99d719c\"]}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:11:15.057 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":1,"uniqueId":"50268cb3-ea27-4ef5-871b-4d3ffbd98893","content":"{\"type\":0,\"invitees\":[{\"id\":0,\"idType\":0}],\"message\":{\"text\":\"Hello zahraaaa final\",\"uniqueId\":\"1b34afe8-1bd0-4dcc-b013-8d6ddd206c6f\"}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:11:15.057 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:11:15.325 [ActiveMQ Session Task-1] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":492,"coreUserId":9261},"lastMessageVO":{"id":47448,"uniqueId":"04bad08d-0389-4f21-ad97-f02b241819ea","message":"this is final test","edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"time":1565671237150,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":488,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":484,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":466,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":64532,"contactId":0,"coreUserId":11401}],"time":1565671237150,"lastMessage":"this is final test","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47448,"lastSeenMessageNanos":150550000,"lastSeenMessageTime":1565671237150,"partnerLastSeenMessageId":47444,"partnerLastSeenMessageTime":1565671183110,"partnerLastSeenMessageNanos":110678000,"partnerLastDeliveredMessageId":47444,"partnerLastDeliveredMessageTime":1565671183110,"partnerLastDeliveredMessageNanos":110678000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"26b7374c-0131-4e77-9b1e-e0d53e0c82da"}
+[INFO ]  2019-08-13 09:11:15.412 [ActiveMQ Session Task-1] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":638,"coreUserId":9261},"lastMessageVO":{"id":47448,"uniqueId":"04bad08d-0389-4f21-ad97-f02b241819ea","message":"this is final test","edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"time":1565671237150,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":634,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":629,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":615,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":64679,"contactId":0,"coreUserId":11401}],"time":1565671237150,"lastMessage":"this is final test","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47448,"lastSeenMessageNanos":150550000,"lastSeenMessageTime":1565671237150,"partnerLastSeenMessageId":47444,"partnerLastSeenMessageTime":1565671183110,"partnerLastSeenMessageNanos":110678000,"partnerLastDeliveredMessageId":47444,"partnerLastDeliveredMessageTime":1565671183110,"partnerLastDeliveredMessageNanos":110678000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"3b7a31cd-067f-4c75-8ea8-f863cd4022ca"}
+[INFO ]  2019-08-13 09:11:15.463 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47449,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"c9b06e29-12f9-479b-ad72-ce541b3f47af"}
+[INFO ]  2019-08-13 09:11:15.533 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47449,"uniqueId":"c9b06e29-12f9-479b-ad72-ce541b3f47af","messageType":0,"previousId":47448,"message":"this is final test","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":763,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671254199,"timeNanos":199584000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":759,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:11:15.590 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47451,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"603eeac2-146f-401f-b7eb-46420e8c8799"}
+[INFO ]  2019-08-13 09:11:15.657 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47450,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"246a8d84-bfc0-4396-9b3e-5ed647a8b6fe"}
+[INFO ]  2019-08-13 09:11:15.728 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47451,"uniqueId":"603eeac2-146f-401f-b7eb-46420e8c8799","messageType":0,"previousId":47450,"message":"this is final test","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":871,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671254334,"timeNanos":334920000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":866,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:11:15.822 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47450,"uniqueId":"246a8d84-bfc0-4396-9b3e-5ed647a8b6fe","messageType":0,"previousId":47449,"message":"this is final test","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":947,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671254207,"timeNanos":207700000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":4,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":941,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:11:15.927 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47452,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"666260cb-1ccb-485f-a6cf-dd53b99d719c"}
+[INFO ]  2019-08-13 09:11:15.990 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47452,"uniqueId":"666260cb-1ccb-485f-a6cf-dd53b99d719c","messageType":0,"previousId":47451,"message":"this is final test","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":1125,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671254341,"timeNanos":341197000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":1119,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[ERROR]  2019-08-13 09:11:16.077 [ActiveMQ Session Task-1] Chat - 
+ 
+ErrorMessage :به علت خطای داخلی سیستم قادر به پاسخگویی به سرویس مورد نظر نیستیم. *Code* 106 *uniqueId* 50268cb3-ea27-4ef5-871b-4d3ffbd98893
+[INFO ]  2019-08-13 09:11:34.533 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:11:54.522 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:12:15.761 [main] ActiveMq - connection established
+[INFO ]  2019-08-13 09:12:15.761 [main] Chat - 
+ 
+State change: OPEN
+[INFO ]  2019-08-13 09:12:15.761 [main] Chat - 
+ 
+State change: ASYNC_READY
+[INFO ]  2019-08-13 09:12:15.792 [pool-2-thread-1] Chat - SEND_USER_INFO
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":23,"subjectId":0,"uniqueId":"8679602e-22d2-4505-b390-d8c5cf25206d","time":0,"contentCount":0,"repliedTo":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:12:15.917 [pool-2-thread-1] Chat - getUserInfo  retry in 2 s 
+ 
+
+[INFO ]  2019-08-13 09:12:16.353 [ActiveMQ Session Task-1] Chat - RECEIVE_USER_INFO
+ 
+{"result":{"user":{"id":4101,"sendEnable":true,"receiveEnable":true,"name":"فاطمه خجسته","cellphoneNumber":"09151242904"}},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"8679602e-22d2-4505-b390-d8c5cf25206d"}
+[INFO ]  2019-08-13 09:12:16.369 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":1,"uniqueId":"4c03cc47-8ac2-4650-ba47-f430654f2cb2","content":"{\"type\":0,\"invitees\":[{\"id\":4781,\"idType\":5}],\"message\":{\"text\":\"Hello zahraaaa\",\"forwardedMessageIds\":[47241,47242],\"uniqueId\":\"aef635ac-a9c9-4fe3-a6dd-81258861838f\",\"forwardedUniqueIds\":[\"913ab0f6-4013-430b-81ac-8b38aa656f8b\",\"8ffd21f9-1179-4518-9348-e388ee3c609a\"]}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:12:16.478 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":1,"uniqueId":"f2aca08f-140f-4704-bea5-d9547263357d","content":"{\"type\":0,\"invitees\":[{\"id\":4781,\"idType\":5}],\"message\":{\"text\":\"Hello zahraaaa\",\"forwardedMessageIds\":[47241,47242],\"uniqueId\":\"bada2e95-66c7-4011-8a89-1ed52bde7ef4\",\"forwardedUniqueIds\":[\"623d73a4-9449-447e-b242-05c0a86c4d33\",\"7ada6bbd-c9f3-4dbc-bca1-8388d4d98767\"]}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:12:33.441 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":1,"uniqueId":"5f9739b8-3d28-41d5-8c8a-29d2106159f9","content":"{\"type\":0,\"invitees\":[{\"id\":0,\"idType\":0}],\"message\":{\"text\":\"Hello zahraaaa final\",\"uniqueId\":\"17e0d56b-a0fd-4beb-9430-79663b9e57ae\"}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:12:33.670 [ActiveMQ Session Task-1] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":626,"coreUserId":9261},"lastMessageVO":{"id":47452,"uniqueId":"666260cb-1ccb-485f-a6cf-dd53b99d719c","message":"this is final test","edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"time":1565671254341,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":622,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":618,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":605,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":7417,"contactId":0,"coreUserId":11401}],"time":1565671254341,"lastMessage":"this is final test","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47452,"lastSeenMessageNanos":341197000,"lastSeenMessageTime":1565671254341,"partnerLastSeenMessageId":47444,"partnerLastSeenMessageTime":1565671183110,"partnerLastSeenMessageNanos":110678000,"partnerLastDeliveredMessageId":47444,"partnerLastDeliveredMessageTime":1565671183110,"partnerLastDeliveredMessageNanos":110678000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"4c03cc47-8ac2-4650-ba47-f430654f2cb2"}
+[INFO ]  2019-08-13 09:12:33.787 [ActiveMQ Session Task-1] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":794,"coreUserId":9261},"lastMessageVO":{"id":47452,"uniqueId":"666260cb-1ccb-485f-a6cf-dd53b99d719c","message":"this is final test","edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"time":1565671254341,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":789,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":784,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":769,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":7581,"contactId":0,"coreUserId":11401}],"time":1565671254341,"lastMessage":"this is final test","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47452,"lastSeenMessageNanos":341197000,"lastSeenMessageTime":1565671254341,"partnerLastSeenMessageId":47444,"partnerLastSeenMessageTime":1565671183110,"partnerLastSeenMessageNanos":110678000,"partnerLastDeliveredMessageId":47444,"partnerLastDeliveredMessageTime":1565671183110,"partnerLastDeliveredMessageNanos":110678000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"f2aca08f-140f-4704-bea5-d9547263357d"}
+[INFO ]  2019-08-13 09:13:02.282 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47453,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"913ab0f6-4013-430b-81ac-8b38aa656f8b"}
+[INFO ]  2019-08-13 09:13:02.282 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:13:02.366 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47453,"uniqueId":"913ab0f6-4013-430b-81ac-8b38aa656f8b","messageType":0,"previousId":47452,"message":"this is final test","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":917,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671336177,"timeNanos":177644000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":912,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:13:04.913 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47455,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"623d73a4-9449-447e-b242-05c0a86c4d33"}
+[INFO ]  2019-08-13 09:13:05.618 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47454,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"8ffd21f9-1179-4518-9348-e388ee3c609a"}
+[INFO ]  2019-08-13 09:13:05.662 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47455,"uniqueId":"623d73a4-9449-447e-b242-05c0a86c4d33","messageType":0,"previousId":47454,"message":"this is final test","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":1010,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671336307,"timeNanos":307652000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":1005,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:13:05.750 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47454,"uniqueId":"8ffd21f9-1179-4518-9348-e388ee3c609a","messageType":0,"previousId":47453,"message":"this is final test","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":1079,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671336188,"timeNanos":188077000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":4,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":1074,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:13:06.433 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47456,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"7ada6bbd-c9f3-4dbc-bca1-8388d4d98767"}
+[INFO ]  2019-08-13 09:13:06.535 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47456,"uniqueId":"7ada6bbd-c9f3-4dbc-bca1-8388d4d98767","messageType":0,"previousId":47455,"message":"this is final test","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":1189,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671336313,"timeNanos":313251000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":1183,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[ERROR]  2019-08-13 09:13:06.604 [ActiveMQ Session Task-1] Chat - 
+ 
+ErrorMessage :به علت خطای داخلی سیستم قادر به پاسخگویی به سرویس مورد نظر نیستیم. *Code* 106 *uniqueId* 5f9739b8-3d28-41d5-8c8a-29d2106159f9
+[INFO ]  2019-08-13 09:13:13.548 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:13:33.546 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:13:53.556 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:14:13.556 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:14:33.547 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:14:53.545 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:15:13.545 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:15:33.551 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:15:53.546 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:16:13.545 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:16:33.545 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:16:46.581 [main] ActiveMq - connection established
+[INFO ]  2019-08-13 09:16:46.582 [main] Chat - 
+ 
+State change: OPEN
+[INFO ]  2019-08-13 09:16:46.582 [main] Chat - 
+ 
+State change: ASYNC_READY
+[INFO ]  2019-08-13 09:16:46.621 [pool-2-thread-1] Chat - SEND_USER_INFO
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":23,"subjectId":0,"uniqueId":"74e7863d-cf00-4fba-8b49-2ac8ce8f9a7a","time":0,"contentCount":0,"repliedTo":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:16:46.695 [pool-2-thread-1] Chat - getUserInfo  retry in 2 s 
+ 
+
+[INFO ]  2019-08-13 09:16:46.805 [ActiveMQ Session Task-1] Chat - RECEIVE_USER_INFO
+ 
+{"result":{"user":{"id":4101,"sendEnable":true,"receiveEnable":true,"name":"فاطمه خجسته","cellphoneNumber":"09151242904"}},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"74e7863d-cf00-4fba-8b49-2ac8ce8f9a7a"}
+[INFO ]  2019-08-13 09:16:49.238 [ActiveMQ Session Task-1] Chat - SEND_DELETE_MESSAGE
+ 
+{"content":"{\"ids\":[47403,47402],\"uniqueIds\":[\"0d50b8ce-b33e-43ba-b1c8-00c3b3c7d155\",\"87ae7b04-d035-4cf3-b02a-44cba134d143\"],\"deleteForAll\":false}","token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":29,"subjectId":3042,"typeCode":"default"}
+[ERROR]  2019-08-13 09:16:49.472 [ActiveMQ Session Task-1] Chat - 
+ 
+ErrorMessage :Thread Participant not found. participant: 4101, thread: 421 *Code* 110 *uniqueId* null
+[INFO ]  2019-08-13 09:18:03.796 [main] ActiveMq - connection established
+[INFO ]  2019-08-13 09:18:03.796 [main] Chat - 
+ 
+State change: OPEN
+[INFO ]  2019-08-13 09:18:03.796 [main] Chat - 
+ 
+State change: ASYNC_READY
+[INFO ]  2019-08-13 09:18:03.843 [pool-2-thread-1] Chat - SEND_USER_INFO
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":23,"subjectId":0,"uniqueId":"f10e9ed3-999d-4587-8398-cda764ff641d","time":0,"contentCount":0,"repliedTo":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:18:03.905 [pool-2-thread-1] Chat - getUserInfo  retry in 2 s 
+ 
+
+[INFO ]  2019-08-13 09:18:04.046 [ActiveMQ Session Task-1] Chat - RECEIVE_USER_INFO
+ 
+{"result":{"user":{"id":4101,"sendEnable":true,"receiveEnable":true,"name":"فاطمه خجسته","cellphoneNumber":"09151242904"}},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"f10e9ed3-999d-4587-8398-cda764ff641d"}
+[INFO ]  2019-08-13 09:18:04.062 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":1,"uniqueId":"2a8255f5-ba25-4ac8-a1f1-061811f0128e","content":"{\"type\":0,\"invitees\":[{\"id\":4781,\"idType\":5}],\"message\":{\"text\":\"Hello zahraaaa\",\"forwardedMessageIds\":[47181,47160],\"uniqueId\":\"c5d47502-7f76-4e82-bf67-683c686e5c2f\",\"forwardedUniqueIds\":[\"21605e4a-51db-48f4-b099-fea9d89b59f2\",\"15c47156-76c4-4acf-9b6a-7021488523cc\"]}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:18:04.109 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":1,"uniqueId":"3373e256-8149-4ab3-8bfe-929616c97a63","content":"{\"type\":0,\"invitees\":[{\"id\":4781,\"idType\":5}],\"message\":{\"text\":\"Hello zahraaaa\",\"forwardedMessageIds\":[46862,46965],\"uniqueId\":\"cf3f615f-9453-4a6d-92ce-75c25d942484\",\"forwardedUniqueIds\":[\"9d187daf-916f-4202-a2a1-dafc085e7757\",\"e6c0f2d8-6e29-4bb2-beea-170243034b10\"]}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:18:18.763 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":1,"uniqueId":"a20f5b23-0460-40d6-acbc-a1444ad9cf93","content":"{\"type\":0,\"invitees\":[{\"id\":0,\"idType\":0}],\"message\":{\"text\":\"Hello zahraaaa final\",\"uniqueId\":\"77c3ab04-6a9c-4d5a-a44a-b1ea692f5adb\"}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:18:18.954 [ActiveMQ Session Task-1] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":74915,"coreUserId":9261},"lastMessageVO":{"id":47456,"uniqueId":"7ada6bbd-c9f3-4dbc-bca1-8388d4d98767","message":"this is final test","edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"time":1565671336313,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":74899,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":74894,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":74876,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":12493,"contactId":0,"coreUserId":11401}],"time":1565671336313,"lastMessage":"this is final test","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47456,"lastSeenMessageNanos":313251000,"lastSeenMessageTime":1565671336313,"partnerLastSeenMessageId":47444,"partnerLastSeenMessageTime":1565671183110,"partnerLastSeenMessageNanos":110678000,"partnerLastDeliveredMessageId":47444,"partnerLastDeliveredMessageTime":1565671183110,"partnerLastDeliveredMessageNanos":110678000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"2a8255f5-ba25-4ac8-a1f1-061811f0128e"}
+[INFO ]  2019-08-13 09:18:19.028 [ActiveMQ Session Task-1] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":75065,"coreUserId":9261},"lastMessageVO":{"id":47456,"uniqueId":"7ada6bbd-c9f3-4dbc-bca1-8388d4d98767","message":"this is final test","edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"time":1565671336313,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":75060,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":75056,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":75041,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":12658,"contactId":0,"coreUserId":11401}],"time":1565671336313,"lastMessage":"this is final test","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47456,"lastSeenMessageNanos":313251000,"lastSeenMessageTime":1565671336313,"partnerLastSeenMessageId":47444,"partnerLastSeenMessageTime":1565671183110,"partnerLastSeenMessageNanos":110678000,"partnerLastDeliveredMessageId":47444,"partnerLastDeliveredMessageTime":1565671183110,"partnerLastDeliveredMessageNanos":110678000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"3373e256-8149-4ab3-8bfe-929616c97a63"}
+[INFO ]  2019-08-13 09:18:20.986 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47457,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"21605e4a-51db-48f4-b099-fea9d89b59f2"}
+[INFO ]  2019-08-13 09:18:21.080 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47457,"uniqueId":"21605e4a-51db-48f4-b099-fea9d89b59f2","messageType":0,"previousId":47456,"message":"Hello zahraaaa","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":75206,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671683849,"timeNanos":849281000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":75200,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":5461}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:18:21.517 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47459,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"9d187daf-916f-4202-a2a1-dafc085e7757"}
+[INFO ]  2019-08-13 09:18:21.548 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47459,"uniqueId":"9d187daf-916f-4202-a2a1-dafc085e7757","messageType":0,"previousId":47458,"message":"this is final test","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":75290,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671683961,"timeNanos":961699000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":75286,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:18:22.001 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47458,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"15c47156-76c4-4acf-9b6a-7021488523cc"}
+[INFO ]  2019-08-13 09:18:22.064 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47458,"uniqueId":"15c47156-76c4-4acf-9b6a-7021488523cc","messageType":0,"previousId":47457,"message":"Hello zahraaaa","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":75403,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671683862,"timeNanos":862682000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":4,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":75399,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":5701}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:18:22.548 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47460,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"e6c0f2d8-6e29-4bb2-beea-170243034b10"}
+[INFO ]  2019-08-13 09:18:22.642 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47460,"uniqueId":"e6c0f2d8-6e29-4bb2-beea-170243034b10","messageType":0,"previousId":47459,"message":"hi","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":75494,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671683969,"timeNanos":969446000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":75490,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:18:22.736 [ActiveMQ Session Task-1] Chat - RECEIVED_DELIVERED_MESSAGE
+ 
+{"result":{"messageId":47458,"participantId":4781,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"15c47156-76c4-4acf-9b6a-7021488523cc"}
+[INFO ]  2019-08-13 09:18:22.736 [ActiveMQ Session Task-1] Chat - RECEIVED_DELIVERED_MESSAGE
+ 
+{"result":{"messageId":47459,"participantId":4781,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"9d187daf-916f-4202-a2a1-dafc085e7757"}
+[INFO ]  2019-08-13 09:18:22.736 [ActiveMQ Session Task-1] Chat - RECEIVED_DELIVERED_MESSAGE
+ 
+{"result":{"messageId":47457,"participantId":4781,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"21605e4a-51db-48f4-b099-fea9d89b59f2"}
+[INFO ]  2019-08-13 09:18:22.876 [ActiveMQ Session Task-1] Chat - RECEIVED_DELIVERED_MESSAGE
+ 
+{"result":{"messageId":47460,"participantId":4781,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"e6c0f2d8-6e29-4bb2-beea-170243034b10"}
+[INFO ]  2019-08-13 09:18:31.593 [ActiveMQ Session Task-1] Chat - RECEIVED_SEEN_MESSAGE
+ 
+{"result":{"messageId":47457,"participantId":4781,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"21605e4a-51db-48f4-b099-fea9d89b59f2"}
+[INFO ]  2019-08-13 09:18:32.702 [ActiveMQ Session Task-1] Chat - RECEIVED_SEEN_MESSAGE
+ 
+{"result":{"messageId":47459,"participantId":4781,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"9d187daf-916f-4202-a2a1-dafc085e7757"}
+[INFO ]  2019-08-13 09:18:33.553 [ActiveMQ Session Task-1] Chat - RECEIVED_SEEN_MESSAGE
+ 
+{"result":{"messageId":47460,"participantId":4781,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"e6c0f2d8-6e29-4bb2-beea-170243034b10"}
+[INFO ]  2019-08-13 09:18:34.057 [ActiveMQ Session Task-1] Chat - RECEIVED_SEEN_MESSAGE
+ 
+{"result":{"messageId":47458,"participantId":4781,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"15c47156-76c4-4acf-9b6a-7021488523cc"}
+[ERROR]  2019-08-13 09:18:34.424 [ActiveMQ Session Task-1] Chat - 
+ 
+ErrorMessage :به علت خطای داخلی سیستم قادر به پاسخگویی به سرویس مورد نظر نیستیم. *Code* 106 *uniqueId* a20f5b23-0460-40d6-acbc-a1444ad9cf93
+[INFO ]  2019-08-13 09:18:38.842 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:19:01.641 [main] ActiveMq - connection established
+[INFO ]  2019-08-13 09:19:01.641 [main] Chat - 
+ 
+State change: OPEN
+[INFO ]  2019-08-13 09:19:01.641 [main] Chat - 
+ 
+State change: ASYNC_READY
+[INFO ]  2019-08-13 09:19:01.672 [pool-2-thread-1] Chat - SEND_USER_INFO
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":23,"subjectId":0,"uniqueId":"7fc9b645-2a94-4383-bf2b-05ed0e741a87","time":0,"contentCount":0,"repliedTo":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:19:01.766 [pool-2-thread-1] Chat - getUserInfo  retry in 2 s 
+ 
+
+[INFO ]  2019-08-13 09:19:02.156 [ActiveMQ Session Task-1] Chat - RECEIVE_USER_INFO
+ 
+{"result":{"user":{"id":4101,"sendEnable":true,"receiveEnable":true,"name":"فاطمه خجسته","cellphoneNumber":"09151242904"}},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"7fc9b645-2a94-4383-bf2b-05ed0e741a87"}
+[INFO ]  2019-08-13 09:19:02.172 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":1,"uniqueId":"62541aeb-cad4-45ad-a113-40d7c06e577f","content":"{\"type\":0,\"invitees\":[{\"id\":4781,\"idType\":5}],\"message\":{\"text\":\"Hello zahraaaa\",\"forwardedMessageIds\":[47181,47160],\"uniqueId\":\"3e7b7ed7-f468-4475-8082-a8c254ccbec4\",\"forwardedUniqueIds\":[\"7c0a28a3-dc6e-477d-999d-adb7ccc6f2f8\",\"c3217431-84ff-48c5-af15-a0adce9173a4\"]}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:19:02.250 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":1,"uniqueId":"84bc157e-24bf-44e7-85b6-c4296d991ec2","content":"{\"type\":0,\"invitees\":[{\"id\":4781,\"idType\":5}],\"message\":{\"text\":\"Hello zahraaaa\",\"forwardedMessageIds\":[46862,46965],\"uniqueId\":\"8062d6f0-1632-4092-9543-e4f02f2a51ef\",\"forwardedUniqueIds\":[\"b26123b2-cd36-4e11-8aa0-603ca97474f3\",\"367d715e-4bbb-48b7-aa64-b95af6d89d88\"]}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:19:16.265 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":1,"uniqueId":"6216476e-bdee-427f-80ab-d88878383f7d","content":"{\"type\":0,\"invitees\":[{\"id\":0,\"idType\":0}],\"message\":{\"text\":\"Hello zahraaaa final\",\"uniqueId\":\"a036d9a6-5743-4423-a464-ee657fcafedc\"}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:19:16.405 [ActiveMQ Session Task-1] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":609,"coreUserId":9261},"lastMessageVO":{"id":47460,"uniqueId":"e6c0f2d8-6e29-4bb2-beea-170243034b10","message":"hi","edited":false,"editable":false,"delivered":true,"seen":true,"deletable":true,"time":1565671683969,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":603,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":598,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":586,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":12276,"contactId":0,"coreUserId":11401}],"time":1565671683969,"lastMessage":"hi","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47460,"lastSeenMessageNanos":969446000,"lastSeenMessageTime":1565671683969,"partnerLastSeenMessageId":47460,"partnerLastSeenMessageTime":1565671683969,"partnerLastSeenMessageNanos":969446000,"partnerLastDeliveredMessageId":47460,"partnerLastDeliveredMessageTime":1565671683969,"partnerLastDeliveredMessageNanos":969446000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"62541aeb-cad4-45ad-a113-40d7c06e577f"}
+[INFO ]  2019-08-13 09:19:16.515 [ActiveMQ Session Task-1] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":736,"coreUserId":9261},"lastMessageVO":{"id":47460,"uniqueId":"e6c0f2d8-6e29-4bb2-beea-170243034b10","message":"hi","edited":false,"editable":false,"delivered":true,"seen":true,"deletable":true,"time":1565671683969,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":732,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":728,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":715,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":12405,"contactId":0,"coreUserId":11401}],"time":1565671683969,"lastMessage":"hi","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47460,"lastSeenMessageNanos":969446000,"lastSeenMessageTime":1565671683969,"partnerLastSeenMessageId":47460,"partnerLastSeenMessageTime":1565671683969,"partnerLastSeenMessageNanos":969446000,"partnerLastDeliveredMessageId":47460,"partnerLastDeliveredMessageTime":1565671683969,"partnerLastDeliveredMessageNanos":969446000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"84bc157e-24bf-44e7-85b6-c4296d991ec2"}
+[INFO ]  2019-08-13 09:19:18.124 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47461,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"7c0a28a3-dc6e-477d-999d-adb7ccc6f2f8"}
+[INFO ]  2019-08-13 09:19:18.171 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47461,"uniqueId":"7c0a28a3-dc6e-477d-999d-adb7ccc6f2f8","messageType":0,"previousId":47460,"message":"Hello zahraaaa","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":888,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671741970,"timeNanos":970746000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":880,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":5461}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:19:18.592 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47463,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"b26123b2-cd36-4e11-8aa0-603ca97474f3"}
+[INFO ]  2019-08-13 09:19:18.983 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47462,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"c3217431-84ff-48c5-af15-a0adce9173a4"}
+[INFO ]  2019-08-13 09:19:19.045 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47463,"uniqueId":"b26123b2-cd36-4e11-8aa0-603ca97474f3","messageType":0,"previousId":47462,"message":"this is final test","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":1062,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671742155,"timeNanos":155242000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":1058,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:19:19.217 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47462,"uniqueId":"c3217431-84ff-48c5-af15-a0adce9173a4","messageType":0,"previousId":47461,"message":"Hello zahraaaa","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":1090,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671741981,"timeNanos":981832000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":4,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":1086,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":5701}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:19:19.748 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47464,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"367d715e-4bbb-48b7-aa64-b95af6d89d88"}
+[INFO ]  2019-08-13 09:19:19.873 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47464,"uniqueId":"367d715e-4bbb-48b7-aa64-b95af6d89d88","messageType":0,"previousId":47463,"message":"hi","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":1253,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671742164,"timeNanos":164393000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":1248,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[ERROR]  2019-08-13 09:19:20.217 [ActiveMQ Session Task-1] Chat - 
+ 
+ErrorMessage :به علت خطای داخلی سیستم قادر به پاسخگویی به سرویس مورد نظر نیستیم. *Code* 106 *uniqueId* 6216476e-bdee-427f-80ab-d88878383f7d
+[INFO ]  2019-08-13 09:19:36.357 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:19:56.344 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:20:16.343 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:20:26.741 [main] ActiveMq - connection established
+[INFO ]  2019-08-13 09:20:26.741 [main] Chat - 
+ 
+State change: OPEN
+[INFO ]  2019-08-13 09:20:26.741 [main] Chat - 
+ 
+State change: ASYNC_READY
+[INFO ]  2019-08-13 09:20:26.788 [pool-2-thread-1] Chat - SEND_USER_INFO
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":23,"subjectId":0,"uniqueId":"7e602fd8-4fbc-4286-a969-f55b5bd7707f","time":0,"contentCount":0,"repliedTo":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:20:27.163 [pool-2-thread-1] Chat - getUserInfo  retry in 2 s 
+ 
+
+[INFO ]  2019-08-13 09:20:27.272 [ActiveMQ Session Task-1] Chat - RECEIVE_USER_INFO
+ 
+{"result":{"user":{"id":4101,"sendEnable":true,"receiveEnable":true,"name":"فاطمه خجسته","cellphoneNumber":"09151242904"}},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"7e602fd8-4fbc-4286-a969-f55b5bd7707f"}
+[INFO ]  2019-08-13 09:20:27.272 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":1,"uniqueId":"9e6a915f-c6c4-491f-9455-c486ed481b55","content":"{\"type\":0,\"invitees\":[{\"id\":4781,\"idType\":5}],\"message\":{\"text\":\"Hello zahraaaa\",\"forwardedMessageIds\":[47181,47160],\"uniqueId\":\"7ad139e2-c35c-42f8-a4ef-837a18ec9a5f\",\"forwardedUniqueIds\":[\"189b83fc-10b4-42e7-b68f-9b83bb0f5bbe\",\"ca425bd4-ba87-4426-adc3-ba8403093ce6\"]}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:20:27.350 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":1,"uniqueId":"ef3e7c55-f7bf-4ad3-af38-1dea9b41a602","content":"{\"type\":0,\"invitees\":[{\"id\":4781,\"idType\":5}],\"message\":{\"text\":\"Hello zahraaaa\",\"forwardedMessageIds\":[46862,46965],\"uniqueId\":\"d3e5970a-ffa5-4ee0-b96b-dfad31fb89a6\",\"forwardedUniqueIds\":[\"0a021469-dc22-4f92-9d8e-0a4033f277d5\",\"2cec91f1-8ba7-4f08-97f7-7a650fe2d8a4\"]}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:20:39.696 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":1,"uniqueId":"1e1010e4-f190-4765-87a2-125be46f5c9b","content":"{\"type\":0,\"invitees\":[{\"id\":0,\"idType\":0}],\"message\":{\"text\":\"Hello zahraaaa final\",\"uniqueId\":\"f9b487f0-b72b-44d8-9d5b-94086832f2af\"}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:20:39.899 [ActiveMQ Session Task-1] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":596,"coreUserId":9261},"lastMessageVO":{"id":47464,"uniqueId":"367d715e-4bbb-48b7-aa64-b95af6d89d88","message":"hi","edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"time":1565671742164,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":587,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":583,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":571,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":17510,"contactId":0,"coreUserId":11401}],"time":1565671742164,"lastMessage":"hi","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47464,"lastSeenMessageNanos":164393000,"lastSeenMessageTime":1565671742164,"partnerLastSeenMessageId":47460,"partnerLastSeenMessageTime":1565671683969,"partnerLastSeenMessageNanos":969446000,"partnerLastDeliveredMessageId":47460,"partnerLastDeliveredMessageTime":1565671683969,"partnerLastDeliveredMessageNanos":969446000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"9e6a915f-c6c4-491f-9455-c486ed481b55"}
+[INFO ]  2019-08-13 09:20:40.009 [ActiveMQ Session Task-1] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":728,"coreUserId":9261},"lastMessageVO":{"id":47464,"uniqueId":"367d715e-4bbb-48b7-aa64-b95af6d89d88","message":"hi","edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"time":1565671742164,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":723,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":719,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":703,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":17644,"contactId":0,"coreUserId":11401}],"time":1565671742164,"lastMessage":"hi","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47464,"lastSeenMessageNanos":164393000,"lastSeenMessageTime":1565671742164,"partnerLastSeenMessageId":47460,"partnerLastSeenMessageTime":1565671683969,"partnerLastSeenMessageNanos":969446000,"partnerLastDeliveredMessageId":47460,"partnerLastDeliveredMessageTime":1565671683969,"partnerLastDeliveredMessageNanos":969446000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"ef3e7c55-f7bf-4ad3-af38-1dea9b41a602"}
+[INFO ]  2019-08-13 09:20:40.571 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47465,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"189b83fc-10b4-42e7-b68f-9b83bb0f5bbe"}
+[INFO ]  2019-08-13 09:20:40.649 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47465,"uniqueId":"189b83fc-10b4-42e7-b68f-9b83bb0f5bbe","messageType":0,"previousId":47464,"message":"Hello zahraaaa","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":885,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671827078,"timeNanos":78061000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":877,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":5461}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:20:41.071 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47467,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"0a021469-dc22-4f92-9d8e-0a4033f277d5"}
+[INFO ]  2019-08-13 09:20:41.446 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47466,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"ca425bd4-ba87-4426-adc3-ba8403093ce6"}
+[INFO ]  2019-08-13 09:20:41.524 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47467,"uniqueId":"0a021469-dc22-4f92-9d8e-0a4033f277d5","messageType":0,"previousId":47466,"message":"this is final test","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":968,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671827208,"timeNanos":208953000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":962,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:20:41.555 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47466,"uniqueId":"ca425bd4-ba87-4426-adc3-ba8403093ce6","messageType":0,"previousId":47465,"message":"Hello zahraaaa","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":1039,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671827087,"timeNanos":87578000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":4,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":1034,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":5701}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:20:42.058 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47468,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"2cec91f1-8ba7-4f08-97f7-7a650fe2d8a4"}
+[INFO ]  2019-08-13 09:20:42.120 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47468,"uniqueId":"2cec91f1-8ba7-4f08-97f7-7a650fe2d8a4","messageType":0,"previousId":47467,"message":"hi","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":1194,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671827217,"timeNanos":217998000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":1189,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:20:42.667 [ActiveMQ Session Task-1] Chat - RECEIVED_DELIVERED_MESSAGE
+ 
+{"result":{"messageId":47465,"participantId":4781,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"189b83fc-10b4-42e7-b68f-9b83bb0f5bbe"}
+[INFO ]  2019-08-13 09:20:43.183 [ActiveMQ Session Task-1] Chat - RECEIVED_DELIVERED_MESSAGE
+ 
+{"result":{"messageId":47466,"participantId":4781,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"ca425bd4-ba87-4426-adc3-ba8403093ce6"}
+[INFO ]  2019-08-13 09:20:43.183 [ActiveMQ Session Task-1] Chat - RECEIVED_DELIVERED_MESSAGE
+ 
+{"result":{"messageId":47467,"participantId":4781,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"0a021469-dc22-4f92-9d8e-0a4033f277d5"}
+[INFO ]  2019-08-13 09:20:44.135 [ActiveMQ Session Task-1] Chat - RECEIVED_DELIVERED_MESSAGE
+ 
+{"result":{"messageId":47468,"participantId":4781,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"2cec91f1-8ba7-4f08-97f7-7a650fe2d8a4"}
+[ERROR]  2019-08-13 09:20:44.201 [ActiveMQ Session Task-1] Chat - 
+ 
+ErrorMessage :به علت خطای داخلی سیستم قادر به پاسخگویی به سرویس مورد نظر نیستیم. *Code* 106 *uniqueId* 1e1010e4-f190-4765-87a2-125be46f5c9b
+[INFO ]  2019-08-13 09:20:55.458 [main] ActiveMq - connection established
+[INFO ]  2019-08-13 09:20:55.458 [main] Chat - 
+ 
+State change: OPEN
+[INFO ]  2019-08-13 09:20:55.458 [main] Chat - 
+ 
+State change: ASYNC_READY
+[INFO ]  2019-08-13 09:20:55.505 [pool-2-thread-1] Chat - SEND_USER_INFO
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":23,"subjectId":0,"uniqueId":"393a8f01-8e81-433f-af66-14ab48f4d5b5","time":0,"contentCount":0,"repliedTo":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:20:55.614 [pool-2-thread-1] Chat - getUserInfo  retry in 2 s 
+ 
+
+[INFO ]  2019-08-13 09:20:55.692 [ActiveMQ Session Task-1] Chat - RECEIVE_USER_INFO
+ 
+{"result":{"user":{"id":4101,"sendEnable":true,"receiveEnable":true,"name":"فاطمه خجسته","cellphoneNumber":"09151242904"}},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"393a8f01-8e81-433f-af66-14ab48f4d5b5"}
+[INFO ]  2019-08-13 09:20:55.708 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":1,"uniqueId":"f271583e-9c86-46c5-beaa-de05ecb120df","content":"{\"type\":0,\"invitees\":[{\"id\":4781,\"idType\":5}],\"message\":{\"text\":\"Hello zahraaaa\",\"forwardedMessageIds\":[47181,47160],\"uniqueId\":\"6677f6a2-594b-4fb0-8989-19c6dab2509f\",\"forwardedUniqueIds\":[\"a2541a47-1776-46d8-9398-fa56b5c9de5a\",\"31b113d6-0e34-4396-b962-7e249c70b8fa\"]}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:20:55.786 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":1,"uniqueId":"72b7e6f2-dc75-4280-aa2e-a82f5e12f554","content":"{\"type\":0,\"invitees\":[{\"id\":4781,\"idType\":5}],\"message\":{\"text\":\"Hello zahraaaa\",\"forwardedMessageIds\":[46862,46965],\"uniqueId\":\"09b52e27-1294-4e64-8e12-28579428fd2c\",\"forwardedUniqueIds\":[\"2f35f95e-442c-4936-9a5b-96bb034daaf3\",\"04497fd6-b22a-4d02-9aa0-4e42e4ee7ebd\"]}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:23:30.175 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":1,"uniqueId":"66d3f5cd-ee1a-447d-b456-4a1005eda215","content":"{\"type\":0,\"invitees\":[{\"id\":0,\"idType\":0}],\"message\":{\"text\":\"Hello zahraaaa final\",\"uniqueId\":\"6e6ea659-5f99-414e-b1ec-2f012ac8a0a0\"}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:23:30.175 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:23:30.611 [ActiveMQ Session Task-2] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":16003,"coreUserId":9261},"lastMessageVO":{"id":47468,"uniqueId":"2cec91f1-8ba7-4f08-97f7-7a650fe2d8a4","message":"hi","edited":false,"editable":false,"delivered":true,"seen":false,"deletable":true,"time":1565671827217,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":15999,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":15994,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":15981,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":27562,"contactId":0,"coreUserId":11401}],"time":1565671827217,"lastMessage":"hi","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47468,"lastSeenMessageNanos":217998000,"lastSeenMessageTime":1565671827217,"partnerLastSeenMessageId":47460,"partnerLastSeenMessageTime":1565671683969,"partnerLastSeenMessageNanos":969446000,"partnerLastDeliveredMessageId":47468,"partnerLastDeliveredMessageTime":1565671827217,"partnerLastDeliveredMessageNanos":217998000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"f271583e-9c86-46c5-beaa-de05ecb120df"}
+[INFO ]  2019-08-13 09:23:30.736 [ActiveMQ Session Task-2] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":16131,"coreUserId":9261},"lastMessageVO":{"id":47468,"uniqueId":"2cec91f1-8ba7-4f08-97f7-7a650fe2d8a4","message":"hi","edited":false,"editable":false,"delivered":true,"seen":false,"deletable":true,"time":1565671827217,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":16127,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":16123,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":16110,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":27691,"contactId":0,"coreUserId":11401}],"time":1565671827217,"lastMessage":"hi","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47468,"lastSeenMessageNanos":217998000,"lastSeenMessageTime":1565671827217,"partnerLastSeenMessageId":47460,"partnerLastSeenMessageTime":1565671683969,"partnerLastSeenMessageNanos":969446000,"partnerLastDeliveredMessageId":47468,"partnerLastDeliveredMessageTime":1565671827217,"partnerLastDeliveredMessageNanos":217998000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"72b7e6f2-dc75-4280-aa2e-a82f5e12f554"}
+[INFO ]  2019-08-13 09:23:32.408 [ActiveMQ Session Task-2] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47469,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"a2541a47-1776-46d8-9398-fa56b5c9de5a"}
+[INFO ]  2019-08-13 09:23:32.470 [ActiveMQ Session Task-2] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47469,"uniqueId":"a2541a47-1776-46d8-9398-fa56b5c9de5a","messageType":0,"previousId":47468,"message":"Hello zahraaaa","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":16226,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671855480,"timeNanos":480106000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":16222,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":5461}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:23:32.861 [ActiveMQ Session Task-2] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47471,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"2f35f95e-442c-4936-9a5b-96bb034daaf3"}
+[INFO ]  2019-08-13 09:23:33.586 [ActiveMQ Session Task-2] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47470,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"31b113d6-0e34-4396-b962-7e249c70b8fa"}
+[INFO ]  2019-08-13 09:23:33.652 [ActiveMQ Session Task-2] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47471,"uniqueId":"2f35f95e-442c-4936-9a5b-96bb034daaf3","messageType":0,"previousId":47470,"message":"this is final test","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":16404,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671855588,"timeNanos":588720000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":16399,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:23:33.711 [ActiveMQ Session Task-2] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47470,"uniqueId":"31b113d6-0e34-4396-b962-7e249c70b8fa","messageType":0,"previousId":47469,"message":"Hello zahraaaa","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":16445,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671855490,"timeNanos":490987000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":4,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":16441,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":5701}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:23:34.406 [ActiveMQ Session Task-2] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47472,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"04497fd6-b22a-4d02-9aa0-4e42e4ee7ebd"}
+[INFO ]  2019-08-13 09:23:34.468 [ActiveMQ Session Task-2] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47472,"uniqueId":"04497fd6-b22a-4d02-9aa0-4e42e4ee7ebd","messageType":0,"previousId":47471,"message":"hi","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":624,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671855598,"timeNanos":598780000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":620,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:23:34.499 [ActiveMQ Session Task-2] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":16003,"coreUserId":9261},"lastMessageVO":{"id":47468,"uniqueId":"2cec91f1-8ba7-4f08-97f7-7a650fe2d8a4","message":"hi","edited":false,"editable":false,"delivered":true,"seen":false,"deletable":true,"time":1565671827217,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":15999,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":15994,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":15981,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":27562,"contactId":0,"coreUserId":11401}],"time":1565671827217,"lastMessage":"hi","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47468,"lastSeenMessageNanos":217998000,"lastSeenMessageTime":1565671827217,"partnerLastSeenMessageId":47460,"partnerLastSeenMessageTime":1565671683969,"partnerLastSeenMessageNanos":969446000,"partnerLastDeliveredMessageId":47468,"partnerLastDeliveredMessageTime":1565671827217,"partnerLastDeliveredMessageNanos":217998000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"f271583e-9c86-46c5-beaa-de05ecb120df"}
+[INFO ]  2019-08-13 09:23:34.562 [ActiveMQ Session Task-2] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":16131,"coreUserId":9261},"lastMessageVO":{"id":47468,"uniqueId":"2cec91f1-8ba7-4f08-97f7-7a650fe2d8a4","message":"hi","edited":false,"editable":false,"delivered":true,"seen":false,"deletable":true,"time":1565671827217,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":16127,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":16123,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":16110,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":27691,"contactId":0,"coreUserId":11401}],"time":1565671827217,"lastMessage":"hi","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47468,"lastSeenMessageNanos":217998000,"lastSeenMessageTime":1565671827217,"partnerLastSeenMessageId":47460,"partnerLastSeenMessageTime":1565671683969,"partnerLastSeenMessageNanos":969446000,"partnerLastDeliveredMessageId":47468,"partnerLastDeliveredMessageTime":1565671827217,"partnerLastDeliveredMessageNanos":217998000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"72b7e6f2-dc75-4280-aa2e-a82f5e12f554"}
+[INFO ]  2019-08-13 09:23:34.624 [ActiveMQ Session Task-2] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47469,"uniqueId":"a2541a47-1776-46d8-9398-fa56b5c9de5a","messageType":0,"previousId":47468,"message":"Hello zahraaaa","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":16226,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671855480,"timeNanos":480106000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":16222,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":5461}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:23:34.655 [ActiveMQ Session Task-2] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47471,"uniqueId":"2f35f95e-442c-4936-9a5b-96bb034daaf3","messageType":0,"previousId":47470,"message":"this is final test","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":16404,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671855588,"timeNanos":588720000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":16399,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:23:34.734 [ActiveMQ Session Task-2] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47470,"uniqueId":"31b113d6-0e34-4396-b962-7e249c70b8fa","messageType":0,"previousId":47469,"message":"Hello zahraaaa","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":16445,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671855490,"timeNanos":490987000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":4,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":16441,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":5701}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:23:34.781 [ActiveMQ Session Task-2] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47472,"uniqueId":"04497fd6-b22a-4d02-9aa0-4e42e4ee7ebd","messageType":0,"previousId":47471,"message":"hi","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":624,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565671855598,"timeNanos":598780000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":620,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:23:40.231 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:23:48.411 [ActiveMQ Session Task-2] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47469,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"a2541a47-1776-46d8-9398-fa56b5c9de5a"}
+[INFO ]  2019-08-13 09:23:49.598 [ActiveMQ Session Task-2] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47471,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"2f35f95e-442c-4936-9a5b-96bb034daaf3"}
+[INFO ]  2019-08-13 09:23:50.194 [ActiveMQ Session Task-2] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47470,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"31b113d6-0e34-4396-b962-7e249c70b8fa"}
+[INFO ]  2019-08-13 09:23:50.752 [ActiveMQ Session Task-2] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47472,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"04497fd6-b22a-4d02-9aa0-4e42e4ee7ebd"}
+[ERROR]  2019-08-13 09:23:50.815 [ActiveMQ Session Task-2] Chat - 
+ 
+ErrorMessage :به علت خطای داخلی سیستم قادر به پاسخگویی به سرویس مورد نظر نیستیم. *Code* 106 *uniqueId* 66d3f5cd-ee1a-447d-b456-4a1005eda215
+[INFO ]  2019-08-13 09:24:08.565 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"840a1267c69b49bfaa16dd026dddb56b","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:25:00.564 [main] ActiveMq - connection established
+[INFO ]  2019-08-13 09:25:00.580 [main] Chat - 
+ 
+State change: OPEN
+[INFO ]  2019-08-13 09:25:00.580 [main] Chat - 
+ 
+State change: ASYNC_READY
+[INFO ]  2019-08-13 09:25:00.611 [pool-2-thread-1] Chat - SEND_USER_INFO
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":23,"subjectId":0,"uniqueId":"eb3e692f-2912-47d7-b322-3f139713c206","time":0,"contentCount":0,"repliedTo":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:25:00.768 [pool-2-thread-1] Chat - getUserInfo  retry in 2 s 
+ 
+
+[INFO ]  2019-08-13 09:25:00.971 [ActiveMQ Session Task-1] Chat - RECEIVE_USER_INFO
+ 
+{"result":{"user":{"id":4101,"sendEnable":true,"receiveEnable":true,"name":"فاطمه خجسته","cellphoneNumber":"09151242904"}},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"eb3e692f-2912-47d7-b322-3f139713c206"}
+[INFO ]  2019-08-13 09:25:00.986 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":1,"uniqueId":"75fc2d73-875b-436c-829e-37119957794e","content":"{\"type\":0,\"invitees\":[{\"id\":4781,\"idType\":5}],\"message\":{\"text\":\"Hello zahraaaa\",\"forwardedMessageIds\":[47181,47160],\"uniqueId\":\"a15b665c-84b7-4b4f-95c3-d48263bc907d\",\"forwardedUniqueIds\":[\"5621ea27-eb3a-41d1-892f-faa09ad8036f\",\"c939a77c-561b-4a07-b84f-5a1a26fec0c5\"]}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:25:01.080 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":1,"uniqueId":"48057664-a393-498f-9ca0-84273652db87","content":"{\"type\":0,\"invitees\":[{\"id\":4781,\"idType\":5}],\"message\":{\"text\":\"Hello zahraaaa\",\"forwardedMessageIds\":[46862,46965],\"uniqueId\":\"2a51a365-f2df-4a6c-b7ab-70ad097e187d\",\"forwardedUniqueIds\":[\"3adf9bad-6b98-47bc-90cf-11a159164d4a\",\"46608a4c-c61e-4c3b-ab6f-edf84914ebac\"]}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:25:18.674 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":1,"uniqueId":"30b00b1a-16f8-400e-a35d-b48e446b7068","content":"{\"type\":0,\"invitees\":[{\"id\":0,\"idType\":0}],\"message\":{\"text\":\"Hello zahraaaa final\",\"uniqueId\":\"a975c6fa-45fc-4343-b043-98c2780ae44f\"}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:25:19.215 [ActiveMQ Session Task-1] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":52593,"coreUserId":9261},"lastMessageVO":{"id":47472,"uniqueId":"04497fd6-b22a-4d02-9aa0-4e42e4ee7ebd","message":"hi","edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"time":1565671855598,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":52587,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":52581,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":52563,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":91840,"contactId":0,"coreUserId":11401}],"time":1565671855598,"lastMessage":"hi","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47472,"lastSeenMessageNanos":598780000,"lastSeenMessageTime":1565671855598,"partnerLastSeenMessageId":47460,"partnerLastSeenMessageTime":1565671683969,"partnerLastSeenMessageNanos":969446000,"partnerLastDeliveredMessageId":47468,"partnerLastDeliveredMessageTime":1565671827217,"partnerLastDeliveredMessageNanos":217998000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"75fc2d73-875b-436c-829e-37119957794e"}
+[INFO ]  2019-08-13 09:25:19.295 [ActiveMQ Session Task-1] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":52803,"coreUserId":9261},"lastMessageVO":{"id":47472,"uniqueId":"04497fd6-b22a-4d02-9aa0-4e42e4ee7ebd","message":"hi","edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"time":1565671855598,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":52797,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":52791,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":52776,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":92050,"contactId":0,"coreUserId":11401}],"time":1565671855598,"lastMessage":"hi","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47472,"lastSeenMessageNanos":598780000,"lastSeenMessageTime":1565671855598,"partnerLastSeenMessageId":47460,"partnerLastSeenMessageTime":1565671683969,"partnerLastSeenMessageNanos":969446000,"partnerLastDeliveredMessageId":47468,"partnerLastDeliveredMessageTime":1565671827217,"partnerLastDeliveredMessageNanos":217998000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"48057664-a393-498f-9ca0-84273652db87"}
+[INFO ]  2019-08-13 09:25:20.608 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47473,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"5621ea27-eb3a-41d1-892f-faa09ad8036f"}
+[INFO ]  2019-08-13 09:25:20.733 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47473,"uniqueId":"5621ea27-eb3a-41d1-892f-faa09ad8036f","messageType":0,"previousId":47472,"message":"Hello zahraaaa","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":354,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565672100932,"timeNanos":932203000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":349,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":5461}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:25:21.498 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47475,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"3adf9bad-6b98-47bc-90cf-11a159164d4a"}
+[INFO ]  2019-08-13 09:25:21.998 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47474,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"c939a77c-561b-4a07-b84f-5a1a26fec0c5"}
+[INFO ]  2019-08-13 09:25:22.061 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47475,"uniqueId":"3adf9bad-6b98-47bc-90cf-11a159164d4a","messageType":0,"previousId":47474,"message":"this is final test","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":511,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565672101159,"timeNanos":159654000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":506,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:25:22.185 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47474,"uniqueId":"c939a77c-561b-4a07-b84f-5a1a26fec0c5","messageType":0,"previousId":47473,"message":"Hello zahraaaa","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":566,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565672100943,"timeNanos":943767000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":4,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":561,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":5701}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:25:22.685 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47476,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"46608a4c-c61e-4c3b-ab6f-edf84914ebac"}
+[INFO ]  2019-08-13 09:25:22.748 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47476,"uniqueId":"46608a4c-c61e-4c3b-ab6f-edf84914ebac","messageType":0,"previousId":47475,"message":"hi","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":778,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565672101164,"timeNanos":164886000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":773,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[ERROR]  2019-08-13 09:25:22.873 [ActiveMQ Session Task-1] Chat - 
+ 
+ErrorMessage :به علت خطای داخلی سیستم قادر به پاسخگویی به سرویس مورد نظر نیستیم. *Code* 106 *uniqueId* 30b00b1a-16f8-400e-a35d-b48e446b7068
+[INFO ]  2019-08-13 09:25:39.086 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:25:59.088 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:26:19.094 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:26:39.091 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:26:59.100 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:27:19.087 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:27:39.086 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:27:59.087 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:28:19.091 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:28:32.572 [main] ActiveMq - connection established
+[INFO ]  2019-08-13 09:28:32.572 [main] Chat - 
+ 
+State change: OPEN
+[INFO ]  2019-08-13 09:28:32.572 [main] Chat - 
+ 
+State change: ASYNC_READY
+[INFO ]  2019-08-13 09:28:32.603 [pool-2-thread-1] Chat - SEND_USER_INFO
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":23,"subjectId":0,"uniqueId":"24bc3c53-8b60-4196-b7f7-0db056e6a1c2","time":0,"contentCount":0,"repliedTo":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:28:32.650 [pool-2-thread-1] Chat - getUserInfo  retry in 2 s 
+ 
+
+[INFO ]  2019-08-13 09:28:32.759 [ActiveMQ Session Task-1] Chat - RECEIVE_USER_INFO
+ 
+{"result":{"user":{"id":4101,"sendEnable":true,"receiveEnable":true,"name":"فاطمه خجسته","cellphoneNumber":"09151242904"}},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"24bc3c53-8b60-4196-b7f7-0db056e6a1c2"}
+[INFO ]  2019-08-13 09:28:32.775 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":1,"uniqueId":"d9dcf483-8b0a-4155-8fd4-f75534504f3f","content":"{\"type\":0,\"invitees\":[{\"id\":4781,\"idType\":5}],\"message\":{\"text\":\"Hello zahraaaa\",\"forwardedMessageIds\":[47181,47160],\"uniqueId\":\"b03bd6ff-b6cd-40f1-8dfe-6f203dc0ffd1\",\"forwardedUniqueIds\":[\"146c34a9-78a2-4fd5-b50f-017849dc0f5c\",\"c0c71d91-870f-4daa-95bd-a3100bba5ded\"]}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:28:32.869 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":1,"uniqueId":"0bfe6fb8-d171-49c3-aa61-bad5c3e24422","content":"{\"type\":0,\"invitees\":[{\"id\":4781,\"idType\":5}],\"message\":{\"text\":\"Hello zahraaaa\",\"forwardedMessageIds\":[46862,46965],\"uniqueId\":\"9f71a5b6-2617-4ed2-a360-b6cd555f2c3b\",\"forwardedUniqueIds\":[\"f8833f40-91fb-4de6-ba68-b7e42da63d60\",\"d8729497-8db5-47a1-8841-c1628619e108\"]}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:28:55.235 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":1,"uniqueId":"fbebf630-1afc-4f90-9058-91e7486a5f6d","content":"{\"type\":0,\"invitees\":[{\"id\":0,\"idType\":0}],\"message\":{\"text\":\"Hello zahraaaa final\",\"uniqueId\":\"4a2efa52-80ac-4f65-9fbb-eed2f1ac3917\"}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:28:55.235 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:28:55.485 [ActiveMQ Session Task-1] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":147,"coreUserId":9261},"lastMessageVO":{"id":47476,"uniqueId":"46608a4c-c61e-4c3b-ab6f-edf84914ebac","message":"hi","edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"time":1565672101164,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":143,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":134,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":114,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":16265,"contactId":0,"coreUserId":11401}],"time":1565672101164,"lastMessage":"hi","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47476,"lastSeenMessageNanos":164886000,"lastSeenMessageTime":1565672101164,"partnerLastSeenMessageId":47460,"partnerLastSeenMessageTime":1565671683969,"partnerLastSeenMessageNanos":969446000,"partnerLastDeliveredMessageId":47468,"partnerLastDeliveredMessageTime":1565671827217,"partnerLastDeliveredMessageNanos":217998000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"d9dcf483-8b0a-4155-8fd4-f75534504f3f"}
+[INFO ]  2019-08-13 09:28:55.579 [ActiveMQ Session Task-1] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":188,"coreUserId":9261},"lastMessageVO":{"id":47476,"uniqueId":"46608a4c-c61e-4c3b-ab6f-edf84914ebac","message":"hi","edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"time":1565672101164,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":183,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":175,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":157,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":16308,"contactId":0,"coreUserId":11401}],"time":1565672101164,"lastMessage":"hi","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47476,"lastSeenMessageNanos":164886000,"lastSeenMessageTime":1565672101164,"partnerLastSeenMessageId":47460,"partnerLastSeenMessageTime":1565671683969,"partnerLastSeenMessageNanos":969446000,"partnerLastDeliveredMessageId":47468,"partnerLastDeliveredMessageTime":1565671827217,"partnerLastDeliveredMessageNanos":217998000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"0bfe6fb8-d171-49c3-aa61-bad5c3e24422"}
+[INFO ]  2019-08-13 09:28:56.594 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47479,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"f8833f40-91fb-4de6-ba68-b7e42da63d60"}
+[INFO ]  2019-08-13 09:28:56.860 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47477,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"146c34a9-78a2-4fd5-b50f-017849dc0f5c"}
+[INFO ]  2019-08-13 09:28:56.953 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47479,"uniqueId":"f8833f40-91fb-4de6-ba68-b7e42da63d60","messageType":0,"previousId":47478,"message":"this is final test","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":459,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565672312702,"timeNanos":702388000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":4,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":454,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:28:57.125 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47477,"uniqueId":"146c34a9-78a2-4fd5-b50f-017849dc0f5c","messageType":0,"previousId":47476,"message":"Hello zahraaaa","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":470,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565672312679,"timeNanos":679020000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":4,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":465,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":5461}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:28:57.813 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47480,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"d8729497-8db5-47a1-8841-c1628619e108"}
+[INFO ]  2019-08-13 09:28:58.257 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47478,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"c0c71d91-870f-4daa-95bd-a3100bba5ded"}
+[INFO ]  2019-08-13 09:28:58.311 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47480,"uniqueId":"d8729497-8db5-47a1-8841-c1628619e108","messageType":0,"previousId":47479,"message":"hi","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":654,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565672312710,"timeNanos":710451000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":4,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":650,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:28:58.380 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47478,"uniqueId":"c0c71d91-870f-4daa-95bd-a3100bba5ded","messageType":0,"previousId":47477,"message":"Hello zahraaaa","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":677,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565672312697,"timeNanos":697612000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":4,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":673,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":5701}}}},"hasError":false,"cache":false,"errorCode":0}
+[ERROR]  2019-08-13 09:28:58.472 [ActiveMQ Session Task-1] Chat - 
+ 
+ErrorMessage :به علت خطای داخلی سیستم قادر به پاسخگویی به سرویس مورد نظر نیستیم. *Code* 106 *uniqueId* fbebf630-1afc-4f90-9058-91e7486a5f6d
+[INFO ]  2019-08-13 09:29:12.875 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:29:32.879 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:29:52.875 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:30:12.875 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:30:32.875 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:30:52.887 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:31:12.888 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:31:33.388 [main] ActiveMq - connection established
+[INFO ]  2019-08-13 09:31:33.388 [main] Chat - 
+ 
+State change: OPEN
+[INFO ]  2019-08-13 09:31:33.388 [main] Chat - 
+ 
+State change: ASYNC_READY
+[INFO ]  2019-08-13 09:31:33.419 [pool-2-thread-1] Chat - SEND_USER_INFO
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":23,"subjectId":0,"uniqueId":"6d5c11ac-6321-4ae6-bce0-cc4ed20b8850","time":0,"contentCount":0,"repliedTo":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:31:33.513 [pool-2-thread-1] Chat - getUserInfo  retry in 2 s 
+ 
+
+[INFO ]  2019-08-13 09:31:33.607 [ActiveMQ Session Task-1] Chat - RECEIVE_USER_INFO
+ 
+{"result":{"user":{"id":4101,"sendEnable":true,"receiveEnable":true,"name":"فاطمه خجسته","cellphoneNumber":"09151242904"}},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"6d5c11ac-6321-4ae6-bce0-cc4ed20b8850"}
+[INFO ]  2019-08-13 09:31:33.622 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":1,"uniqueId":"f0784fac-2449-4eb1-b762-d5f0d1a4b271","content":"{\"type\":0,\"invitees\":[{\"id\":4781,\"idType\":5}],\"message\":{\"text\":\"Hello zahraaaa\",\"forwardedMessageIds\":[47181,47160],\"uniqueId\":\"e14e938c-cf52-4037-bb7b-6ee0f2d836fa\",\"forwardedUniqueIds\":[\"67c76f8b-8994-4445-85a6-b115b9eb1566\",\"19883af8-f692-437c-b757-f84493b7987c\"]}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:31:33.700 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":1,"uniqueId":"f4b51e00-81d8-4e27-9eeb-4db2e2d8435b","content":"{\"type\":0,\"invitees\":[{\"id\":4781,\"idType\":5}],\"message\":{\"text\":\"Hello zahraaaa\",\"forwardedMessageIds\":[46862,46965],\"uniqueId\":\"163673d1-20bc-4ded-8451-aa38031c920f\",\"forwardedUniqueIds\":[\"2365e38f-7878-4d07-867d-850627ab1398\",\"0d99646d-5654-4268-af3f-129c26ec1bc2\"]}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:31:50.931 [ActiveMQ Session Task-1] Chat - SEND_CREATE_THREAD_WITH_MESSAGE
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":1,"uniqueId":"8311d0bd-84a4-41c5-8537-ba0a372654a4","content":"{\"type\":0,\"invitees\":[{\"id\":4781,\"idType\":5}],\"message\":{\"text\":\"Hello zahraaaa final\",\"uniqueId\":\"e96ce42f-9718-47f1-9d43-82aa314ba2c5\"}}","time":0,"typeCode":"default"}
+[INFO ]  2019-08-13 09:31:51.102 [ActiveMQ Session Task-1] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":20872,"coreUserId":9261},"lastMessageVO":{"id":47480,"uniqueId":"d8729497-8db5-47a1-8841-c1628619e108","message":"hi","edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"time":1565672312710,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":20868,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":20864,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":20850,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":19439,"contactId":0,"coreUserId":11401}],"time":1565672312710,"lastMessage":"hi","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47480,"lastSeenMessageNanos":710451000,"lastSeenMessageTime":1565672312710,"partnerLastSeenMessageId":47460,"partnerLastSeenMessageTime":1565671683969,"partnerLastSeenMessageNanos":969446000,"partnerLastDeliveredMessageId":47468,"partnerLastDeliveredMessageTime":1565671827217,"partnerLastDeliveredMessageNanos":217998000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"f0784fac-2449-4eb1-b762-d5f0d1a4b271"}
+[INFO ]  2019-08-13 09:31:51.216 [ActiveMQ Session Task-1] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":21029,"coreUserId":9261},"lastMessageVO":{"id":47480,"uniqueId":"d8729497-8db5-47a1-8841-c1628619e108","message":"hi","edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"time":1565672312710,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":21016,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":21011,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":20994,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":19584,"contactId":0,"coreUserId":11401}],"time":1565672312710,"lastMessage":"hi","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47480,"lastSeenMessageNanos":710451000,"lastSeenMessageTime":1565672312710,"partnerLastSeenMessageId":47460,"partnerLastSeenMessageTime":1565671683969,"partnerLastSeenMessageNanos":969446000,"partnerLastDeliveredMessageId":47468,"partnerLastDeliveredMessageTime":1565671827217,"partnerLastDeliveredMessageNanos":217998000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"f4b51e00-81d8-4e27-9eeb-4db2e2d8435b"}
+[INFO ]  2019-08-13 09:31:52.076 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47481,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"67c76f8b-8994-4445-85a6-b115b9eb1566"}
+[INFO ]  2019-08-13 09:31:52.366 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47483,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"2365e38f-7878-4d07-867d-850627ab1398"}
+[INFO ]  2019-08-13 09:31:52.506 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47481,"uniqueId":"67c76f8b-8994-4445-85a6-b115b9eb1566","messageType":0,"previousId":47480,"message":"Hello zahraaaa","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":21179,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565672493463,"timeNanos":463728000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":4,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":21174,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":5461}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:31:52.569 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47483,"uniqueId":"2365e38f-7878-4d07-867d-850627ab1398","messageType":0,"previousId":47482,"message":"this is final test","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":21226,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565672493544,"timeNanos":544337000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":21221,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:31:52.725 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47482,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"19883af8-f692-437c-b757-f84493b7987c"}
+[INFO ]  2019-08-13 09:31:53.145 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47484,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"0d99646d-5654-4268-af3f-129c26ec1bc2"}
+[INFO ]  2019-08-13 09:31:53.264 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47482,"uniqueId":"19883af8-f692-437c-b757-f84493b7987c","messageType":0,"previousId":47481,"message":"Hello zahraaaa","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":512,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565672493473,"timeNanos":473513000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":4,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":507,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":5701}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:31:53.330 [ActiveMQ Session Task-1] Chat - RECEIVED_FORWARD_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"id":47484,"uniqueId":"0d99646d-5654-4268-af3f-129c26ec1bc2","messageType":0,"previousId":47483,"message":"hi","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":524,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565672493551,"timeNanos":551111000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":2,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":520,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}}},"hasError":false,"cache":false,"errorCode":0}
+[INFO ]  2019-08-13 09:31:53.396 [ActiveMQ Session Task-1] Chat - RECEIVE_CREATE_THREAD
+ 
+{"result":{"thread":{"id":5461,"joinDate":1564561451839,"inviter":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":17317,"coreUserId":9261},"lastMessageVO":{"id":47484,"uniqueId":"0d99646d-5654-4268-af3f-129c26ec1bc2","message":"hi","edited":false,"editable":false,"delivered":false,"seen":false,"deletable":true,"time":1565672493551,"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":17313,"contactId":0,"coreUserId":9261,"blocked":false},"forwardInfo":{"participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":17309,"contactId":0,"coreUserId":9261,"blocked":false},"conversation":{"id":3042}}},"title":"زهرا مظلوم","participants":[{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":17295,"contactId":0,"coreUserId":9261},{"id":4781,"name":"زهرا مظلوم","firstName":"زهرا","lastName":"مظلوم","notSeenDuration":1485,"contactId":0,"coreUserId":11401}],"time":1565672493551,"lastMessage":"hi","group":false,"partner":4781,"unreadCount":0,"lastSeenMessageId":47484,"lastSeenMessageNanos":551111000,"lastSeenMessageTime":1565672493551,"partnerLastSeenMessageId":47460,"partnerLastSeenMessageTime":1565671683969,"partnerLastSeenMessageNanos":969446000,"partnerLastDeliveredMessageId":47468,"partnerLastDeliveredMessageTime":1565671827217,"partnerLastDeliveredMessageNanos":217998000,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":true,"participantCount":2}},"hasError":false,"cache":false,"errorCode":0,"uniqueId":"8311d0bd-84a4-41c5-8537-ba0a372654a4"}
+[INFO ]  2019-08-13 09:31:53.859 [ActiveMQ Session Task-1] Chat - RECEIVED_SENT_MESSAGE
+ 
+{"result":{"messageId":47485,"participantId":0,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"e96ce42f-9718-47f1-9d43-82aa314ba2c5"}
+[INFO ]  2019-08-13 09:31:53.949 [ActiveMQ Session Task-1] Chat - RECEIVED_NEW_MESSAGE
+ 
+{"result":{"threadId":5461,"messageVO":{"edited":false,"editable":true,"delivered":false,"seen":false,"deletable":true,"id":47485,"uniqueId":"e96ce42f-9718-47f1-9d43-82aa314ba2c5","messageType":0,"previousId":47484,"message":"Hello zahraaaa final","participant":{"id":4101,"name":"فاطمه خجسته","firstName":"فاطمه","lastName":"خجسته","notSeenDuration":342,"contactId":0,"coreUserId":9261,"blocked":false},"time":1565672510732,"timeNanos":732643000,"conversation":{"id":5461,"joinDate":0,"time":0,"group":false,"partner":0,"unreadCount":1,"lastSeenMessageId":0,"lastSeenMessageNanos":0,"lastSeenMessageTime":0,"partnerLastSeenMessageId":0,"partnerLastSeenMessageTime":0,"partnerLastSeenMessageNanos":0,"partnerLastDeliveredMessageId":0,"partnerLastDeliveredMessageTime":0,"partnerLastDeliveredMessageNanos":0,"partnerLastMessageId":0,"type":0,"mute":false,"canEditInfo":false,"participantCount":0}}},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"e96ce42f-9718-47f1-9d43-82aa314ba2c5"}
+[INFO ]  2019-08-13 09:31:54.556 [ActiveMQ Session Task-1] Chat - RECEIVED_DELIVERED_MESSAGE
+ 
+{"result":{"messageId":47485,"participantId":4781,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"e96ce42f-9718-47f1-9d43-82aa314ba2c5"}
+[INFO ]  2019-08-13 09:31:54.556 [ActiveMQ Session Task-1] Chat - RECEIVED_DELIVERED_MESSAGE
+ 
+{"result":{"messageId":47484,"participantId":4781,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"0d99646d-5654-4268-af3f-129c26ec1bc2"}
+[INFO ]  2019-08-13 09:31:54.556 [ActiveMQ Session Task-1] Chat - RECEIVED_DELIVERED_MESSAGE
+ 
+{"result":{"messageId":47482,"participantId":4781,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"19883af8-f692-437c-b757-f84493b7987c"}
+[INFO ]  2019-08-13 09:31:54.556 [ActiveMQ Session Task-1] Chat - RECEIVED_DELIVERED_MESSAGE
+ 
+{"result":{"messageId":47483,"participantId":4781,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"2365e38f-7878-4d07-867d-850627ab1398"}
+[INFO ]  2019-08-13 09:31:54.556 [ActiveMQ Session Task-1] Chat - RECEIVED_DELIVERED_MESSAGE
+ 
+{"result":{"messageId":47481,"participantId":4781,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"67c76f8b-8994-4445-85a6-b115b9eb1566"}
+[INFO ]  2019-08-13 09:32:15.641 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:32:16.328 [ActiveMQ Session Task-2] Chat - RECEIVED_SEEN_MESSAGE
+ 
+{"result":{"messageId":47485,"participantId":4781,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"e96ce42f-9718-47f1-9d43-82aa314ba2c5"}
+[INFO ]  2019-08-13 09:32:16.874 [ActiveMQ Session Task-2] Chat - RECEIVED_SEEN_MESSAGE
+ 
+{"result":{"messageId":47484,"participantId":4781,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"0d99646d-5654-4268-af3f-129c26ec1bc2"}
+[INFO ]  2019-08-13 09:32:17.640 [ActiveMQ Session Task-2] Chat - RECEIVED_SEEN_MESSAGE
+ 
+{"result":{"messageId":47482,"participantId":4781,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"19883af8-f692-437c-b757-f84493b7987c"}
+[INFO ]  2019-08-13 09:32:18.169 [ActiveMQ Session Task-2] Chat - RECEIVED_SEEN_MESSAGE
+ 
+{"result":{"messageId":47483,"participantId":4781,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"2365e38f-7878-4d07-867d-850627ab1398"}
+[INFO ]  2019-08-13 09:32:18.694 [ActiveMQ Session Task-2] Chat - RECEIVED_SEEN_MESSAGE
+ 
+{"result":{"messageId":47481,"participantId":4781,"conversationId":5461},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"67c76f8b-8994-4445-85a6-b115b9eb1566"}
+[INFO ]  2019-08-13 09:32:31.008 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:32:51.018 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:33:11.013 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:33:31.013 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:33:51.010 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:34:11.008 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:34:31.014 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:34:51.008 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:35:11.012 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:35:31.018 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:35:51.014 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:36:11.009 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:36:31.009 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:36:51.010 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:37:11.008 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:37:31.010 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:37:51.009 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:38:11.023 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:38:31.010 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:38:51.008 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:39:11.010 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:39:31.010 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 09:39:51.009 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"6f61a5b809a14637b2f6e84f465da537","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[ERROR]  2019-08-13 09:39:51.185 [ActiveMQ Session Task-1] Chat - 
+ 
+ErrorMessage :client not authenticated. 1 - 6f61a5b809a14637b2f6e84f465da537 *Code* 21 *uniqueId* null
+[INFO ]  2019-08-13 17:20:26.212 [main] ActiveMq - connection established
+[INFO ]  2019-08-13 17:20:26.214 [main] Chat - 
+ 
+State change: OPEN
+[INFO ]  2019-08-13 17:20:26.215 [main] Chat - 
+ 
+State change: ASYNC_READY
+[INFO ]  2019-08-13 17:20:26.259 [pool-2-thread-1] Chat - SEND_USER_INFO
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":23,"subjectId":0,"uniqueId":"e704c04b-d7ad-4424-9620-90daa21d584f","time":0,"contentCount":0,"repliedTo":0,"typeCode":"default"}
+[INFO ]  2019-08-13 17:20:26.417 [pool-2-thread-1] Chat - getUserInfo  retry in 2 s 
+ 
+
+[INFO ]  2019-08-13 17:20:26.782 [ActiveMQ Session Task-1] Chat - RECEIVE_USER_INFO
+ 
+{"result":{"user":{"id":4101,"sendEnable":true,"receiveEnable":true,"name":"فاطمه خجسته","cellphoneNumber":"09151242904"}},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"e704c04b-d7ad-4424-9620-90daa21d584f"}
+[INFO ]  2019-08-13 17:20:26.785 [ActiveMQ Session Task-1] Chat - SEND_EDIT_MESSAGE
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":28,"subjectId":47403,"uniqueId":"338d1cd0-9748-45a8-a8c4-1ed8a725a983","content":"hi","time":0,"typeCode":null}
+[ERROR]  2019-08-13 17:20:28.352 [ActiveMQ Session Task-1] Chat - 
+ 
+ErrorMessage :request timeouted *Code* 102 *uniqueId* 338d1cd0-9748-45a8-a8c4-1ed8a725a983
+[INFO ]  2019-08-13 17:20:46.869 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:21:06.869 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:21:26.868 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:21:46.868 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:22:06.869 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:22:30.482 [main] ActiveMq - connection established
+[INFO ]  2019-08-13 17:22:30.487 [main] Chat - 
+ 
+State change: OPEN
+[INFO ]  2019-08-13 17:22:30.488 [main] Chat - 
+ 
+State change: ASYNC_READY
+[INFO ]  2019-08-13 17:22:30.542 [pool-2-thread-1] Chat - SEND_USER_INFO
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":23,"subjectId":0,"uniqueId":"057de3c7-1585-4a68-939f-8e57d4f30d45","time":0,"contentCount":0,"repliedTo":0,"typeCode":"default"}
+[INFO ]  2019-08-13 17:22:30.606 [pool-2-thread-1] Chat - getUserInfo  retry in 2 s 
+ 
+
+[INFO ]  2019-08-13 17:22:40.524 [pool-2-thread-1] Chat - SEND_USER_INFO
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":23,"subjectId":0,"uniqueId":"84ac4ff4-2461-437a-b731-5ea9dbea9da4","time":0,"contentCount":0,"repliedTo":0,"typeCode":"default"}
+[INFO ]  2019-08-13 17:22:40.594 [pool-2-thread-1] Chat - getUserInfo  retry in 4 s 
+ 
+
+[INFO ]  2019-08-13 17:22:41.569 [ActiveMQ Session Task-1] Chat - RECEIVE_USER_INFO
+ 
+{"result":{"user":{"id":4101,"sendEnable":true,"receiveEnable":true,"name":"فاطمه خجسته","cellphoneNumber":"09151242904"}},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"84ac4ff4-2461-437a-b731-5ea9dbea9da4"}
+[INFO ]  2019-08-13 17:22:41.572 [ActiveMQ Session Task-1] Chat - SEND_EDIT_MESSAGE
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":28,"subjectId":47403,"uniqueId":"c7058aa5-7403-48d6-856e-c5bca1da27d7","content":"hi","time":0,"typeCode":null}
+[INFO ]  2019-08-13 17:22:41.763 [ActiveMQ Session Task-1] Chat - RECEIVE_USER_INFO
+ 
+{"result":{"user":{"id":4101,"sendEnable":true,"receiveEnable":true,"name":"فاطمه خجسته","cellphoneNumber":"09151242904"}},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"057de3c7-1585-4a68-939f-8e57d4f30d45"}
+[INFO ]  2019-08-13 17:22:41.763 [ActiveMQ Session Task-1] Chat - SEND_EDIT_MESSAGE
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":28,"subjectId":47403,"uniqueId":"22b3deef-ec88-41c8-b649-99c8d432541a","content":"hi","time":0,"typeCode":null}
+[ERROR]  2019-08-13 17:22:47.303 [ActiveMQ Session Task-2] Chat - 
+ 
+ErrorMessage :request timeouted *Code* 102 *uniqueId* 22b3deef-ec88-41c8-b649-99c8d432541a
+[INFO ]  2019-08-13 17:23:01.718 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[ERROR]  2019-08-13 17:23:02.125 [ActiveMQ Session Task-2] Chat - 
+ 
+ErrorMessage :request timeouted *Code* 102 *uniqueId* c7058aa5-7403-48d6-856e-c5bca1da27d7
+[INFO ]  2019-08-13 17:23:21.718 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:23:41.718 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:24:01.719 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:24:21.718 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:24:41.719 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:25:01.717 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:25:15.954 [main] ActiveMq - connection established
+[INFO ]  2019-08-13 17:25:15.956 [main] Chat - 
+ 
+State change: OPEN
+[INFO ]  2019-08-13 17:25:15.956 [main] Chat - 
+ 
+State change: ASYNC_READY
+[INFO ]  2019-08-13 17:25:15.998 [pool-2-thread-1] Chat - SEND_USER_INFO
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":23,"subjectId":0,"uniqueId":"c6f9ddf8-8389-4f52-9ec5-e76b96e03dd8","time":0,"contentCount":0,"repliedTo":0,"typeCode":"default"}
+[INFO ]  2019-08-13 17:25:16.060 [pool-2-thread-1] Chat - getUserInfo  retry in 2 s 
+ 
+
+[INFO ]  2019-08-13 17:25:19.184 [ActiveMQ Session Task-1] Chat - RECEIVE_USER_INFO
+ 
+{"result":{"user":{"id":4101,"sendEnable":true,"receiveEnable":true,"name":"فاطمه خجسته","cellphoneNumber":"09151242904"}},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"c6f9ddf8-8389-4f52-9ec5-e76b96e03dd8"}
+[INFO ]  2019-08-13 17:25:19.187 [ActiveMQ Session Task-1] Chat - SEND_EDIT_MESSAGE
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":28,"subjectId":47160,"uniqueId":"d617b190-6b91-41b2-9de2-c3c5469cc480","content":"hi","time":0,"typeCode":null}
+[INFO ]  2019-08-13 17:25:39.253 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:25:59.253 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[ERROR]  2019-08-13 17:26:06.431 [ActiveMQ Session Task-2] Chat - 
+ 
+ErrorMessage :request timeouted *Code* 102 *uniqueId* d617b190-6b91-41b2-9de2-c3c5469cc480
+[INFO ]  2019-08-13 17:26:19.252 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:26:39.252 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:26:59.252 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:27:19.253 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:27:39.252 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:27:59.254 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:28:19.254 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:28:39.252 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:28:59.253 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:29:19.252 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:29:39.252 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:29:59.253 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:30:23.326 [main] ActiveMq - connection established
+[INFO ]  2019-08-13 17:30:23.329 [main] Chat - 
+ 
+State change: OPEN
+[INFO ]  2019-08-13 17:30:23.329 [main] Chat - 
+ 
+State change: ASYNC_READY
+[INFO ]  2019-08-13 17:30:23.375 [pool-2-thread-1] Chat - SEND_USER_INFO
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":23,"subjectId":0,"uniqueId":"8e3c5a85-e996-4569-9527-54b20a7f275a","time":0,"contentCount":0,"repliedTo":0,"typeCode":"default"}
+[INFO ]  2019-08-13 17:30:23.472 [pool-2-thread-1] Chat - getUserInfo  retry in 2 s 
+ 
+
+[INFO ]  2019-08-13 17:30:23.608 [ActiveMQ Session Task-1] Chat - RECEIVE_USER_INFO
+ 
+{"result":{"user":{"id":4101,"sendEnable":true,"receiveEnable":true,"name":"فاطمه خجسته","cellphoneNumber":"09151242904"}},"hasError":false,"cache":false,"errorMessage":"","errorCode":0,"uniqueId":"8e3c5a85-e996-4569-9527-54b20a7f275a"}
+[INFO ]  2019-08-13 17:30:23.612 [ActiveMQ Session Task-1] Chat - SEND_EDIT_MESSAGE
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":28,"subjectId":47160,"uniqueId":"86274ab0-5ef9-434d-9da7-fdaf8b47bbc1","content":"hi","time":0,"typeCode":null}
+[ERROR]  2019-08-13 17:30:23.931 [ActiveMQ Session Task-1] Chat - 
+ 
+ErrorMessage :request timeouted *Code* 102 *uniqueId* 86274ab0-5ef9-434d-9da7-fdaf8b47bbc1
+[INFO ]  2019-08-13 17:30:43.676 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:31:03.677 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:31:23.677 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}
+[INFO ]  2019-08-13 17:31:43.676 [pool-3-thread-1] Chat - CHAT PING
+ 
+{"token":"18d4ecd7729441c596b8ed85f881efd3","tokenIssuer":"1","type":6,"subjectId":0,"time":0,"contentCount":0,"repliedTo":0}

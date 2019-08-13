@@ -211,6 +211,8 @@ public interface ChatContract {
 
         void editMessage(int messageId, String messageContent, String metaData, ChatHandler handler);
 
+        void editMessage(RequestEditMessage request, ChatHandler handler);
+
         void getThreadParticipant(int count, Long offset, long threadId, ChatHandler handler);
 
         void getThreadParticipant(RequestThreadParticipant request, ChatHandler handler);

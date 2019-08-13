@@ -8,11 +8,8 @@ import podAsync.Async;
 import podChat.mainmodel.ResultDeleteMessage;
 import podChat.model.*;
 import podChat.requestobject.RequestAddContact;
-import podChat.requestobject.RequestDeleteMessage;
-import podChat.requestobject.RequestForwardMessage;
+import podChat.requestobject.RequestEditMessage;
 import podChat.requestobject.RequestGetContact;
-
-import java.util.ArrayList;
 
 /**
  * Created By Khojasteh on 7/27/2019
@@ -22,7 +19,7 @@ public class ChatMain implements ChatContract.view {
     static boolean temp = false;
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "389305d75ebb4277a877f1dab67a793d";
+    static String token = "18d4ecd7729441c596b8ed85f881efd3";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
@@ -52,6 +49,11 @@ public class ChatMain implements ChatContract.view {
 
     @Override
     public void onGetUserInfo(ChatResponse<ResultUserInfo> outPutUserInfo) {
+        RequestEditMessage requestEditMessage = new RequestEditMessage
+                .Builder("hi", 47160)
+                .build();
+        chatController.editMessage(requestEditMessage, null);
+
       /*  RequestThreadParticipant threadParticipant =  new RequestThreadParticipant
                 .Builder(3042)
                 .build();
@@ -92,12 +94,12 @@ public class ChatMain implements ChatContract.view {
         chatController.sendTextMessage(requestThread, null);*/
 
 
-        /*RequestThreadInnerMessage requestThreadInnerMessage = new RequestThreadInnerMessage
+       /* RequestThreadInnerMessage requestThreadInnerMessage = new RequestThreadInnerMessage
                 .Builder()
                 .message("Hello zahraaaa")
                 .forwardedMessageIds(new ArrayList<Long>() {{
-                    add(47241l);
-                    add(47242l);
+                    add(47181l);
+                    add(47160l);
                 }})
                 .build();
 
@@ -111,21 +113,52 @@ public class ChatMain implements ChatContract.view {
         }})
                 .message(requestThreadInnerMessage)
                 .build();
-        chatController.createThreadWithMessage(requestCreateThread);*/
+        chatController.createThreadWithMessage(requestCreateThread);
 
-       /* try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
+        RequestThreadInnerMessage requestThreadInnerMessage1 = new RequestThreadInnerMessage
+                .Builder()
+                .message("Hello zahraaaa")
+                .forwardedMessageIds(new ArrayList<Long>() {{
+                    add(46862l);
+                    add(46965l);
+                }})
+                .build();
+
+        Invitee invitee1 = new Invitee();
+        invitee1.setId(4781);
+        invitee1.setIdType(InviteType.TO_BE_USER_ID);
+
+        RequestCreateThread requestCreateThread1 = new RequestCreateThread
+                .Builder(0, new ArrayList<Invitee>() {{
+            add(invitee1);
+        }})
+                .message(requestThreadInnerMessage1)
+                .build();
+        chatController.createThreadWithMessage(requestCreateThread1);
 
 
-     /*   try {
+        try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }*/
+        }
 
+        RequestThreadInnerMessage requestThreadInnerMessage11 = new RequestThreadInnerMessage
+                .Builder()
+                .message("Hello zahraaaa final")
+                .build();
+
+        Invitee invitee11 = new Invitee();
+        invitee11.setId(4781);
+        invitee11.setIdType(InviteType.TO_BE_USER_ID);
+
+        RequestCreateThread requestCreateThread11 = new RequestCreateThread
+                .Builder(0, new ArrayList<Invitee>() {{
+            add(invitee11);
+        }})
+                .message(requestThreadInnerMessage11)
+                .build();
+        chatController.createThreadWithMessage(requestCreateThread11);*/
 
 //        RequestDeleteMessage deleteMessage = new RequestDeleteMessage
 //                .Builder(new ArrayList<Long>() {{
@@ -161,6 +194,11 @@ public class ChatMain implements ChatContract.view {
     @Override
     public void onDeleteMessage(ChatResponse<ResultDeleteMessage> outPutDeleteMessage) {
         System.out.println("in delete");
+    }
+
+    @Override
+    public void onEditMessage() {
+
     }
 
     @Override
