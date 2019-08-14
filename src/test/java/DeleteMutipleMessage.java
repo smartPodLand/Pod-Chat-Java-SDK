@@ -26,7 +26,7 @@ public class DeleteMutipleMessage implements ChatContract.view {
     static ChatController chatController = Mockito.mock(ChatController.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "4fabf6d88ab1499da77ab127de82ad7e";
+    static String token = "c07f1eaa849049fd82956565758b5317";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
@@ -59,7 +59,7 @@ public class DeleteMutipleMessage implements ChatContract.view {
         Mockito.verify(chatContract).onState("OPEN");
         Mockito.verify(chatContract).onState("ASYNC_READY");
 
-        Thread.sleep(3000);
+        Thread.sleep(10000);
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
@@ -76,10 +76,11 @@ public class DeleteMutipleMessage implements ChatContract.view {
 
         RequestDeleteMessage requestDeleteMessage = new RequestDeleteMessage
                 .Builder(new ArrayList<Long>() {{
-                    add(47241l);
-                    add(47242l);
-                }})
+            add(47241l);
+            add(47242l);
+        }})
                 .threadId(3042)
+                .deleteForAll(true)
                 .build();
 
         chatController.deleteMessage(requestDeleteMessage, null);

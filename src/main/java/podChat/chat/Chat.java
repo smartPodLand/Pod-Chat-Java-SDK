@@ -1215,7 +1215,7 @@ public class Chat extends AsyncAdapter {
      * @param handler
      */
 
-    public String deleteMultipleMessages(ArrayList<Long> messageIds, long threadId, Boolean deleteForAll, ChatHandler handler) {
+    public String deleteMultipleMessages(ArrayList<Long> messageIds, Boolean deleteForAll, ChatHandler handler) {
         String uniqueId = generateUniqueId();
 
         List<String> uniqueIds = new ArrayList<>();
@@ -1248,7 +1248,7 @@ public class Chat extends AsyncAdapter {
             }.getType());
 
 
-            contentObj.add("ids", messageIdsElement.getAsJsonArray());
+            contentObj.add("id", messageIdsElement.getAsJsonArray());
             contentObj.add("uniqueIds", uniqueIdsElement.getAsJsonArray());
             contentObj.addProperty("deleteForAll", deleteForAll);
 
@@ -1257,7 +1257,6 @@ public class Chat extends AsyncAdapter {
             baseMessage.setToken(getToken());
             baseMessage.setTokenIssuer("1");
             baseMessage.setType(ChatMessageType.DELETE_MESSAGE);
-            baseMessage.setSubjectId(threadId);
 
             JsonObject jsonObject = (JsonObject) gson.toJsonTree(baseMessage);
 
@@ -1295,7 +1294,7 @@ public class Chat extends AsyncAdapter {
     public String deleteMessage(RequestDeleteMessage request, ChatHandler handler) {
         if (request.getMessageIds().size() > 1)
 
-            return deleteMultipleMessages(request.getMessageIds(), request.getThreadId(), request.isDeleteForAll(), handler);
+            return deleteMultipleMessages(request.getMessageIds(), request.isDeleteForAll(), handler);
         else
 
             return deleteMessage(request.getMessageIds().get(0), request.isDeleteForAll(), handler);
@@ -1693,7 +1692,7 @@ public class Chat extends AsyncAdapter {
         chatMessage.setTokenIssuer("1");
         chatMessage.setToken(getToken());
         chatMessage.setContent(messageContent);
-       // chatMessage.setTime(1000);
+        // chatMessage.setTime(1000);
         chatMessage.setType(ChatMessageType.MESSAGE);
 
         JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
@@ -1765,7 +1764,7 @@ public class Chat extends AsyncAdapter {
                 message.setTokenIssuer("1");
                 message.setToken(getToken());
                 message.setUniqueId(uniqueId);
-               // message.setTime(1000);
+                // message.setTime(1000);
 
                 JsonObject jsonObject = (JsonObject) gson.toJsonTree(message);
 

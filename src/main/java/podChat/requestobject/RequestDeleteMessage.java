@@ -1,27 +1,22 @@
 package podChat.requestobject;
 
-import podChat.mainmodel.Thread;
-
 import java.util.ArrayList;
 
 public class RequestDeleteMessage extends GeneralRequestObject {
 
     private ArrayList<Long> messageIds;
     private boolean deleteForAll;
-    private long threadId;
 
     private RequestDeleteMessage(Builder builder) {
         super(builder);
         this.deleteForAll = builder.deleteForAll;
         this.messageIds = builder.messageIds;
-        this.threadId  =  builder.threadId;
-
     }
 
     public static class Builder extends GeneralRequestObject.Builder<Builder> {
         private boolean deleteForAll;
         private ArrayList<Long> messageIds;
-        private  long threadId;
+        private long threadId;
 
 
         public Builder(ArrayList<Long> messageIds) {
@@ -43,7 +38,6 @@ public class RequestDeleteMessage extends GeneralRequestObject {
             this.threadId = threadId;
             return this;
         }
-
 
 
         public RequestDeleteMessage build() {
@@ -74,11 +68,4 @@ public class RequestDeleteMessage extends GeneralRequestObject {
         this.deleteForAll = deleteForAll;
     }
 
-    public long getThreadId() {
-        return threadId;
-    }
-
-    public void setThreadId(long threadId) {
-        this.threadId = threadId;
-    }
 }
