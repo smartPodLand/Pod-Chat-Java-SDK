@@ -317,12 +317,12 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     @Override
     public void addParticipants(long threadId, List<Long> contactIds, ChatHandler handler) {
-
+        chat.addParticipants(threadId, contactIds, handler);
     }
 
     @Override
     public void addParticipants(RequestAddParticipants requestAddParticipants, ChatHandler handler) {
-
+        chat.addParticipants(requestAddParticipants, handler);
     }
 
     @Override
@@ -427,7 +427,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void onEditedMessage(String content, ChatResponse<ResultNewMessage> chatResponse) {
         super.onEditedMessage(content, chatResponse);
-        view.onEditMessage();
+        view.onEditMessage(chatResponse);
     }
 
     @Override
@@ -488,7 +488,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void onThreadAddParticipant(String content, ChatResponse<ResultAddParticipant> outPutAddParticipant) {
         super.onThreadAddParticipant(content, outPutAddParticipant);
-        view.onAddParticipant();
+        view.onAddParticipant(outPutAddParticipant);
     }
 
     @Override

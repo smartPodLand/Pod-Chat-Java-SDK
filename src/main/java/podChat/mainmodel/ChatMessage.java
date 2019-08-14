@@ -9,7 +9,8 @@ public class ChatMessage {
     private long subjectId;
     private String uniqueId;
     private String content;
-    private long time;
+    // Mr.zhiani said that it is useless.....
+//    private long time;
     private int contentCount;
     private String systemMetadata;
     private String metadata;
@@ -55,13 +56,13 @@ public class ChatMessage {
         this.content = content;
     }
 
-    public long getTime() {
+  /*  public long getTime() {
         return time;
     }
 
     public void setTime(long time) {
         this.time = time;
-    }
+    }*/
 
     public long getRepliedTo() {
         return repliedTo;

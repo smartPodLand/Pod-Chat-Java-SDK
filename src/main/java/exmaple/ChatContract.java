@@ -47,7 +47,7 @@ public interface ChatContract {
         default void onGetSeenMessage(ChatResponse<ResultMessage> response) {
         }
 
-        default void onEditMessage() {
+        default void onEditMessage(ChatResponse<ResultNewMessage> response) {
         }
 
         default void onDeleteMessage(ChatResponse<ResultDeleteMessage> outPutDeleteMessage) {
@@ -80,7 +80,7 @@ public interface ChatContract {
         default void onRemoveContact(ChatResponse<ResultRemoveContact> response) {
         }
 
-        default void onAddParticipant() {
+        default void onAddParticipant(ChatResponse<ResultAddParticipant> outPutAddParticipant) {
         }
 
         default void onRemoveParticipant() {
