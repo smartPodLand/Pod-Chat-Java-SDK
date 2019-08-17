@@ -2,45 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8c596b3-4cd0-4508-8a10-e9a3d895a02b" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chat-log.out" beforeDir="false" afterPath="$PROJECT_DIR$/chat-log.out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/exmaple/ChatContract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/exmaple/ChatContract.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/exmaple/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/exmaple/ChatController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/exmaple/ChatMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/exmaple/ChatMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/podChat/chat/Chat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/podChat/chat/Chat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/podChat/requestobject/RequestDeleteMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/podChat/requestobject/RequestDeleteMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/podChat/util/ChatConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/podChat/util/ChatConstant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ChatController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/DeleteMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DeleteMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/DeleteMutipleMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DeleteMultipleMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/exmaple/ChatContract$controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/exmaple/ChatContract$controller.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/exmaple/ChatController$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/exmaple/ChatController$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/exmaple/ChatController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/exmaple/ChatController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/exmaple/ChatMain$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/exmaple/ChatMain$7.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/exmaple/ChatMain$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/exmaple/ChatMain$8.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/exmaple/ChatMain$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/exmaple/ChatMain$9.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/exmaple/ChatMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/exmaple/ChatMain.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$10.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$11.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$12.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$13.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$13.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$14.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$14.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$15.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$15.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$7.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$8.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat$9.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/podChat/chat/Chat.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/chat/Chat.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/podChat/requestobject/RequestDeleteMessage$Builder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/requestobject/RequestDeleteMessage$Builder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/podChat/requestobject/RequestDeleteMessage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/requestobject/RequestDeleteMessage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/podChat/util/ChatConstant.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/podChat/util/ChatConstant.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/ChatController$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/ChatController$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/ChatController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/ChatController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/DeleteMutipleMessage$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/DeleteMutipleMessage$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/DeleteMutipleMessage.class" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -96,11 +59,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DeleteMessage.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DeleteMessage.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/DeleteMessage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="325">
-              <caret line="72" column="39" selection-start-line="72" selection-start-column="39" selection-end-line="72" selection-end-column="39" />
+            <state relative-caret-position="401">
+              <caret line="103" lean-forward="true" selection-start-line="103" selection-end-line="103" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="125">
+              <caret line="5" column="5" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -180,15 +152,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ChatConstant.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/podChat/util/ChatConstant.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="900">
-              <caret line="36" column="31" selection-start-line="36" selection-start-column="31" selection-end-line="36" selection-end-column="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -250,8 +213,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/resources/config.properties" />
-        <option value="$PROJECT_DIR$/src/main/java/util/log/ChatLogger.java" />
         <option value="$PROJECT_DIR$/src/main/java/util/ActiveMq.java" />
         <option value="$PROJECT_DIR$/src/main/java/config/MainConfig.java" />
         <option value="$PROJECT_DIR$/src/main/java/podAsync/AsyncListenerManager.java" />
@@ -301,6 +262,8 @@
         <option value="$PROJECT_DIR$/src/test/java/DeleteMultiplMessage.java" />
         <option value="$PROJECT_DIR$/src/test/java/DeleteMultipleMessage.java" />
         <option value="$PROJECT_DIR$/src/test/java/DeleteMessage.java" />
+        <option value="$PROJECT_DIR$/src/.gitignore" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -355,88 +318,6 @@
               <item name="chat" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="chat" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chat" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chat" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chat" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chat" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chat" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chat" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chat" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="exception" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chat" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chat" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="exmaple" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chat" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chat" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="podAsync" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chat" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chat" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="podChat" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chat" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chat" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="podChat" type="462c0819:PsiDirectoryNode" />
-              <item name="chat" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chat" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chat" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chat" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chat" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="chat" type="b2602c69:ProjectViewProjectNode" />
-              <item name="chat" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -459,6 +340,9 @@
     <property name="project.structure.side.proportion" value="0.0" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\Java projects\chat" />
+    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
     </key>
@@ -468,11 +352,11 @@
       <recent name="async.util" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\Java projects\chat\src" />
       <recent name="F:\Java projects\chat\src\test\java" />
       <recent name="F:\Java projects\chat\src\main\java\podChat" />
       <recent name="F:\Java projects\chat\src\main\java\podChat\chat" />
       <recent name="F:\Java projects\chat\src\main\java\podChat\util" />
-      <recent name="F:\Java projects\chat\src\main\java\podChat\requestobject" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -654,7 +538,7 @@
       <workItem from="1565758705789" duration="9929000" />
       <workItem from="1565779313328" duration="3434000" />
       <workItem from="1565785999276" duration="2651000" />
-      <workItem from="1566013276275" duration="1516000" />
+      <workItem from="1566013276275" duration="3642000" />
     </task>
     <servers />
   </component>
@@ -691,7 +575,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="275526000" />
+    <option name="totallyTimeSpent" value="277652000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -724,11 +608,11 @@
       <window_info anchor="bottom" id="Java Enterprise" order="11" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
       <window_info anchor="bottom" id="Version Control" order="14" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.44117647" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.44117647" />
       <window_info anchor="bottom" id="Sequence" order="8" />
       <window_info anchor="bottom" id="Spring" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.21023965" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49837664" visible="true" weight="0.1977612" />
+      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.21023965" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49837664" visible="true" weight="0.1977612" />
       <window_info id="Web" order="6" side_tool="true" />
       <window_info anchor="bottom" id="JProfiler" order="13" />
       <window_info anchor="right" id="Theme Preview" order="7" />
@@ -853,13 +737,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/test/java/GetContact.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-50">
-          <caret line="24" column="59" selection-start-line="24" selection-start-column="59" selection-end-line="24" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/GetThreadTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="124">
@@ -1235,8 +1112,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/DeleteMessage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="72" column="39" selection-start-line="72" selection-start-column="39" selection-end-line="72" selection-end-column="39" />
+        <state relative-caret-position="401">
+          <caret line="103" lean-forward="true" selection-start-line="103" selection-end-line="103" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="5" column="5" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
         </state>
       </provider>
     </entry>

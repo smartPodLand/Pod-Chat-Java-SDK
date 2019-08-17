@@ -1,0 +1,7 @@
+.svn
+.idea
+*.iml
+*.log
+*.log.gz
+*.out
+target
