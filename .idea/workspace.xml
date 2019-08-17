@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8c596b3-4cd0-4508-8a10-e9a3d895a02b" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chat-log.out" beforeDir="false" afterPath="$PROJECT_DIR$/chat-log.out" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -68,13 +69,27 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="125">
-              <caret line="5" column="5" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
+            <state relative-caret-position="75">
+              <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
             </state>
           </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="chat-log.out" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/chat-log.out">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="496">
+              <caret line="20756" column="6" selection-start-line="20756" selection-start-column="6" selection-end-line="20756" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="chat.iml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chat.iml">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file leaf-file-name="ChatMain.java" pinned="false" current-in-tab="false">
@@ -97,32 +112,6 @@
               <folding>
                 <element signature="e#627#628#0" expanded="true" />
                 <element signature="e#679#680#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ChatController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/exmaple/ChatController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="293">
-              <caret line="349" column="59" selection-start-line="349" selection-start-column="59" selection-end-line="349" selection-end-column="59" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#5484#5485#0" expanded="true" />
-                <element signature="e#5534#5535#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ChatContract.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/exmaple/ChatContract.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="280" column="34" selection-start-line="280" selection-start-column="34" selection-end-line="280" selection-end-column="34" />
-              <folding>
-                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -221,7 +210,6 @@
         <option value="$PROJECT_DIR$/src/main/java/podChat/networking/retrofithelper/RetrofitUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/podAsync/Async.java" />
         <option value="$PROJECT_DIR$/src/main/java/podChat/model/OutPutNewMessage.java" />
-        <option value="$PROJECT_DIR$/chat-log.out" />
         <option value="$PROJECT_DIR$/src/test/java/Tesy.java" />
         <option value="$PROJECT_DIR$/src/test/java/Main.java" />
         <option value="$PROJECT_DIR$/src/test/java/Test.java" />
@@ -264,6 +252,7 @@
         <option value="$PROJECT_DIR$/src/test/java/DeleteMessage.java" />
         <option value="$PROJECT_DIR$/src/.gitignore" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/chat-log.out" />
       </list>
     </option>
   </component>
@@ -538,7 +527,7 @@
       <workItem from="1565758705789" duration="9929000" />
       <workItem from="1565779313328" duration="3434000" />
       <workItem from="1565785999276" duration="2651000" />
-      <workItem from="1566013276275" duration="3642000" />
+      <workItem from="1566013276275" duration="4596000" />
     </task>
     <servers />
   </component>
@@ -575,7 +564,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="277652000" />
+    <option name="totallyTimeSpent" value="278606000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -611,8 +600,8 @@
       <window_info anchor="bottom" id="Run" order="2" weight="0.44117647" />
       <window_info anchor="bottom" id="Sequence" order="8" />
       <window_info anchor="bottom" id="Spring" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.21023965" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49837664" visible="true" weight="0.1977612" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.21023965" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49837664" visible="true" weight="0.1977612" />
       <window_info id="Web" order="6" side_tool="true" />
       <window_info anchor="bottom" id="JProfiler" order="13" />
       <window_info anchor="right" id="Theme Preview" order="7" />
@@ -737,23 +726,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/test/java/GetThreadTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="51" column="32" selection-start-line="51" selection-start-column="32" selection-end-line="51" selection-end-column="32" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/RemoveConatct.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="32" column="15" selection-start-line="32" selection-start-column="15" selection-end-line="32" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/ReplyMessage.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="400">
@@ -1117,10 +1089,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/chat.iml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="5" column="5" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
+        <state relative-caret-position="75">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chat-log.out">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="496">
+          <caret line="20756" column="6" selection-start-line="20756" selection-start-column="6" selection-end-line="20756" selection-end-column="6" />
         </state>
       </provider>
     </entry>
