@@ -1215,7 +1215,7 @@ public class Chat extends AsyncAdapter {
      * @param handler
      */
 
-    public String deleteMultipleMessages(ArrayList<Long> messageIds, Boolean deleteForAll, ChatHandler handler) {
+    public List<String> deleteMultipleMessage(ArrayList<Long> messageIds, Boolean deleteForAll, ChatHandler handler) {
         String uniqueId = generateUniqueId();
 
         List<String> uniqueIds = new ArrayList<>();
@@ -1253,6 +1253,7 @@ public class Chat extends AsyncAdapter {
             contentObj.addProperty("deleteForAll", deleteForAll);
 
 
+
             baseMessage.setContent(contentObj.toString());
             baseMessage.setToken(getToken());
             baseMessage.setTokenIssuer("1");
@@ -1268,6 +1269,8 @@ public class Chat extends AsyncAdapter {
                 jsonObject.addProperty("typeCode", getTypeCode());
             }
 
+            jsonObject.remove("subjectId");
+
             String asyncContent = jsonObject.toString();
 
             sendAsyncMessage(asyncContent, 4, "SEND_DELETE_MESSAGE");
@@ -1281,8 +1284,21 @@ public class Chat extends AsyncAdapter {
             getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
         }
 
-        return uniqueId;
+        return uniqueIds;
     }
+
+    /**
+     * DELETE MESSAGES IN THREAD
+     * <p>
+     * messageId    Id of the messages that you want to be removed.
+     * deleteForAll If you want to delete messages for everyone you can set it true if u don't want
+     * you can set it false or even null.
+     */
+    public List<String> deleteMultipleMessage(RequestDeleteMessage request, ChatHandler handler) {
+
+        return deleteMultipleMessage(request.getMessageIds(), request.isDeleteForAll(), handler);
+    }
+
 
     /**
      * DELETE MESSAGE IN THREAD
@@ -1292,12 +1308,11 @@ public class Chat extends AsyncAdapter {
      * you can set it false or even null.
      */
     public String deleteMessage(RequestDeleteMessage request, ChatHandler handler) {
-        if (request.getMessageIds().size() > 1)
+        if (request.getMessageIds().size() > 1) {
+            return getErrorOutPut(ChatConstant.ERROR_NUMBER_MESSAGEID, ChatConstant.ERROR_CODE_NUMBER_MESSAGEID, null);
 
-            return deleteMultipleMessages(request.getMessageIds(), request.isDeleteForAll(), handler);
-        else
-
-            return deleteMessage(request.getMessageIds().get(0), request.isDeleteForAll(), handler);
+        }
+        return deleteMessage(request.getMessageIds().get(0), request.isDeleteForAll(), handler);
     }
 
     /**

@@ -26,7 +26,7 @@ public class DeleteMessage implements ChatContract.view {
     static ChatController chatController = Mockito.mock(ChatController.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "4fabf6d88ab1499da77ab127de82ad7e";
+    static String token = "ac8ee3b9df8b4a498927fcbc3ef6d591";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
@@ -70,13 +70,15 @@ public class DeleteMessage implements ChatContract.view {
 
     }
 
+    //The message may have already been deleted
+
     @Test
     @Order(2)
     void deleteMessage() throws InterruptedException {
 
         RequestDeleteMessage requestDeleteMessage = new RequestDeleteMessage
                 .Builder(new ArrayList<Long>() {{
-            add(46986L);
+            add(47581l);
         }})
                 .deleteForAll(true)
                 .build();
@@ -123,6 +125,5 @@ public class DeleteMessage implements ChatContract.view {
         Assertions.assertTrue(argument.getValue().isHasError());
 
     }
-
 
 }

@@ -23,7 +23,7 @@ public class ChatMain implements ChatContract.view {
     static boolean temp = false;
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "956ec7975a2a43298b09f9f1e77ed5e5";
+    static String token = "ac8ee3b9df8b4a498927fcbc3ef6d591";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
@@ -64,12 +64,12 @@ public class ChatMain implements ChatContract.view {
 
         //  forwardMessage();
 
-        deleteMutipleMessage();
+        //deleteMultipleMessage();
 
         //getThreads();
 
-    /*    sendMessage();
-        sendMessage();*/
+        sendMessage();
+        sendMessage();
 
         //editMessage();
 
@@ -183,13 +183,12 @@ public class ChatMain implements ChatContract.view {
         chatController.getThreads(requestThread, null);
     }
 
-    private void deleteMutipleMessage() {
+    private void deleteMultipleMessage() {
         RequestDeleteMessage requestDeleteMessage = new RequestDeleteMessage
                 .Builder(new ArrayList<Long>() {{
             add(47561l);
             add(47562l);
         }})
-                .threadId(3042)
                 .deleteForAll(true)
                 .build();
 

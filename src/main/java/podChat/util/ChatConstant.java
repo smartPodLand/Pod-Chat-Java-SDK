@@ -11,11 +11,13 @@ public class ChatConstant {
     public static final int ERROR_CODE_UNKNOWN_EXCEPTION = 6008;
     public static final int ERROR_CODE_INVALID_URI = 6009;
     public static final int ERROR_CODE_INVALID_FILE_URI = 6010;
+    public static final int ERROR_CODE_NUMBER_MESSAGEID = 6011;
     public static final int ERROR_CODE_CANT_GET_USER_INFO = 6100;
     public static final int ERROR_CODE_CONNECTION_NOT_ESTABLISHED = 6101;
     public static final int ERROR_CODE_NETWORK_ERROR = 6200;
     public static final int ERROR_CODE_UPLOAD_FILE = 6300;
     public static final int ERROR_CODE_NOT_IMAGE = 6301;
+
     public static final String ERROR_INVALID_TOKEN = "Invalid Token!";
     public static final String ERROR_INVALID_URI = "Invalid Uri!";
     public static final String ERROR_INVALID_FILE_URI = "Invalid File Uri!";
@@ -34,5 +36,6 @@ public class ChatConstant {
 
     public static final String METHOD_REPLY_MSG = "replyMessage";
     public static final String METHOD_LOCATION_MSG = "locationMessage";
+    public static final String ERROR_NUMBER_MESSAGEID = "Number of messageIds exceeded! Just add one message Id";
 
 }

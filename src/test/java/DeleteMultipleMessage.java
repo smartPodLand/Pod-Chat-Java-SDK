@@ -19,14 +19,14 @@ import java.util.List;
 @TestInstance(value = TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
-public class DeleteMutipleMessage implements ChatContract.view {
+public class DeleteMultipleMessage implements ChatContract.view {
     @Mock
     static ChatContract.view chatContract;
     @InjectMocks
     static ChatController chatController = Mockito.mock(ChatController.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "c07f1eaa849049fd82956565758b5317";
+    static String token = "ac8ee3b9df8b4a498927fcbc3ef6d591";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
@@ -76,14 +76,13 @@ public class DeleteMutipleMessage implements ChatContract.view {
 
         RequestDeleteMessage requestDeleteMessage = new RequestDeleteMessage
                 .Builder(new ArrayList<Long>() {{
-            add(47241l);
-            add(47242l);
+            add(47582l);
+            add(47581l);
         }})
-                .threadId(3042)
                 .deleteForAll(true)
                 .build();
 
-        chatController.deleteMessage(requestDeleteMessage, null);
+        chatController.deleteMultipleMessage(requestDeleteMessage, null);
 
         Thread.sleep(3000);
 
@@ -110,11 +109,12 @@ public class DeleteMutipleMessage implements ChatContract.view {
         RequestDeleteMessage requestDeleteMessage = new RequestDeleteMessage
                 .Builder(new ArrayList<Long>() {{
             add(469811L);
+            add(469811L);
         }})
                 .deleteForAll(true)
                 .build();
 
-        chatController.deleteMessage(requestDeleteMessage, null);
+        chatController.deleteMultipleMessage(requestDeleteMessage, null);
 
         Thread.sleep(3000);
 

@@ -346,6 +346,11 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
+    public void deleteMultipleMessage(RequestDeleteMessage deleteMessage, ChatHandler handler) {
+        chat.deleteMultipleMessage(deleteMessage, handler);
+    }
+
+    @Override
     public void setAdmin(RequestAddAdmin requestAddAdmin) {
 
     }

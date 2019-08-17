@@ -278,6 +278,8 @@ public interface ChatContract {
 
         void deleteMessage(RequestDeleteMessage deleteMessage, ChatHandler handler);
 
+        void deleteMultipleMessage(RequestDeleteMessage deleteMessage, ChatHandler handler);
+
 //        void uploadImageProgress(Context context, Activity activity, Uri fileUri, ProgressHandler.onProgress handler);
 //
 //        void uploadFileProgress(Context context, Activity activity, Uri fileUri, ProgressHandler.onProgressFile handler);

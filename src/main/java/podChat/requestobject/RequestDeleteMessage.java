@@ -16,7 +16,6 @@ public class RequestDeleteMessage extends GeneralRequestObject {
     public static class Builder extends GeneralRequestObject.Builder<Builder> {
         private boolean deleteForAll;
         private ArrayList<Long> messageIds;
-        private long threadId;
 
 
         public Builder(ArrayList<Long> messageIds) {
@@ -31,11 +30,6 @@ public class RequestDeleteMessage extends GeneralRequestObject {
 
         public Builder deleteForAll(boolean deleteForAll) {
             this.deleteForAll = deleteForAll;
-            return this;
-        }
-
-        public Builder threadId(long threadId) {
-            this.threadId = threadId;
             return this;
         }
 
