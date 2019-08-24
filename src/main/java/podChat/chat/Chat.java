@@ -5,6 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import config.QueueConfigVO;
 import exception.ConnectionException;
 import io.sentry.Sentry;
 import org.apache.logging.log4j.LogManager;
@@ -57,6 +58,7 @@ public class Chat extends AsyncAdapter {
     private boolean userInfoResponse = false;
     private long ttl;
     private String ssoHost;
+    private QueueConfigVO queueConfigVO;
 
     public static boolean isLoggable;
 
@@ -89,18 +91,15 @@ public class Chat extends AsyncAdapter {
      */
     @Override
     public void onReceivedMessage(String textMessage) throws IOException {
-
-        //  System.out.println("####    " + textMessage);
-
-
         super.onReceivedMessage(textMessage);
         int messageType = 0;
-        ChatMessage chatMessage = gson.fromJson(textMessage, ChatMessage.class);
 
+        ChatMessage chatMessage = gson.fromJson(textMessage, ChatMessage.class);
 
         String messageUniqueId = chatMessage != null ? chatMessage.getUniqueId() : null;
         long threadId = chatMessage != null ? chatMessage.getSubjectId() : 0;
         Callback callback = null;
+
         if (messageCallbacks.containsKey(messageUniqueId)) {
             callback = messageCallbacks.get(messageUniqueId);
         }
@@ -273,58 +272,44 @@ public class Chat extends AsyncAdapter {
     }
 
     /**
-     * It Connects to the Async .
-     * <p>
-     * socketAddress {**REQUIRED**}
-     * platformHost  {**REQUIRED**}
-     * severName     {**REQUIRED**}
-     * appId         {**REQUIRED**}
-     * token         {**REQUIRED**}
-     * fileServer    {**REQUIRED**}
-     * ssoHost       {**REQUIRED**}
+     * @param requestConnect socketAddress        {**REQUIRED**}  Address of the socket
+     *                       platformHost         {**REQUIRED**}  Address of the platform host
+     *                       token                {**REQUIRED**}  Token for Authentication
+     *                       fileServer           {**REQUIRED**}  Address of the file server
+     *                       ssoHost              {**REQUIRED**}  Address of the SSO Host
+     *                       queueServer          {**REQUIRED**}  Address of the queue server
+     *                       queuePort            {**REQUIRED**}  The queue port
+     *                       queueInput           {**REQUIRED**}  Name of the input queue
+     *                       queueOutput          {**REQUIRED**}  Name of the output queue
+     *                       queueUserName        {**REQUIRED**}
+     *                       queuePassword        {**REQUIRED**}
+     *                       queueReconnectTime   {**REQUIRED**}
+     * @throws ConnectionException
      */
+
     public void connect(RequestConnect requestConnect) throws ConnectionException {
-        String platformHost = requestConnect.getPlatformHost();
-        String token = requestConnect.getToken();
-        String fileServer = requestConnect.getFileServer();
-        String socketAddress = requestConnect.getSocketAddress();
-        String appId = requestConnect.getAppId();
-        String severName = requestConnect.getSeverName();
-        String ssoHost = requestConnect.getSsoHost();
-
-        connect(socketAddress, appId, severName, token, ssoHost, platformHost, fileServer, typeCode);
-    }
-
-
-    /**
-     * It's Connected to the Async .
-     *
-     * @param socketAddress {**REQUIRED**}  Address of the socket
-     * @param platformHost  {**REQUIRED**}  Address of the platform host
-     * @param severName     {**REQUIRED**}  Name of the server
-     * @param appId         {**REQUIRED**}  Id of the app
-     * @param token         {**REQUIRED**}  Token for Authentication
-     * @param fileServer    {**REQUIRED**}  Address of the file server
-     * @param ssoHost       {**REQUIRED**}  Address of the SSO Host
-     */
-    public void connect(String socketAddress, String appId, String severName, String token,
-                        String ssoHost, String platformHost, String fileServer, String typeCode) throws ConnectionException {
         try {
             messageCallbacks = new HashMap<>();
             handlerSend = new HashMap<>();
             async.addListener(this);
 
-            setPlatformHost(platformHost);
-            setToken(token);
-            setSsoHost(ssoHost);
-            setTypeCode(typeCode);
-            setFileServer(fileServer);
+            setPlatformHost(requestConnect.getPlatformHost());
+            setToken(requestConnect.getToken());
+            setSsoHost(requestConnect.getSsoHost());
+
+            if (!Util.isNullOrEmpty(requestConnect.getTypeCode()))
+                setTypeCode(requestConnect.getTypeCode());
+            else
+                setTypeCode(typeCode);
+
+            setFileServer(requestConnect.getFileServer());
+            this.queueConfigVO = new QueueConfigVO(requestConnect.getQueueServer(), requestConnect.getQueuePort(), requestConnect.getQueueInput(), requestConnect.getQueueOutput(), requestConnect.getQueueUserName(), requestConnect.getQueuePassword());
 
             contactApi = RetrofitUtil.getInstance(getPlatformHost()).create(ContactApi.class);
 
             gson = new Gson();
 
-            async.connect(socketAddress, appId, severName, token, ssoHost, "");
+            async.connect(queueConfigVO, requestConnect.getSeverName(), token, ssoHost);
 
         } catch (ConnectionException e) {
             throw e;
@@ -717,7 +702,8 @@ public class Chat extends AsyncAdapter {
                     .fromTimeNanos(request.getFromTimeNanos())
                     .toTime(request.getToTime())
                     .toTimeNanos(request.getToTimeNanos())
-                    .order(request.getOrder()).build();
+                    .order(request.getOrder())
+                    .id(request.getId()).build();
 
             getHistoryMain(history, request.getThreadId(), handler, uniqueId);
 
@@ -1251,7 +1237,6 @@ public class Chat extends AsyncAdapter {
             contentObj.add("id", messageIdsElement.getAsJsonArray());
             contentObj.add("uniqueIds", uniqueIdsElement.getAsJsonArray());
             contentObj.addProperty("deleteForAll", deleteForAll);
-
 
 
             baseMessage.setContent(contentObj.toString());

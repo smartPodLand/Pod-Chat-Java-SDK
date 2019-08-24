@@ -2,7 +2,7 @@ package podAsync;
 
 import com.google.gson.Gson;
 import config.MainConfig;
-import config.QueueConfig;
+import config.QueueConfigVO;
 import exception.ConnectionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,8 +49,8 @@ public class Async implements IoAdapter {
             instance = new Async();
             asyncListenerManager = new AsyncListenerManager();
 
-            QueueConfig queueConfig = new QueueConfig();
-            queueConfig.setConfig();
+        /*    QueueConfig queueConfig = new QueueConfig();
+            queueConfig.setConfig();*/
 
             MainConfig mainConfig = new MainConfig();
             mainConfig.setConfig();
@@ -120,16 +120,14 @@ public class Async implements IoAdapter {
     }
 
 
-    public void connect(String socketServerAddress, final String appId, String serverName, String token, String ssoHost, String deviceID) throws ConnectionException {
+    public void connect(QueueConfigVO queueConfigVO, String serverName, String token, String ssoHost) throws ConnectionException {
         try {
 
-            //  setAppId(appId);
-            setServerAddress(socketServerAddress);
             setToken(token);
             setServerName(serverName);
             setSsoHost(ssoHost);
 
-            activeMq = new ActiveMq(this);
+            activeMq = new ActiveMq(this, queueConfigVO);
 
             setState(AsyncConstant.ASYNC_STATE_OPEN);
 

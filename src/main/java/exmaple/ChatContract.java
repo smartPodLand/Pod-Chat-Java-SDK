@@ -127,6 +127,7 @@ public interface ChatContract {
 
         default void onGetThreadAdmin() {
         }
+
         default void onNewMessage(ChatResponse<ResultNewMessage> chatResponse) {
         }
     }
@@ -167,8 +168,7 @@ public interface ChatContract {
 
         void setToke(String token);
 
-        void connect(String serverAddress, String appId, String severName, String token, String ssoHost
-                , String platformHost, String fileServer, String typeCode) throws ConnectionException;
+        void connect(RequestConnect requestConnect) throws ConnectionException;
 
         void mapSearch(String searchTerm, Double latitude, Double longitude);
 

@@ -1,3 +1,4 @@
+import Constant.Constant;
 import com.google.gson.Gson;
 import exception.ConnectionException;
 import exmaple.ChatContract;
@@ -7,6 +8,7 @@ import podChat.mainmodel.UserInfo;
 import podChat.model.ChatResponse;
 import podChat.model.ErrorOutPut;
 import podChat.model.ResultUserInfo;
+import podChat.requestobject.RequestConnect;
 import podChat.requestobject.RequestEditMessage;
 
 import java.util.List;
@@ -24,12 +26,6 @@ public class EditMessage implements ChatContract.view {
     @InjectMocks
     static ChatController chatController = Mockito.mock(ChatController.class);
 
-    static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "7042b1765927491ab96053d29132ece7";
-    static String ssoHost = "https://accounts.pod.land";
-    static String fileServer = "https://sandbox.pod.land:8443";
-    static String serverName = "chat-server";
-
     Gson gson = new Gson();
 
     @BeforeEach
@@ -42,15 +38,22 @@ public class EditMessage implements ChatContract.view {
     public void connect() throws InterruptedException {
         try {
             chatController = new ChatController(chatContract);
-            chatController.connect("", "", serverName, token, ssoHost, platformHost, fileServer, "default");
+
+            RequestConnect requestConnect = new RequestConnect
+                    .Builder(Constant.queueServer, Constant.queuePort, Constant.queueInput, Constant.queueOutput, Constant.queueUserName, Constant.queuePassword, Constant.serverName, Constant.token, Constant.ssoHost, Constant.platformHost, Constant.fileServer)
+                    .typeCode("default")
+                    .build();
+
+            chatController.connect(requestConnect);
+
         } catch (ConnectionException e) {
             e.printStackTrace();
         }
 
         UserInfo userInfo = new UserInfo();
-        userInfo.setId(4101);
-        userInfo.setName("فاطمه خجسته");
-        userInfo.setCellphoneNumber("09151242904");
+        userInfo.setId(Constant.userId);
+        userInfo.setName(Constant.username);
+        userInfo.setCellphoneNumber(Constant.cellphone);
         userInfo.setSendEnable(true);
         userInfo.setReceiveEnable(true);
 

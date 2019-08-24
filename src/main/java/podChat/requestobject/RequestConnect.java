@@ -2,9 +2,12 @@ package podChat.requestobject;
 
 
 public class RequestConnect extends BaseRequestObject {
-
-    private String socketAddress;
-    private String appId;
+    private String queueServer;
+    private String queuePort;
+    private String queueInput;
+    private String queueOutput;
+    private String queueUserName;
+    private String queuePassword;
     private String severName;
     private String token;
     private String ssoHost;
@@ -12,31 +15,46 @@ public class RequestConnect extends BaseRequestObject {
     private String fileServer;
 
 
-     public RequestConnect( Builder builder) {
+    public RequestConnect(Builder builder) {
         super(builder);
-         this.socketAddress = builder.socketAddress;
-         this.appId = builder.appId;
-         this.fileServer = builder.fileServer;
-         this.platformHost = builder.platformHost;
-         this.severName = builder.severName;
-         this.token = builder.token;
-         this.ssoHost = builder.ssoHost;
+        this.queueServer = builder.queueServer;
+        this.queuePort = builder.queuePort;
+        this.queueInput = builder.queueInput;
+        this.queueOutput = builder.queueOutput;
+        this.queueUserName = builder.queueUserName;
+        this.queuePassword = builder.queuePassword;
+        this.fileServer = builder.fileServer;
+        this.platformHost = builder.platformHost;
+        this.severName = builder.severName;
+        this.token = builder.token;
+        this.ssoHost = builder.ssoHost;
     }
 
     public static class Builder extends BaseRequestObject.Builder<Builder> {
-        private String socketAddress;
-        private String appId;
+        private String queueServer;
+        private String queuePort;
+        private String queueInput;
+        private String queueOutput;
+        private String queueUserName;
+        private String queuePassword;
         private String severName;
         private String token;
         private String ssoHost;
         private String platformHost;
         private String fileServer;
+        private String typeCode;
 
 
-        public Builder(String socketAddress, String appId, String severName, String token,
-                String ssoHost, String platformHost, String fileServer) {
-            this.socketAddress = socketAddress;
-            this.appId = appId;
+        public Builder(String queueServer, String queuePort, String queueInput, String queueOutput,
+                       String queueUserName, String queuePassword, String severName, String token,
+                       String ssoHost, String platformHost, String fileServer) {
+            this.queueServer = queueServer;
+            this.queuePort = queuePort;
+            this.queueInput = queueInput;
+            this.queueOutput = queueOutput;
+            this.queuePort = queuePort;
+            this.queueUserName = queueUserName;
+            this.queuePassword = queuePassword;
             this.fileServer = fileServer;
             this.platformHost = platformHost;
             this.severName = severName;
@@ -45,8 +63,13 @@ public class RequestConnect extends BaseRequestObject {
         }
 
 
-        public RequestConnect build(){
+        public RequestConnect build() {
             return new RequestConnect(this);
+        }
+
+        public Builder typeCode(String typeCode) {
+            this.typeCode = typeCode;
+            return this;
         }
 
 
@@ -57,20 +80,52 @@ public class RequestConnect extends BaseRequestObject {
     }
 
 
-    public String getSocketAddress() {
-        return socketAddress;
+    public String getQueueServer() {
+        return queueServer;
     }
 
-    public void setSocketAddress(String socketAddress) {
-        this.socketAddress = socketAddress;
+    public void setQueueServer(String queueServer) {
+        this.queueServer = queueServer;
     }
 
-    public String getAppId() {
-        return appId;
+    public String getQueuePort() {
+        return queuePort;
     }
 
-    public void setAppId(String appId) {
-        this.appId = appId;
+    public void setQueuePort(String queuePort) {
+        this.queuePort = queuePort;
+    }
+
+    public String getQueueInput() {
+        return queueInput;
+    }
+
+    public void setQueueInput(String queueInput) {
+        this.queueInput = queueInput;
+    }
+
+    public String getQueueOutput() {
+        return queueOutput;
+    }
+
+    public void setQueueOutput(String queueOutput) {
+        this.queueOutput = queueOutput;
+    }
+
+    public String getQueueUserName() {
+        return queueUserName;
+    }
+
+    public void setQueueUserName(String queueUserName) {
+        this.queueUserName = queueUserName;
+    }
+
+    public String getQueuePassword() {
+        return queuePassword;
+    }
+
+    public void setQueuePassword(String queuePassword) {
+        this.queuePassword = queuePassword;
     }
 
     public String getSeverName() {

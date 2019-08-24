@@ -1,7 +1,7 @@
 package util.activeMq;
 
 
-import config.QueueConfig;
+import config.QueueConfigVO;
 import exception.ConnectionException;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.logging.log4j.LogManager;
@@ -35,27 +35,30 @@ public class ActiveMq {
     private Destination inputQueue;
     private Destination outputQueue;
 
+    private QueueConfigVO queueConfigVO;
+
     private AtomicBoolean reconnect = new AtomicBoolean(false);
     ConnectionFactory factory;
 
     IoAdapter ioAdapter;
 
-    public ActiveMq(final IoAdapter ioAdapter) throws ConnectionException {
+    public ActiveMq(final IoAdapter ioAdapter, QueueConfigVO queueConfigVO) throws ConnectionException {
         this.ioAdapter = ioAdapter;
+        this.queueConfigVO = queueConfigVO;
 
-        inputQueue = new QueueImpl(QueueConfig.queueInput);
-        outputQueue = new QueueImpl(QueueConfig.queueOutput);
+        inputQueue = new QueueImpl(queueConfigVO.getQueueInput());
+        outputQueue = new QueueImpl(queueConfigVO.getQueueOutput());
 
         factory = new ActiveMQConnectionFactory(
-                QueueConfig.queueUserName,
-                QueueConfig.queuePassword,
+                queueConfigVO.getQueueUserName(),
+                queueConfigVO.getQueuePassword(),
                 new StringBuilder()
                         .append("failover:(tcp://")
-                        .append(QueueConfig.queueServer)
+                        .append(queueConfigVO.getQueueServer())
                         .append(":")
-                        .append(QueueConfig.queuePort)
+                        .append(queueConfigVO.getQueuePort())
                         .append(")?jms.useAsyncSend=true")
-                        .append("&jms.sendTimeout=").append(QueueConfig.queueReconnectTime)
+                        .append("&jms.sendTimeout=").append(queueConfigVO.getQueueReconnectTime())
                         .toString());
 
         if (factory != null) {
@@ -75,13 +78,13 @@ public class ActiveMq {
 
                 try {
                     this.proConnection = factory.createConnection(
-                            QueueConfig.queueUserName,
-                            QueueConfig.queuePassword);
+                            queueConfigVO.getQueueUserName(),
+                            queueConfigVO.getQueuePassword());
                     proConnection.start();
 
                     this.conConnection = factory.createConnection(
-                            QueueConfig.queueUserName,
-                            QueueConfig.queuePassword);
+                            queueConfigVO.getQueueUserName(),
+                            queueConfigVO.getQueuePassword());
                     conConnection.start();
 
                     proSession = proConnection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
@@ -192,7 +195,7 @@ public class ActiveMq {
             close();
             showErrorLog("JMSException occurred: " + exception);
             try {
-                Thread.sleep(QueueConfig.queueReconnectTime);
+                Thread.sleep(queueConfigVO.getQueueReconnectTime());
                 connect();
             } catch (InterruptedException e) {
                 showErrorLog("An exception occurred: " + e);

@@ -101,8 +101,8 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void connect(String serverAddress, String appId, String severName, String token, String ssoHost, String platformHost, String fileServer, String typeCode) throws ConnectionException {
-        chat.connect(serverAddress, appId, severName, token, ssoHost, platformHost, fileServer, typeCode);
+    public void connect(RequestConnect requestConnect) throws ConnectionException {
+        chat.connect(requestConnect);
 
     }
 
@@ -138,7 +138,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     @Override
     public void getHistory(RequestGetHistory request, ChatHandler handler) {
-
+        chat.getHistory(request, handler);
     }
 
     @Override

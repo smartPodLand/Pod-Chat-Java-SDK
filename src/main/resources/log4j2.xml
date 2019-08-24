@@ -11,19 +11,19 @@
             <PatternLayout pattern="**************************************************************************************\n \n %d{HH:mm:ss} [%t] %-5level %logger{36} - %msg%n \n"/>
         </Console>
 
-        <RollingFile name="Logfile" fileName="chat-log.out" filePattern="debug-backup-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
+       <!-- <RollingFile name="Logfile" fileName="chat-log.out" filePattern="debug-backup-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
             <PatternLayout pattern="[%-5level]  %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %m%n"/>
             <Policies>
                 <SizeBasedTriggeringPolicy size="20MB"/>
             </Policies>
             <DefaultRolloverStrategy max="20"/>
-        </RollingFile>
+        </RollingFile>-->
         <Sentry name="Sentry" />
     </appenders>
 
     <loggers>
         <root level="INFO">
-            <appender-ref ref="Logfile"/>
+            <!--<appender-ref ref="Logfile"/>-->
             <AppenderRef ref="ConsoleStdOut" />
             <AppenderRef ref="ConsoleStdErr" />
             <!-- Note that the Sentry logging threshold is overridden to the WARN level -->

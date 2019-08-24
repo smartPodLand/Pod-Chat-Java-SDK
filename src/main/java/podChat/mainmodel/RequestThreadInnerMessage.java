@@ -1,7 +1,5 @@
 package podChat.mainmodel;
 
-import com.sun.istack.internal.NotNull;
-
 import java.util.List;
 
 public class RequestThreadInnerMessage {
@@ -32,31 +30,26 @@ public class RequestThreadInnerMessage {
             return this;
         }
 
-        @NotNull
         public Builder type(int type) {
             this.type = type;
             return this;
         }
 
-        @NotNull
         public Builder metadata(String metadata) {
             this.metadata = metadata;
             return this;
         }
 
-        @NotNull
         public Builder systemMetadata(String systemMetadata) {
             this.systemMetadata = systemMetadata;
             return this;
         }
 
-        @NotNull
         public Builder forwardedMessageIds(List<Long> forwardedMessageIds) {
             this.forwardedMessageIds = forwardedMessageIds;
             return this;
         }
 
-        @NotNull
         public RequestThreadInnerMessage build() {
             return new RequestThreadInnerMessage(this);
         }
