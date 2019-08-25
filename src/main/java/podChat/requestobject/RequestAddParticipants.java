@@ -2,11 +2,12 @@ package podChat.requestobject;
 
 
 import java.util.List;
+
 public class RequestAddParticipants extends GeneralRequestObject {
     private long threadId;
     private List<Long> contactIds;
 
-    RequestAddParticipants( Builder builder) {
+    RequestAddParticipants(Builder builder) {
         super(builder);
         this.contactIds = builder.contactIds;
         this.threadId = builder.threadId;

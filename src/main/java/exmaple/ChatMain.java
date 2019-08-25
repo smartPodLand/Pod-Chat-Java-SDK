@@ -20,10 +20,9 @@ import java.util.ArrayList;
  */
 public class ChatMain implements ChatContract.view {
     private static Logger logger = LogManager.getLogger(Async.class);
-    static boolean temp = false;
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "45a8d6c28e4e4ca18e10d9873e60e6f3";
+    static String token = "49bbb0cd9f944f2c8fddf00b76266c7b";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
@@ -65,7 +64,10 @@ public class ChatMain implements ChatContract.view {
 
     @Override
     public void onGetUserInfo(ChatResponse<ResultUserInfo> outPutUserInfo) {
-        getHistory();
+       // uploadImage();
+        uploadFile();
+       // addContact();
+     //   getHistory();
         // getcontact();
 
         // createThread();
@@ -85,7 +87,7 @@ public class ChatMain implements ChatContract.view {
         sendMessage();*/
 
 
-//            createThreadWithMessage();
+         //   createThreadWithMessage();
         //createThreadWithMessage();
 
         //  deleteMessage();
@@ -96,10 +98,29 @@ public class ChatMain implements ChatContract.view {
 
     }
 
+    private void uploadImage(){
+        RequestUploadImage requestUploadImage = new RequestUploadImage
+                .Builder("C:\\Users\\fanap-10\\Pictures\\Saved Pictures\\a.jpg")
+                .build();
+
+        chatController.uploadImage(requestUploadImage);
+
+
+    }
+
+    private void uploadFile(){
+        RequestUploadFile requestUploadFile = new RequestUploadFile
+                .Builder("F:\\models.txt")
+                .build();
+
+        chatController.uploadFile(requestUploadFile);
+
+
+    }
+
     private void getHistory() {
         RequestGetHistory requestGetHistory = new RequestGetHistory
                 .Builder(5461)
-                .id(47805)
                 .build();
 
         chatController.getHistory(requestGetHistory, null);
@@ -115,7 +136,7 @@ public class ChatMain implements ChatContract.view {
 
     private void updateContact() {
         RequestUpdateContact requestUpdateContact = new RequestUpdateContact
-                .Builder(13882, "زهرا", "مظلوم", "09156452709", "gimi@gmail.com")
+                .Builder(13882, "زهرا", "مظلوم", "09156452709", "gdimi@gmail.com")
                 .build();
 
         chatController.updateContact(requestUpdateContact);
@@ -140,6 +161,10 @@ public class ChatMain implements ChatContract.view {
         Invitee invitee = new Invitee();
         invitee.setId(4781);
         invitee.setIdType(InviteType.TO_BE_USER_ID);
+
+        Invitee invitee1 = new Invitee();
+        invitee1.setId(1181);
+        invitee1.setIdType(InviteType.TO_BE_USER_ID);
 
         RequestCreateThread requestCreateThread = new RequestCreateThread
                 .Builder(ThreadType.NORMAL, new ArrayList<Invitee>() {{
@@ -213,7 +238,7 @@ public class ChatMain implements ChatContract.view {
     private void getThreads() {
         RequestThread requestThread = new RequestThread
                 .Builder()
-                .partnerCoreContactId(13882)
+                .threadIds(new ArrayList<Integer>(){{add(4982);}})
                 .build();
 
         chatController.getThreads(requestThread, null);

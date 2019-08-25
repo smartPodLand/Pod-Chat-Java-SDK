@@ -1,16 +1,17 @@
 package podChat.networking.retrofithelper;
 
-
+import java.util.Date;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import java.util.Date;
 
-public class RetrofitHelperPlatformHost {
+/**
+ * RetrofitHelperSsoHost
+ */
+
+public class RetrofitHelperFileServer {
 
     private static Retrofit retrofit = null;
 
@@ -29,6 +30,5 @@ public class RetrofitHelperPlatformHost {
 
         return retrofit;
     }
-
 
 }

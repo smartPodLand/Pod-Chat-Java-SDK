@@ -138,6 +138,10 @@ public interface ChatContract {
 
         void isDatabaseOpen();
 
+        void uploadImage(RequestUploadImage requestUploadImage);
+
+        void uploadFile(RequestUploadFile requestUploadFile);
+
         //void retryUpload(RetryUpload retry, ProgressHandler.sendFileMessage handler);
 
         void resendMessage(String uniqueId);

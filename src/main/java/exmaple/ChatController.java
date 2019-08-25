@@ -34,10 +34,22 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
         this.view = view;
     }
 
+
     @Override
     public void isDatabaseOpen() {
 
     }
+
+    @Override
+    public void uploadImage(RequestUploadImage requestUploadImage) {
+        chat.uploadImage(requestUploadImage);
+    }
+
+    @Override
+    public void uploadFile(RequestUploadFile requestUploadFile) {
+        chat.uploadFile(requestUploadFile);
+    }
+
 
     @Override
     public void resendMessage(String uniqueId) {
@@ -71,7 +83,8 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     @Override
     public void createThreadWithMessage(RequestCreateThread threadRequest) {
-        chat.createThreadWithMessage(threadRequest);
+        ArrayList<String> uniqueId = chat.createThreadWithMessage(threadRequest);
+        System.out.println(uniqueId);
     }
 
     @Override
@@ -292,7 +305,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     @Override
     public void updateContact(RequestUpdateContact updateContact) {
-
+        chat.updateContact(updateContact);
     }
 
     @Override
