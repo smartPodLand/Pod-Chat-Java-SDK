@@ -22,7 +22,7 @@ public class ChatMain implements ChatContract.view {
     private static Logger logger = LogManager.getLogger(Async.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "49bbb0cd9f944f2c8fddf00b76266c7b";
+    static String token = "a2087ada19274ae9869c293506309c44";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
@@ -64,10 +64,12 @@ public class ChatMain implements ChatContract.view {
 
     @Override
     public void onGetUserInfo(ChatResponse<ResultUserInfo> outPutUserInfo) {
-       // uploadImage();
-        uploadFile();
-       // addContact();
-     //   getHistory();
+
+      sendFileMessage();
+     //    uploadImage();
+      //   uploadFile();
+        // addContact();
+        //   getHistory();
         // getcontact();
 
         // createThread();
@@ -87,7 +89,7 @@ public class ChatMain implements ChatContract.view {
         sendMessage();*/
 
 
-         //   createThreadWithMessage();
+        //   createThreadWithMessage();
         //createThreadWithMessage();
 
         //  deleteMessage();
@@ -98,17 +100,37 @@ public class ChatMain implements ChatContract.view {
 
     }
 
-    private void uploadImage(){
+    private void sendFileMessage() {
+        RequestFileMessage requestFileMessage = new RequestFileMessage
+                .Builder(5461, "C:\\Users\\fanap-10\\Pictures\\Saved Pictures\\a.jpg")
+                .description("this is test image")
+                .xC(0)
+                .yC(0)
+                .hC(100)
+                .wC(200)
+                .build();
+//
+//        RequestFileMessage requestFileMessage = new RequestFileMessage
+//                .Builder(5461, "F:\\models.txt")
+//                .description("this is test image")
+//                .build();
+
+        chatController.uploadFileMessage(requestFileMessage, null);
+    }
+
+    private void uploadImage() {
         RequestUploadImage requestUploadImage = new RequestUploadImage
                 .Builder("C:\\Users\\fanap-10\\Pictures\\Saved Pictures\\a.jpg")
+                .xC(0)
+                .yC(0)
+                .hC(200)
+                .wC(100)
                 .build();
 
         chatController.uploadImage(requestUploadImage);
-
-
     }
 
-    private void uploadFile(){
+    private void uploadFile() {
         RequestUploadFile requestUploadFile = new RequestUploadFile
                 .Builder("F:\\models.txt")
                 .build();
@@ -238,7 +260,9 @@ public class ChatMain implements ChatContract.view {
     private void getThreads() {
         RequestThread requestThread = new RequestThread
                 .Builder()
-                .threadIds(new ArrayList<Integer>(){{add(4982);}})
+                .threadIds(new ArrayList<Integer>() {{
+                    add(4982);
+                }})
                 .build();
 
         chatController.getThreads(requestThread, null);

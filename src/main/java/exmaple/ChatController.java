@@ -2,6 +2,7 @@ package exmaple;
 
 import com.google.gson.Gson;
 import exception.ConnectionException;
+import podChat.ProgressHandler;
 import podChat.chat.Chat;
 import podChat.chat.ChatAdapter;
 import podChat.chat.ChatHandler;
@@ -43,6 +44,11 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void uploadImage(RequestUploadImage requestUploadImage) {
         chat.uploadImage(requestUploadImage);
+    }
+
+    @Override
+    public void uploadFileMessage(RequestFileMessage requestFileMessage, ProgressHandler.sendFileMessage handler) {
+        chat.sendFileMessage(requestFileMessage, handler);
     }
 
     @Override
@@ -487,14 +493,14 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void onUploadFile(String content, ChatResponse<ResultFile> response) {
         super.onUploadFile(content, response);
-        view.onUploadFile();
+        view.onUploadFile(response);
     }
 
 
     @Override
     public void onUploadImageFile(String content, ChatResponse<ResultImageFile> chatResponse) {
         super.onUploadImageFile(content, chatResponse);
-        view.onUploadImageFile();
+        view.onUploadImageFile(chatResponse);
     }
 
     @Override

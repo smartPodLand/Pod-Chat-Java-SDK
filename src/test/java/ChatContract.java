@@ -69,7 +69,7 @@ public interface ChatContract {
         default void onUpdateContact() {
         }
 
-        default void onUploadFile() {
+        default void onUploadFile(ChatResponse<ResultImageFile> response) {
         }
 
         default void onUploadImageFile() {

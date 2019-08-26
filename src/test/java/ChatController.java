@@ -1,6 +1,7 @@
 import com.google.gson.Gson;
 import exception.ConnectionException;
 import exmaple.ChatContract;
+import podChat.ProgressHandler;
 import podChat.chat.Chat;
 import podChat.chat.ChatAdapter;
 import podChat.chat.ChatHandler;
@@ -44,9 +45,15 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
+    public void uploadFileMessage(RequestFileMessage requestFileMessage, ProgressHandler.sendFileMessage handler) {
+        chat.sendFileMessage(requestFileMessage, handler);
+    }
+
+    @Override
     public void uploadFile(RequestUploadFile requestUploadFile) {
         chat.uploadFile(requestUploadFile);
     }
+
 
     @Override
     public void resendMessage(String uniqueId) {
@@ -80,7 +87,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     @Override
     public void createThreadWithMessage(RequestCreateThread threadRequest) {
-       ArrayList<String> uniqueId =  chat.createThreadWithMessage(threadRequest);
+        ArrayList<String> uniqueId = chat.createThreadWithMessage(threadRequest);
     }
 
     @Override
@@ -111,7 +118,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     @Override
     public void connect(RequestConnect requestConnect) throws ConnectionException {
-
+        chat.connect(requestConnect);
     }
 
 
@@ -482,14 +489,14 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void onUploadFile(String content, ChatResponse<ResultFile> response) {
         super.onUploadFile(content, response);
-        view.onUploadFile();
+        view.onUploadFile(response);
     }
 
 
     @Override
     public void onUploadImageFile(String content, ChatResponse<ResultImageFile> chatResponse) {
         super.onUploadImageFile(content, chatResponse);
-        view.onUploadImageFile();
+        view.onUploadImageFile(chatResponse);
     }
 
     @Override

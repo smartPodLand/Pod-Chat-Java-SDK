@@ -15,10 +15,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import podAsync.Async;
 import podAsync.AsyncAdapter;
+import podChat.ProgressHandler;
+import podChat.localModel.LFileUpload;
 import podChat.mainmodel.*;
 import podChat.mainmodel.Thread;
 import podChat.model.*;
 import podChat.model.Error;
+import podChat.model.MapLocation;
 import podChat.networking.api.ContactApi;
 import podChat.networking.api.FileApi;
 import podChat.networking.retrofithelper.ApiListener;
@@ -29,6 +32,8 @@ import podChat.requestobject.*;
 import podChat.util.*;
 import retrofit2.Call;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -2006,14 +2011,19 @@ public class Chat extends AsyncAdapter {
      */
     public String uploadImage(RequestUploadImage requestUploadImage) {
         String filePath = requestUploadImage.getFilePath();
-        return uploadImage(filePath);
+        int xC = requestUploadImage.getxC();
+        int yC = requestUploadImage.getyC();
+        int hC = requestUploadImage.gethC();
+        int wC = requestUploadImage.getwC();
+
+        return uploadImage(filePath, xC, yC, hC, wC);
     }
 
     /**
      * It uploads image to the server just by pass image path
      */
     @Deprecated
-    public String uploadImage(String filePath) {
+    public String uploadImage(String filePath, int xC, int yC, int hC, int wC) {
         String uniqueId = generateUniqueId();
 
         if (chatReady) {
@@ -2027,10 +2037,28 @@ public class Chat extends AsyncAdapter {
                         String mimeType = getContentType(file);
 
                         if (mimeType.equals("image/png") || mimeType.equals("image/jpeg")) {
+                            FileApi fileApi;
+                            RequestBody requestFile;
 
-                            FileApi fileApi = RetrofitHelperFileServer.getInstance(getFileServer()).create(FileApi.class);
+                            if (!Util.isNullOrEmpty(hC) && !Util.isNullOrEmpty(wC)) {
+                                BufferedImage originalImage = ImageIO.read(file);
 
-                            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
+                                BufferedImage subImage = originalImage.getSubimage(xC, yC, wC, hC);
+
+                                File outputFile = File.createTempFile("test", null);
+
+                                ImageIO.write(subImage, mimeType.substring(mimeType.indexOf("/") + 1), outputFile);
+
+                                fileApi = RetrofitHelperFileServer.getInstance(getFileServer()).create(FileApi.class);
+
+                                requestFile = RequestBody.create(MediaType.parse("image/*"), outputFile);
+                            } else {
+
+                                fileApi = RetrofitHelperFileServer.getInstance(getFileServer()).create(FileApi.class);
+
+                                requestFile = RequestBody.create(MediaType.parse("image/*"), file);
+                            }
+
                             MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
                             RequestBody name = RequestBody.create(MediaType.parse("text/plain"), file.getName());
 
@@ -2101,7 +2129,7 @@ public class Chat extends AsyncAdapter {
                 }
             } catch (Exception e) {
                 showErrorLog(e.getCause().getMessage());
-
+                getErrorOutPut(ChatConstant.ERROR_UPLOAD_FILE, ChatConstant.ERROR_CODE_UPLOAD_FILE, uniqueId);
                 uniqueId = null;
             }
         } else {
@@ -2185,9 +2213,9 @@ public class Chat extends AsyncAdapter {
 
             } catch (Exception e) {
                 showErrorLog(e.getCause().getMessage());
-                return uniqueId;
+                return null;
             }
-        } else  {
+        } else {
             getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
         }
 
@@ -2195,8 +2223,451 @@ public class Chat extends AsyncAdapter {
     }
 
     public String uploadFile(RequestUploadFile requestUploadFile) {
-        return uploadFile( requestUploadFile.getFilePath());
+        return uploadFile(requestUploadFile.getFilePath());
     }
+
+
+    /**
+     * This method first check the type of the file and then choose the right
+     * server and send that
+     *
+     * @param description    Its the description that you want to send with file in the thread
+     * @param filePath       Path of the file that you want to send to thread
+     * @param threadId       Id of the thread that you want to send file
+     * @param systemMetaData [optional]
+     * @param handler        it is for send file message with progress
+     */
+    public String sendFileMessage(String description, long threadId, String filePath, String systemMetaData, Integer messageType, int xC, int yC, int hC, int wC, ProgressHandler.sendFileMessage handler) {
+
+        String uniqueId = generateUniqueId();
+
+        LFileUpload lFileUpload = new LFileUpload();
+        lFileUpload.setDescription(description);
+        lFileUpload.setFilePath(filePath);
+        lFileUpload.setHandler(handler);
+        lFileUpload.setMessageType(messageType);
+        lFileUpload.setThreadId(threadId);
+        lFileUpload.setUniqueId(uniqueId);
+        lFileUpload.setSystemMetaData(systemMetaData);
+        lFileUpload.setxC(xC);
+        lFileUpload.setyC(yC);
+        lFileUpload.sethC(hC);
+        lFileUpload.setwC(wC);
+
+        try {
+            if (filePath != null) {
+                File file = new File(filePath);
+                String mimeType = getContentType(file);
+                lFileUpload.setMimeType(mimeType);
+
+                if (FileUtils.isImage(mimeType)) {
+                    uploadImageFileMessage(lFileUpload);
+                } else {
+                    uploadFileMessage(lFileUpload);
+                }
+                return uniqueId;
+
+            } else {
+                String jsonError = getErrorOutPut(ChatConstant.ERROR_INVALID_FILE_URI
+                        , ChatConstant.ERROR_CODE_INVALID_FILE_URI, uniqueId);
+
+                ErrorOutPut error = new ErrorOutPut(true, ChatConstant.ERROR_INVALID_FILE_URI, ChatConstant.ERROR_CODE_INVALID_FILE_URI, uniqueId);
+
+                listenerManager.callOnLogEvent(jsonError);
+
+                if (handler != null) {
+                    handler.onError(jsonError, error);
+                }
+            }
+        } catch (Exception e) {
+            showErrorLog(e.getCause().getMessage());
+
+            return null;
+        }
+        return uniqueId;
+    }
+
+    /**
+     * This method first check the type of the file and then choose the right
+     * server and send that
+     * <p>
+     * description    Its the description that you want to send with file in the thread
+     * fileUri        Uri of the file that you want to send to thread
+     * threadId       Id of the thread that you want to send file
+     * systemMetaData [optional]
+     * handler        it is for send file message with progress
+     */
+    public String sendFileMessage(RequestFileMessage requestFileMessage, ProgressHandler.sendFileMessage handler) {
+        long threadId = requestFileMessage.getThreadId();
+        String filePath = requestFileMessage.getFilePath();
+        String description = requestFileMessage.getDescription();
+        int messageType = requestFileMessage.getMessageType();
+        String systemMetadata = requestFileMessage.getSystemMetadata();
+        int xC = requestFileMessage.getxC();
+        int yC = requestFileMessage.getyC();
+        int hC = requestFileMessage.gethC();
+        int wC = requestFileMessage.getwC();
+
+        return sendFileMessage(description, threadId, filePath, systemMetadata, messageType, xC, yC, hC, wC, handler);
+    }
+
+    private void uploadFileMessage(LFileUpload lFileUpload) {
+
+        String filePath = lFileUpload.getFilePath();
+
+        try {
+            if (Util.isNullOrEmpty(filePath)) {
+                filePath = "";
+            }
+            File file = new File(filePath);
+            long file_size;
+
+            if (file.exists() || file.isFile()) {
+                file_size = file.length();
+
+                lFileUpload.setFileSize(file_size);
+                lFileUpload.setFile(file);
+
+                mainUploadFileMessage(lFileUpload);
+
+
+            } else {
+                showErrorLog("File Is Not Exist");
+            }
+
+        } catch (Throwable e) {
+            showErrorLog(e.getCause().getMessage());
+        }
+    }
+
+    private void mainUploadFileMessage(LFileUpload lFileUpload) {
+
+        String description = lFileUpload.getDescription();
+        Integer messageType = lFileUpload.getMessageType();
+        long threadId = lFileUpload.getThreadId();
+        String uniqueId = lFileUpload.getUniqueId();
+        String systemMetadata = lFileUpload.getSystemMetaData();
+        long messageId = lFileUpload.getMessageId();
+        String mimeType = lFileUpload.getMimeType();
+        File file = lFileUpload.getFile();
+        long file_size = lFileUpload.getFileSize();
+
+        String methodName = lFileUpload.getMethodName();
+
+        if (chatReady) {
+            if (getFileServer() != null) {
+                FileApi fileApi = RetrofitHelperFileServer.getInstance(getFileServer()).create(FileApi.class);
+
+                RequestBody name = RequestBody.create(MediaType.parse("multipart/form-data"), file.getName());
+                RequestBody requestFile = RequestBody.create(MediaType.parse(mimeType), file);
+
+                MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+
+                Call<FileUpload> fileUploadCall = fileApi.sendFile(body, getToken(), TOKEN_ISSUER, name);
+                File finalFile = file;
+
+                RetrofitUtil.request(fileUploadCall, new ApiListener<FileUpload>() {
+
+                    @Override
+                    public void onSuccess(FileUpload fileUpload) {
+                        boolean error = fileUpload.isHasError();
+
+                        if (error) {
+                            String errorMessage = fileUpload.getMessage();
+
+                            showErrorLog(errorMessage);
+
+                        } else {
+                            ResultFile result = fileUpload.getResult();
+
+                            if (result != null) {
+                                long fileId = result.getId();
+                                String hashCode = result.getHashCode();
+
+                                ChatResponse<ResultFile> chatResponse = new ChatResponse<>();
+                                chatResponse.setResult(result);
+                                chatResponse.setUniqueId(uniqueId);
+                                result.setSize(file_size);
+                                String json = gson.toJson(chatResponse);
+
+                                listenerManager.callOnUploadFile(json, chatResponse);
+
+                                showInfoLog("RECEIVE_UPLOAD_FILE");
+
+                                listenerManager.callOnLogEvent(json);
+
+                                String jsonMeta = createFileMetadata(finalFile, hashCode, fileId, mimeType, file_size, "");
+
+                                listenerManager.callOnLogEvent(jsonMeta);
+
+                                if (!Util.isNullOrEmpty(methodName) && methodName.equals(ChatConstant.METHOD_REPLY_MSG)) {
+                                    mainReplyMessage(description, threadId, messageId, systemMetadata, messageType, jsonMeta, null);
+
+                                    showInfoLog("SEND_REPLY_FILE_MESSAGE");
+
+                                } else {
+                                    sendTextMessageWithFile(description, threadId, jsonMeta, systemMetadata, uniqueId, typeCode, messageType);
+                                }
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        showErrorLog(throwable.getMessage());
+                    }
+
+                    @Override
+                    public void onServerError(String errorMessage) {
+                        showErrorLog(errorMessage);
+                    }
+                });
+            } else {
+                showErrorLog("FileServer url Is null");
+            }
+
+        } else {
+            String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+            listenerManager.callOnLogEvent(jsonError);
+        }
+    }
+
+    private void sendTextMessageWithFile(String description, long threadId, String metaData, String systemMetadata, String uniqueId, String typeCode, Integer messageType) {
+
+        ChatMessage chatMessage = new ChatMessage();
+
+        chatMessage.setContent(description);
+        chatMessage.setType(ChatMessageType.MESSAGE);
+        chatMessage.setTokenIssuer("1");
+        chatMessage.setToken(getToken());
+        chatMessage.setMetadata(metaData);
+
+        chatMessage.setUniqueId(uniqueId);
+        chatMessage.setSubjectId(threadId);
+
+        JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
+
+        if (Util.isNullOrEmpty(getTypeCode())) {
+            jsonObject.remove("typeCode");
+        } else {
+            jsonObject.remove("typeCode");
+            jsonObject.addProperty("typeCode", getTypeCode());
+        }
+
+        jsonObject.remove("repliedTo");
+
+        String asyncContent = jsonObject.toString();
+
+
+        if (chatReady) {
+            setThreadCallbacks(threadId, uniqueId, 0);
+
+            sendAsyncMessage(asyncContent, 4, "SEND_TXT_MSG_WITH_FILE");
+        } else {
+            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+        }
+    }
+
+
+    /**
+     * description    description of the message
+     * threadId       id of the thread its wanted to send in
+     * fileUri        uri of the file
+     * mimeType       mime type of the file
+     * systemMetaData metadata of the message
+     * messageType    type of a message
+     * messageId      id of a message
+     * methodName     METHOD_REPLY_MSG or other
+     * handler        description of the interface methods are :
+     * bytesSent        - Bytes sent since the last time this callback was called.
+     * totalBytesSent   - Total number of bytes sent so far.
+     * totalBytesToSend - Total bytes to send.
+     */
+    private void uploadImageFileMessage(LFileUpload lFileUpload) {
+
+        String description = lFileUpload.getDescription();
+        String filePath = lFileUpload.getFilePath();
+        Integer messageType = lFileUpload.getMessageType();
+        String uniqueId = lFileUpload.getUniqueId();
+        String systemMetaData = lFileUpload.getSystemMetaData();
+        String center = lFileUpload.getCenter();
+
+
+        systemMetaData = systemMetaData != null ? systemMetaData : "";
+        description = description != null ? description : "";
+        messageType = messageType != null ? messageType : 0;
+
+        if (Util.isNullOrEmpty(filePath)) {
+            filePath = "";
+        }
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            long fileSize = file.length();
+
+            lFileUpload.setFile(file);
+            lFileUpload.setFileSize(fileSize);
+            lFileUpload.setSystemMetaData(systemMetaData);
+            lFileUpload.setDescription(description);
+            lFileUpload.setMessageType(messageType);
+            lFileUpload.setCenter(center);
+
+            mainUploadImageFileMsg(lFileUpload);
+
+        } else {
+            showErrorLog("File Is Not Exist");
+        }
+
+    }
+
+    private void mainUploadImageFileMsg(LFileUpload fileUpload) {
+
+        String description = fileUpload.getDescription();
+
+        ProgressHandler.sendFileMessage handler = fileUpload.getHandler();
+
+        Integer messageType = fileUpload.getMessageType();
+        long threadId = fileUpload.getThreadId();
+        String uniqueId = fileUpload.getUniqueId();
+        String systemMetaData = fileUpload.getSystemMetaData();
+        long messageId = fileUpload.getMessageId();
+        String mimeType = fileUpload.getMimeType();
+        String methodName = fileUpload.getMethodName();
+        long fileSize = fileUpload.getFileSize();
+        String center = fileUpload.getCenter();
+
+        File file = fileUpload.getFile();
+        try {
+            if (chatReady) {
+
+                if (fileServer != null) {
+                    FileApi fileApi = RetrofitHelperFileServer.getInstance(getFileServer()).create(FileApi.class);
+
+                    RequestBody requestFile;
+
+                    if (!Util.isNullOrEmpty(fileUpload.gethC()) && !Util.isNullOrEmpty(fileUpload.getwC())) {
+                        BufferedImage originalImage = ImageIO.read(file);
+
+                        BufferedImage subImage = originalImage.getSubimage(fileUpload.getxC(), fileUpload.getyC(), fileUpload.getwC(), fileUpload.gethC());
+
+                        File outputFile = File.createTempFile("test", null);
+
+                        ImageIO.write(subImage, mimeType.substring(mimeType.indexOf("/") + 1), outputFile);
+
+
+                        requestFile = RequestBody.create(MediaType.parse("image/*"), outputFile);
+                    } else {
+
+
+                        requestFile = RequestBody.create(MediaType.parse("image/*"), file);
+                    }
+
+                    MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
+                    RequestBody name = RequestBody.create(MediaType.parse("text/plain"), file.getName());
+
+                    Call<FileImageUpload> fileImageUploadCall = fileApi.sendImageFile(body, getToken(), TOKEN_ISSUER, name);
+
+                    RetrofitUtil.request(fileImageUploadCall, new ApiListener<FileImageUpload>() {
+
+                        @Override
+                        public void onSuccess(FileImageUpload fileImageUpload) {
+                            boolean hasError = fileImageUpload.isHasError();
+                            if (hasError) {
+                                String errorMessage = fileImageUpload.getMessage();
+                                int errorCode = fileImageUpload.getErrorCode();
+                                String jsonError = getErrorOutPut(errorMessage, errorCode, uniqueId);
+
+                                listenerManager.callOnLogEvent(jsonError);
+
+                                ErrorOutPut error = new ErrorOutPut(true, errorMessage, errorCode, uniqueId);
+
+                                if (handler != null) {
+                                    handler.onError(jsonError, error);
+                                }
+                            } else {
+
+                                ResultImageFile result = fileImageUpload.getResult();
+                                long imageId = result.getId();
+                                String hashCode = result.getHashCode();
+
+                                ChatResponse<ResultImageFile> chatResponse = new ChatResponse<>();
+                                ResultImageFile resultImageFile = new ResultImageFile();
+                                chatResponse.setUniqueId(uniqueId);
+                                resultImageFile.setId(result.getId());
+                                resultImageFile.setHashCode(result.getHashCode());
+                                resultImageFile.setName(result.getName());
+                                resultImageFile.setHeight(result.getHeight());
+                                resultImageFile.setWidth(result.getWidth());
+                                resultImageFile.setActualHeight(result.getActualHeight());
+                                resultImageFile.setActualWidth(result.getActualWidth());
+
+                                chatResponse.setResult(resultImageFile);
+
+                                String imageJson = gson.toJson(chatResponse);
+
+                                listenerManager.callOnUploadImageFile(imageJson, chatResponse);
+
+                                showInfoLog("RECEIVE_UPLOAD_IMAGE");
+
+                                listenerManager.callOnLogEvent(imageJson);
+
+                                String metaJson;
+                                if (!Util.isNullOrEmpty(methodName) && methodName.equals(ChatConstant.METHOD_LOCATION_MSG)) {
+                                    metaJson = createImageMetadata(file, hashCode, imageId, result.getActualHeight()
+                                            , result.getActualWidth(), mimeType, fileSize, null, true, center);
+
+                                } else {
+                                    metaJson = createImageMetadata(file, hashCode, imageId, result.getActualHeight()
+                                            , result.getActualWidth(), mimeType, fileSize, null, false, null);
+                                }
+
+                                // send to handler
+                                if (handler != null) {
+                                    handler.onFinishImage(imageJson, chatResponse);
+                                }
+
+                                if (!Util.isNullOrEmpty(methodName) && methodName.equals(ChatConstant.METHOD_REPLY_MSG)) {
+                                    mainReplyMessage(description, threadId, messageId, systemMetaData, messageType, metaJson, null);
+
+                                    showInfoLog("SEND_REPLY_FILE_MESSAGE");
+
+                                    listenerManager.callOnLogEvent(metaJson);
+                                } else {
+                                    sendTextMessageWithFile(description, threadId, metaJson, systemMetaData, uniqueId, typeCode, messageType);
+                                }
+
+                                listenerManager.callOnLogEvent(metaJson);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            showErrorLog(throwable.getMessage());
+                        }
+
+                        @Override
+                        public void onServerError(String errorMessage) {
+                            showErrorLog(errorMessage);
+                        }
+                    });
+
+                } else {
+                    showErrorLog("FileServer url Is null");
+                }
+
+            } else {
+                String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+
+                listenerManager.callOnLogEvent(jsonError);
+            }
+        } catch (IOException e) {
+            showErrorLog(e);
+            getErrorOutPut(ChatConstant.ERROR_UPLOAD_FILE, ChatConstant.ERROR_CODE_UPLOAD_FILE, uniqueId);
+
+        }
+    }
+
 
     /**
      * Message can be edit when you pass the message id and the edited
@@ -4069,7 +4540,93 @@ public class Chat extends AsyncAdapter {
 
     public String getContentType(File file) throws IOException {
         return Files.probeContentType(file.toPath());
-        //new MimetypesFileTypeMap().getContentType(file);
+    }
+
+    private String createFileMetadata(File file, String hashCode, long fileId, String mimeType, long fileSize, String filePath) {
+        MetaDataFile metaDataFile = new MetaDataFile();
+        FileMetaDataContent metaDataContent = new FileMetaDataContent();
+
+        metaDataContent.setId(fileId);
+        metaDataContent.setName(file.getName());
+        metaDataContent.setMimeType(mimeType);
+        metaDataContent.setSize(fileSize);
+
+        if (hashCode != null) {
+            metaDataContent.setHashCode(hashCode);
+            metaDataContent.setLink(getFile(fileId, hashCode, true));
+
+        } else {
+            metaDataContent.setLink(filePath);
+        }
+
+        metaDataFile.setFile(metaDataContent);
+
+        return gson.toJson(metaDataFile);
+    }
+
+    private String createImageMetadata(File fileUri, String hashCode, long imageId, int actualHeight, int actualWidth, String mimeType
+            , long fileSize, String path, boolean isLocation, String center) {
+
+        String originalName = fileUri.getName();
+        FileImageMetaData fileMetaData = new FileImageMetaData();
+
+
+        if (originalName.contains(".")) {
+            String editedName = originalName.substring(0, originalName.lastIndexOf('.'));
+            fileMetaData.setName(editedName);
+        }
+        fileMetaData.setHashCode(hashCode);
+        fileMetaData.setId(imageId);
+        fileMetaData.setOriginalName(originalName);
+        fileMetaData.setActualHeight(actualHeight);
+        fileMetaData.setActualWidth(actualWidth);
+        fileMetaData.setMimeType(mimeType);
+        fileMetaData.setSize(fileSize);
+        if (!Util.isNullOrEmpty(hashCode)) {
+            fileMetaData.setLink(getImage(imageId, hashCode, false));
+        } else {
+            fileMetaData.setLink(path);
+        }
+        if (isLocation) {
+            MetadataLocationFile locationFile = new MetadataLocationFile();
+            MapLocation mapLocation = new MapLocation();
+
+            if (center.contains(",")) {
+                String latitude = center.substring(0, center.lastIndexOf(','));
+                String longitude = center.substring(center.lastIndexOf(',') + 1, center.length());
+                mapLocation.setLatitude(Double.valueOf(latitude));
+                mapLocation.setLongitude(Double.valueOf(longitude));
+            }
+
+            locationFile.setLocation(mapLocation);
+            locationFile.setFile(fileMetaData);
+            return gson.toJson(locationFile);
+
+        } else {
+            MetaDataImageFile metaData = new MetaDataImageFile();
+            metaData.setFile(fileMetaData);
+            return gson.toJson(metaData);
+        }
+    }
+
+    /**
+     * This method generate url that you can use to get your file
+     */
+    public String getFile(long fileId, String hashCode, boolean downloadable) {
+        return getFileServer() + "/nzh/file/" + "?fileId=" + fileId + "&downloadable=" + downloadable + "&hashCode=" + hashCode;
+    }
+
+    /**
+     * This method generate url based on your input params that you can use to get your image
+     */
+    public String getImage(long imageId, String hashCode, boolean downloadable) {
+        String url;
+        if (downloadable) {
+            url = getFileServer() + "/nzh/image/" + "?imageId=" + imageId + "&downloadable=" + downloadable + "&hashCode=" + hashCode;
+        } else {
+            url = getFileServer() + "/nzh/image/" + "?imageId=" + imageId + "&hashCode=" + hashCode;
+        }
+        return url;
     }
 
     private static synchronized String generateUniqueId() {

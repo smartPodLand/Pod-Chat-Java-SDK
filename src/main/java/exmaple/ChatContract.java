@@ -1,6 +1,7 @@
 package exmaple;
 
 import exception.ConnectionException;
+import podChat.ProgressHandler;
 import podChat.chat.ChatHandler;
 import podChat.mainmodel.*;
 import podChat.model.*;
@@ -71,10 +72,10 @@ public interface ChatContract {
         default void onUpdateContact(ChatResponse<ResultUpdateContact> chatResponse) {
         }
 
-        default void onUploadFile() {
+        default void onUploadFile(ChatResponse<ResultFile> response) {
         }
 
-        default void onUploadImageFile() {
+        default void onUploadImageFile(ChatResponse<ResultImageFile> response) {
         }
 
         default void onRemoveContact(ChatResponse<ResultRemoveContact> response) {
@@ -140,7 +141,10 @@ public interface ChatContract {
 
         void uploadImage(RequestUploadImage requestUploadImage);
 
+        void uploadFileMessage(RequestFileMessage requestFileMessage, ProgressHandler.sendFileMessage handler);
+
         void uploadFile(RequestUploadFile requestUploadFile);
+
 
         //void retryUpload(RetryUpload retry, ProgressHandler.sendFileMessage handler);
 

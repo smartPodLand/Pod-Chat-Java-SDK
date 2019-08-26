@@ -12,6 +12,7 @@ public class ChatConstant {
     public static final int ERROR_CODE_INVALID_URI = 6009;
     public static final int ERROR_CODE_INVALID_FILE_URI = 6010;
     public static final int ERROR_CODE_NUMBER_MESSAGEID = 6011;
+    public static final int ERROR_CODE_CROP_VALUES = 6012;
     public static final int ERROR_CODE_CANT_GET_USER_INFO = 6100;
     public static final int ERROR_CODE_CONNECTION_NOT_ESTABLISHED = 6101;
     public static final int ERROR_CODE_NETWORK_ERROR = 6200;
@@ -31,6 +32,7 @@ public class ChatConstant {
     public static final String ERROR_UPLOAD_FILE = "Error in uploading File!";
     public static final String ERROR_USER_NOT_FOUND = "User not found!";
     public static final String ERROR_NETWORK_ERROR = "Network Error";
+    public static final String ERROR_CROP_VALUES = "Crop value(s) is not valid!";
     public static final String ERROR_CANT_GET_USER_INFO = "Cant get UserInfo!";
     public static final String ERROR_CONNECTION_NOT_ESTABLISHED = "Getting User Info Retry Count exceeded 5 times; Connection Can Not Establish!";
 
