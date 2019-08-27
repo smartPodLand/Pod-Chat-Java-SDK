@@ -16,7 +16,7 @@ public class RetrofitUtil {
                 if (response.body() != null && response.isSuccessful())
                     listener.onSuccess(response.body());
 
-                else listener.onServerError(response.errorBody().toString());
+                else listener.onServerError(response);
             }
 
             @Override

@@ -266,7 +266,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void searchContact(SearchContact searchContact) {
+    public void searchContact(RequestSearchContact requestSearchContact) {
 
     }
 

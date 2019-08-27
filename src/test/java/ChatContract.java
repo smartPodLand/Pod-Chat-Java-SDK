@@ -215,7 +215,7 @@ public interface ChatContract {
 
         void removeContact(long id);
 
-        void searchContact(SearchContact searchContact);
+        void searchContact(RequestSearchContact requestSearchContact);
 
         void block(Long contactId, Long userId, Long threadId, ChatHandler handler);
 

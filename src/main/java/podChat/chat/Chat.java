@@ -31,6 +31,7 @@ import podChat.networking.retrofithelper.RetrofitUtil;
 import podChat.requestobject.*;
 import podChat.util.*;
 import retrofit2.Call;
+import retrofit2.Response;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -917,8 +918,8 @@ public class Chat extends AsyncAdapter {
                 }
 
                 @Override
-                public void onServerError(String errorMessage) {
-                    showErrorLog(errorMessage);
+                public void onServerError(Response<Contacts> response) {
+                    showErrorLog(response.body().getMessage());
                 }
             });
 
@@ -998,8 +999,8 @@ public class Chat extends AsyncAdapter {
                 }
 
                 @Override
-                public void onServerError(String errorMessage) {
-                    showErrorLog(errorMessage);
+                public void onServerError(Response<ContactRemove> response) {
+                    showErrorLog(response.body().getErrorMessage());
                 }
             });
         } else {
@@ -1094,8 +1095,8 @@ public class Chat extends AsyncAdapter {
                 }
 
                 @Override
-                public void onServerError(String errorMessage) {
-                    showErrorLog(errorMessage);
+                public void onServerError(Response<UpdateContact> response) {
+                    showErrorLog(response.body().getMessage());
                 }
             });
 
@@ -1118,6 +1119,80 @@ public class Chat extends AsyncAdapter {
         long userId = request.getUserId();
 
         return updateContact(userId, firstName, lastName, cellphoneNumber, email);
+    }
+
+//TODO description
+
+    /**
+     * @param requestSearchContact
+     * @return
+     */
+    public String searchContact(RequestSearchContact requestSearchContact) {
+        String uniqueId = generateUniqueId();
+        String type_code;
+
+        if (requestSearchContact.getTypeCode() != null && !requestSearchContact.getTypeCode().isEmpty()) {
+            type_code = requestSearchContact.getTypeCode();
+        } else {
+            type_code = getTypeCode();
+        }
+
+        String offset = (requestSearchContact.getOffset() == null) ? "0" : requestSearchContact.getOffset();
+        String size = (requestSearchContact.getSize() == null) ? "50" : requestSearchContact.getSize();
+
+        if (chatReady) {
+
+            Call<SearchContactVO> searchContactCall = contactApi.searchContact(getToken(), TOKEN_ISSUER,
+                    requestSearchContact.getId()
+                    , requestSearchContact.getFirstName()
+                    , requestSearchContact.getLastName()
+                    , requestSearchContact.getEmail()
+                    , generateUniqueId()
+                    , offset
+                    , size
+                    , type_code
+                    , requestSearchContact.getQuery()
+                    , requestSearchContact.getCellphoneNumber());
+
+
+            RetrofitUtil.request(searchContactCall, new ApiListener<SearchContactVO>() {
+                @Override
+                public void onSuccess(SearchContactVO searchContactVO) {
+                    ArrayList<Contact> contacts = new ArrayList<>(searchContactVO.getResult());
+
+                    ResultContact resultContacts = new ResultContact();
+                    resultContacts.setContacts(contacts);
+
+                    ChatResponse<ResultContact> chatResponse = new ChatResponse<>();
+                    chatResponse.setUniqueId(uniqueId);
+                    chatResponse.setResult(resultContacts);
+
+                    String content = gson.toJson(chatResponse);
+
+                    listenerManager.callOnSearchContact(content, chatResponse);
+                    listenerManager.callOnLogEvent(content);
+
+                    showInfoLog("RECEIVE_SEARCH_CONTACT");
+
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    showErrorLog(throwable.getMessage());
+                }
+
+                @Override
+                public void onServerError(Response<SearchContactVO> response) {
+                    String message = response.body().getMessage() != null ? response.body().getMessage() : "";
+                    int errorCode = response.body().getErrorCode() != null ? response.body().getErrorCode() : 0;
+                    getErrorOutPut(message, errorCode, uniqueId);
+                }
+            });
+
+        } else {
+            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+        }
+        return uniqueId;
     }
 
     /**
@@ -2165,8 +2240,8 @@ public class Chat extends AsyncAdapter {
                                 }
 
                                 @Override
-                                public void onServerError(String errorMessage) {
-                                    showErrorLog(errorMessage);
+                                public void onServerError(Response<FileImageUpload> response) {
+                                    showErrorLog(response.body().getMessage());
                                 }
                             });
                         } else {
@@ -2251,8 +2326,8 @@ public class Chat extends AsyncAdapter {
                             }
 
                             @Override
-                            public void onServerError(String errorMessage) {
-                                showErrorLog(errorMessage);
+                            public void onServerError(Response<FileUpload> response) {
+                                showErrorLog(response.body().getMessage());
                             }
                         });
                     } else {
@@ -2481,8 +2556,8 @@ public class Chat extends AsyncAdapter {
                     }
 
                     @Override
-                    public void onServerError(String errorMessage) {
-                        showErrorLog(errorMessage);
+                    public void onServerError(Response<FileUpload> response) {
+                        showErrorLog(response.body().getMessage());
                     }
                 });
             } else {
@@ -2709,8 +2784,8 @@ public class Chat extends AsyncAdapter {
                         }
 
                         @Override
-                        public void onServerError(String errorMessage) {
-                            showErrorLog(errorMessage);
+                        public void onServerError(Response<FileImageUpload> response) {
+                            showErrorLog(response.body().getMessage());
                         }
                     });
 
@@ -4323,7 +4398,7 @@ public class Chat extends AsyncAdapter {
                 handler.onGetContact(uniqueId);
             }
         } else {
-            String jsonError = getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
         }
         return uniqueId;
 

@@ -3,7 +3,6 @@ package podChat.networking.api;
 
 import podChat.mainmodel.SearchContactVO;
 import podChat.mainmodel.UpdateContact;
-import podChat.model.AddContacts;
 import podChat.model.ContactRemove;
 import podChat.model.Contacts;
 import retrofit2.Call;
@@ -106,8 +105,8 @@ public interface ContactApi {
             , @Field("cellphoneNumber") String cellphoneNumber
             , @Field("typeCode") String typeCode);
 
-    @GET("nzh/listContacts")
-    Call<Response<SearchContactVO>> searchContact(@Header("_token_") String token
+    @GET("/srv/basic-platform/nzh/listContacts")
+    Call<SearchContactVO> searchContact(@Header("_token_") String token
             , @Header("_token_issuer_") int tokenIssuer
             , @Query("id") String id
             , @Query("firstName") String firstName

@@ -1,5 +1,7 @@
 package podChat.networking.retrofithelper;
 
+import retrofit2.Response;
+
 /**
  * Created By Khojasteh on 7/31/2019
  */
@@ -8,5 +10,5 @@ public interface ApiListener<T> {
 
     void onError(Throwable throwable);
 
-    void onServerError(String errorMessage);
+    void onServerError(Response<T> response);
 }

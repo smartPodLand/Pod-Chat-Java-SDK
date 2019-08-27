@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import podAsync.Async;
 import podChat.chat.ChatHandler;
 import podChat.mainmodel.Invitee;
+import podChat.mainmodel.RequestSearchContact;
 import podChat.mainmodel.RequestThreadInnerMessage;
 import podChat.mainmodel.ResultDeleteMessage;
 import podChat.model.*;
@@ -23,7 +24,7 @@ public class ChatMain implements ChatContract.view {
     private static Logger logger = LogManager.getLogger(Async.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "ca7af510fd20444c892715514a3cad3d";
+    static String token = "0fc936a4171f48ff884b48979d847311";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
@@ -65,6 +66,8 @@ public class ChatMain implements ChatContract.view {
 
     @Override
     public void onGetUserInfo(ChatResponse<ResultUserInfo> outPutUserInfo) {
+
+
         //leaveThread();
         // removeParticipant();
         //addParticipant();
@@ -75,7 +78,7 @@ public class ChatMain implements ChatContract.view {
         //   uploadFile();
         // addContact();
         // getHistory();
-        // getcontact();
+       //  getcontact();
 
         // createThread();
 
@@ -86,9 +89,9 @@ public class ChatMain implements ChatContract.view {
         forwardMessage();
 
         deleteMultipleMessage();*/
-        getHistory();
+    /*    getHistory();
         clearHistory();
-        getHistory();
+        getHistory();*/
 
         /*  sendMessage();
          sendMessage();*/
@@ -101,8 +104,17 @@ public class ChatMain implements ChatContract.view {
 
         // updateContact();
         // removeContact();
-       // clearHistory();
+        // clearHistory();
+        searchContact();
+    }
 
+    private void searchContact() {
+        RequestSearchContact searchContact = new RequestSearchContact
+                .Builder()
+                .cellphoneNumber("09156452709")
+                .build();
+
+        chatController.searchContact(searchContact);
     }
 
     private void clearHistory() {

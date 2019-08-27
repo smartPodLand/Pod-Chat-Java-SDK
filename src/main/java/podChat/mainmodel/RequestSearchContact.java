@@ -3,7 +3,7 @@ package podChat.mainmodel;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SearchContact {
+public class RequestSearchContact {
     private String firstName;
     private String lastName;
     private String cellphoneNumber;
@@ -12,10 +12,10 @@ public class SearchContact {
     @SerializedName("q")
     private String query;
     private String id;
-    private final String offset;
-    private final String size;
+    private String offset;
+    private String size;
 
-    public SearchContact(Builder builder) {
+    public RequestSearchContact(Builder builder) {
         this.firstName = builder.firstName;
         this.lastName = builder.lastName;
         this.size = builder.size;
@@ -27,7 +27,7 @@ public class SearchContact {
         this.query = builder.query;
     }
 
-    public SearchContact(String size, String offset) {
+    public RequestSearchContact(String size, String offset) {
         this.offset = offset;
         this.size = size;
     }
@@ -80,6 +80,8 @@ public class SearchContact {
         this.query = query;
     }
 
+
+
     public static class Builder {
         private String firstName;
         private String lastName;
@@ -88,14 +90,21 @@ public class SearchContact {
         private String email;
         private String typeCode;
         private String query;
-        private final String offset;
-        private final String size;
+        private String offset;
+        private String size;
 
-        public Builder(String offset, String size) {
-            this.offset = offset;
-            this.size = size;
+        public Builder() {
         }
 
+        public Builder offset(String offset) {
+            this.offset = offset;
+            return this;
+        }
+
+        public Builder size(String size) {
+            this.size = size;
+            return this;
+        }
 
         public Builder lastName(String lastName) {
             this.lastName = lastName;
@@ -138,8 +147,8 @@ public class SearchContact {
         }
 
 
-        public SearchContact build() {
-            return new SearchContact(this);
+        public RequestSearchContact build() {
+            return new RequestSearchContact(this);
         }
     }
 }
