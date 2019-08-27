@@ -727,6 +727,47 @@ public class Chat extends AsyncAdapter {
     }
 
     /**
+     * It clears all messages in the thread
+     *
+     * @param requestClearHistory threadId  The id of the thread in which you want to clear all messages
+     * @return
+     */
+    public String clearHistory(RequestClearHistory requestClearHistory) {
+        String uniqueId = generateUniqueId();
+        long threadId = requestClearHistory.getThreadId();
+
+        if (chatReady) {
+            ChatMessage chatMessage = new ChatMessage();
+            chatMessage.setType(ChatMessageType.CLEAR_HISTORY);
+            chatMessage.setToken(getToken());
+            chatMessage.setTokenIssuer("1");
+            chatMessage.setSubjectId(threadId);
+            chatMessage.setUniqueId(uniqueId);
+
+            JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
+            jsonObject.remove("systemMetadata");
+            jsonObject.remove("metadata");
+            jsonObject.remove("repliedTo");
+            jsonObject.remove("contentCount");
+
+            if (Util.isNullOrEmpty(getTypeCode())) {
+                jsonObject.remove("typeCode");
+            } else {
+                jsonObject.remove("typeCode");
+                jsonObject.addProperty("typeCode", getTypeCode());
+            }
+
+            String asyncContent = jsonObject.toString();
+
+            setCallBacks(null, null, null, true, ChatMessageType.CLEAR_HISTORY, null, uniqueId);
+
+            sendAsyncMessage(asyncContent, 4, "SEND_CLEAR_HISTORY");
+        }
+        return uniqueId;
+    }
+
+
+    /**
      * Gets history of the thread
      * <p>
      *
@@ -3066,7 +3107,6 @@ public class Chat extends AsyncAdapter {
         return leaveThread(request.getThreadId(), handler);
     }
 
-
     public String getMessageDeliveredList(RequestDeliveredMessageList requestParams) {
         return deliveredMessageList(requestParams);
     }
@@ -3118,38 +3158,6 @@ public class Chat extends AsyncAdapter {
         this.ttl = ttl;
     }
 
-    public String clearHistory(RequestClearHistory requestClearHistory) {
-        String uniqueId = generateUniqueId();
-        long threadId = requestClearHistory.getThreadId();
-        if (chatReady) {
-            ChatMessage chatMessage = new ChatMessage();
-            chatMessage.setType(ChatMessageType.CLEAR_HISTORY);
-            chatMessage.setToken(getToken());
-            chatMessage.setTokenIssuer("1");
-            chatMessage.setSubjectId(threadId);
-            chatMessage.setUniqueId(uniqueId);
-
-            JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
-            jsonObject.remove("systemMetadata");
-            jsonObject.remove("metadata");
-            jsonObject.remove("repliedTo");
-            jsonObject.remove("contentCount");
-
-            if (Util.isNullOrEmpty(getTypeCode())) {
-                jsonObject.remove("typeCode");
-            } else {
-                jsonObject.remove("typeCode");
-                jsonObject.addProperty("typeCode", getTypeCode());
-            }
-
-            String asyncContent = jsonObject.toString();
-
-            setCallBacks(null, null, null, true, ChatMessageType.CLEAR_HISTORY, null, uniqueId);
-
-            sendAsyncMessage(asyncContent, 4, "SEND_CLEAR_HISTORY");
-        }
-        return uniqueId;
-    }
 
     public String getAdminList(RequestGetAdmin requestGetAdmin) {
         String uniqueId = generateUniqueId();

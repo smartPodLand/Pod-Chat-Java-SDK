@@ -23,7 +23,7 @@ public class ChatMain implements ChatContract.view {
     private static Logger logger = LogManager.getLogger(Async.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "82ce9787c7334bdb9c1d8fe1945fe2b7";
+    static String token = "ca7af510fd20444c892715514a3cad3d";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
@@ -74,7 +74,7 @@ public class ChatMain implements ChatContract.view {
         //    uploadImage();
         //   uploadFile();
         // addContact();
-        getHistory();
+        // getHistory();
         // getcontact();
 
         // createThread();
@@ -86,11 +86,12 @@ public class ChatMain implements ChatContract.view {
         forwardMessage();
 
         deleteMultipleMessage();*/
+        getHistory();
+        clearHistory();
+        getHistory();
 
-        //getThreads();
-
-        //  sendMessage();
-        // sendMessage();
+        /*  sendMessage();
+         sendMessage();*/
 
 
         //   createThreadWithMessage();
@@ -100,8 +101,16 @@ public class ChatMain implements ChatContract.view {
 
         // updateContact();
         // removeContact();
+       // clearHistory();
 
+    }
 
+    private void clearHistory() {
+        RequestClearHistory requestClearHistory = new RequestClearHistory
+                .Builder(5461)
+                .build();
+
+        chatController.clearHistory(requestClearHistory);
     }
 
     private void leaveThread() {
@@ -317,7 +326,7 @@ public class ChatMain implements ChatContract.view {
         RequestThread requestThread = new RequestThread
                 .Builder()
                 .threadIds(new ArrayList<Integer>() {{
-                    add(4982);
+                    add(5461);
                 }})
                 .build();
 

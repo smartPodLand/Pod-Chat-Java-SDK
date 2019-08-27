@@ -387,7 +387,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     @Override
     public void clearHistory(RequestClearHistory requestClearHistory) {
-
+        chat.clearHistory(requestClearHistory);
     }
 
     @Override
