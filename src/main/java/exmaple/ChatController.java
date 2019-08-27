@@ -52,6 +52,12 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
+    public void replyFileMessage(RequestReplyFileMessage requestReplyFileMessage, ProgressHandler.sendFileMessage handler) {
+        chat.replyFileMessage(requestReplyFileMessage, handler);
+    }
+
+
+    @Override
     public void uploadFile(RequestUploadFile requestUploadFile) {
         chat.uploadFile(requestUploadFile);
     }
@@ -331,7 +337,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     @Override
     public void removeParticipants(RequestRemoveParticipants requestRemoveParticipants, ChatHandler handler) {
-
+        chat.removeParticipants(requestRemoveParticipants, handler);
     }
 
     @Override
@@ -347,6 +353,11 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void leaveThread(long threadId, ChatHandler handler) {
 
+    }
+
+    @Override
+    public void leaveThread(RequestLeaveThread requestLeaveThread, ChatHandler handler) {
+        chat.leaveThread(requestLeaveThread, handler);
     }
 
     @Override
@@ -445,7 +456,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void onGetThreadParticipant(String content, ChatResponse<ResultParticipant> outPutParticipant) {
         super.onGetThreadParticipant(content, outPutParticipant);
-        view.onGetThreadParticipant();
+        view.onGetThreadParticipant(outPutParticipant);
     }
 
     @Override
@@ -518,7 +529,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void onThreadRemoveParticipant(String content, ChatResponse<ResultParticipant> chatResponse) {
         super.onThreadRemoveParticipant(content, chatResponse);
-        view.onRemoveParticipant();
+        view.onRemoveParticipant(chatResponse);
     }
 
 
@@ -531,7 +542,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void onThreadLeaveParticipant(String content, ChatResponse<ResultLeaveThread> response) {
         super.onThreadLeaveParticipant(content, response);
-        view.onLeaveThread();
+        view.onLeaveThread(response);
     }
 
     @Override

@@ -1704,6 +1704,7 @@ public class Chat extends AsyncAdapter {
         chatMessage.setTokenIssuer("1");
         chatMessage.setToken(getToken());
         chatMessage.setContent(messageContent);
+        chatMessage.setMetadata(metaData);
         // chatMessage.setTime(1000);
         chatMessage.setType(ChatMessageType.MESSAGE);
 
@@ -2668,6 +2669,67 @@ public class Chat extends AsyncAdapter {
         }
     }
 
+    /**
+     * Reply the message in the current thread and send az message and receive at the
+     * <p>
+     * messageContent content of the reply message
+     * threadId       id of the thread
+     * messageId      of the message that we want to reply
+     * metaData       meta data of the message
+     */
+    public String replyFileMessage(RequestReplyFileMessage request, ProgressHandler.sendFileMessage handler) {
+        String uniqueId = generateUniqueId();
+        long threadId = request.getThreadId();
+        String messageContent = request.getMessageContent();
+        String systemMetaData = request.getSystemMetaData();
+        String filePath = request.getFilePath();
+        long messageId = request.getMessageId();
+        int messageType = request.getMessageType();
+        String methodName = ChatConstant.METHOD_REPLY_MSG;
+
+        LFileUpload lFileUpload = new LFileUpload();
+        lFileUpload.setDescription(messageContent);
+        lFileUpload.setFilePath(filePath);
+        lFileUpload.setHandler(handler);
+        lFileUpload.setMessageType(messageType);
+        lFileUpload.setMessageId(messageId);
+        lFileUpload.setMethodName(methodName);
+        lFileUpload.setThreadId(threadId);
+        lFileUpload.setUniqueId(uniqueId);
+        lFileUpload.setSystemMetaData(systemMetaData);
+        lFileUpload.setHandler(handler);
+        lFileUpload.setMessageType(messageType);
+        lFileUpload.setxC(request.getxC());
+        lFileUpload.setyC(request.getyC());
+        lFileUpload.setwC(request.getwC());
+        lFileUpload.sethC(request.gethC());
+
+        try {
+            if (filePath != null) {
+                File file = new File(filePath);
+                String mimeType = getContentType(file);
+
+                lFileUpload.setMimeType(mimeType);
+
+                if (FileUtils.isImage(mimeType)) {
+                    uploadImageFileMessage(lFileUpload);
+                } else {
+                    uploadFileMessage(lFileUpload);
+                }
+
+                return uniqueId;
+
+            } else {
+                getErrorOutPut(ChatConstant.ERROR_INVALID_URI, ChatConstant.ERROR_CODE_INVALID_URI, uniqueId);
+            }
+        } catch (Exception e) {
+            showErrorLog(e.getCause().getMessage());
+
+            return null;
+        }
+        return uniqueId;
+    }
+
 
     /**
      * Message can be edit when you pass the message id and the edited
@@ -2867,6 +2929,123 @@ public class Chat extends AsyncAdapter {
 
         return uniqueId;
     }
+
+    /**
+     * @param participantIds List of PARTICIPANT IDs that gets from {@link #getThreadParticipants}
+     * @param threadId       Id of the thread that we wants to remove their participant
+     */
+    public String removeParticipants(long threadId, List<Long> participantIds, ChatHandler handler) {
+        String uniqueId = generateUniqueId();
+
+        if (chatReady) {
+            RemoveParticipant removeParticipant = new RemoveParticipant();
+
+            removeParticipant.setTokenIssuer("1");
+            removeParticipant.setType(ChatMessageType.REMOVE_PARTICIPANT);
+            removeParticipant.setSubjectId(threadId);
+            removeParticipant.setToken(getToken());
+            removeParticipant.setUniqueId(uniqueId);
+
+            JsonArray contacts = new JsonArray();
+
+            for (Long p : participantIds) {
+                contacts.add(p);
+            }
+            removeParticipant.setContent(contacts.toString());
+
+            JsonObject jsonObject = (JsonObject) gson.toJsonTree(removeParticipant);
+
+            jsonObject.remove("contentCount");
+            jsonObject.remove("systemMetadata");
+            jsonObject.remove("metadata");
+            jsonObject.remove("repliedTo");
+
+            if (Util.isNullOrEmpty(getTypeCode())) {
+                jsonObject.remove("typeCode");
+            } else {
+                jsonObject.remove("typeCode");
+                jsonObject.addProperty("typeCode", getTypeCode());
+            }
+
+            String asyncContent = jsonObject.toString();
+
+            sendAsyncMessage(asyncContent, 4, "SEND_REMOVE_PARTICIPANT");
+
+            setCallBacks(null, null, null, true, ChatMessageType.REMOVE_PARTICIPANT, null, uniqueId);
+
+            if (handler != null) {
+                handler.onRemoveParticipants(uniqueId);
+            }
+
+        } else {
+            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+        }
+        return uniqueId;
+    }
+
+    /**
+     * participantIds List of PARTICIPANT IDs from Thread's Participants object
+     * threadId       Id of the thread that we wants to remove their participant
+     */
+    public String removeParticipants(RequestRemoveParticipants request, ChatHandler handler) {
+
+        List<Long> participantIds = request.getParticipantIds();
+        long threadId = request.getThreadId();
+        String typeCode = request.getTypeCode();
+
+        return removeParticipants(threadId, participantIds, handler);
+    }
+
+    /**
+     * It leaves the thread that you are in there
+     */
+    public String leaveThread(long threadId, ChatHandler handler) {
+        String uniqueId = generateUniqueId();
+
+        if (chatReady) {
+            RemoveParticipant removeParticipant = new RemoveParticipant();
+
+            removeParticipant.setSubjectId(threadId);
+            removeParticipant.setToken(getToken());
+            removeParticipant.setTokenIssuer("1");
+            removeParticipant.setUniqueId(uniqueId);
+            removeParticipant.setType(ChatMessageType.LEAVE_THREAD);
+
+            JsonObject jsonObject = (JsonObject) gson.toJsonTree(removeParticipant);
+
+            if (Util.isNullOrEmpty(getTypeCode())) {
+                jsonObject.remove("typeCode");
+            } else {
+                jsonObject.remove("typeCode");
+                jsonObject.addProperty("typeCode", getTypeCode());
+            }
+
+            String asyncContent = jsonObject.toString();
+
+            setCallBacks(null, null, null, true, ChatMessageType.LEAVE_THREAD, null, uniqueId);
+
+            sendAsyncMessage(asyncContent, 4, "SEND_LEAVE_THREAD");
+
+            if (handler != null) {
+                handler.onLeaveThread(uniqueId);
+            }
+        } else {
+            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+        }
+
+        return uniqueId;
+    }
+
+    /**
+     * leaves the thread
+     *
+     * @ param threadId id of the thread
+     */
+    public String leaveThread(RequestLeaveThread request, ChatHandler handler) {
+
+        return leaveThread(request.getThreadId(), handler);
+    }
+
 
     public String getMessageDeliveredList(RequestDeliveredMessageList requestParams) {
         return deliveredMessageList(requestParams);
@@ -3856,6 +4035,7 @@ public class Chat extends AsyncAdapter {
         String jsonThread = gson.toJson(chatResponse);
 
         listenerManager.callOnThreadLeaveParticipant(jsonThread, chatResponse);
+
         if (callback != null) {
             messageCallbacks.remove(messageUniqueId);
         }
@@ -3962,10 +4142,14 @@ public class Chat extends AsyncAdapter {
         ResultClearHistory resultClearHistory = new ResultClearHistory();
         long clrHistoryThreadId = gson.fromJson(chatMessage.getContent(), Long.class);
         resultClearHistory.setThreadId(clrHistoryThreadId);
+
         chatResponseClrHistory.setResult(resultClearHistory);
         chatResponseClrHistory.setUniqueId(chatMessage.getUniqueId());
+
         String jsonClrHistory = gson.toJson(chatResponseClrHistory);
+
         listenerManager.callOnClearHistory(jsonClrHistory, chatResponseClrHistory);
+
         showInfoLog("RECEIVE_CLEAR_HISTORY", jsonClrHistory);
     }
 
@@ -4024,6 +4208,7 @@ public class Chat extends AsyncAdapter {
 
         listenerManager.callOnThreadRemoveParticipant(jsonRmParticipant, chatResponse);
         messageCallbacks.remove(messageUniqueId);
+
         showInfoLog("RECEIVE_REMOVE_PARTICIPANT", jsonRmParticipant);
     }
 

@@ -36,7 +36,7 @@ public interface ChatContract {
         default void onGetContacts(ChatResponse<ResultContact> response) {
         }
 
-        default void onGetThreadParticipant() {
+        default void onGetThreadParticipant(ChatResponse<ResultParticipant> response) {
         }
 
         default void onSentMessage(ChatResponse<ResultMessage> chatResponse) {
@@ -84,10 +84,13 @@ public interface ChatContract {
         default void onAddParticipant(ChatResponse<ResultAddParticipant> outPutAddParticipant) {
         }
 
-        default void onRemoveParticipant() {
+        default void onRemoveParticipant(ChatResponse<ResultParticipant> response) {
         }
 
-        default void onLeaveThread() {
+        default void onLeaveThread(ChatResponse<ResultLeaveThread> response) {
+        }
+
+        default void OnClearHistory(ChatResponse<ResultClearHistory> chatResponse) {
         }
 
         default void onBlock() {
@@ -142,6 +145,8 @@ public interface ChatContract {
         void uploadImage(RequestUploadImage requestUploadImage);
 
         void uploadFileMessage(RequestFileMessage requestFileMessage, ProgressHandler.sendFileMessage handler);
+
+        void replyFileMessage(RequestReplyFileMessage requestReplyFileMessage, ProgressHandler.sendFileMessage handler);
 
         void uploadFile(RequestUploadFile requestUploadFile);
 
@@ -279,6 +284,8 @@ public interface ChatContract {
         void addParticipants(RequestAddParticipants requestAddParticipants, ChatHandler handler);
 
         void leaveThread(long threadId, ChatHandler handler);
+
+        void leaveThread(RequestLeaveThread threadId, ChatHandler handler);
 
         void updateThreadInfo(long threadId, ThreadInfoVO threadInfoVO, ChatHandler handler);
 

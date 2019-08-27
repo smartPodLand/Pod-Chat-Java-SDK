@@ -5,7 +5,7 @@ package Constant;
  */
 public class Constant {
     public static String platformHost = "https://sandbox.pod.land:8043";
-    public static String token = "61775e1f3d5b42d089e80fee4a845fa4";
+    public static String token = "82ce9787c7334bdb9c1d8fe1945fe2b7";
     public static String ssoHost = "https://accounts.pod.land";
     public static String fileServer = "https://sandbox.pod.land:8443";
     public static String serverName = "chat-server";

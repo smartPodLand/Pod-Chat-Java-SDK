@@ -76,7 +76,7 @@ public class GetThreadTest implements ChatContract.view {
 
         Mockito.verify(chatContract, Mockito.times(1)).onGetThreadList(argument.capture());
 
-        ChatResponse chatResponse = (ChatResponse) argument.getValue();
+        ChatResponse chatResponse = argument.getValue();
 
         Assertions.assertTrue(!chatResponse.hasError());
 
@@ -100,7 +100,7 @@ public class GetThreadTest implements ChatContract.view {
 
         Mockito.verify(chatContract, Mockito.times(1)).onGetThreadList(argument.capture());
 
-        ChatResponse chatResponse = (ChatResponse) argument.getValue();
+        ChatResponse chatResponse = argument.getValue();
 
         Assertions.assertTrue(!chatResponse.hasError());
 
