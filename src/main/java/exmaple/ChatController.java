@@ -468,7 +468,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void onGetHistory(String content, ChatResponse<ResultHistory> history) {
         super.onGetHistory(content, history);
-        view.onGetThreadHistory();
+        view.onGetThreadHistory(history);
     }
 
     @Override

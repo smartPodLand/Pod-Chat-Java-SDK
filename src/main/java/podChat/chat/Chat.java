@@ -2007,8 +2007,16 @@ public class Chat extends AsyncAdapter {
         return uniqueId;
     }
 
+
     /**
-     * It uploads image to the server just by pass image uri
+     * It uploads image to the server just by pass image path
+     *
+     * @param requestUploadImage filePath   the path of image File
+     *                           xC   the X coordinate of the upper-left corner of the specified rectangular region
+     *                           yC   the Y coordinate of the upper-left corner of the specified rectangular region
+     *                           wC   the width of the specified rectangular region
+     *                           hC   the height of the specified rectangular region
+     * @return
      */
     public String uploadImage(RequestUploadImage requestUploadImage) {
         String filePath = requestUploadImage.getFilePath();
@@ -2021,7 +2029,12 @@ public class Chat extends AsyncAdapter {
     }
 
     /**
-     * It uploads image to the server just by pass image path
+     * @param filePath the path of image File
+     * @param xC       the X coordinate of the upper-left corner of the specified rectangular region
+     * @param yC       the Y coordinate of the upper-left corner of the specified rectangular region
+     * @param hC       the height of the specified rectangular region
+     * @param wC       the width of the specified rectangular region
+     * @return
      */
     @Deprecated
     public String uploadImage(String filePath, int xC, int yC, int hC, int wC) {
@@ -2236,7 +2249,12 @@ public class Chat extends AsyncAdapter {
      * @param filePath       Path of the file that you want to send to thread
      * @param threadId       Id of the thread that you want to send file
      * @param systemMetaData [optional]
-     * @param handler        it is for send file message with progress
+     * @param xC             The X coordinate of the upper-left corner of the specified rectangular region [optional - for image file]
+     * @param yC             The Y coordinate of the upper-left corner of the specified rectangular region[optional - for image file]
+     * @param hC             The height of the specified rectangular region[optional -  for image file]
+     * @param wC             The width of the specified rectangular region[optional - for image file]
+     * @param handler        It is for send file message with progress
+     * @return
      */
     public String sendFileMessage(String description, long threadId, String filePath, String systemMetaData, Integer messageType, int xC, int yC, int hC, int wC, ProgressHandler.sendFileMessage handler) {
 
@@ -2289,14 +2307,16 @@ public class Chat extends AsyncAdapter {
     }
 
     /**
-     * This method first check the type of the file and then choose the right
-     * server and send that
-     * <p>
-     * description    Its the description that you want to send with file in the thread
-     * fileUri        Uri of the file that you want to send to thread
-     * threadId       Id of the thread that you want to send file
-     * systemMetaData [optional]
-     * handler        it is for send file message with progress
+     * @param requestFileMessage description    Its the description that you want to send with file in the thread
+     *                           filePath       Path of the file that you want to send to thread
+     *                           threadId       Id of the thread that you want to send file
+     *                           systemMetaData [optional]
+     *                           xC             The X coordinate of the upper-left corner of the specified rectangular region [optional - for image file]
+     *                           yC             The Y coordinate of the upper-left corner of the specified rectangular region[optional - for image file]
+     *                           hC             The height of the specified rectangular region[optional -  for image file]
+     *                           wC             The width of the specified rectangular region[optional - for image file]
+     * @param handler
+     * @return
      */
     public String sendFileMessage(RequestFileMessage requestFileMessage, ProgressHandler.sendFileMessage handler) {
         long threadId = requestFileMessage.getThreadId();
@@ -4237,8 +4257,11 @@ public class Chat extends AsyncAdapter {
         chatResponse.setUniqueId(chatMessage.getUniqueId());
 
         String json = gson.toJson(chatResponse);
+
         listenerManager.callOnGetThreadHistory(json, chatResponse);
+
         showInfoLog("RECEIVE_GET_HISTORY", json);
+
         messageCallbacks.remove(messageUniqueId);
     }
 

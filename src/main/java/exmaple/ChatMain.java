@@ -23,7 +23,7 @@ public class ChatMain implements ChatContract.view {
     private static Logger logger = LogManager.getLogger(Async.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "c1362c32b58244a082222faff42a297f";
+    static String token = "82ce9787c7334bdb9c1d8fe1945fe2b7";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
@@ -69,12 +69,12 @@ public class ChatMain implements ChatContract.view {
         // removeParticipant();
         //addParticipant();
         // getParticipant();
-        replyFileMessage();
+        // replyFileMessage();
 //        sendFileMessage();
         //    uploadImage();
         //   uploadFile();
         // addContact();
-        //   getHistory();
+        getHistory();
         // getcontact();
 
         // createThread();
@@ -196,6 +196,12 @@ public class ChatMain implements ChatContract.view {
                 .build();
 
         chatController.getHistory(requestGetHistory, null);
+
+     /*   RequestGetHistory requestGetHistory1 = new RequestGetHistory
+                .Builder(5461)
+                .build();
+
+        chatController.getHistory(requestGetHistory1, null);*/
     }
 
     private void removeContact() {
@@ -482,8 +488,4 @@ public class ChatMain implements ChatContract.view {
         System.out.println(error);
     }
 
-    @Override
-    public void onGetThreadHistory() {
-
-    }
 }

@@ -30,7 +30,7 @@ public interface ChatContract {
         default void onGetThreadList(ChatResponse<ResultThreads> thread) {
         }
 
-        default void onGetThreadHistory() {
+        default void onGetThreadHistory(ChatResponse<ResultHistory> history) {
         }
 
         default void onGetContacts(ChatResponse<ResultContact> response) {

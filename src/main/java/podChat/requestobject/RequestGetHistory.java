@@ -5,7 +5,7 @@ import podChat.mainmodel.NosqlSearchMetadataCriteria;
 
 public class RequestGetHistory extends BaseRequestObject {
     private long threadId;
-    private String order;
+    private String order; // ASC OR DESC
     private long userId;
     private long id;
     private String query;
