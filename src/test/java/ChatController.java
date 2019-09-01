@@ -315,8 +315,9 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
         chat.updateContact(updateContact);
     }
 
+
     @Override
-    public void seenMessage(int messageId, long ownerId, ChatHandler handler) {
+    public void seenMessage(long messageId, long ownerId, ChatHandler handler) {
 
     }
 

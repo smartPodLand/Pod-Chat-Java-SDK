@@ -271,7 +271,7 @@ public interface ChatContract {
 
         //   void uploadFile(Activity activity, Uri uri);
 
-        void seenMessage(int messageId, long ownerId, ChatHandler handler);
+        void seenMessage(long messageId, long ownerId, ChatHandler handler);
 
         void logOut();
 

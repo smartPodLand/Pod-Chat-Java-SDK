@@ -80,6 +80,7 @@ public class ActiveMq {
                     this.proConnection = factory.createConnection(
                             queueConfigVO.getQueueUserName(),
                             queueConfigVO.getQueuePassword());
+
                     proConnection.start();
 
                     this.conConnection = factory.createConnection(
@@ -104,7 +105,7 @@ public class ActiveMq {
 
                     break;
 
-                } catch (Exception e) {
+                } catch ( JMSException exception) {
                     logger.error("Reconnecting exception");
                     try {
                         Thread.sleep(2000);
