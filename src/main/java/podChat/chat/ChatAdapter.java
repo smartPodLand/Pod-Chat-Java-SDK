@@ -208,4 +208,14 @@ public class ChatAdapter implements ChatListener {
     public void onSearchContact(String content, ChatResponse<ResultContact> chatResponse) {
 
     }
+
+    @Override
+    public void OnSetRole(String content, ChatResponse<ResultSetAdmin> chatResponse) {
+
+    }
+
+    @Override
+    public void OnClearHistory(String content, ChatResponse<ResultClearHistory> chatResponse) {
+
+    }
 }

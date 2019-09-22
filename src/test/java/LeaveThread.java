@@ -79,7 +79,7 @@ public class LeaveThread implements ChatContract.view {
                 .Builder(5821)
                 .build();
 
-        chatController.leaveThread(leaveThread, null);
+        chatController.leaveThread(leaveThread);
 
         Thread.sleep(5000);
 
@@ -106,7 +106,7 @@ public class LeaveThread implements ChatContract.view {
                 .Builder(3042)
                 .build();
 
-        chatController.leaveThread(leaveThread, null);
+        chatController.leaveThread(leaveThread);
 
 
         Thread.sleep(5000);

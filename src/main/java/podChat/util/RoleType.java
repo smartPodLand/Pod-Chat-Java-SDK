@@ -1,4 +1,4 @@
-package podChat.chat;
+package podChat.util;
 
 public class RoleType {
 

@@ -153,7 +153,7 @@ public interface ChatListener {
     }
 
 //    default void OnStaticMap(ChatResponse<ResultStaticMapImage> response) {
-   // }
+    // }
 
     default void OnRemovedFromThread(String content, ChatResponse<ResultThread> chatResponse) {
 
@@ -168,5 +168,8 @@ public interface ChatListener {
     }
 
     default void OnGetThreadAdmin(String content) {
+    }
+
+    default void OnSetRole(String content, ChatResponse<ResultSetAdmin> chatResponse) {
     }
 }

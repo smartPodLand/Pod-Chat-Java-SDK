@@ -68,7 +68,7 @@ public class GetThreadTest implements ChatContract.view {
     void getThreadList() throws InterruptedException {
         RequestThread requestThread = new RequestThread.Builder().build();
 
-        chatController.getThreads(requestThread, null);
+        chatController.getThreads(requestThread);
 
         Thread.sleep(5000);
 
@@ -92,7 +92,7 @@ public class GetThreadTest implements ChatContract.view {
                 .count(10)
                 .build();
 
-        chatController.getThreads(requestThread, null);
+        chatController.getThreads(requestThread);
 
         Thread.sleep(3000);
 
@@ -115,7 +115,7 @@ public class GetThreadTest implements ChatContract.view {
                 .threadName("sendMessage")
                 .build();
 
-        chatController.getThreads(requestThread, null);
+        chatController.getThreads(requestThread);
 
         Thread.sleep(3000);
 
@@ -140,7 +140,7 @@ public class GetThreadTest implements ChatContract.view {
                 }})
                 .build();
 
-        chatController.getThreads(requestThread, null);
+        chatController.getThreads(requestThread);
 
         Thread.sleep(3000);
 
@@ -163,7 +163,7 @@ public class GetThreadTest implements ChatContract.view {
                 .partnerCoreContactId(4781)
                 .build();
 
-        chatController.getThreads(requestThread, null);
+        chatController.getThreads(requestThread);
 
         Thread.sleep(10000);
 

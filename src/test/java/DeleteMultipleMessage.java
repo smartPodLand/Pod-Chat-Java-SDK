@@ -85,7 +85,7 @@ public class DeleteMultipleMessage implements ChatContract.view {
                 .deleteForAll(true)
                 .build();
 
-        chatController.deleteMultipleMessage(requestDeleteMessage, null);
+        chatController.deleteMultipleMessage(requestDeleteMessage);
 
         Thread.sleep(3000);
 
@@ -117,7 +117,7 @@ public class DeleteMultipleMessage implements ChatContract.view {
                 .deleteForAll(true)
                 .build();
 
-        chatController.deleteMultipleMessage(requestDeleteMessage, null);
+        chatController.deleteMultipleMessage(requestDeleteMessage);
 
         Thread.sleep(3000);
 

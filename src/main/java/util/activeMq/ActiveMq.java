@@ -105,7 +105,7 @@ public class ActiveMq {
 
                     break;
 
-                } catch ( JMSException exception) {
+                } catch (JMSException exception) {
                     logger.error("Reconnecting exception");
                     try {
                         Thread.sleep(2000);

@@ -6,12 +6,8 @@ import org.junit.jupiter.api.*;
 import org.mockito.*;
 import podChat.mainmodel.UserInfo;
 import podChat.model.ChatResponse;
-import podChat.model.ErrorOutPut;
 import podChat.model.ResultUserInfo;
-import podChat.requestobject.RequestConnect;
-import podChat.requestobject.RequestRemoveParticipants;
-
-import java.util.ArrayList;
+import podChat.requestobject.*;
 
 /**
  * Created By Khojasteh on 8/6/2019
@@ -20,7 +16,10 @@ import java.util.ArrayList;
 @TestInstance(value = TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
-public class RemoveParticipant implements ChatContract.view {
+public class MuteUnmute implements ChatContract.view {
+    long threadId = 5461;
+
+
     @Mock
     static ChatContract.view chatContract;
     @InjectMocks
@@ -73,21 +72,19 @@ public class RemoveParticipant implements ChatContract.view {
 
     @Test
     @Order(2)
-    void removeParticipantFromGroup() throws InterruptedException {
+    void mute() throws InterruptedException {
 
-        RequestRemoveParticipants requestRemoveParticipants = new RequestRemoveParticipants
-                .Builder(5781, new ArrayList<Long>() {{
-            add(4781l);
-        }})
+        RequestMuteThread requestMuteThread = new RequestMuteThread
+                .Builder(threadId)
                 .build();
 
-        chatController.removeParticipants(requestRemoveParticipants);
+        chatController.muteThread(requestMuteThread);
 
-        Thread.sleep(5000);
+        Thread.sleep(2000);
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract).onRemoveParticipant(argument.capture());
+        Mockito.verify(chatContract).onMuteThread(argument.capture());
 
         ChatResponse chatResponse = argument.getValue();
 
@@ -95,28 +92,24 @@ public class RemoveParticipant implements ChatContract.view {
     }
 
     @Test
-    @Order(2)
-    void removeParticipantError() throws InterruptedException {
+    @Order(3)
+    void unmute() throws InterruptedException {
 
-        RequestRemoveParticipants requestRemoveParticipants = new RequestRemoveParticipants
-                .Builder(5461, new ArrayList<Long>() {{
-            add(4781l);
-        }})
+        RequestMuteThread requestMuteThread = new RequestMuteThread
+                .Builder(threadId)
                 .build();
 
-        chatController.removeParticipants(requestRemoveParticipants);
+        chatController.unMuteThread(requestMuteThread);
 
+        Thread.sleep(2000);
 
-        Thread.sleep(5000);
+        ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        ArgumentCaptor<ErrorOutPut> argument = ArgumentCaptor.forClass(ErrorOutPut.class);
+        Mockito.verify(chatContract).onUnMuteThread(argument.capture());
 
-        Mockito.verify(chatContract).onError(argument.capture());
+        ChatResponse chatResponse = argument.getValue();
 
-        ErrorOutPut chatResponse = argument.getValue();
-
-        Assertions.assertTrue(chatResponse.isHasError());
+        Assertions.assertTrue(!chatResponse.hasError());
     }
-
 
 }

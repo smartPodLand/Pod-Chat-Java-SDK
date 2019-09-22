@@ -83,7 +83,7 @@ public class AddParticipant implements ChatContract.view {
         }})
                 .build();
 
-        chatController.addParticipants(addParticipants, null);
+        chatController.addParticipants(addParticipants);
 
         Thread.sleep(5000);
 
@@ -107,7 +107,7 @@ public class AddParticipant implements ChatContract.view {
         }})
                 .build();
 
-        chatController.addParticipants(addParticipants, null);
+        chatController.addParticipants(addParticipants);
 
         Thread.sleep(3000);
 

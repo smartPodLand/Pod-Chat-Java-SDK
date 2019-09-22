@@ -77,7 +77,7 @@ public class ReplyMessage implements ChatContract.view {
                 .Builder("hi ", 5461, 1222)
                 .build();
 
-        chatController.replyMessage(requestReplyMessage, null);
+        chatController.replyMessage(requestReplyMessage);
 
         Thread.sleep(3000);
 
@@ -97,7 +97,7 @@ public class ReplyMessage implements ChatContract.view {
                 .Builder("hi ", 3042, 46862)
                 .build();
 
-        chatController.replyMessage(requestReplyMessage, null);
+        chatController.replyMessage(requestReplyMessage);
 
         Thread.sleep(3000);
 

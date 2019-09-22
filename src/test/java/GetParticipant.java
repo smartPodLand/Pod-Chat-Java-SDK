@@ -4,13 +4,11 @@ import exception.ConnectionException;
 import exmaple.ChatContract;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
-import podChat.chat.ChatHandler;
 import podChat.mainmodel.UserInfo;
 import podChat.model.ChatResponse;
 import podChat.model.ResultUserInfo;
 import podChat.requestobject.RequestConnect;
 import podChat.requestobject.RequestThreadParticipant;
-import podChat.requestobject.RequestUploadImage;
 
 /**
  * Created By Khojasteh on 8/6/2019
@@ -80,7 +78,7 @@ public class GetParticipant implements ChatContract.view {
                 .offset(0)
                 .build();
 
-        chatController.getThreadParticipant(requestThreadParticipant, null);
+        chatController.getThreadParticipant(requestThreadParticipant);
 
         Thread.sleep(5000);
 
@@ -101,7 +99,7 @@ public class GetParticipant implements ChatContract.view {
                 .Builder(5461)
                 .build();
 
-        chatController.getThreadParticipant(requestThreadParticipant, null);
+        chatController.getThreadParticipant(requestThreadParticipant);
 
         Thread.sleep(5000);
 

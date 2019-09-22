@@ -76,7 +76,7 @@ public class GetHistory implements ChatContract.view {
                 .Builder(5461)
                 .build();
 
-        chatController.getHistory(requestGetHistory, null);
+        chatController.getHistory(requestGetHistory);
 
         Thread.sleep(5000);
 
@@ -97,7 +97,7 @@ public class GetHistory implements ChatContract.view {
                 .Builder(54611)
                 .build();
 
-        chatController.getHistory(requestGetHistory, null);
+        chatController.getHistory(requestGetHistory);
 
 
         Thread.sleep(5000);

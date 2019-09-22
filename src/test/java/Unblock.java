@@ -6,12 +6,9 @@ import org.junit.jupiter.api.*;
 import org.mockito.*;
 import podChat.mainmodel.UserInfo;
 import podChat.model.ChatResponse;
-import podChat.model.ErrorOutPut;
 import podChat.model.ResultUserInfo;
 import podChat.requestobject.RequestConnect;
-import podChat.requestobject.RequestRemoveParticipants;
-
-import java.util.ArrayList;
+import podChat.requestobject.RequestUnBlock;
 
 /**
  * Created By Khojasteh on 8/6/2019
@@ -20,7 +17,11 @@ import java.util.ArrayList;
 @TestInstance(value = TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
-public class RemoveParticipant implements ChatContract.view {
+public class Unblock implements ChatContract.view {
+    long userId = 4781;
+    long contactId = 13882;
+    long threadId = 5461;
+
     @Mock
     static ChatContract.view chatContract;
     @InjectMocks
@@ -73,21 +74,20 @@ public class RemoveParticipant implements ChatContract.view {
 
     @Test
     @Order(2)
-    void removeParticipantFromGroup() throws InterruptedException {
+    void blockWithUserId() throws InterruptedException {
 
-        RequestRemoveParticipants requestRemoveParticipants = new RequestRemoveParticipants
-                .Builder(5781, new ArrayList<Long>() {{
-            add(4781l);
-        }})
+        RequestUnBlock requestBlock = new RequestUnBlock
+                .Builder()
+                .userId(userId)
                 .build();
 
-        chatController.removeParticipants(requestRemoveParticipants);
+        chatController.unBlock(requestBlock);
 
-        Thread.sleep(5000);
+        Thread.sleep(2000);
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract).onRemoveParticipant(argument.capture());
+        Mockito.verify(chatContract).onUnblock(argument.capture());
 
         ChatResponse chatResponse = argument.getValue();
 
@@ -96,27 +96,46 @@ public class RemoveParticipant implements ChatContract.view {
 
     @Test
     @Order(2)
-    void removeParticipantError() throws InterruptedException {
+    void blockWithContactId() throws InterruptedException {
 
-        RequestRemoveParticipants requestRemoveParticipants = new RequestRemoveParticipants
-                .Builder(5461, new ArrayList<Long>() {{
-            add(4781l);
-        }})
+        RequestUnBlock requestBlock = new RequestUnBlock
+                .Builder()
+                .contactId(contactId)
                 .build();
 
-        chatController.removeParticipants(requestRemoveParticipants);
+        chatController.unBlock(requestBlock);
 
+        Thread.sleep(2000);
 
-        Thread.sleep(5000);
+        ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        ArgumentCaptor<ErrorOutPut> argument = ArgumentCaptor.forClass(ErrorOutPut.class);
+        Mockito.verify(chatContract).onUnblock(argument.capture());
 
-        Mockito.verify(chatContract).onError(argument.capture());
+        ChatResponse chatResponse = argument.getValue();
 
-        ErrorOutPut chatResponse = argument.getValue();
-
-        Assertions.assertTrue(chatResponse.isHasError());
+        Assertions.assertTrue(!chatResponse.hasError());
     }
 
+    @Test
+    @Order(2)
+    void blockWithThreadId() throws InterruptedException {
+
+        RequestUnBlock requestBlock = new RequestUnBlock
+                .Builder()
+                .threadId(threadId)
+                .build();
+
+        chatController.unBlock(requestBlock);
+
+        Thread.sleep(2000);
+
+        ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
+
+        Mockito.verify(chatContract).onUnblock(argument.capture());
+
+        ChatResponse chatResponse = argument.getValue();
+
+        Assertions.assertTrue(!chatResponse.hasError());
+    }
 
 }

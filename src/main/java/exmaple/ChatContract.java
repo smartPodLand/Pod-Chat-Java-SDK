@@ -2,7 +2,6 @@ package exmaple;
 
 import exception.ConnectionException;
 import podChat.ProgressHandler;
-import podChat.chat.ChatHandler;
 import podChat.mainmodel.*;
 import podChat.model.*;
 import podChat.requestobject.*;
@@ -57,10 +56,10 @@ public interface ChatContract {
         default void onCreateThread(ChatResponse<ResultThread> outPutThread) {
         }
 
-        default void onMuteThread() {
+        default void onMuteThread(ChatResponse<ResultMute> outPut) {
         }
 
-        default void onUnMuteThread() {
+        default void onUnMuteThread(ChatResponse<ResultMute> response) {
         }
 
         default void onRenameGroupThread() {
@@ -93,10 +92,10 @@ public interface ChatContract {
         default void OnClearHistory(ChatResponse<ResultClearHistory> chatResponse) {
         }
 
-        default void onBlock() {
+        default void onBlock(ChatResponse<ResultBlock> outPutBlock) {
         }
 
-        default void onUnblock() {
+        default void onUnblock(ChatResponse<ResultBlock> outPutBlock) {
         }
 
         default void onSearchContact() {
@@ -108,7 +107,7 @@ public interface ChatContract {
         default void onState(String state) {
         }
 
-        default void ongetBlockList() {
+        default void onGetBlockList(ChatResponse<ResultBlockList> outPutBlockList) {
         }
 
         default void onMapSearch() {
@@ -133,6 +132,15 @@ public interface ChatContract {
         }
 
         default void onNewMessage(ChatResponse<ResultNewMessage> chatResponse) {
+        }
+
+        default void OnDeliveredMessageList(ChatResponse<ResultParticipant> response) {
+        }
+
+        default void OnSeenMessageList(ChatResponse<ResultParticipant> response) {
+        }
+
+        default void OnSetRole(ChatResponse<ResultSetAdmin> chatResponse) {
         }
     }
 
@@ -167,17 +175,17 @@ public interface ChatContract {
 
         void createThreadWithMessage(RequestCreateThread threadRequest);
 
-        String createThread(int threadType, Invitee[] invitee, String threadTitle, String description, String image
-                , String metadata);
+//        String createThread(int threadType, Invitee[] invitee, String threadTitle, String description, String image
+//                , String metadata);
 
 
-        void getThreads(RequestThread requestThread, ChatHandler handler);
+        void getThreads(RequestThread requestThread);
 
         void getThreads(Integer count, Long offset, ArrayList<Integer> threadIds, String threadName,
 
-                        long creatorCoreUserId, long partnerCoreUserId, long partnerCoreContactId, ChatHandler handler);
+                        long creatorCoreUserId, long partnerCoreUserId, long partnerCoreContactId);
 
-        void getThreads(Integer count, Long offset, ArrayList<Integer> threadIds, String threadName, ChatHandler handler);
+        void getThreads(Integer count, Long offset, ArrayList<Integer> threadIds, String threadName);
 
         void setToke(String token);
 
@@ -191,46 +199,50 @@ public interface ChatContract {
 
         void mapReverse(RequestMapReverse request);
 
-        void getUserInfo(ChatHandler handler);
+        void getUserInfo();
 
-        void getHistory(History history, long threadId, ChatHandler handler);
+        void getHistory(History history, long threadId);
 
-        void getHistory(RequestGetHistory request, ChatHandler handler);
+        void getHistory(RequestGetHistory request);
 
-        void searchHistory(NosqlListMessageCriteriaVO messageCriteriaVO, ChatHandler handler);
+        void searchHistory(NosqlListMessageCriteriaVO messageCriteriaVO);
 
-        void getContact(Integer count, Long offset, ChatHandler handler);
+        void getContact(Integer count, Long offset);
 
-        void getContact(RequestGetContact request, ChatHandler handler);
+        void getContact(RequestGetContact request);
 
         void createThread(int threadType, Invitee[] invitee, String threadTitle, String description, String image
-                , String metaData, ChatHandler handler);
+                , String metaData);
 
-        void sendTextMessage(String textMessage, long threadId, Integer messageType, String metaData, ChatHandler handler);
+        void sendTextMessage(String textMessage, long threadId, Integer messageType, String metaData);
 
-        void sendTextMessage(RequestMessage requestMessage, ChatHandler handler);
+        void sendTextMessage(RequestMessage requestMessage);
 
-        void replyMessage(String messageContent, long threadId, long messageId, String systemMetaData, Integer messageType, ChatHandler handler);
+        void replyMessage(String messageContent, long threadId, long messageId, String systemMetaData, Integer messageType);
 
         // void replyFileMessage(RequestReplyFileMessage request, ProgressHandler.sendFileMessage handler);
 
-        void replyMessage(RequestReplyMessage request, ChatHandler handler);
+        void replyMessage(RequestReplyMessage request);
 
-        void muteThread(int threadId, ChatHandler handler);
+        void muteThread(int threadId);
 
-        void renameThread(long threadId, String title, ChatHandler handler);
+        void muteThread(RequestMuteThread requestMuteThread);
 
-        void unMuteThread(int threadId, ChatHandler handler);
+        void renameThread(long threadId, String title);
 
-        void editMessage(int messageId, String messageContent, String metaData, ChatHandler handler);
+        void unMuteThread(int threadId);
 
-        void editMessage(RequestEditMessage request, ChatHandler handler);
+        void unMuteThread(RequestMuteThread requestMuteThread);
 
-        void getThreadParticipant(int count, Long offset, long threadId, ChatHandler handler);
+        void editMessage(int messageId, String messageContent, String metaData);
 
-        void getThreadParticipant(RequestThreadParticipant request, ChatHandler handler);
+        void editMessage(RequestEditMessage request);
 
-        void get(int count, Long offset, long threadId, ChatHandler handler);
+        void getThreadParticipant(int count, Long offset, long threadId);
+
+        void getThreadParticipant(RequestThreadParticipant request);
+
+        void get(int count, Long offset, long threadId);
 
         void addContact(String firstName, String lastName, String cellphoneNumber, String email);
 
@@ -243,15 +255,17 @@ public interface ChatContract {
 
         void searchContact(RequestSearchContact requestSearchContact);
 
-        void block(Long contactId, Long userId, Long threadId, ChatHandler handler);
+        void block(Long contactId, Long userId, Long threadId);
 
-        void unBlock(Long blockId, Long userId, Long threadId, Long contactId, ChatHandler handler);
+        void block(RequestBlock request);
 
-        void unBlock(RequestUnBlock request, ChatHandler handler);
+        void unBlock(Long blockId, Long userId, Long threadId, Long contactId);
+
+        void unBlock(RequestUnBlock request);
 
         void spam(long threadId);
 
-        void getBlockList(Long count, Long offset, ChatHandler handler);
+        void getBlockList(Long count, Long offset);
 
         // String sendFileMessage(Context context, Activity activity, String description, long threadId, Uri fileUri, String metaData, Integer messageType, ProgressHandler.sendFileMessage handler);
 
@@ -271,29 +285,29 @@ public interface ChatContract {
 
         //   void uploadFile(Activity activity, Uri uri);
 
-        void seenMessage(long messageId, long ownerId, ChatHandler handler);
+        void seenMessage(long messageId, long ownerId);
 
         void logOut();
 
-        void removeParticipants(long threadId, List<Long> participantIds, ChatHandler handler);
+        void removeParticipants(long threadId, List<Long> participantIds);
 
-        void removeParticipants(RequestRemoveParticipants requestRemoveParticipants, ChatHandler handler);
+        void removeParticipants(RequestRemoveParticipants requestRemoveParticipants);
 
-        void addParticipants(long threadId, List<Long> contactIds, ChatHandler handler);
+        void addParticipants(long threadId, List<Long> contactIds);
 
-        void addParticipants(RequestAddParticipants requestAddParticipants, ChatHandler handler);
+        void addParticipants(RequestAddParticipants requestAddParticipants);
 
-        void leaveThread(long threadId, ChatHandler handler);
+        void leaveThread(long threadId);
 
-        void leaveThread(RequestLeaveThread threadId, ChatHandler handler);
+        void leaveThread(RequestLeaveThread threadId);
 
-        void updateThreadInfo(long threadId, ThreadInfoVO threadInfoVO, ChatHandler handler);
+        void updateThreadInfo(long threadId, ThreadInfoVO threadInfoVO);
 
-        void updateThreadInfo(RequestThreadInfo request, ChatHandler handler);
+        void updateThreadInfo(RequestThreadInfo request);
 
-        void deleteMessage(RequestDeleteMessage deleteMessage, ChatHandler handler);
+        void deleteMessage(RequestDeleteMessage deleteMessage);
 
-        void deleteMultipleMessage(RequestDeleteMessage deleteMessage, ChatHandler handler);
+        void deleteMultipleMessage(RequestDeleteMessage deleteMessage);
 
 //        void uploadImageProgress(Context context, Activity activity, Uri fileUri, ProgressHandler.onProgress handler);
 //
@@ -308,5 +322,8 @@ public interface ChatContract {
         String startSignalMessage(RequestSignalMsg requestSignalMsg);
 
         void stopSignalMessage(String uniqueId);
+
+        void getBlockList(RequestBlockList request);
+
     }
 }

@@ -5,7 +5,6 @@ import exception.ConnectionException;
 import podChat.ProgressHandler;
 import podChat.chat.Chat;
 import podChat.chat.ChatAdapter;
-import podChat.chat.ChatHandler;
 import podChat.chat.ChatListener;
 import podChat.mainmodel.*;
 import podChat.model.*;
@@ -85,12 +84,12 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     @Override
     public void seenMessageList(RequestSeenMessageList requestParam) {
-
+        chat.getMessageSeenList(requestParam);
     }
 
     @Override
     public void deliveredMessageList(RequestDeliveredMessageList requestParams) {
-
+        chat.getMessageDeliveredList(requestParams);
     }
 
     @Override
@@ -98,24 +97,19 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
         chat.createThreadWithMessage(threadRequest);
     }
 
+
     @Override
-    public String createThread(int threadType, Invitee[] invitee, String threadTitle, String description, String image
-            , String metadata) {
-        return chat.createThread(threadType, invitee, threadTitle, description, image, metadata, null);
+    public void getThreads(RequestThread requestThread) {
+        chat.getThreads(requestThread);
     }
 
     @Override
-    public void getThreads(RequestThread requestThread, ChatHandler handler) {
-        chat.getThreads(requestThread, handler);
+    public void getThreads(Integer count, Long offset, ArrayList<Integer> threadIds, String threadName, long creatorCoreUserId, long partnerCoreUserId, long partnerCoreContactId) {
+        chat.getThreads(count, offset, threadIds, threadName, creatorCoreUserId, partnerCoreUserId, partnerCoreContactId);
     }
 
     @Override
-    public void getThreads(Integer count, Long offset, ArrayList<Integer> threadIds, String threadName, long creatorCoreUserId, long partnerCoreUserId, long partnerCoreContactId, ChatHandler handler) {
-        chat.getThreads(count, offset, threadIds, threadName, creatorCoreUserId, partnerCoreUserId, partnerCoreContactId, handler);
-    }
-
-    @Override
-    public void getThreads(Integer count, Long offset, ArrayList<Integer> threadIds, String threadName, ChatHandler handler) {
+    public void getThreads(Integer count, Long offset, ArrayList<Integer> threadIds, String threadName) {
 
     }
 
@@ -151,101 +145,110 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void getUserInfo(ChatHandler handler) {
+    public void getUserInfo() {
 
     }
 
     @Override
-    public void getHistory(History history, long threadId, ChatHandler handler) {
+    public void getHistory(History history, long threadId) {
 
     }
 
     @Override
-    public void getHistory(RequestGetHistory request, ChatHandler handler) {
-        chat.getHistory(request, handler);
+    public void getHistory(RequestGetHistory request) {
+        chat.getHistory(request);
     }
 
     @Override
-    public void searchHistory(NosqlListMessageCriteriaVO messageCriteriaVO, ChatHandler handler) {
-
-    }
-
-    @Override
-    public void getContact(Integer count, Long offset, ChatHandler handler) {
-        chat.getContacts(count, offset, handler);
+    public void searchHistory(NosqlListMessageCriteriaVO messageCriteriaVO) {
 
     }
 
     @Override
-    public void getContact(RequestGetContact request, ChatHandler handler) {
-        chat.getContacts(request, handler);
-
-    }
-
-
-    @Override
-    public void createThread(int threadType, Invitee[] invitee, String threadTitle, String description, String image, String metaData, ChatHandler handler) {
+    public void getContact(Integer count, Long offset) {
+        chat.getContacts(count, offset);
 
     }
 
     @Override
-    public void sendTextMessage(String textMessage, long threadId, Integer messageType, String metaData, ChatHandler handler) {
-        chat.sendTextMessage(textMessage, threadId, messageType, metaData, handler);
-    }
-
-    @Override
-    public void sendTextMessage(RequestMessage requestMessage, ChatHandler handler) {
-        chat.sendTextMessage(requestMessage, null);
-    }
-
-    @Override
-    public void replyMessage(String messageContent, long threadId, long messageId, String systemMetaData, Integer messageType, ChatHandler handler) {
-        chat.replyMessage(messageContent, threadId, messageId, systemMetaData, messageType, handler);
-    }
-
-    @Override
-    public void replyMessage(RequestReplyMessage request, ChatHandler handler) {
-        chat.replyMessage(request, handler);
-    }
-
-    @Override
-    public void muteThread(int threadId, ChatHandler handler) {
+    public void getContact(RequestGetContact request) {
+        chat.getContacts(request);
 
     }
 
     @Override
-    public void renameThread(long threadId, String title, ChatHandler handler) {
+    public void createThread(int threadType, Invitee[] invitee, String threadTitle, String description, String image, String metaData) {
+        chat.createThread(threadType, invitee, threadTitle, description, image, metaData);
+    }
+
+    @Override
+    public void sendTextMessage(String textMessage, long threadId, Integer messageType, String metaData) {
+        chat.sendTextMessage(textMessage, threadId, messageType, metaData);
+    }
+
+    @Override
+    public void sendTextMessage(RequestMessage requestMessage) {
+        chat.sendTextMessage(requestMessage);
+    }
+
+    @Override
+    public void replyMessage(String messageContent, long threadId, long messageId, String systemMetaData, Integer messageType) {
+        chat.replyMessage(messageContent, threadId, messageId, systemMetaData, messageType);
+    }
+
+    @Override
+    public void replyMessage(RequestReplyMessage request) {
+        chat.replyMessage(request);
+    }
+
+    @Override
+    public void muteThread(int threadId) {
 
     }
 
     @Override
-    public void unMuteThread(int threadId, ChatHandler handler) {
+    public void muteThread(RequestMuteThread requestMuteThread) {
+        chat.muteThread(requestMuteThread);
+    }
+
+    @Override
+    public void renameThread(long threadId, String title) {
 
     }
 
     @Override
-    public void editMessage(int messageId, String messageContent, String metaData, ChatHandler handler) {
-        chat.editMessage(messageId, messageContent, metaData, handler);
-    }
-
-    @Override
-    public void editMessage(RequestEditMessage request, ChatHandler handler) {
-        chat.editMessage(request, handler);
-    }
-
-
-    @Override
-    public void getThreadParticipant(int count, Long offset, long threadId, ChatHandler handler) {
+    public void unMuteThread(int threadId) {
 
     }
 
     @Override
-    public void getThreadParticipant(RequestThreadParticipant request, ChatHandler handler) {
-        chat.getThreadParticipants(request, handler);
+    public void unMuteThread(RequestMuteThread requestMuteThread) {
+        chat.unMuteThread(requestMuteThread);
     }
 
     @Override
-    public void get(int count, Long offset, long threadId, ChatHandler handler) {
+    public void editMessage(int messageId, String messageContent, String metaData) {
+        chat.editMessage(messageId, messageContent, metaData);
+    }
+
+    @Override
+    public void editMessage(RequestEditMessage request) {
+        chat.editMessage(request);
+    }
+
+
+    @Override
+    public void getThreadParticipant(int count, Long offset, long threadId) {
+
+    }
+
+    @Override
+    public void getThreadParticipant(RequestThreadParticipant request) {
+        chat.getThreadParticipants(request);
+    }
+
+    @Override
+    public void get(int count, Long offset, long threadId) {
 
     }
 
@@ -275,18 +278,24 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void block(Long contactId, Long userId, Long threadId, ChatHandler handler) {
+    public void block(Long contactId, Long userId, Long threadId) {
 
     }
 
     @Override
-    public void unBlock(Long blockId, Long userId, Long threadId, Long contactId, ChatHandler handler) {
+    public void block(RequestBlock request) {
+        chat.block(request);
+    }
+
+
+    @Override
+    public void unBlock(Long blockId, Long userId, Long threadId, Long contactId) {
 
     }
 
     @Override
-    public void unBlock(RequestUnBlock request, ChatHandler handler) {
-
+    public void unBlock(RequestUnBlock request) {
+        chat.unblock(request);
     }
 
     @Override
@@ -295,7 +304,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void getBlockList(Long count, Long offset, ChatHandler handler) {
+    public void getBlockList(Long count, Long offset) {
 
     }
 
@@ -320,8 +329,8 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void seenMessage(long messageId, long ownerId, ChatHandler handler) {
-        chat.seenMessage(messageId, ownerId, handler);
+    public void seenMessage(long messageId, long ownerId) {
+        chat.seenMessage(messageId, ownerId);
     }
 
     @Override
@@ -330,58 +339,58 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void removeParticipants(long threadId, List<Long> participantIds, ChatHandler handler) {
+    public void removeParticipants(long threadId, List<Long> participantIds) {
 
     }
 
     @Override
-    public void removeParticipants(RequestRemoveParticipants requestRemoveParticipants, ChatHandler handler) {
-        chat.removeParticipants(requestRemoveParticipants, handler);
+    public void removeParticipants(RequestRemoveParticipants requestRemoveParticipants) {
+        chat.removeParticipants(requestRemoveParticipants);
     }
 
     @Override
-    public void addParticipants(long threadId, List<Long> contactIds, ChatHandler handler) {
-        chat.addParticipants(threadId, contactIds, handler);
+    public void addParticipants(long threadId, List<Long> contactIds) {
+        chat.addParticipants(threadId, contactIds);
     }
 
     @Override
-    public void addParticipants(RequestAddParticipants requestAddParticipants, ChatHandler handler) {
-        chat.addParticipants(requestAddParticipants, handler);
+    public void addParticipants(RequestAddParticipants requestAddParticipants) {
+        chat.addParticipants(requestAddParticipants);
     }
 
     @Override
-    public void leaveThread(long threadId, ChatHandler handler) {
-
-    }
-
-    @Override
-    public void leaveThread(RequestLeaveThread requestLeaveThread, ChatHandler handler) {
-        chat.leaveThread(requestLeaveThread, handler);
-    }
-
-    @Override
-    public void updateThreadInfo(long threadId, ThreadInfoVO threadInfoVO, ChatHandler handler) {
+    public void leaveThread(long threadId) {
 
     }
 
     @Override
-    public void updateThreadInfo(RequestThreadInfo request, ChatHandler handler) {
+    public void leaveThread(RequestLeaveThread requestLeaveThread) {
+        chat.leaveThread(requestLeaveThread);
+    }
+
+    @Override
+    public void updateThreadInfo(long threadId, ThreadInfoVO threadInfoVO) {
 
     }
 
     @Override
-    public void deleteMessage(RequestDeleteMessage deleteMessage, ChatHandler handler) {
-        chat.deleteMessage(deleteMessage, handler);
+    public void updateThreadInfo(RequestThreadInfo request) {
+
     }
 
     @Override
-    public void deleteMultipleMessage(RequestDeleteMessage deleteMessage, ChatHandler handler) {
-        chat.deleteMultipleMessage(deleteMessage, handler);
+    public void deleteMessage(RequestDeleteMessage deleteMessage) {
+        chat.deleteMessage(deleteMessage);
+    }
+
+    @Override
+    public void deleteMultipleMessage(RequestDeleteMessage deleteMessage) {
+        chat.deleteMultipleMessage(deleteMessage);
     }
 
     @Override
     public void setAdmin(RequestAddAdmin requestAddAdmin) {
-
+        chat.setAdmin(requestAddAdmin);
     }
 
     @Override
@@ -403,6 +412,12 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     public void stopSignalMessage(String uniqueId) {
 
     }
+
+    @Override
+    public void getBlockList(RequestBlockList request) {
+        chat.getBlockList(request);
+    }
+
 
     //View
     @Override
@@ -473,13 +488,13 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void onMuteThread(String content, ChatResponse<ResultMute> outPutMute) {
         super.onMuteThread(content, outPutMute);
-        view.onMuteThread();
+        view.onMuteThread(outPutMute);
     }
 
     @Override
     public void onUnmuteThread(String content, ChatResponse<ResultMute> outPutMute) {
         super.onUnmuteThread(content, outPutMute);
-        view.onUnMuteThread();
+        view.onUnMuteThread(outPutMute);
     }
 
     @Override
@@ -559,12 +574,6 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
         Participant participant = messageVO.getParticipant();
 
         long id = messageVO.getId();
-        chat.seenMessage(id, participant.getId(), new ChatHandler() {
-            @Override
-            public void onSeen(String uniqueId) {
-                super.onSeen(uniqueId);
-            }
-        });
 
         view.onNewMessage(chatResponse);
     }
@@ -572,13 +581,13 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void onBlock(String content, ChatResponse<ResultBlock> outPutBlock) {
         super.onBlock(content, outPutBlock);
-        view.onBlock();
+        view.onBlock(outPutBlock);
     }
 
     @Override
     public void onUnBlock(String content, ChatResponse<ResultBlock> outPutBlock) {
         super.onUnBlock(content, outPutBlock);
-        view.onUnblock();
+        view.onUnblock(outPutBlock);
     }
 
     @Override
@@ -595,12 +604,12 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void onGetBlockList(String content, ChatResponse<ResultBlockList> outPutBlockList) {
         super.onGetBlockList(content, outPutBlockList);
-        view.ongetBlockList();
+        view.onGetBlockList(outPutBlockList);
     }
 
     @Override
     public void OnSeenMessageList(String content, ChatResponse<ResultParticipant> chatResponse) {
-
+        view.OnSeenMessageList(chatResponse);
     }
 
     @Override
@@ -615,6 +624,16 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
         view.onError(error);
     }
 
+    @Override
+    public void OnDeliveredMessageList(String content, ChatResponse<ResultParticipant> chatResponse) {
+        super.OnDeliveredMessageList(content, chatResponse);
+        view.OnDeliveredMessageList(chatResponse);
+    }
 
+    @Override
+    public void OnSetRole(String content, ChatResponse<ResultSetAdmin> chatResponse) {
+        super.OnSetRole(content, chatResponse);
+        view.OnSetRole(chatResponse);
+    }
 }
 

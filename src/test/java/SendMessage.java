@@ -7,11 +7,9 @@ import org.mockito.*;
 import podChat.mainmodel.UserInfo;
 import podChat.model.ChatResponse;
 import podChat.model.ErrorOutPut;
-import podChat.model.ResultMessage;
 import podChat.model.ResultUserInfo;
 import podChat.requestobject.RequestConnect;
 import podChat.requestobject.RequestMessage;
-import podChat.util.Util;
 
 /**
  * Created By Khojasteh on 8/6/2019
@@ -80,7 +78,7 @@ public class SendMessage implements ChatContract.view {
                 .Builder("this is final test", 5461L)
                 .build();
 
-        chatController.sendTextMessage(requestThread, null);
+        chatController.sendTextMessage(requestThread);
 
         Thread.sleep(5000);
 
@@ -101,7 +99,7 @@ public class SendMessage implements ChatContract.view {
                 .Builder("this is final test", 5462)
                 .build();
 
-        chatController.sendTextMessage(requestThread, null);
+        chatController.sendTextMessage(requestThread);
 
         Thread.sleep(5000);
 

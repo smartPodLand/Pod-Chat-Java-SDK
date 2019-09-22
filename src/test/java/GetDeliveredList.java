@@ -9,9 +9,7 @@ import podChat.model.ChatResponse;
 import podChat.model.ErrorOutPut;
 import podChat.model.ResultUserInfo;
 import podChat.requestobject.RequestConnect;
-import podChat.requestobject.RequestRemoveParticipants;
-
-import java.util.ArrayList;
+import podChat.requestobject.RequestDeliveredMessageList;
 
 /**
  * Created By Khojasteh on 8/6/2019
@@ -20,7 +18,9 @@ import java.util.ArrayList;
 @TestInstance(value = TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
-public class RemoveParticipant implements ChatContract.view {
+public class GetDeliveredList implements ChatContract.view {
+    long messageId = 52347;
+
     @Mock
     static ChatContract.view chatContract;
     @InjectMocks
@@ -73,21 +73,19 @@ public class RemoveParticipant implements ChatContract.view {
 
     @Test
     @Order(2)
-    void removeParticipantFromGroup() throws InterruptedException {
+    void getDeliveredList() throws InterruptedException {
 
-        RequestRemoveParticipants requestRemoveParticipants = new RequestRemoveParticipants
-                .Builder(5781, new ArrayList<Long>() {{
-            add(4781l);
-        }})
+        RequestDeliveredMessageList requestDeliveredMessageList = new RequestDeliveredMessageList
+                .Builder(messageId)
                 .build();
 
-        chatController.removeParticipants(requestRemoveParticipants);
+        chatController.deliveredMessageList(requestDeliveredMessageList);
 
-        Thread.sleep(5000);
+        Thread.sleep(2000);
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract).onRemoveParticipant(argument.capture());
+        Mockito.verify(chatContract).OnDeliveredMessageList(argument.capture());
 
         ChatResponse chatResponse = argument.getValue();
 
@@ -96,27 +94,23 @@ public class RemoveParticipant implements ChatContract.view {
 
     @Test
     @Order(2)
-    void removeParticipantError() throws InterruptedException {
+    void getDeliveredListWithInvalidMessageId() throws InterruptedException {
 
-        RequestRemoveParticipants requestRemoveParticipants = new RequestRemoveParticipants
-                .Builder(5461, new ArrayList<Long>() {{
-            add(4781l);
-        }})
+        RequestDeliveredMessageList requestDeliveredMessageList = new RequestDeliveredMessageList
+                .Builder(123)
                 .build();
 
-        chatController.removeParticipants(requestRemoveParticipants);
+        chatController.deliveredMessageList(requestDeliveredMessageList);
 
-
-        Thread.sleep(5000);
+        Thread.sleep(3000);
 
         ArgumentCaptor<ErrorOutPut> argument = ArgumentCaptor.forClass(ErrorOutPut.class);
 
         Mockito.verify(chatContract).onError(argument.capture());
 
-        ErrorOutPut chatResponse = argument.getValue();
+        ErrorOutPut errorOutPut = argument.getValue();
 
-        Assertions.assertTrue(chatResponse.isHasError());
+        Assertions.assertTrue(errorOutPut.isHasError());
     }
-
 
 }

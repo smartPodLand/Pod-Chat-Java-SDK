@@ -77,7 +77,7 @@ public class GetContact implements ChatContract.view {
                 .count(3)
                 .offset(0)
                 .build();
-        chatController.getContact(requestGetContact, null);
+        chatController.getContact(requestGetContact);
 
         Thread.sleep(3000);
 
@@ -97,7 +97,7 @@ public class GetContact implements ChatContract.view {
         RequestGetContact requestGetContact = new RequestGetContact
                 .Builder()
                 .build();
-        chatController.getContact(requestGetContact, null);
+        chatController.getContact(requestGetContact);
 
         Thread.sleep(3000);
 
@@ -118,7 +118,7 @@ public class GetContact implements ChatContract.view {
                 .Builder()
                 .count(1)
                 .build();
-        chatController.getContact(requestGetContact, null);
+        chatController.getContact(requestGetContact);
 
         Thread.sleep(3000);
 

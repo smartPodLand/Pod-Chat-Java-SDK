@@ -546,7 +546,15 @@ public class ChatListenerManager {
         }
     }
 
-    public void callonSetRuleToUser(String toJson, ChatResponse<ResultSetAdmin> chatResponse) {
+    public void callOnSetRoleToUser(String json, ChatResponse<ResultSetAdmin> chatResponse) {
 
+        for (ChatListener listener : getSynchronizedListeners()) {
+            try {
+                listener.OnSetRole(json, chatResponse);
+            } catch (Throwable t) {
+                callHandleCallbackError(listener, t);
+            }
+        }
     }
+
 }

@@ -78,7 +78,7 @@ public class EditMessage implements ChatContract.view {
         RequestEditMessage requestEditMessage = new RequestEditMessage
                 .Builder("hi", 47542)
                 .build();
-        chatController.editMessage(requestEditMessage, null);
+        chatController.editMessage(requestEditMessage);
 
         Thread.sleep(5000);
 
@@ -103,7 +103,7 @@ public class EditMessage implements ChatContract.view {
         RequestEditMessage requestEditMessage = new RequestEditMessage
                 .Builder("hi", 475422)
                 .build();
-        chatController.editMessage(requestEditMessage, null);
+        chatController.editMessage(requestEditMessage);
 
 
         Thread.sleep(3000);
