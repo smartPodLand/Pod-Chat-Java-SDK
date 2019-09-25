@@ -12,7 +12,6 @@ import podChat.util.ChatStateType;
 import util.activeMq.ActiveMq;
 import util.activeMq.IoAdapter;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -23,18 +22,12 @@ public class Async implements IoAdapter {
     private static ActiveMq activeMq;
     private static final String TAG = "Async" + " ";
     private static Async instance;
-    private boolean isServerRegister;
-    private boolean isDeviceRegister;
     private MessageWrapperVo messageWrapperVo;
     private static AsyncListenerManager asyncListenerManager;
     private static Gson gson;
     private String errorMessage;
     private String message;
     private String state;
-    private String appId;
-    private String peerId;
-    private String deviceID;
-    private String serverAddress;
     private String token;
     private String serverName;
     private String ssoHost;
@@ -48,10 +41,6 @@ public class Async implements IoAdapter {
             gson = new Gson();
             instance = new Async();
             asyncListenerManager = new AsyncListenerManager();
-
-        /*    QueueConfig queueConfig = new QueueConfig();
-            queueConfig.setConfig();*/
-
             MainConfig mainConfig = new MainConfig();
             mainConfig.setConfig();
         }
@@ -63,7 +52,7 @@ public class Async implements IoAdapter {
      */
 
     @Override
-    public void onReceiveMessage(String textMessage) throws IOException {
+    public void onReceiveMessage(String textMessage) {
         int type = 0;
 
         ClientMessage clientMessage = gson.fromJson(textMessage, ClientMessage.class);
@@ -75,9 +64,6 @@ public class Async implements IoAdapter {
         switch (type) {
             case AsyncMessageType.ACK:
                 handleOnAck(clientMessage);
-                break;
-            case AsyncMessageType.DEVICE_REGISTER:
-                handleOnDeviceRegister(activeMq, clientMessage);
                 break;
             case AsyncMessageType.ERROR_MESSAGE:
                 handleOnErrorMessage(clientMessage);
@@ -93,12 +79,6 @@ public class Async implements IoAdapter {
                 handleOnMessage(clientMessage);
                 break;
             case AsyncMessageType.PEER_REMOVED:
-                break;
-            case AsyncMessageType.PING:
-                handleOnPing(activeMq, clientMessage);
-                break;
-            case AsyncMessageType.SERVER_REGISTER:
-                handleOnServerRegister(textMessage);
                 break;
         }
     }
@@ -230,50 +210,9 @@ public class Async implements IoAdapter {
      * @Param socketServerAddress
      * @Param appId
      */
-    private void handleOnAck(ClientMessage clientMessage) throws IOException {
+    private void handleOnAck(ClientMessage clientMessage) {
         setMessage(clientMessage.getContent());
         asyncListenerManager.callOnTextMessage(clientMessage.getContent());
-    }
-
-    /**
-     * When socket closes by any reason
-     * , server is still registered and we sent a lot of message but
-     * they are still in the queue
-     */
-    private void handleOnDeviceRegister(ActiveMq activeMq, ClientMessage clientMessage) {
-        try {
-            isDeviceRegister = true;
-
-            String peerId = clientMessage.getContent();
-
-            setPeerId(peerId);
-
-            if (!isServerRegister) {
-                serverRegister(activeMq);
-            }
-        } catch (Exception e) {
-            showErrorLog(e.getCause().getMessage());
-        }
-
-    }
-
-    private void serverRegister(ActiveMq activeMq) {
-        if (activeMq != null) {
-            try {
-                RegistrationRequest registrationRequest = new RegistrationRequest();
-                registrationRequest.setName(getServerName());
-
-                String jsonRegistrationRequestVo = gson.toJson(registrationRequest);
-                String jsonMessageWrapperVo = getMessageWrapper(gson, jsonRegistrationRequestVo, AsyncMessageType.SERVER_REGISTER);
-
-                sendData(activeMq, jsonMessageWrapperVo);
-
-            } catch (Exception e) {
-                showErrorLog(TAG + e.getCause().getMessage());
-            }
-        } else {
-            showErrorLog("WebSocket Is Null");
-        }
     }
 
     private void sendData(ActiveMq activeMq, String jsonMessageWrapperVo) {
@@ -313,33 +252,6 @@ public class Async implements IoAdapter {
         }
     }
 
-    private void handleOnPing(ActiveMq activeMq, ClientMessage clientMessage) {
-        try {
-            if (clientMessage.getContent() != null) {
-                setDeviceID(clientMessage.getContent());
-                deviceRegister(activeMq);
-
-            } else {
-                showInfoLog("ASYNC_PING_RECEIVED");
-            }
-        } catch (Exception e) {
-            showErrorLog(e.getCause().getMessage());
-        }
-    }
-
-    private void handleOnServerRegister(String textMessage) {
-        try {
-            showInfoLog("SERVER_REGISTERED");
-            showInfoLog("ASYNC_IS_READY", textMessage);
-
-            asyncListenerManager.callOnStateChanged(ChatStateType.ASYNC_READY);
-
-            isServerRegister = true;
-        } catch (Exception e) {
-            showErrorLog(e.getCause().getMessage());
-        }
-    }
-
     private void handleOnMessageAckNeeded(ActiveMq activeMq, ClientMessage clientMessage) {
         try {
 
@@ -357,35 +269,6 @@ public class Async implements IoAdapter {
             } else {
                 showErrorLog("WebSocket Is Null ");
             }
-        } catch (Exception e) {
-            showErrorLog(e.getCause().getMessage());
-        }
-    }
-
-    private void deviceRegister(ActiveMq activeMq) {
-        try {
-            if (activeMq != null) {
-                PeerInfo peerInfo = new PeerInfo();
-                if (getPeerId() != null) {
-                    peerInfo.setRefresh(true);
-                } else {
-                    peerInfo.setRenew(true);
-                }
-                peerInfo.setAppId(getAppId());
-                peerInfo.setDeviceId(getDeviceId());
-
-                String peerMessageJson = gson.toJson(peerInfo);
-                String jsonPeerInfoWrapper = getMessageWrapper(gson, peerMessageJson, AsyncMessageType.DEVICE_REGISTER);
-
-                sendData(activeMq, jsonPeerInfoWrapper);
-
-                showInfoLog(TAG + "SEND_SERVER_REGISTER");
-                showInfoLog(jsonPeerInfoWrapper);
-
-            } else {
-                showErrorLog("Queue Is Null ");
-            }
-
         } catch (Exception e) {
             showErrorLog(e.getCause().getMessage());
         }
@@ -413,30 +296,6 @@ public class Async implements IoAdapter {
         return serverName;
     }
 
-    private String getDeviceId() {
-        return deviceID;
-    }
-
-    public void setDeviceID(String deviceID) {
-        this.deviceID = deviceID;
-    }
-
-    public String getPeerId() {
-        return peerId;
-    }
-
-    private void setPeerId(String peerId) {
-        this.peerId = peerId;
-    }
-
-    private String getAppId() {
-        return appId;
-    }
-
-    private void setAppId(String appId) {
-        this.appId = appId;
-    }
-
     public String getState() {
         return state;
     }
@@ -459,14 +318,6 @@ public class Async implements IoAdapter {
 
     public String getMessage() {
         return message;
-    }
-
-    private String getServerAddress() {
-        return serverAddress;
-    }
-
-    private void setServerAddress(String serverAddress) {
-        this.serverAddress = serverAddress;
     }
 
     private void setToken(String token) {

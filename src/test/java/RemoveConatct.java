@@ -4,12 +4,10 @@ import exception.ConnectionException;
 import exmaple.ChatContract;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
-import podChat.mainmodel.UserInfo;
-import podChat.model.*;
+import podChat.model.ChatResponse;
+import podChat.model.ResultRemoveContact;
 import podChat.requestobject.RequestConnect;
-import podChat.requestobject.RequestMessage;
 import podChat.requestobject.RequestRemoveContact;
-import podChat.util.Util;
 
 /**
  * Created By Khojasteh on 8/6/2019
@@ -44,30 +42,10 @@ public class RemoveConatct implements ChatContract.view {
 
             chatController.connect(requestConnect);
 
+            Thread.sleep(2000);
         } catch (ConnectionException e) {
             e.printStackTrace();
         }
-
-        UserInfo userInfo = new UserInfo();
-        userInfo.setId(Constant.userId);
-        userInfo.setName(Constant.username);
-        userInfo.setCellphoneNumber(Constant.cellphone);
-        userInfo.setSendEnable(true);
-        userInfo.setReceiveEnable(true);
-
-
-        Mockito.verify(chatContract).onState("OPEN");
-        Mockito.verify(chatContract).onState("ASYNC_READY");
-
-        Thread.sleep(3000);
-
-        ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
-
-        Mockito.verify(chatContract, Mockito.times(1)).onGetUserInfo(argument.capture());
-        ResultUserInfo resultUserInfo1 = (ResultUserInfo) argument.getValue().getResult();
-
-        Assertions.assertEquals(gson.toJson(userInfo), gson.toJson(resultUserInfo1.getUser()));
-
     }
 
     @Test
@@ -84,7 +62,7 @@ public class RemoveConatct implements ChatContract.view {
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract,Mockito.times(1)).onRemoveContact(argument.capture());
+        Mockito.verify(chatContract, Mockito.times(1)).onRemoveContact(argument.capture());
 
         ResultRemoveContact resultRemoveContact = (ResultRemoveContact) argument.getValue().getResult();
 

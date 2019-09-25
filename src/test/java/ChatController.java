@@ -21,7 +21,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     private ChatContract.view view;
 
     public ChatController(ChatContract.view view) {
-        chat = Chat.init(false, true);
+        chat = Chat.init(true);
 
         chat.addListener(this);
         chat.addListener(new ChatListener() {
@@ -444,11 +444,6 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
         view.onGetSeenMessage(chatResponse);
     }
 
-    @Override
-    public void onUserInfo(String content, ChatResponse<ResultUserInfo> outPutUserInfo) {
-
-        view.onGetUserInfo(outPutUserInfo);
-    }
 
     @Override
     public void onSent(String content, ChatResponse<ResultMessage> chatResponse) {

@@ -22,7 +22,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     private ChatContract.view view;
 
     public ChatController(ChatContract.view view) {
-        chat = Chat.init(false, true);
+        chat = Chat.init(true);
 
         chat.addListener(this);
         chat.addListener(new ChatListener() {
@@ -115,7 +115,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     @Override
     public void setToke(String token) {
-
+        chat.setToken(token);
     }
 
     @Override
@@ -446,12 +446,6 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     public void onSeen(String content, ChatResponse<ResultMessage> chatResponse) {
         super.onSeen(content, chatResponse);
         view.onGetSeenMessage(chatResponse);
-    }
-
-    @Override
-    public void onUserInfo(String content, ChatResponse<ResultUserInfo> outPutUserInfo) {
-
-        view.onGetUserInfo(outPutUserInfo);
     }
 
     @Override

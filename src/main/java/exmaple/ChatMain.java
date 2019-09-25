@@ -10,9 +10,9 @@ import podChat.mainmodel.MessageVO;
 import podChat.mainmodel.RequestSearchContact;
 import podChat.mainmodel.RequestThreadInnerMessage;
 import podChat.model.ChatResponse;
+import podChat.model.ErrorOutPut;
 import podChat.model.ResultHistory;
 import podChat.model.ResultNewMessage;
-import podChat.model.ResultUserInfo;
 import podChat.requestobject.*;
 import podChat.util.InviteType;
 import podChat.util.RoleOperation;
@@ -21,6 +21,7 @@ import podChat.util.ThreadType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Created By Khojasteh on 7/27/2019
@@ -29,7 +30,7 @@ public class ChatMain implements ChatContract.view {
     private static Logger logger = LogManager.getLogger(Async.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "e0dad342063c4996b477e97861e0dd10";
+    static String token = "e51fb3b7326d446e84c7d3ae54e6dc86";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
@@ -39,6 +40,18 @@ public class ChatMain implements ChatContract.view {
     static String queueOutput = "queue-out-amjadi-stomp";
     static String queueUserName = "root";
     static String queuePassword = "zalzalak";
+
+ /*   static String platformHost = "http://172.16.110.131:8080";
+    static String token = "7cba09ff83554fc98726430c30afcfc6";  //zizi
+    static String ssoHost = "http://172.16.110.76";
+    static String fileServer = "http://172.16.110.131:8080";
+    static String serverName = "chat-server2";
+    static String queueServer = "172.16.110.131";
+    static String queuePort = "61616";
+    static String queueInput = "queue-in-local_chat";
+    static String queueOutput = "queue-out-local_chat";
+    static String queueUserName = "root";
+    static String queuePassword = "j]Bm0RU8gLhbPUG";*/
     static ChatController chatController;
     Gson gson = new Gson();
 
@@ -53,15 +66,14 @@ public class ChatMain implements ChatContract.view {
 
             chatController.connect(requestConnect);
 
+            getThreads();
+
         } catch (ConnectionException e) {
             System.out.println(e);
         }
 
     }
 
-
-    @Override
-    public void onGetUserInfo(ChatResponse<ResultUserInfo> outPutUserInfo) {
 
 //        leaveThread();
 //        removeParticipant();
@@ -100,8 +112,6 @@ public class ChatMain implements ChatContract.view {
 //        mute();
 //        unmute();
 
-
-    }
 
     /*********************************************************************
      *                             ADMIN                                 *
@@ -616,5 +626,30 @@ public class ChatMain implements ChatContract.view {
             }
         }
 
+    }
+
+    @Override
+    public void onError(ErrorOutPut error) {
+        if (error.getErrorCode() == 21) {
+            Scanner myObj = new Scanner(System.in);
+            System.out.println("Enter token");
+
+
+            String token = myObj.nextLine();
+
+            chatController.setToke(token);
+          getThreads();
+
+            //            RequestConnect requestConnect = new RequestConnect
+//                    .Builder(queueServer, queuePort, queueInput, queueOutput, queueUserName, queuePassword, serverName, token, ssoHost, platformHost, fileServer)
+//                    .typeCode("default")
+//                    .build();
+//
+//            try {
+//                chatController.connect(requestConnect);
+//            } catch (ConnectionException e) {
+//                e.printStackTrace();
+//            }
+        }
     }
 }

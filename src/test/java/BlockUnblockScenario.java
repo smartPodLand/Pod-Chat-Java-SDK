@@ -4,9 +4,7 @@ import exception.ConnectionException;
 import exmaple.ChatContract;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
-import podChat.mainmodel.UserInfo;
 import podChat.model.ChatResponse;
-import podChat.model.ResultUserInfo;
 import podChat.requestobject.RequestBlock;
 import podChat.requestobject.RequestBlockList;
 import podChat.requestobject.RequestConnect;
@@ -48,30 +46,12 @@ public class BlockUnblockScenario implements ChatContract.view {
                     .build();
 
             chatController.connect(requestConnect);
+
+            Thread.sleep(2000);
+
         } catch (ConnectionException e) {
             e.printStackTrace();
         }
-
-        UserInfo userInfo = new UserInfo();
-        userInfo.setId(Constant.userId);
-        userInfo.setName(Constant.username);
-        userInfo.setCellphoneNumber(Constant.cellphone);
-        userInfo.setSendEnable(true);
-        userInfo.setReceiveEnable(true);
-
-
-        Mockito.verify(chatContract).onState("OPEN");
-        Mockito.verify(chatContract).onState("ASYNC_READY");
-
-        Thread.sleep(3000);
-
-        ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
-
-        Mockito.verify(chatContract, Mockito.atLeastOnce()).onGetUserInfo(argument.capture());
-        ResultUserInfo resultUserInfo1 = (ResultUserInfo) argument.getValue().getResult();
-
-        Assertions.assertEquals(gson.toJson(userInfo), gson.toJson(resultUserInfo1.getUser()));
-
     }
 
     @Test

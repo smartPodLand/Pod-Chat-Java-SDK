@@ -5,7 +5,6 @@ import exmaple.ChatContract;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
 import podChat.model.ChatResponse;
-import podChat.model.ResultUserInfo;
 import podChat.requestobject.RequestConnect;
 import podChat.requestobject.RequestThread;
 
@@ -44,22 +43,11 @@ public class GetThreadTest implements ChatContract.view {
 
             chatController.connect(requestConnect);
 
+            Thread.sleep(2000);
         } catch (ConnectionException e) {
             e.printStackTrace();
         }
 
-
-        Mockito.verify(chatContract).onState("OPEN");
-        Mockito.verify(chatContract).onState("ASYNC_READY");
-
-        java.lang.Thread.sleep(5000);
-
-        ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
-
-        Mockito.verify(chatContract).onGetUserInfo(argument.capture());
-        ResultUserInfo resultUserInfo1 = (ResultUserInfo) argument.getValue().getResult();
-
-        Assertions.assertTrue(!argument.getValue().hasError());
 
     }
 

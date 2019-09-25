@@ -20,9 +20,6 @@ public interface ChatContract {
 
 //        }
 
-        default void onGetUserInfo(ChatResponse<ResultUserInfo> outPutUserInfo) {
-        }
-
         default void onLogEvent(String log) {
         }
 

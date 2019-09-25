@@ -264,15 +264,6 @@ public class ChatListenerManager {
         }
     }
 
-    public void callOnUserInfo(String content, ChatResponse<ResultUserInfo> outPutUserInfo) {
-        for (ChatListener listener : getSynchronizedListeners()) {
-            try {
-                listener.onUserInfo(content, outPutUserInfo);
-            } catch (Throwable t) {
-                callHandleCallbackError(listener, t);
-            }
-        }
-    }
 
     public void callOnCreateThread(String content, ChatResponse<ResultThread> response) {
         for (ChatListener listener : getSynchronizedListeners()) {
@@ -288,16 +279,6 @@ public class ChatListenerManager {
         for (ChatListener listener : getSynchronizedListeners()) {
             try {
                 listener.onUpdateContact(content, chatResponse);
-            } catch (Throwable t) {
-                callHandleCallbackError(listener, t);
-            }
-        }
-    }
-
-    public void callOnRenameThread(String content, OutPutThread outPutThread) {
-        for (ChatListener listener : getSynchronizedListeners()) {
-            try {
-                listener.onRenameThread(content, outPutThread);
             } catch (Throwable t) {
                 callHandleCallbackError(listener, t);
             }
@@ -334,15 +315,6 @@ public class ChatListenerManager {
         }
     }
 
-    public void callOnSyncContact(String content, ChatResponse<Contacts> chatResponse) {
-        for (ChatListener listener : getSynchronizedListeners()) {
-            try {
-                listener.onSyncContact(content, chatResponse);
-            } catch (Throwable t) {
-                callHandleCallbackError(listener, t);
-            }
-        }
-    }
 
     public void callOnThreadAddParticipant(String content, ChatResponse<ResultAddParticipant> outPutAddParticipant) {
         for (ChatListener listener : getSynchronizedListeners()) {
@@ -408,26 +380,6 @@ public class ChatListenerManager {
         for (ChatListener listener : getSynchronizedListeners()) {
             try {
                 listener.onChatState(state);
-            } catch (Throwable t) {
-                callHandleCallbackError(listener, t);
-            }
-        }
-    }
-
-    public void callOnMapSearch(String content, OutPutMapNeshan outPutMapNeshan) {
-        for (ChatListener listener : getSynchronizedListeners()) {
-            try {
-                listener.onMapSearch(content, outPutMapNeshan);
-            } catch (Throwable t) {
-                callHandleCallbackError(listener, t);
-            }
-        }
-    }
-
-    public void callOnMapRouting(String content) {
-        for (ChatListener listener : getSynchronizedListeners()) {
-            try {
-                listener.onMapRouting(content);
             } catch (Throwable t) {
                 callHandleCallbackError(listener, t);
             }
@@ -514,27 +466,6 @@ public class ChatListenerManager {
         }
     }
 
-    public void callOnMapReverse(String json, ChatResponse<ResultMapReverse> chatResponse) {
-        for (ChatListener listener : getSynchronizedListeners()) {
-            try {
-                listener.OnMapReverse(json, chatResponse);
-            } catch (Throwable t) {
-                callHandleCallbackError(listener, t);
-            }
-        }
-    }
-
-/*
-    public void callOnStaticMap(ChatResponse<ResultStaticMapImage> chatResponse) {
-        for (ChatListener listener : getSynchronizedListeners()) {
-            try {
-                listener.OnStaticMap(chatResponse);
-            } catch (Throwable t) {
-                callHandleCallbackError(listener, t);
-            }
-        }
-    }
-*/
 
     public void callOnLogEvent(String logEvent) {
         for (ChatListener listener : getSynchronizedListeners()) {

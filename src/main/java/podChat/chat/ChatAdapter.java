@@ -58,10 +58,6 @@ public class ChatAdapter implements ChatListener {
 
     }
 
-    @Override
-    public void onUserInfo(String content, ChatResponse<ResultUserInfo> outPutUserInfo) {
-
-    }
 
     @Override
     public void onSent(String content, ChatResponse<ResultMessage> chatResponse) {

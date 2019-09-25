@@ -51,10 +51,6 @@ public interface ChatListener {
 
     }
 
-    default void onUserInfo(String content, ChatResponse<ResultUserInfo> response) {
-
-    }
-
     default void onCreateThread(String content, ChatResponse<ResultThread> response) {
 
     }
@@ -151,9 +147,6 @@ public interface ChatListener {
 
     default void OnSeenMessageList(String content, ChatResponse<ResultParticipant> response) {
     }
-
-//    default void OnStaticMap(ChatResponse<ResultStaticMapImage> response) {
-    // }
 
     default void OnRemovedFromThread(String content, ChatResponse<ResultThread> chatResponse) {
 

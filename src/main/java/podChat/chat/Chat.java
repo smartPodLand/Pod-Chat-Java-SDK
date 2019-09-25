@@ -7,7 +7,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import config.QueueConfigVO;
 import exception.ConnectionException;
-import io.sentry.Sentry;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -82,10 +81,8 @@ public class Chat extends AsyncAdapter {
     /**
      * Initialize the Chat
      **/
-    public synchronized static Chat init(boolean useSentry, boolean loggable) {
+    public synchronized static Chat init(boolean loggable) {
         if (instance == null) {
-            //TODO
-            if (useSentry) Sentry.init("");
             isLoggable = loggable;
             async = Async.getInstance();
             instance = new Chat();
@@ -152,10 +149,7 @@ public class Chat extends AsyncAdapter {
                 handleResponseMessage(callback, chatMessage, messageUniqueId);
                 break;
             case ChatMessageType.GET_HISTORY:
-                /*Remove uniqueIds from waitQueue /***/
-                if (callback == null) {
-                    handleRemoveFromWaitQueue(chatMessage);
-                } else {
+                if (callback != null) {
                     handleResponseMessage(callback, chatMessage, messageUniqueId);
                 }
                 break;
@@ -189,7 +183,7 @@ public class Chat extends AsyncAdapter {
                 handleResponseMessage(callback, chatMessage, messageUniqueId);
                 break;
             case ChatMessageType.PING:
-                // handleOnPing(chatMessage);
+                handleOnPing();
                 break;
             case ChatMessageType.RELATION_INFO:
                 break;
@@ -255,27 +249,31 @@ public class Chat extends AsyncAdapter {
 
     @Override
     public void onStateChanged(String state) throws IOException {
-        showInfoLog("State change: " + state);
+        showInfoLog("STATE: " + state);
 
         super.onStateChanged(state);
         listenerManager.callOnChatState(state);
 
         switch (state) {
             case ChatStateType.OPEN:
-
                 break;
+
             case ChatStateType.ASYNC_READY:
                 asyncReady = true;
-                retryOnGetUserInfo();
+                chatReady = true;
+                pingWithDelay();
                 break;
+
             case ChatStateType.CONNECTING:
                 chatReady = false;
                 TokenExecutor.stopThread();
                 break;
+
             case ChatStateType.CLOSING:
                 chatReady = false;
                 TokenExecutor.stopThread();
                 break;
+
             case ChatStateType.CLOSED:
                 chatReady = false;
                 TokenExecutor.stopThread();
@@ -360,7 +358,6 @@ public class Chat extends AsyncAdapter {
             }
 
             chatMessageQueue.setUniqueId(uniqueId);
-            //chatMessageQueue.setTime(1000);
             chatMessageQueue.setSubjectId(threadId);
 
             JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessageQueue);
@@ -380,9 +377,7 @@ public class Chat extends AsyncAdapter {
             asyncContentWaitQueue = jsonObject.toString();
 
             if (chatReady) {
-
-//TODO check messageID
-
+                //TODO check messageID
                 setThreadCallbacks(threadId, uniqueId, 0);
                 sendAsyncMessage(asyncContentWaitQueue, 4, "SEND_TEXT_MESSAGE");
 
@@ -3319,6 +3314,40 @@ public class Chat extends AsyncAdapter {
     }
 
 
+    public String getAdminList(RequestGetAdmin requestGetAdmin) {
+        String uniqueId = generateUniqueId();
+        long threadId = requestGetAdmin.getThreadId();
+        if (chatReady) {
+            ChatMessage chatMessage = new ChatMessage();
+            chatMessage.setType(ChatMessageType.GET_THREAD_ADMINS);
+            chatMessage.setToken(getToken());
+            chatMessage.setTokenIssuer("1");
+            chatMessage.setSubjectId(threadId);
+            chatMessage.setUniqueId(uniqueId);
+
+            JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
+            jsonObject.remove("systemMetadata");
+            jsonObject.remove("metadata");
+            jsonObject.remove("repliedTo");
+            jsonObject.remove("contentCount");
+
+            if (Util.isNullOrEmpty(getTypeCode())) {
+                jsonObject.remove("typeCode");
+            } else {
+                jsonObject.remove("typeCode");
+                jsonObject.addProperty("typeCode", getTypeCode());
+            }
+
+            String asyncContent = jsonObject.toString();
+
+            setCallBacks(null, null, null, true, ChatMessageType.CLEAR_HISTORY, null, uniqueId);
+
+            sendAsyncMessage(asyncContent, 4, "SEND_GET_THREAD_ADMINS");
+        }
+        return uniqueId;
+    }
+
+
     /**
      * Add a listener to receive events on this Chat.
      *
@@ -3391,6 +3420,7 @@ public class Chat extends AsyncAdapter {
             chatMessage.setToken(getToken());
 
             String asyncContent = gson.toJson(chatMessage);
+
             sendAsyncMessage(asyncContent, 4, "CHAT PING");
         }
     }
@@ -3429,26 +3459,29 @@ public class Chat extends AsyncAdapter {
     private void handleError(ChatMessage chatMessage) {
 
         Error error = gson.fromJson(chatMessage.getContent(), Error.class);
-        if (error.getCode() == 401) {
-            PingExecutor.stopThread();
-        } else if (error.getCode() == 21) {
-            userInfoResponse = true;
-            retryStepUserInfo = 1;
-            chatReady = false;
-
-            GetInfoExecutor.stopThread();
-
-            String errorMessage = error.getMessage();
-            long errorCode = error.getCode();
-            getErrorOutPut(errorMessage, errorCode, chatMessage.getUniqueId());
-
-            PingExecutor.stopThread();
-
-            /*we are Changing the state of the chat because of the Client is not Authenticate*/
-            listenerManager.callOnChatState("ASYNC_READY");
-
-            return;
-        }
+//        if (error.getCode() == 401) {
+//            PingExecutor.stopThread();
+//
+//        } else if (error.getCode() == 21) {
+//            //  userInfoResponse = true;
+//            //  retryStepUserInfo = 1;
+//            chatReady = false;
+//
+//            // GetInfoExecutor.stopThread();
+//
+//            PingExecutor.stopThread();
+//
+//            String errorMessage = error.getMessage();
+//            long errorCode = error.getCode();
+//            getErrorOutPut(errorMessage, errorCode, chatMessage.getUniqueId());
+//
+//
+//
+//            /*we are Changing the state of the chat because of the Client is not Authenticate*/
+//            // listenerManager.callOnChatState("ASYNC_READY");
+//
+//            return;
+//        }
         String errorMessage = error.getMessage();
         long errorCode = error.getCode();
 
@@ -3493,18 +3526,8 @@ public class Chat extends AsyncAdapter {
      * After the set Token, we send ping for checking client Authenticated or not
      * the (boolean)checkToken is for that reason
      */
-    private void handleOnPing(ChatMessage chatMessage) {
-
+    private void handleOnPing() {
         showInfoLog("RECEIVED_CHAT_PING", "");
-
-        chatReady = true;
-
-        GetInfoExecutor.stopThread();
-
-        listenerManager.callOnChatState(ChatStateType.CHAT_READY);
-        showInfoLog("** CLIENT_AUTHENTICATED_NOW", "");
-        pingWithDelay();
-
     }
 
     /**
@@ -3860,7 +3883,7 @@ public class Chat extends AsyncAdapter {
                             break;
                         case ChatMessageType.USER_INFO:
 
-                            handleOnGetUserInfo(chatMessage, messageUniqueId, callback);
+                            //handleOnGetUserInfo(chatMessage, messageUniqueId, callback);
                             break;
                         case ChatMessageType.THREAD_PARTICIPANTS:
 
@@ -4161,7 +4184,7 @@ public class Chat extends AsyncAdapter {
     }
 
 
-    private void handleOnGetUserInfo(ChatMessage chatMessage, String messageUniqueId, Callback callback) {
+   /* private void handleOnGetUserInfo(ChatMessage chatMessage, String messageUniqueId, Callback callback) {
 
         if (callback.isResult()) {
             GetInfoExecutor.stopThread();
@@ -4181,7 +4204,7 @@ public class Chat extends AsyncAdapter {
 
             pingWithDelay();
         }
-    }
+    }*/
 
 
     private void retryOnGetUserInfo() {
@@ -4905,20 +4928,6 @@ public class Chat extends AsyncAdapter {
         outPut.setErrorCode(error.getCode());
 
         return gson.toJson(outPut);
-    }
-
-    /**
-     * It Removes messages from wait queue after the check-in of their existence.
-     */
-    private void handleRemoveFromWaitQueue(ChatMessage chatMessage) {
-
-        try {
-            List<MessageVO> messageVOS = gson.fromJson(chatMessage.getContent(), new TypeToken<ArrayList<MessageVO>>() {
-            }.getType());
-
-        } catch (Throwable throwable) {
-            showErrorLog(throwable.getMessage());
-        }
     }
 
     private ChatResponse<ResultContact> reformatGetContactResponse(ChatMessage chatMessage, Callback callback) {
