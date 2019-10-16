@@ -300,6 +300,11 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
+    public void spam(RequestSpam requestSpam) {
+        chat.spam(requestSpam);
+    }
+
+    @Override
     public void getBlockList(Long count, Long offset) {
 
     }

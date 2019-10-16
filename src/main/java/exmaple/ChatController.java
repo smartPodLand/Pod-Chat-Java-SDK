@@ -304,6 +304,11 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
+    public void spam(RequestSpam requestSpam) {
+        chat.spam(requestSpam);
+    }
+
+    @Override
     public void getBlockList(Long count, Long offset) {
 
     }
@@ -566,8 +571,9 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
         ResultNewMessage result = outPutNewMessage.getResult();
         MessageVO messageVO = result.getMessageVO();
         Participant participant = messageVO.getParticipant();
-
         long id = messageVO.getId();
+
+        chat.seenMessage(id, participant.getId());
 
         view.onNewMessage(chatResponse);
     }

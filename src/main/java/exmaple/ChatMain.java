@@ -1,6 +1,5 @@
 package exmaple;
 
-import com.google.gson.Gson;
 import exception.ConnectionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +20,6 @@ import podChat.util.ThreadType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Created By Khojasteh on 7/27/2019
@@ -29,8 +27,8 @@ import java.util.Scanner;
 public class ChatMain implements ChatContract.view {
     private static Logger logger = LogManager.getLogger(Async.class);
 
-    static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "e51fb3b7326d446e84c7d3ae54e6dc86";
+/*    static String platformHost = "https://sandbox.pod.land:8043";
+    static String token = "9405eea8e8a444908b5f152bb73a28ee";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
@@ -39,21 +37,22 @@ public class ChatMain implements ChatContract.view {
     static String queueInput = "queue-in-amjadi-stomp";
     static String queueOutput = "queue-out-amjadi-stomp";
     static String queueUserName = "root";
-    static String queuePassword = "zalzalak";
+    static String queuePassword = "zalzalak";*/
 
- /*   static String platformHost = "http://172.16.110.131:8080";
-    static String token = "7cba09ff83554fc98726430c30afcfc6";  //zizi
+    static String platformHost = "http://172.16.110.131:8080";
+    static String token = "7cba09ff83554fc98726430c30afcfc6";
     static String ssoHost = "http://172.16.110.76";
     static String fileServer = "http://172.16.110.131:8080";
     static String serverName = "chat-server2";
-    static String queueServer = "172.16.110.131";
+    static String queueServer = "192.168.112.23";
     static String queuePort = "61616";
     static String queueInput = "queue-in-local_chat";
     static String queueOutput = "queue-out-local_chat";
     static String queueUserName = "root";
-    static String queuePassword = "j]Bm0RU8gLhbPUG";*/
+    static String queuePassword = "j]Bm0RU8gLhbPUG";
+
     static ChatController chatController;
-    Gson gson = new Gson();
+
 
     void init() {
         chatController = new ChatController(this);
@@ -65,8 +64,17 @@ public class ChatMain implements ChatContract.view {
                     .build();
 
             chatController.connect(requestConnect);
+//            addContact();
+            createThread();
+//            getThreads();
+//            getcontact();
+//            spam();
 
-            getThreads();
+//            unblock();
+
+//            getBlockList();
+//            unblock();
+//            getBlockList();
 
         } catch (ConnectionException e) {
             System.out.println(e);
@@ -227,7 +235,8 @@ public class ChatMain implements ChatContract.view {
     private void unblock() {
         RequestUnBlock requestUnBlock = new RequestUnBlock
                 .Builder()
-                .userId(4781)
+//                (6061)
+                .blockId(1042)
                 .build();
 
         chatController.unBlock(requestUnBlock);
@@ -313,7 +322,7 @@ public class ChatMain implements ChatContract.view {
                 .build();
 
         Invitee invitee = new Invitee();
-        invitee.setId(4781);
+        invitee.setId(4101);
         invitee.setIdType(InviteType.TO_BE_USER_ID);
 
 //        Invitee invitee1 = new Invitee();
@@ -357,9 +366,6 @@ public class ChatMain implements ChatContract.view {
     private void getThreads() {
         RequestThread requestThread = new RequestThread
                 .Builder()
-                .threadIds(new ArrayList<Integer>() {{
-                    add(5461);
-                }})
                 .build();
 
         chatController.getThreads(requestThread);
@@ -423,19 +429,19 @@ public class ChatMain implements ChatContract.view {
 
         chatController.createThread(ThreadType.PUBLIC_GROUP, invitees, "sendMessage", "", "", "");*/
 
-        Invitee[] invitees = new Invitee[2];
+        Invitee[] invitees = new Invitee[1];
         Invitee invitee = new Invitee();
         invitee.setIdType(InviteType.TO_BE_USER_CONTACT_ID);
-        invitee.setId(13882);
+        invitee.setId(824);
 
-        Invitee invitee2 = new Invitee();
-        invitee2.setIdType(InviteType.TO_BE_USER_CONTACT_ID);
-        invitee2.setId(13812);
+//        Invitee invitee2 = new Invitee();
+//        invitee2.setIdType(InviteType.TO_BE_USER_CONTACT_ID);
+//        invitee2.setId(13812);
 
         invitees[0] = invitee;
-        invitees[1] = invitee2;
+//        invitees[1] = invitee2;
 
-        chatController.createThread(ThreadType.OWNER_GROUP, invitees, "sendMessage", "", "", "");
+        chatController.createThread(ThreadType.PUBLIC_GROUP, invitees, "sendMessage", "", "", "");
     }
 
     /**
@@ -480,6 +486,18 @@ public class ChatMain implements ChatContract.view {
                 .build();
 
         chatController.unMuteThread(requestMuteThread);
+    }
+
+    /**
+     * spam thread
+     */
+
+    private void spam() {
+        RequestSpam requestSpam = new RequestSpam
+                .Builder(10329)
+                .build();
+
+        chatController.spam(requestSpam);
     }
 
     /******************************************************************
@@ -630,26 +648,15 @@ public class ChatMain implements ChatContract.view {
 
     @Override
     public void onError(ErrorOutPut error) {
-        if (error.getErrorCode() == 21) {
-            Scanner myObj = new Scanner(System.in);
-            System.out.println("Enter token");
-
-
-            String token = myObj.nextLine();
-
-            chatController.setToke(token);
-          getThreads();
-
-            //            RequestConnect requestConnect = new RequestConnect
-//                    .Builder(queueServer, queuePort, queueInput, queueOutput, queueUserName, queuePassword, serverName, token, ssoHost, platformHost, fileServer)
-//                    .typeCode("default")
-//                    .build();
+//        if (error.getErrorCode() == 21) {
+//            Scanner myObj = new Scanner(System.in);
+//            System.out.println("Enter token");
 //
-//            try {
-//                chatController.connect(requestConnect);
-//            } catch (ConnectionException e) {
-//                e.printStackTrace();
-//            }
-        }
+//            String token = myObj.nextLine();
+//
+//            chatController.setToke(token);
+//            getThreads();
+//
+//        }
     }
 }

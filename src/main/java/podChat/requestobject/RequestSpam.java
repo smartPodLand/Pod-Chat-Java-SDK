@@ -12,9 +12,8 @@ public class RequestSpam extends GeneralRequestObject {
     public static class Builder extends GeneralRequestObject.Builder<Builder> {
         private long threadId;
 
-        public Builder threadId(long threadId) {
+        public Builder(long threadId) {
             this.threadId = threadId;
-            return this;
         }
 
 

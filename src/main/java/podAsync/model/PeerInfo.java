@@ -3,7 +3,7 @@ package podAsync.model;
 /**
  * {@param appId } Id of your application
  * {@param refresh} When the client disconnected by set this true
- * {@param deviceId} and {@param appId}
+ * {@param deviceId}
  * {@param renew} tracker id of message that received from platform previously
  */
 public class PeerInfo {

@@ -10,6 +10,7 @@ import exception.ConnectionException;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import podAsync.Async;
@@ -1773,7 +1774,6 @@ public class Chat extends AsyncAdapter {
                 message.setTokenIssuer("1");
                 message.setToken(getToken());
                 message.setUniqueId(uniqueId);
-                // message.setTime(1000);
 
                 JsonObject jsonObject = (JsonObject) gson.toJsonTree(message);
 
@@ -3349,6 +3349,96 @@ public class Chat extends AsyncAdapter {
 
 
     /**
+     * If someone that is not in your contacts send message to you
+     * their spam is false
+     */
+    @Deprecated
+    public String spam(long threadId) {
+        String uniqueId = generateUniqueId();
+
+        if (chatReady) {
+            ChatMessage chatMessage = new ChatMessage();
+            chatMessage.setType(ChatMessageType.SPAM_PV_THREAD);
+            chatMessage.setTokenIssuer("1");
+            chatMessage.setToken(getToken());
+            chatMessage.setUniqueId(uniqueId);
+            chatMessage.setSubjectId(threadId);
+
+            JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
+
+            if (Util.isNullOrEmpty(getTypeCode())) {
+                jsonObject.remove("typeCode");
+            } else {
+                jsonObject.remove("typeCode");
+                jsonObject.addProperty("typeCode", getTypeCode());
+            }
+
+            String asyncContent = jsonObject.toString();
+
+            setCallBacks(null, null, null, true, ChatMessageType.SPAM_PV_THREAD, null, uniqueId);
+
+            sendAsyncMessage(asyncContent, 4, "SEND_REPORT_SPAM");
+
+        } else {
+            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+        }
+        return uniqueId;
+    }
+
+    /**
+     * If someone that is not in your contact list tries to send message to you
+     * their spam value is true and you can call this method in order to set that to false
+     *
+     * @ param long threadId Id of the thread
+     */
+    public String spam(RequestSpam request) {
+        String uniqueId = generateUniqueId();
+
+        JsonObject jsonObject;
+        try {
+
+            if (chatReady) {
+                long threadId = request.getThreadId();
+                String typeCode = request.getTypeCode();
+
+                ChatMessage chatMessage = new ChatMessage();
+                chatMessage.setType(ChatMessageType.SPAM_PV_THREAD);
+                chatMessage.setTokenIssuer("1");
+                chatMessage.setToken(getToken());
+                chatMessage.setUniqueId(uniqueId);
+                chatMessage.setSubjectId(threadId);
+
+                jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
+                jsonObject.remove("contentCount");
+                jsonObject.remove("systemMetadata");
+                jsonObject.remove("metadata");
+                jsonObject.remove("repliedTo");
+
+                if (Util.isNullOrEmpty(typeCode)) {
+                    if (Util.isNullOrEmpty(getTypeCode())) {
+                        jsonObject.remove("typeCode");
+                    } else {
+                        jsonObject.addProperty("typeCode", getTypeCode());
+                    }
+                } else {
+                    jsonObject.addProperty("typeCode", request.getTypeCode());
+                }
+
+                setCallBacks(null, null, null, true, ChatMessageType.SPAM_PV_THREAD, null, uniqueId);
+
+                sendAsyncMessage(jsonObject.toString(), 4, "SEND_REPORT_SPAM");
+            } else {
+                getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+            }
+
+        } catch (Exception e) {
+            showErrorLog(e.getCause().getMessage());
+        }
+        return uniqueId;
+    }
+
+
+    /**
      * Add a listener to receive events on this Chat.
      *
      * @param listener A listener to add.
@@ -3427,7 +3517,7 @@ public class Chat extends AsyncAdapter {
 
 
     private void showInfoLog(String i, String json) {
-        if (isLoggable) logger.info(i + "\n \n" + json);
+        if (isLoggable) logger.log(Level.INFO, "{} \n \n {} ", i, json);
 
         if (!Util.isNullOrEmpty(json)) {
             listenerManager.callOnLogEvent(json);
@@ -3435,12 +3525,12 @@ public class Chat extends AsyncAdapter {
     }
 
     private void showInfoLog(String json) {
-        if (isLoggable) logger.info("\n \n" + json);
+        if (isLoggable) logger.log(Level.INFO, "\n \n {}", json);
     }
 
 
     private void showErrorLog(String i, String json) {
-        if (isLoggable) logger.error(i + "\n \n" + json);
+        if (isLoggable) logger.log(Level.ERROR, " {} \n \n {} ", i, json);
 
         if (!Util.isNullOrEmpty(json)) {
             listenerManager.callOnLogEvent(json);
@@ -3448,12 +3538,12 @@ public class Chat extends AsyncAdapter {
     }
 
     private void showErrorLog(String e) {
-        if (isLoggable) logger.error("\n \n" + e);
+        if (isLoggable) logger.log(Level.ERROR, "\n \n {} ", e);
 
     }
 
     private void showErrorLog(Throwable throwable) {
-        if (isLoggable) logger.error("\n \n" + throwable.getMessage());
+        if (isLoggable) logger.log(Level.ERROR, "\n \n {} ", throwable.getMessage());
     }
 
     private void handleError(ChatMessage chatMessage) {

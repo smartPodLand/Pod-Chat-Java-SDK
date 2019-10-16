@@ -262,6 +262,8 @@ public interface ChatContract {
 
         void spam(long threadId);
 
+        void spam(RequestSpam requestSpam);
+
         void getBlockList(Long count, Long offset);
 
         // String sendFileMessage(Context context, Activity activity, String description, long threadId, Uri fileUri, String metaData, Integer messageType, ProgressHandler.sendFileMessage handler);
