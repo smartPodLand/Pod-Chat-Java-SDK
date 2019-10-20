@@ -16,7 +16,7 @@ public class RequestFileMessage {
 
     RequestFileMessage(Builder builder) {
         this.setThreadId(builder.threadId);
-        this.setFilePath(builder.fileUri);
+        this.setFilePath(builder.filePath);
         this.setSystemMetadata(builder.systemMetadata);
         this.setMessageType(builder.messageType);
         this.setDescription(builder.description);
@@ -105,7 +105,7 @@ public class RequestFileMessage {
 
     public static class Builder {
         private long threadId;
-        private String fileUri;
+        private String filePath;
         private String systemMetadata;
         private int messageType;
         private String description;
@@ -114,9 +114,9 @@ public class RequestFileMessage {
         private int hC;
         private int wC;
 
-        public Builder(long threadId, String fileUri) {
+        public Builder(long threadId, String filePath) {
             this.threadId = threadId;
-            this.fileUri = fileUri;
+            this.filePath = filePath;
         }
 
         public Builder systemMetadata(String systemMetadata) {
