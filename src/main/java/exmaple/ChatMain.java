@@ -28,28 +28,17 @@ public class ChatMain implements ChatContract.view {
     private static Logger logger = LogManager.getLogger(Async.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "1241a6b3b9a544d484437867cdbfa5b1";
+    static String token = "**************************";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
-    static String queueServer = "172.16.0.248";
-    static String queuePort = "61616";
+    static String queueServer = "*************";
+    static String queuePort = "***************";
     static String queueInput = "queue-in-amjadi-stomp";
     static String queueOutput = "queue-out-amjadi-stomp";
-    static String queueUserName = "root";
-    static String queuePassword = "zalzalak";
+    static String queueUserName = "*****";
+    static String queuePassword = "*******";
 
-   /* static String platformHost = "http://172.16.110.131:8080";
-    static String token = "7cba09ff83554fc98726430c30afcfc6";
-    static String ssoHost = "http://172.16.110.76";
-    static String fileServer = "http://172.16.110.131:8080";
-    static String serverName = "chat-server2";
-    static String queueServer = "192.168.112.23";
-    static String queuePort = "61616";
-    static String queueInput = "queue-in-local_chat";
-    static String queueOutput = "queue-out-local_chat";
-    static String queueUserName = "root";
-    static String queuePassword = "j]Bm0RU8gLhbPUG";*/
 
     static ChatController chatController;
 
@@ -64,8 +53,9 @@ public class ChatMain implements ChatContract.view {
                     .build();
 
             chatController.connect(requestConnect);
-            mute();
+//            clearHistory();
 //            addContact();
+            deleteMultipleMessage();
 //            createThread();
 //            getThreads();
 //            getcontact();

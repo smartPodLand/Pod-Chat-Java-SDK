@@ -9,12 +9,12 @@ public class Constant {
     public static String ssoHost = "https://accounts.pod.land";
     public static String fileServer = "https://sandbox.pod.land:8443";
     public static String serverName = "chat-server";
-    public static String queueServer = "172.16.0.248";
-    public static String queuePort = "61616";
+    public static String queueServer = "*********";
+    public static String queuePort = "********";
     public static String queueInput = "queue-in-amjadi-stomp";
     public static String queueOutput = "queue-out-amjadi-stomp";
-    public static String queueUserName = "root";
-    public static String queuePassword = "zalzalak";
+    public static String queueUserName = "*******";
+    public static String queuePassword = "***********";
 
 
     public static String username = "فاطمه خجسته";
