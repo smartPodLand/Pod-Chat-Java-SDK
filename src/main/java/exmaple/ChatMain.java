@@ -28,16 +28,28 @@ public class ChatMain implements ChatContract.view {
     private static Logger logger = LogManager.getLogger(Async.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "**************************";
+    static String token = "3734c9c7fd60405f9246890d074996e0";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
-    static String queueServer = "*************";
-    static String queuePort = "***************";
+    static String queueServer = "172.16.0.248";
+    static String queuePort = "61616";
     static String queueInput = "queue-in-amjadi-stomp";
     static String queueOutput = "queue-out-amjadi-stomp";
-    static String queueUserName = "*****";
-    static String queuePassword = "*******";
+    static String queueUserName = "root";
+    static String queuePassword = "zalzalak";
+
+/*    static String platformHost = "http://172.16.110.131:8080";
+    static String token = "bebc31c4ead6458c90b607496dae25c6";
+    static String ssoHost = "https://accounts.pod.land";
+    static String fileServer = "http://172.16.110.131:8080";
+    static String serverName = "chat-server";
+    static String queueServer = "192.168.112.23";
+    static String queuePort = "61616";
+    static String queueInput = "queue-in-local_chat";
+    static String queueOutput = "queue-in-local_chat";
+    static String queueUserName = "root";
+    static String queuePassword = "j]Bm0RU8gLhbPUG";*/
 
 
     static ChatController chatController;
@@ -55,12 +67,12 @@ public class ChatMain implements ChatContract.view {
             chatController.connect(requestConnect);
 //            clearHistory();
 //            addContact();
-            deleteMultipleMessage();
+//            deleteMultipleMessage();
 //            createThread();
 //            getThreads();
 //            getcontact();
 //            spam();
-
+sendMessage();
 //            unblock();
 
 //            getBlockList();

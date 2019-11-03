@@ -17,11 +17,11 @@ import podAsync.Async;
 import podAsync.AsyncAdapter;
 import podChat.ProgressHandler;
 import podChat.localModel.LFileUpload;
-import podChat.mainmodel.*;
 import podChat.mainmodel.Thread;
-import podChat.model.*;
+import podChat.mainmodel.*;
 import podChat.model.Error;
 import podChat.model.MapLocation;
+import podChat.model.*;
 import podChat.networking.api.ContactApi;
 import podChat.networking.api.FileApi;
 import podChat.networking.retrofithelper.ApiListener;
@@ -120,34 +120,22 @@ public class Chat extends AsyncAdapter {
         }
 
         switch (messageType) {
-            case ChatMessageType.ADD_PARTICIPANT:
-                handleResponseMessage(callback, chatMessage, messageUniqueId);
-                break;
-            case ChatMessageType.UNBLOCK:
-                handleResponseMessage(callback, chatMessage, messageUniqueId);
-                break;
-            case ChatMessageType.BLOCK:
-                handleResponseMessage(callback, chatMessage, messageUniqueId);
-                break;
             case ChatMessageType.CHANGE_TYPE:
                 break;
             case ChatMessageType.SENT:
-                handleSent(chatMessage, messageUniqueId, threadId);
+                handleSent(chatMessage);
                 break;
             case ChatMessageType.DELIVERY:
-                handleDelivery(chatMessage, messageUniqueId, threadId);
+                handleDelivery(chatMessage);
                 break;
             case ChatMessageType.SEEN:
-                handleSeen(chatMessage, messageUniqueId, threadId);
+                handleSeen(chatMessage);
                 break;
             case ChatMessageType.ERROR:
                 handleError(chatMessage);
                 break;
             case ChatMessageType.FORWARD_MESSAGE:
                 handleForwardMessage(chatMessage);
-                break;
-            case ChatMessageType.GET_CONTACTS:
-                handleResponseMessage(callback, chatMessage, messageUniqueId);
                 break;
             case ChatMessageType.GET_HISTORY:
                 if (callback != null) {
@@ -180,9 +168,6 @@ public class Chat extends AsyncAdapter {
             case ChatMessageType.MESSAGE:
                 handleNewMessage(chatMessage);
                 break;
-            case ChatMessageType.MUTE_THREAD:
-                handleResponseMessage(callback, chatMessage, messageUniqueId);
-                break;
             case ChatMessageType.PING:
                 handleOnPing();
                 break;
@@ -194,27 +179,23 @@ public class Chat extends AsyncAdapter {
                 }
                 handleResponseMessage(callback, chatMessage, messageUniqueId);
                 break;
-            case ChatMessageType.RENAME:
-                handleResponseMessage(callback, chatMessage, messageUniqueId);
-                break;
-            case ChatMessageType.THREAD_PARTICIPANTS:
-                handleResponseMessage(callback, chatMessage, messageUniqueId);
-                break;
-            case ChatMessageType.UN_MUTE_THREAD:
-                handleResponseMessage(callback, chatMessage, messageUniqueId);
-                break;
-            case ChatMessageType.USER_INFO:
-                handleResponseMessage(callback, chatMessage, messageUniqueId);
-                break;
             case ChatMessageType.USER_STATUS:
                 break;
-            case ChatMessageType.GET_BLOCKED:
-                handleResponseMessage(callback, chatMessage, messageUniqueId);
-                break;
+            case ChatMessageType.RENAME:
+            case ChatMessageType.THREAD_PARTICIPANTS:
+            case ChatMessageType.UN_MUTE_THREAD:
+            case ChatMessageType.MUTE_THREAD:
+            case ChatMessageType.USER_INFO:
             case ChatMessageType.DELETE_MESSAGE:
-                handleResponseMessage(callback, chatMessage, messageUniqueId);
-                break;
             case ChatMessageType.EDIT_MESSAGE:
+            case ChatMessageType.UPDATE_THREAD_INFO:
+            case ChatMessageType.DELIVERED_MESSAGE_LIST:
+            case ChatMessageType.SEEN_MESSAGE_LIST:
+            case ChatMessageType.BLOCK:
+            case ChatMessageType.UNBLOCK:
+            case ChatMessageType.GET_BLOCKED:
+            case ChatMessageType.ADD_PARTICIPANT:
+            case ChatMessageType.GET_CONTACTS:
                 handleResponseMessage(callback, chatMessage, messageUniqueId);
                 break;
             case ChatMessageType.THREAD_INFO_UPDATED:
@@ -223,16 +204,7 @@ public class Chat extends AsyncAdapter {
             case ChatMessageType.LAST_SEEN_UPDATED:
                 handleLastSeenUpdated(chatMessage);
                 break;
-            case ChatMessageType.UPDATE_THREAD_INFO:
-                handleResponseMessage(callback, chatMessage, messageUniqueId);
-                break;
             case ChatMessageType.SPAM_PV_THREAD:
-                break;
-            case ChatMessageType.DELIVERED_MESSAGE_LIST:
-                handleResponseMessage(callback, chatMessage, messageUniqueId);
-                break;
-            case ChatMessageType.SEEN_MESSAGE_LIST:
-                handleResponseMessage(callback, chatMessage, messageUniqueId);
                 break;
             case ChatMessageType.SET_RULE_TO_USER:
                 handleSetRole(chatMessage);
@@ -240,7 +212,6 @@ public class Chat extends AsyncAdapter {
             case ChatMessageType.CLEAR_HISTORY:
                 handleClearHistory(chatMessage);
                 break;
-
             case ChatMessageType.GET_THREAD_ADMINS:
                 //TODO handle response
                 listenerManager.callOnGetThreadAdmin(chatMessage.getContent());
@@ -3492,7 +3463,7 @@ public class Chat extends AsyncAdapter {
                         TimeUnit.MILLISECONDS);
     }
 
-    public void checkForPing(long lastSentMessageTimeout) {
+    private void checkForPing(long lastSentMessageTimeout) {
         long currentTime = new Date().getTime();
         if (currentTime - lastSentMessageTime > lastSentMessageTimeout) {
             ping();
@@ -3673,210 +3644,48 @@ public class Chat extends AsyncAdapter {
     }
 
     //TODO Problem in message id in forwardMessage
-    private void handleSent(ChatMessage chatMessage, String messageUniqueId, long threadId) {
-        boolean found = false;
-        try {
+    private void handleSent(ChatMessage chatMessage) {
 
-            if (threadCallbacks.containsKey(threadId)) {
-                ArrayList<Callback> callbacks = threadCallbacks.get(threadId);
+        ChatResponse<ResultMessage> chatResponse = new ChatResponse<>();
 
-                for (Callback callback : callbacks) {
+        ResultMessage resultMessage = new ResultMessage();
+        resultMessage.setConversationId(chatMessage.getSubjectId());
+        resultMessage.setMessageId(Long.parseLong(chatMessage.getContent()));
 
-                    if (messageUniqueId.equals(callback.getUniqueId())) {
-                        found = true;
+        chatResponse.setUniqueId(chatMessage.getUniqueId());
+        chatResponse.setResult(resultMessage);
 
-                        int indexUnique = callbacks.indexOf(callback);
+        String json = gson.toJson(chatResponse);
 
-                        if (callbacks.get(indexUnique).isSent()) {
+        listenerManager.callOnSentMessage(json, chatResponse);
 
-                            callbacks.get(indexUnique).setMessageId(Long.valueOf(chatMessage.getContent()));
-
-                            ChatResponse<ResultMessage> chatResponse = new ChatResponse<>();
-
-                            ResultMessage resultMessage = new ResultMessage();
-
-                            chatResponse.setErrorCode(0);
-                            chatResponse.setErrorMessage("");
-                            chatResponse.setHasError(false);
-                            chatResponse.setUniqueId(callbacks.get(indexUnique).getUniqueId());
-
-                            resultMessage.setConversationId(chatMessage.getSubjectId());
-                            resultMessage.setMessageId(Long.valueOf(chatMessage.getContent()));
-                            chatResponse.setResult(resultMessage);
-
-                            String json = gson.toJson(chatResponse);
-                            listenerManager.callOnSentMessage(json, chatResponse);
-
-
-//                            if (handlerSend.get(callback.getUniqueId()) != null) {
-//                                handlerSend.get(callback.getUniqueId()).onSentResult(chatMessage.getContent());
-//                            }
-
-                            Callback callbackUpdateSent = new Callback();
-                            callbackUpdateSent.setSent(false);
-                            callbackUpdateSent.setDelivery(callback.isDelivery());
-                            callbackUpdateSent.setSeen(callback.isSeen());
-                            callbackUpdateSent.setUniqueId(callbacks.get(indexUnique).getUniqueId());
-                            callbackUpdateSent.setMessageId(callbacks.get(indexUnique).getMessageId());
-
-
-                            callbacks.set(indexUnique, callbackUpdateSent);
-
-                            threadCallbacks.put(threadId, callbacks);
-
-                            showInfoLog("RECEIVED_SENT_MESSAGE", json);
-                        }
-                        break;
-                    }
-                }
-            }
-
-            if (!found) {
-                ChatResponse<ResultMessage> chatResponse = new ChatResponse<>();
-
-                ResultMessage resultMessage = new ResultMessage();
-
-                chatResponse.setErrorCode(0);
-                chatResponse.setErrorMessage("");
-                chatResponse.setHasError(false);
-                chatResponse.setUniqueId(chatMessage.getUniqueId());
-
-                resultMessage.setConversationId(chatMessage.getSubjectId());
-                resultMessage.setMessageId(Long.valueOf(chatMessage.getContent()));
-
-                chatResponse.setResult(resultMessage);
-
-                String json = gson.toJson(chatResponse);
-
-                listenerManager.callOnSentMessage(json, chatResponse);
-
-                showInfoLog("RECEIVED_SENT_MESSAGE", json);
-
-                setThreadCallbacks(threadId, chatMessage.getUniqueId(), Long.parseLong(chatMessage.getContent()));
-            }
-        } catch (Throwable e) {
-            showErrorLog(e.getCause().getMessage());
-        }
+        showInfoLog("RECEIVED_SENT_MESSAGE", json);
     }
 
-    private void handleSeen(ChatMessage chatMessage, String messageUniqueId, long threadId) {
+    private void handleSeen(ChatMessage chatMessage) {
+        ChatResponse<ResultMessage> chatResponse = new ChatResponse<>();
+        chatResponse.setUniqueId(chatMessage.getUniqueId());
+        chatResponse.setResult(gson.fromJson(chatMessage.getContent(), ResultMessage.class));
 
-        if (threadCallbacks.containsKey(threadId)) {
-            ArrayList<Callback> callbacks = threadCallbacks.get(threadId);
+        String json = gson.toJson(chatResponse);
 
-            for (Callback callback : callbacks) {
+        listenerManager.callOnDeliveryMessage(json, chatResponse);
 
-                if (messageUniqueId.equals(callback.getUniqueId())) {
-                    int indexUnique = callbacks.indexOf(callback);
+        showInfoLog("RECEIVED_SEEN_MESSAGE", json);
 
-                    while (indexUnique > -1) {
 
-                        if (callbacks.get(indexUnique).isSeen()) {
-                            ResultMessage resultMessage = gson.fromJson(chatMessage.getContent(), ResultMessage.class);
-                            resultMessage.setMessageId(callbacks.get(indexUnique).getMessageId());
-
-                            if (callbacks.get(indexUnique).isDelivery()) {
-
-                                ChatResponse<ResultMessage> chatResponse = new ChatResponse<>();
-
-                                chatResponse.setErrorMessage("");
-                                chatResponse.setErrorCode(0);
-                                chatResponse.setHasError(false);
-                                chatResponse.setUniqueId(callbacks.get(indexUnique).getUniqueId());
-                                chatResponse.setResult(resultMessage);
-
-                                String json = gson.toJson(chatResponse);
-
-                                listenerManager.callOnDeliveryMessage(json, chatResponse);
-
-                                Callback callbackUpdateSent = new Callback();
-                                callbackUpdateSent.setSent(callback.isSent());
-                                callbackUpdateSent.setDelivery(false);
-                                callbackUpdateSent.setSeen(callback.isSeen());
-                                callbackUpdateSent.setUniqueId(callbacks.get(indexUnique).getUniqueId());
-                                callbackUpdateSent.setMessageId(callbacks.get(indexUnique).getMessageId());
-
-                                callbacks.set(indexUnique, callbackUpdateSent);
-                                threadCallbacks.put(threadId, callbacks);
-                                showInfoLog("RECEIVED_DELIVERED_MESSAGE", json);
-                            }
-
-                            ChatResponse<ResultMessage> chatResponse = new ChatResponse<>();
-
-                            chatResponse.setErrorMessage("");
-                            chatResponse.setErrorCode(0);
-                            chatResponse.setHasError(false);
-                            chatResponse.setUniqueId(callbacks.get(indexUnique).getUniqueId());
-                            chatResponse.setResult(resultMessage);
-
-                            String json = gson.toJson(chatResponse);
-
-                            listenerManager.callOnSeenMessage(json, chatResponse);
-
-                            callbacks.remove(indexUnique);
-
-                            threadCallbacks.put(threadId, callbacks);
-
-                            showInfoLog("RECEIVED_SEEN_MESSAGE", json);
-
-                        }
-                        indexUnique--;
-                    }
-                    break;
-                }
-            }
-        }
     }
 
-    private void handleDelivery(ChatMessage chatMessage, String messageUniqueId, long threadId) {
-        try {
-            if (threadCallbacks.containsKey(threadId)) {
-                ArrayList<Callback> callbacks = threadCallbacks.get(threadId);
+    private void handleDelivery(ChatMessage chatMessage) {
+        ChatResponse<ResultMessage> chatResponse = new ChatResponse<>();
+        chatResponse.setUniqueId(chatMessage.getUniqueId());
+        chatResponse.setResult(gson.fromJson(chatMessage.getContent(), ResultMessage.class));
 
-                for (Callback callback : callbacks) {
+        String json = gson.toJson(chatResponse);
 
-                    if (messageUniqueId.equals(callback.getUniqueId())) {
-                        int indexUnique = callbacks.indexOf(callback);
+        listenerManager.callOnDeliveryMessage(json, chatResponse);
 
-                        while (indexUnique > -1) {
-
-                            if (callbacks.get(indexUnique).isDelivery()) {
-                                ChatResponse<ResultMessage> chatResponse = new ChatResponse<>();
-
-                                ResultMessage resultMessage = gson.fromJson(chatMessage.getContent(), ResultMessage.class);
-                                resultMessage.setMessageId(callbacks.get(indexUnique).getMessageId());
-
-                                chatResponse.setErrorMessage("");
-                                chatResponse.setErrorCode(0);
-                                chatResponse.setHasError(false);
-                                chatResponse.setUniqueId(callbacks.get(indexUnique).getUniqueId());
-
-                                chatResponse.setResult(resultMessage);
-                                String json = gson.toJson(chatResponse);
-
-                                listenerManager.callOnDeliveryMessage(json, chatResponse);
-
-                                Callback callbackUpdateSent = new Callback();
-                                callbackUpdateSent.setSent(callback.isSent());
-                                callbackUpdateSent.setDelivery(false);
-                                callbackUpdateSent.setSeen(callback.isSeen());
-                                callbackUpdateSent.setUniqueId(callbacks.get(indexUnique).getUniqueId());
-                                callbackUpdateSent.setMessageId(callbacks.get(indexUnique).getMessageId());
-
-                                callbacks.set(indexUnique, callbackUpdateSent);
-
-                                threadCallbacks.put(threadId, callbacks);
-                                showInfoLog("RECEIVED_DELIVERED_MESSAGE", json);
-                            }
-                            indexUnique--;
-                        }
-                        break;
-                    }
-                }
-            }
-        } catch (Exception e) {
-            showErrorLog(e.getCause().getMessage());
-        }
+        showInfoLog("RECEIVED_DELIVERED_MESSAGE", json);
     }
 
     private void handleForwardMessage(ChatMessage chatMessage) {
@@ -4300,7 +4109,7 @@ public class Chat extends AsyncAdapter {
     private void retryOnGetUserInfo() {
 
         GetInfoExecutor.getInstance().
-                scheduleAtFixedRate(() -> checkForGetUserInfo(), 0,
+                scheduleAtFixedRate(this::checkForGetUserInfo, 0,
                         10000, TimeUnit.MILLISECONDS);
     }
 
@@ -4379,7 +4188,7 @@ public class Chat extends AsyncAdapter {
         ChatResponse<ResultDeleteMessage> chatResponse = new ChatResponse<>();
         chatResponse.setUniqueId(chatMessage.getUniqueId());
 
-        long messageId = Long.valueOf(chatMessage.getContent());
+        long messageId = Long.parseLong(chatMessage.getContent());
 
         ResultDeleteMessage resultDeleteMessage = new ResultDeleteMessage();
 
@@ -4954,7 +4763,7 @@ public class Chat extends AsyncAdapter {
 
     private String reformatMuteThread(ChatMessage chatMessage, ChatResponse<ResultMute> outPut) {
         ResultMute resultMute = new ResultMute();
-        resultMute.setThreadId(Long.valueOf(chatMessage.getContent()));
+        resultMute.setThreadId(Long.parseLong(chatMessage.getContent()));
         outPut.setResult(resultMute);
         outPut.setHasError(false);
         outPut.setErrorMessage("");
@@ -5103,8 +4912,8 @@ public class Chat extends AsyncAdapter {
             if (center.contains(",")) {
                 String latitude = center.substring(0, center.lastIndexOf(','));
                 String longitude = center.substring(center.lastIndexOf(',') + 1, center.length());
-                mapLocation.setLatitude(Double.valueOf(latitude));
-                mapLocation.setLongitude(Double.valueOf(longitude));
+                mapLocation.setLatitude(Double.parseDouble(latitude));
+                mapLocation.setLongitude(Double.parseDouble(longitude));
             }
 
             locationFile.setLocation(mapLocation);
