@@ -112,7 +112,6 @@ public interface ContactApi {
             , @Query("firstName") String firstName
             , @Query("lastName") String lastName
             , @Query("email") String email
-            , @Query("uniqueId") String uniqueId
             , @Query("offset") String offset
             , @Query("size") String size
             , @Query("typeCode") String typeCode

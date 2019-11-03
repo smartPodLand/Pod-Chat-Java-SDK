@@ -1000,7 +1000,6 @@ public class Chat extends AsyncAdapter {
                     , requestSearchContact.getFirstName()
                     , requestSearchContact.getLastName()
                     , requestSearchContact.getEmail()
-                    , generateUniqueId()
                     , offset
                     , size
                     , type_code
@@ -1011,22 +1010,26 @@ public class Chat extends AsyncAdapter {
             RetrofitUtil.request(searchContactCall, new ApiListener<SearchContactVO>() {
                 @Override
                 public void onSuccess(SearchContactVO searchContactVO) {
-                    ArrayList<Contact> contacts = new ArrayList<>(searchContactVO.getResult());
+                    if (searchContactVO.getHasError())
+                        getErrorOutPut(searchContactVO.getMessage(), ChatConstant.ERROR_CODE_UNKNOWN_EXCEPTION, uniqueId);
 
-                    ResultContact resultContacts = new ResultContact();
-                    resultContacts.setContacts(contacts);
+                    else {
+                        ArrayList<Contact> contacts = new ArrayList<>(searchContactVO.getResult());
 
-                    ChatResponse<ResultContact> chatResponse = new ChatResponse<>();
-                    chatResponse.setUniqueId(uniqueId);
-                    chatResponse.setResult(resultContacts);
+                        ResultContact resultContacts = new ResultContact();
+                        resultContacts.setContacts(contacts);
 
-                    String content = gson.toJson(chatResponse);
+                        ChatResponse<ResultContact> chatResponse = new ChatResponse<>();
+                        chatResponse.setUniqueId(uniqueId);
+                        chatResponse.setResult(resultContacts);
 
-                    listenerManager.callOnSearchContact(content, chatResponse);
-                    listenerManager.callOnLogEvent(content);
+                        String content = gson.toJson(chatResponse);
 
-                    showInfoLog("RECEIVE_SEARCH_CONTACT");
+                        listenerManager.callOnSearchContact(content, chatResponse);
+                        listenerManager.callOnLogEvent(content);
 
+                        showInfoLog("RECEIVE_SEARCH_CONTACT");
+                    }
                 }
 
                 @Override

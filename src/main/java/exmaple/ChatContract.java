@@ -95,7 +95,7 @@ public interface ChatContract {
         default void onUnblock(ChatResponse<ResultBlock> outPutBlock) {
         }
 
-        default void onSearchContact() {
+        default void onSearchContact(ChatResponse<ResultContact> chatResponse) {
         }
 
         default void onSearchHisory() {

@@ -271,7 +271,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     @Override
     public void searchContact(RequestSearchContact requestSearchContact) {
-
+        chat.searchContact(requestSearchContact);
     }
 
     @Override
@@ -612,7 +612,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void onSearchContact(String content, ChatResponse<ResultContact> chatResponse) {
         super.onSearchContact(content, chatResponse);
-        view.onSearchContact();
+        view.onSearchContact(chatResponse);
     }
 
     @Override

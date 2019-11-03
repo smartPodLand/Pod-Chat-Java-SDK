@@ -8,10 +8,7 @@ import podChat.mainmodel.Invitee;
 import podChat.mainmodel.MessageVO;
 import podChat.mainmodel.RequestSearchContact;
 import podChat.mainmodel.RequestThreadInnerMessage;
-import podChat.model.ChatResponse;
-import podChat.model.ErrorOutPut;
-import podChat.model.ResultHistory;
-import podChat.model.ResultNewMessage;
+import podChat.model.*;
 import podChat.requestobject.*;
 import podChat.util.InviteType;
 import podChat.util.RoleOperation;
@@ -28,7 +25,7 @@ public class ChatMain implements ChatContract.view {
     private static Logger logger = LogManager.getLogger(Async.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "3734c9c7fd60405f9246890d074996e0";
+    static String token = "d17078e8e7b5415db64d4e6b1d58b518";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
@@ -72,8 +69,9 @@ public class ChatMain implements ChatContract.view {
 //            getThreads();
 //            getcontact();
 //            spam();
-sendMessage();
+//sendMessage();
 //            unblock();
+            searchContact();
 
 //            getBlockList();
 //            unblock();
@@ -661,5 +659,9 @@ sendMessage();
 //            getThreads();
 //
 //        }
+    }
+
+    @Override
+    public void onSearchContact(ChatResponse<ResultContact> chatResponse) {
     }
 }
