@@ -25,14 +25,14 @@ public class ChatMain implements ChatContract.view {
     private static Logger logger = LogManager.getLogger(Async.class);
 
     static String platformHost = "https://sandbox.pod.land:8043";
-    static String token = "d17078e8e7b5415db64d4e6b1d58b518";
+    static String token = "225358d9d37e4d75b319a27f02ffb93b";
     static String ssoHost = "https://accounts.pod.land";
     static String fileServer = "https://sandbox.pod.land:8443";
     static String serverName = "chat-server";
     static String queueServer = "172.16.0.248";
     static String queuePort = "61616";
-    static String queueInput = "queue-in-amjadi-stomp";
-    static String queueOutput = "queue-out-amjadi-stomp";
+    static String queueInput = "queue-in-test";
+    static String queueOutput = "queue-out-test";
     static String queueUserName = "root";
     static String queuePassword = "zalzalak";
 
@@ -66,16 +66,18 @@ public class ChatMain implements ChatContract.view {
 //            addContact();
 //            deleteMultipleMessage();
 //            createThread();
-//            getThreads();
+            getThreads();
 //            getcontact();
 //            spam();
 //sendMessage();
 //            unblock();
-            searchContact();
+//            searchContact();
 
 //            getBlockList();
 //            unblock();
 //            getBlockList();
+
+//            spam();
 
         } catch (ConnectionException e) {
             System.out.println(e);
@@ -495,7 +497,7 @@ public class ChatMain implements ChatContract.view {
 
     private void spam() {
         RequestSpam requestSpam = new RequestSpam
-                .Builder(10329)
+                .Builder(6221)
                 .build();
 
         chatController.spam(requestSpam);

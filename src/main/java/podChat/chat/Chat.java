@@ -3623,6 +3623,7 @@ public class Chat extends AsyncAdapter {
             }
             showInfoLog("RECEIVED_NEW_MESSAGE", json);
 
+            //TODO getuserId
             if (ownerId != getUserId()) {
                 ChatMessage message = getChatMessage(messageVO);
 
@@ -3711,7 +3712,7 @@ public class Chat extends AsyncAdapter {
         showInfoLog("RECEIVED_FORWARD_MESSAGE", json);
 
         listenerManager.callOnNewMessage(json, chatResponse);
-
+//TODO getuserId
         if (ownerId != getUserId()) {
             ChatMessage message = getChatMessage(messageVO);
 
@@ -4409,6 +4410,7 @@ public class Chat extends AsyncAdapter {
             JsonObject jObj = (JsonObject) gson.toJsonTree(chatMessageContent);
             jObj.remove("lastMessageId");
             jObj.remove("firstMessageId");
+            jObj.remove("new");
 
             jObj.remove("count");
             jObj.addProperty("size", count);
@@ -4418,12 +4420,14 @@ public class Chat extends AsyncAdapter {
             chatMessage.setType(ChatMessageType.GET_CONTACTS);
             chatMessage.setToken(getToken());
             chatMessage.setUniqueId(uniqueId);
+            chatMessage.setTokenIssuer("1");
 
             JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
             jsonObject.remove("contentCount");
             jsonObject.remove("systemMetadata");
             jsonObject.remove("metadata");
             jsonObject.remove("repliedTo");
+            jsonObject.remove("subjectId");
 
             if (Util.isNullOrEmpty(getTypeCode())) {
                 jsonObject.remove("typeCode");
