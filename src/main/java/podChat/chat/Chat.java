@@ -1183,7 +1183,7 @@ public class Chat extends AsyncAdapter {
             }.getType());
 
 
-            contentObj.add("id", messageIdsElement.getAsJsonArray());
+            contentObj.add("ids", messageIdsElement.getAsJsonArray());
             contentObj.add("uniqueIds", uniqueIdsElement.getAsJsonArray());
             contentObj.addProperty("deleteForAll", deleteForAll);
 

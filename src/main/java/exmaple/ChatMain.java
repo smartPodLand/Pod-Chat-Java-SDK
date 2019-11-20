@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class ChatMain implements ChatContract.view {
     public static String platformHost = "https://sandbox.pod.land:8043";
-    public static String token = "c2ab5303d3a348efad239e79458cf452";
+    public static String token = "37b72ce3ebc5492fac28efebc0c64fda";
     public static String ssoHost = "https://accounts.pod.land";
     public static String fileServer = "https://sandbox.pod.land:8443";
     public static String serverName = "chat-server";
@@ -82,8 +82,8 @@ public class ChatMain implements ChatContract.view {
 //            getThreads();
 //            sendMessage();
 
-//            deleteMultipleMessage();
-//            deleteMessage();
+            deleteMultipleMessage();
+            deleteMessage();
 //            editMessage();
 //            forwardMessage();
 
@@ -115,8 +115,7 @@ public class ChatMain implements ChatContract.view {
 //            getBlockList();
 
 
-
-            setRole();
+//            setRole();
 //            getAdmin();
 //            deleteRole();
 
@@ -347,7 +346,7 @@ public class ChatMain implements ChatContract.view {
     private void deleteMessage() {
         RequestDeleteMessage deleteMessage = new RequestDeleteMessage
                 .Builder(new ArrayList<Long>() {{
-            add(55203L);
+            add(55439L);
         }})
                 .build();
 
@@ -419,8 +418,8 @@ public class ChatMain implements ChatContract.view {
     private void deleteMultipleMessage() {
         RequestDeleteMessage requestDeleteMessage = new RequestDeleteMessage
                 .Builder(new ArrayList<Long>() {{
-            add(55202L);
-            add(55201L);
+            add(55422L);
+            add(55421L);
         }})
                 .deleteForAll(true)
                 .build();
