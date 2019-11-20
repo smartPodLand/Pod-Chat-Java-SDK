@@ -97,6 +97,8 @@ public interface ChatContract {
 
         default void onSearchContact(ChatResponse<ResultContact> chatResponse) {
         }
+        default void onSetRole(ChatResponse<ResultSetAdmin> chatResponse) {
+        }
 
         default void onSearchHisory() {
         }
@@ -125,9 +127,6 @@ public interface ChatContract {
         default void onSpam() {
         }
 
-        default void onGetThreadAdmin() {
-        }
-
         default void onNewMessage(ChatResponse<ResultNewMessage> chatResponse) {
         }
 
@@ -139,6 +138,10 @@ public interface ChatContract {
 
         default void OnSetRole(ChatResponse<ResultSetAdmin> chatResponse) {
         }
+
+        default void OnInteractMessage(ChatResponse<ResultInteractMessage> chatResponse) {
+        }
+
     }
 
     interface controller {
@@ -323,6 +326,8 @@ public interface ChatContract {
         void stopSignalMessage(String uniqueId);
 
         void getBlockList(RequestBlockList request);
+
+        void interactMessage(RequestInteract request);
 
     }
 }

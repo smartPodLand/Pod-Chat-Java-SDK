@@ -405,7 +405,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     @Override
     public void getAdminList(RequestGetAdmin requestGetAdmin) {
-
+        chat.getAdminList(requestGetAdmin);
     }
 
     @Override
@@ -421,6 +421,11 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void getBlockList(RequestBlockList request) {
         chat.getBlockList(request);
+    }
+
+    @Override
+    public void interactMessage(RequestInteract request) {
+        chat.interactMessage(request);
     }
 
 
@@ -634,6 +639,12 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     public void OnSetRole(String content, ChatResponse<ResultSetAdmin> chatResponse) {
         super.OnSetRole(content, chatResponse);
         view.OnSetRole(chatResponse);
+    }
+
+    @Override
+    public void OnInteractMessage(String content, ChatResponse<ResultInteractMessage> chatResponse) {
+        super.OnInteractMessage(content, chatResponse);
+        view.OnInteractMessage(chatResponse);
     }
 }
 

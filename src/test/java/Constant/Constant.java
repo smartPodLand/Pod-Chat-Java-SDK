@@ -5,7 +5,7 @@ package Constant;
  */
 public class Constant {
     public static String platformHost = "https://sandbox.pod.land:8043";
-    public static String token = "d17078e8e7b5415db64d4e6b1d58b518";
+    public static String token = "9ea5c5481a0b49b9b0ffe29922aa8b31";
     public static String ssoHost = "https://accounts.pod.land";
     public static String fileServer = "https://sandbox.pod.land:8443";
     public static String serverName = "chat-server";
@@ -15,6 +15,7 @@ public class Constant {
     public static String queueOutput = "queue-out-amjadi-stomp";
     public static String queueUserName = "root";
     public static String queuePassword = "zalzalak";
+    public static Long chatId = 4101L;
 
 
 }

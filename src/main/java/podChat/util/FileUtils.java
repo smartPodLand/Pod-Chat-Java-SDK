@@ -24,22 +24,20 @@ import java.util.Random;
  * @version 2013-12-11
  */
 public class FileUtils {
-    private FileUtils() {
-    } //private constructor to enforce Singleton pattern
-
-    /**
-     * TAG for log messages.
-     */
-    private static final String TAG = "FileUtils";
-    private static final boolean DEBUG = false; // Set to true to enable logging
-
     public static final String MIME_TYPE_AUDIO = "audio/*";
     public static final String MIME_TYPE_TEXT = "text/*";
     public static final String MIME_TYPE_IMAGE = "image/*";
     public static final String MIME_TYPE_VIDEO = "video/*";
     public static final String MIME_TYPE_APP = "application/*";
-
+    /**
+     * TAG for log messages.
+     */
+    private static final String TAG = "FileUtils";
+    private static final boolean DEBUG = false; // Set to true to enable logging
     private static final String HIDDEN_PREFIX = ".";
+
+    private FileUtils() {
+    } //private constructor to enforce Singleton pattern
 
     /**
      * Gets the extension of a file name, like ".png" or ".jpg".
@@ -50,8 +48,7 @@ public class FileUtils {
 
     public static boolean isImage(String mimType) {
 
-        return mimType.equals("image/jpeg") || mimType.equals("image/bmp") || mimType.equals("image/gif")
-                || mimType.equals("image/jpg") || mimType.equals("image/png");
+        return mimType.equals("image/jpeg") || mimType.equals("image/bmp") || mimType.equals("image/jpg") || mimType.equals("image/png");
     }
 
 

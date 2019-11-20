@@ -18,6 +18,7 @@ public class History {
     private String order;
     private String query;
     private NosqlSearchMetadataCriteria metadataCriteria;
+    private String[] uniqueIds;
 
     public History(Builder builder) {
         this.count = builder.count;
@@ -32,91 +33,10 @@ public class History {
         this.fromTimeNanos = builder.fromTimeNanos;
         this.toTime = builder.toTime;
         this.toTimeNanos = builder.toTimeNanos;
+        this.uniqueIds = builder.uniqueIds;
     }
 
     private History() {
-    }
-
-    public static class Builder {
-        private long offset;
-        private long count;
-        private String order;
-        private long firstMessageId;
-        private long lastMessageId;
-        private NosqlSearchMetadataCriteria metadataCriteria;
-        private long id;
-        private String query;
-        private long fromTime;
-        private long fromTimeNanos;
-        private long toTime;
-        private long toTimeNanos;
-
-        public Builder id(long id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder fromTime(long fromTime) {
-            this.fromTime = fromTime;
-            return this;
-        }
-
-        public Builder fromTimeNanos(long fromTimeNanos) {
-            this.fromTimeNanos = fromTimeNanos;
-            return this;
-        }
-
-        public Builder toTime(long toTime) {
-            this.toTime = toTime;
-            return this;
-        }
-
-
-        public Builder toTimeNanos(long toTimeNanos) {
-            this.toTimeNanos = toTimeNanos;
-            return this;
-        }
-
-        public Builder query(String query) {
-            this.query = query;
-            return this;
-        }
-
-        public Builder metadataCriteria(NosqlSearchMetadataCriteria metadataCriteria) {
-            this.metadataCriteria = metadataCriteria;
-            return this;
-        }
-
-        public Builder offset(long offset) {
-            this.offset = offset;
-            return this;
-        }
-
-        public Builder count(long count) {
-            this.count = count;
-            return this;
-        }
-
-        public Builder order(String order) {
-            this.order = order;
-            return this;
-        }
-
-        @Deprecated
-        public Builder firstMessageId(long firstMessageId) {
-            this.firstMessageId = firstMessageId;
-            return this;
-        }
-
-        @Deprecated
-        public Builder lastMessageId(long lastMessageId) {
-            this.lastMessageId = lastMessageId;
-            return this;
-        }
-
-        public History build() {
-            return new History(this);
-        }
     }
 
     public long getFromTime() {
@@ -213,5 +133,101 @@ public class History {
 
     public void setMetadataCriteria(NosqlSearchMetadataCriteria metadataCriteria) {
         this.metadataCriteria = metadataCriteria;
+    }
+
+    public String[] getUniqueIds() {
+        return uniqueIds;
+    }
+
+    public void setUniqueIds(String[] uniqueIds) {
+        this.uniqueIds = uniqueIds;
+    }
+
+    public static class Builder {
+        private long offset;
+        private long count;
+        private String order;
+        private long firstMessageId;
+        private long lastMessageId;
+        private NosqlSearchMetadataCriteria metadataCriteria;
+        private long id;
+        private String query;
+        private long fromTime;
+        private long fromTimeNanos;
+        private long toTime;
+        private long toTimeNanos;
+        private String[] uniqueIds;
+
+        public Builder id(long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder fromTime(long fromTime) {
+            this.fromTime = fromTime;
+            return this;
+        }
+
+        public Builder fromTimeNanos(long fromTimeNanos) {
+            this.fromTimeNanos = fromTimeNanos;
+            return this;
+        }
+
+        public Builder toTime(long toTime) {
+            this.toTime = toTime;
+            return this;
+        }
+
+
+        public Builder toTimeNanos(long toTimeNanos) {
+            this.toTimeNanos = toTimeNanos;
+            return this;
+        }
+
+        public Builder query(String query) {
+            this.query = query;
+            return this;
+        }
+
+        public Builder metadataCriteria(NosqlSearchMetadataCriteria metadataCriteria) {
+            this.metadataCriteria = metadataCriteria;
+            return this;
+        }
+
+        public Builder offset(long offset) {
+            this.offset = offset;
+            return this;
+        }
+
+        public Builder count(long count) {
+            this.count = count;
+            return this;
+        }
+
+        public Builder order(String order) {
+            this.order = order;
+            return this;
+        }
+
+        public Builder uniqueIds(String[] uniqueIds) {
+            this.uniqueIds = uniqueIds;
+            return this;
+        }
+
+        @Deprecated
+        public Builder firstMessageId(long firstMessageId) {
+            this.firstMessageId = firstMessageId;
+            return this;
+        }
+
+        @Deprecated
+        public Builder lastMessageId(long lastMessageId) {
+            this.lastMessageId = lastMessageId;
+            return this;
+        }
+
+        public History build() {
+            return new History(this);
+        }
     }
 }

@@ -214,4 +214,9 @@ public class ChatAdapter implements ChatListener {
     public void OnClearHistory(String content, ChatResponse<ResultClearHistory> chatResponse) {
 
     }
+
+    @Override
+    public void OnInteractMessage(String content, ChatResponse<ResultInteractMessage> chatResponse) {
+
+    }
 }

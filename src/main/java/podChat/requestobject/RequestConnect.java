@@ -13,6 +13,7 @@ public class RequestConnect extends BaseRequestObject {
     private String ssoHost;
     private String platformHost;
     private String fileServer;
+    private Long chatId;
 
 
     public RequestConnect(Builder builder) {
@@ -28,57 +29,8 @@ public class RequestConnect extends BaseRequestObject {
         this.severName = builder.severName;
         this.token = builder.token;
         this.ssoHost = builder.ssoHost;
+        this.chatId = builder.chatId;
     }
-
-    public static class Builder extends BaseRequestObject.Builder<Builder> {
-        private String queueServer;
-        private String queuePort;
-        private String queueInput;
-        private String queueOutput;
-        private String queueUserName;
-        private String queuePassword;
-        private String severName;
-        private String token;
-        private String ssoHost;
-        private String platformHost;
-        private String fileServer;
-        private String typeCode;
-
-
-        public Builder(String queueServer, String queuePort, String queueInput, String queueOutput,
-                       String queueUserName, String queuePassword, String severName, String token,
-                       String ssoHost, String platformHost, String fileServer) {
-            this.queueServer = queueServer;
-            this.queuePort = queuePort;
-            this.queueInput = queueInput;
-            this.queueOutput = queueOutput;
-            this.queuePort = queuePort;
-            this.queueUserName = queueUserName;
-            this.queuePassword = queuePassword;
-            this.fileServer = fileServer;
-            this.platformHost = platformHost;
-            this.severName = severName;
-            this.token = token;
-            this.ssoHost = ssoHost;
-        }
-
-
-        public RequestConnect build() {
-            return new RequestConnect(this);
-        }
-
-        public Builder typeCode(String typeCode) {
-            this.typeCode = typeCode;
-            return this;
-        }
-
-
-        @Override
-        protected Builder self() {
-            return this;
-        }
-    }
-
 
     public String getQueueServer() {
         return queueServer;
@@ -166,5 +118,64 @@ public class RequestConnect extends BaseRequestObject {
 
     public void setFileServer(String fileServer) {
         this.fileServer = fileServer;
+    }
+
+    public Long getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(Long chatId) {
+        this.chatId = chatId;
+    }
+
+    public static class Builder extends BaseRequestObject.Builder<Builder> {
+        private String queueServer;
+        private String queuePort;
+        private String queueInput;
+        private String queueOutput;
+        private String queueUserName;
+        private String queuePassword;
+        private String severName;
+        private String token;
+        private String ssoHost;
+        private String platformHost;
+        private String fileServer;
+        private String typeCode;
+        private Long chatId;
+
+
+        public Builder(String queueServer, String queuePort, String queueInput, String queueOutput,
+                       String queueUserName, String queuePassword, String severName, String token,
+                       String ssoHost, String platformHost, String fileServer, Long chatId) {
+            this.queueServer = queueServer;
+            this.queuePort = queuePort;
+            this.queueInput = queueInput;
+            this.queueOutput = queueOutput;
+            this.queuePort = queuePort;
+            this.queueUserName = queueUserName;
+            this.queuePassword = queuePassword;
+            this.fileServer = fileServer;
+            this.platformHost = platformHost;
+            this.severName = severName;
+            this.token = token;
+            this.ssoHost = ssoHost;
+            this.chatId = chatId;
+        }
+
+
+        public RequestConnect build() {
+            return new RequestConnect(this);
+        }
+
+        public Builder typeCode(String typeCode) {
+            this.typeCode = typeCode;
+            return this;
+        }
+
+
+        @Override
+        protected Builder self() {
+            return this;
+        }
     }
 }

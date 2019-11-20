@@ -165,4 +165,7 @@ public interface ChatListener {
 
     default void OnSetRole(String content, ChatResponse<ResultSetAdmin> chatResponse) {
     }
+
+    default void OnInteractMessage(String content, ChatResponse<ResultInteractMessage> chatResponse) {
+    }
 }

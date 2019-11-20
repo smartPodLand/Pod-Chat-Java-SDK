@@ -1,13 +1,12 @@
 package podChat.requestobject;
 
 
-
 public class RequestThreadParticipant extends GeneralRequestObject {
     private long count;
     private long offset;
     private long threadId;
 
-    RequestThreadParticipant( Builder builder) {
+    RequestThreadParticipant(Builder builder) {
         super(builder);
         this.count = builder.count;
         this.offset = builder.offset;
@@ -20,6 +19,22 @@ public class RequestThreadParticipant extends GeneralRequestObject {
 
     public void setThreadId(long threadId) {
         this.threadId = threadId;
+    }
+
+    public long getCount() {
+        return count;
+    }
+
+    public void setCount(long count) {
+        this.count = count;
+    }
+
+    public long getOffset() {
+        return offset;
+    }
+
+    public void setOffset(long offset) {
+        this.offset = offset;
     }
 
     public static class Builder extends GeneralRequestObject.Builder<Builder> {
@@ -50,21 +65,5 @@ public class RequestThreadParticipant extends GeneralRequestObject {
         protected Builder self() {
             return this;
         }
-    }
-
-    public long getCount() {
-        return count;
-    }
-
-    public void setCount(long count) {
-        this.count = count;
-    }
-
-    public long getOffset() {
-        return offset;
-    }
-
-    public void setOffset(long offset) {
-        this.offset = offset;
     }
 }

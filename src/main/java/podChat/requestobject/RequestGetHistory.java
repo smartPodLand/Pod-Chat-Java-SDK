@@ -16,6 +16,7 @@ public class RequestGetHistory extends BaseRequestObject {
     private NosqlSearchMetadataCriteria metadataCriteria;
     private long firstMessageId;
     private long lastMessageId;
+    private String[] uniqueIds;
 
     RequestGetHistory(Builder builder) {
         super(builder);
@@ -31,99 +32,8 @@ public class RequestGetHistory extends BaseRequestObject {
         this.toTime = builder.toTime;
         this.toTimeNanos = builder.toTimeNanos;
         this.metadataCriteria = builder.metadataCriteria;
+        this.uniqueIds = builder.uniqueIds;
 
-    }
-
-    public static class Builder extends BaseRequestObject.Builder<Builder> {
-        private long threadId;
-        private String order;
-        private long firstMessageId;
-        private long lastMessageId;
-        private long userId;
-        private long id;
-        private String query;
-        private long fromTime;
-        private long fromTimeNanos;
-        private long toTime;
-        private long toTimeNanos;
-        private NosqlSearchMetadataCriteria metadataCriteria;
-
-        public Builder(long threadId) {
-            this.threadId = threadId;
-        }
-
-        public Builder firstMessageId(long firstMessageId) {
-            this.firstMessageId = firstMessageId;
-            return this;
-        }
-
-
-        public Builder fromTime(long fromTime) {
-            this.fromTime = fromTime;
-            return this;
-        }
-
-        public Builder fromTimeNanos(long fromTimeNanos) {
-            this.fromTimeNanos = fromTimeNanos;
-            return this;
-        }
-
-
-        public Builder toTime(long toTime) {
-            this.toTime = toTime;
-            return this;
-        }
-
-
-        public Builder toTimeNanos(long toTimeNanos) {
-            this.toTimeNanos = toTimeNanos;
-            return this;
-        }
-
-
-        public Builder lastMessageId(long lastMessageId) {
-            this.lastMessageId = lastMessageId;
-            return this;
-        }
-
-
-        public Builder order(String order) {
-            this.order = order;
-            return this;
-        }
-
-
-        public Builder userId(long userId) {
-            this.userId = userId;
-            return this;
-        }
-
-
-        public Builder id(long id) {
-            this.id = id;
-            return this;
-        }
-
-
-        public Builder query(String query) {
-            this.query = query;
-            return this;
-        }
-
-        public Builder metadataCriteria(NosqlSearchMetadataCriteria metadataCriteria) {
-            this.metadataCriteria = metadataCriteria;
-            return this;
-        }
-
-
-        public RequestGetHistory build() {
-            return new RequestGetHistory(this);
-        }
-
-        @Override
-        protected Builder self() {
-            return this;
-        }
     }
 
     public long getThreadId() {
@@ -220,5 +130,110 @@ public class RequestGetHistory extends BaseRequestObject {
 
     public void setToTimeNanos(long toTimeNanos) {
         this.toTimeNanos = toTimeNanos;
+    }
+
+    public String[] getUniqueIds() {
+        return uniqueIds;
+    }
+
+    public void setUniqueIds(String[] uniqueIds) {
+        this.uniqueIds = uniqueIds;
+    }
+
+    public static class Builder extends BaseRequestObject.Builder<Builder> {
+        private long threadId;
+        private String order;
+        private long firstMessageId;
+        private long lastMessageId;
+        private long userId;
+        private long id;
+        private String query;
+        private long fromTime;
+        private long fromTimeNanos;
+        private long toTime;
+        private long toTimeNanos;
+        private NosqlSearchMetadataCriteria metadataCriteria;
+        private String[] uniqueIds;
+
+        public Builder(long threadId) {
+            this.threadId = threadId;
+        }
+
+        public Builder firstMessageId(long firstMessageId) {
+            this.firstMessageId = firstMessageId;
+            return this;
+        }
+
+
+        public Builder fromTime(long fromTime) {
+            this.fromTime = fromTime;
+            return this;
+        }
+
+        public Builder fromTimeNanos(long fromTimeNanos) {
+            this.fromTimeNanos = fromTimeNanos;
+            return this;
+        }
+
+
+        public Builder toTime(long toTime) {
+            this.toTime = toTime;
+            return this;
+        }
+
+
+        public Builder toTimeNanos(long toTimeNanos) {
+            this.toTimeNanos = toTimeNanos;
+            return this;
+        }
+
+
+        public Builder lastMessageId(long lastMessageId) {
+            this.lastMessageId = lastMessageId;
+            return this;
+        }
+
+
+        public Builder order(String order) {
+            this.order = order;
+            return this;
+        }
+
+
+        public Builder userId(long userId) {
+            this.userId = userId;
+            return this;
+        }
+
+
+        public Builder id(long id) {
+            this.id = id;
+            return this;
+        }
+
+
+        public Builder query(String query) {
+            this.query = query;
+            return this;
+        }
+
+        public Builder metadataCriteria(NosqlSearchMetadataCriteria metadataCriteria) {
+            this.metadataCriteria = metadataCriteria;
+            return this;
+        }
+
+        public Builder uniqueIds(String[] uniqueIds) {
+            this.uniqueIds = uniqueIds;
+            return this;
+        }
+
+        public RequestGetHistory build() {
+            return new RequestGetHistory(this);
+        }
+
+        @Override
+        protected Builder self() {
+            return this;
+        }
     }
 }

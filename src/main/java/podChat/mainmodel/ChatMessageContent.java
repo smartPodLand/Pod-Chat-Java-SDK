@@ -16,6 +16,7 @@ public class ChatMessageContent {
     private long offset;
     private String order;
     private List<Integer> threadIds;
+    private boolean admin;
 
     public long getCount() {
         return count;
@@ -79,5 +80,13 @@ public class ChatMessageContent {
 
     public void setThreadIds(ArrayList<Integer> threadIds) {
         this.threadIds = threadIds;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 }

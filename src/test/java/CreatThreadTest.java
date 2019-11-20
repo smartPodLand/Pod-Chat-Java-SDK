@@ -36,8 +36,20 @@ public class CreatThreadTest implements ChatContract.view {
     public void connect() throws InterruptedException {
         try {
             chatController = new ChatController(chatContract);
+
             RequestConnect requestConnect = new RequestConnect
-                    .Builder(Constant.queueServer, Constant.queuePort, Constant.queueInput, Constant.queueOutput, Constant.queueUserName, Constant.queuePassword, Constant.serverName, Constant.token, Constant.ssoHost, Constant.platformHost, Constant.fileServer)
+                    .Builder(Constant.queueServer,
+                    Constant.queuePort,
+                    Constant.queueInput,
+                    Constant.queueOutput,
+                    Constant.queueUserName,
+                    Constant.queuePassword,
+                    Constant.serverName,
+                    Constant.token,
+                    Constant.ssoHost,
+                    Constant.platformHost,
+                    Constant.fileServer,
+                    Constant.chatId)
                     .typeCode("default")
                     .build();
 

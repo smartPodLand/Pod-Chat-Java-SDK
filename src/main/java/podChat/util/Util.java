@@ -47,6 +47,10 @@ public class Util {
         return list == null || list.size() == 0;
     }
 
+    public static <T> boolean isNullOrEmpty(T[] array) {
+        return array == null || array.length == 0;
+    }
+
     public static <T extends Number> boolean isNullOrEmpty(T number) {
         String num = String.valueOf(number);
         return number == null || num.equals("0");

@@ -488,4 +488,15 @@ public class ChatListenerManager {
         }
     }
 
+    public void callOnInteractMessage(String json, ChatResponse<ResultInteractMessage> chatResponse) {
+
+        for (ChatListener listener : getSynchronizedListeners()) {
+            try {
+                listener.OnInteractMessage(json, chatResponse);
+            } catch (Throwable t) {
+                callHandleCallbackError(listener, t);
+            }
+        }
+    }
+
 }

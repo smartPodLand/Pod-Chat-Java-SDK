@@ -5,8 +5,12 @@ import exmaple.ChatContract;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
 import podChat.model.ChatResponse;
+import podChat.requestobject.RequestAddAdmin;
 import podChat.requestobject.RequestConnect;
-import podChat.requestobject.RequestThread;
+import podChat.requestobject.RequestGetAdmin;
+import podChat.requestobject.RequestRole;
+import podChat.util.RoleOperation;
+import podChat.util.RoleType;
 
 import java.util.ArrayList;
 
@@ -17,12 +21,13 @@ import java.util.ArrayList;
 @TestInstance(value = TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
-public class GetThreadTest implements ChatContract.view {
+public class AdminScenario implements ChatContract.view {
     @Mock
     static ChatContract.view chatContract;
     @InjectMocks
     static ChatController chatController = Mockito.mock(ChatController.class);
-
+    long userId = 4781;
+    long threadId = 5941;
     Gson gson = new Gson();
 
     @BeforeEach
@@ -58,46 +63,34 @@ public class GetThreadTest implements ChatContract.view {
         } catch (ConnectionException e) {
             e.printStackTrace();
         }
-
-
     }
 
     @Test
-    @Order(2)
-    void getThreadList() throws InterruptedException {
-        RequestThread requestThread = new RequestThread.Builder().build();
+    @Order(3)
+    void addRole() throws InterruptedException {
 
-        chatController.getThreads(requestThread);
-
-        Thread.sleep(5000);
-
-        ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
-
-        Mockito.verify(chatContract, Mockito.times(1)).onGetThreadList(argument.capture());
-
-        ChatResponse chatResponse = argument.getValue();
-
-        Assertions.assertTrue(!chatResponse.hasError());
-
-    }
+        RequestRole requestRole = new RequestRole();
+        requestRole.setId(userId);
+        requestRole.setRoleTypes(new ArrayList<String>() {{
+            add(RoleType.THREAD_ADMIN);
+        }});
+        requestRole.setRoleOperation(RoleOperation.ADD);
 
 
-    @Test
-    @Order(2)
-    void getThreadListWithPagination() throws InterruptedException {
-        RequestThread requestThread = new RequestThread
-                .Builder()
-                .offset(0)
-                .count(10)
+        ArrayList<RequestRole> requestRoleArrayList = new ArrayList<>();
+        requestRoleArrayList.add(requestRole);
+
+        RequestAddAdmin requestAddAdmin = new RequestAddAdmin
+                .Builder(threadId, requestRoleArrayList)
                 .build();
 
-        chatController.getThreads(requestThread);
+        chatController.setAdmin(requestAddAdmin);
 
-        Thread.sleep(3000);
+        Thread.sleep(2000);
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.times(1)).onGetThreadList(argument.capture());
+        Mockito.verify(chatContract).onSetRole(argument.capture());
 
         ChatResponse chatResponse = argument.getValue();
 
@@ -105,47 +98,53 @@ public class GetThreadTest implements ChatContract.view {
 
     }
 
-    //Get Thread with Name
     @Test
-    @Order(2)
-    void getThreatWithName() throws InterruptedException {
-        RequestThread requestThread = new RequestThread
-                .Builder()
-                .threadName("sendMessage")
+    @Order(3)
+    void getThreadAdmin2() throws InterruptedException {
+
+        RequestGetAdmin requestGetAdmin = new RequestGetAdmin
+                .Builder(threadId)
                 .build();
 
-        chatController.getThreads(requestThread);
+        chatController.getAdminList(requestGetAdmin);
 
-        Thread.sleep(3000);
+        Thread.sleep(2000);
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.times(1)).onGetThreadList(argument.capture());
+        Mockito.verify(chatContract).onGetThreadParticipant(argument.capture());
 
         ChatResponse chatResponse = argument.getValue();
 
         Assertions.assertTrue(!chatResponse.hasError());
-
     }
 
-    //Get Thread with id
     @Test
-    @Order(2)
-    void getThreatWithId() throws InterruptedException {
-        RequestThread requestThread = new RequestThread
-                .Builder()
-                .threadIds(new ArrayList<Integer>() {{
-                    add(5462);
-                }})
+    @Order(4)
+    void deleteRole() throws InterruptedException {
+
+        RequestRole requestRole = new RequestRole();
+        requestRole.setId(userId);
+        requestRole.setRoleTypes(new ArrayList<String>() {{
+            add(RoleType.THREAD_ADMIN);
+        }});
+        requestRole.setRoleOperation(RoleOperation.REMOVE);
+
+
+        ArrayList<RequestRole> requestRoleArrayList = new ArrayList<>();
+        requestRoleArrayList.add(requestRole);
+
+        RequestAddAdmin requestAddAdmin = new RequestAddAdmin
+                .Builder(threadId, requestRoleArrayList)
                 .build();
 
-        chatController.getThreads(requestThread);
+        chatController.setAdmin(requestAddAdmin);
 
-        Thread.sleep(3000);
+        Thread.sleep(2000);
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.times(1)).onGetThreadList(argument.capture());
+        Mockito.verify(chatContract).onSetRole(argument.capture());
 
         ChatResponse chatResponse = argument.getValue();
 
@@ -153,26 +152,25 @@ public class GetThreadTest implements ChatContract.view {
 
     }
 
-    //Get Thread with partner's contact id
     @Test
-    @Order(2)
-    void getThreatWithPartnerContactId() throws InterruptedException {
-        RequestThread requestThread = new RequestThread
-                .Builder()
-                .partnerCoreContactId(4781)
+    @Order(5)
+    void getThreadAdmin3() throws InterruptedException {
+
+        RequestGetAdmin requestGetAdmin = new RequestGetAdmin
+                .Builder(threadId)
                 .build();
 
-        chatController.getThreads(requestThread);
+        chatController.getAdminList(requestGetAdmin);
 
-        Thread.sleep(10000);
+        Thread.sleep(2000);
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract, Mockito.times(1)).onGetThreadList(argument.capture());
+        Mockito.verify(chatContract).onGetThreadParticipant(argument.capture());
 
         ChatResponse chatResponse = argument.getValue();
 
         Assertions.assertTrue(!chatResponse.hasError());
-
     }
+
 }
