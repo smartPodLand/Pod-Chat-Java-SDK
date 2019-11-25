@@ -24,16 +24,16 @@ import java.util.List;
  */
 public class ChatMain implements ChatContract.view {
     public static String platformHost = "https://sandbox.pod.land:8043";
-    public static String token = "37b72ce3ebc5492fac28efebc0c64fda";
+    public static String token = "994b5851a2794fdbb64e73522bae6d99";
     public static String ssoHost = "https://accounts.pod.land";
     public static String fileServer = "https://sandbox.pod.land:8443";
     public static String serverName = "chat-server";
     public static String queueServer = "172.16.0.248";
-    public static String queuePort = "61616";
+    public static String queuePort = "******";
     public static String queueInput = "queue-in-amjadi-stomp";
     public static String queueOutput = "queue-out-amjadi-stomp";
-    public static String queueUserName = "root";
-    public static String queuePassword = "zalzalak";
+    public static String queueUserName = "*****";
+    public static String queuePassword = "***********";
     static ChatController chatController;
 
     /*    static String platformHost = "http://172.16.110.131:8080";
@@ -82,8 +82,8 @@ public class ChatMain implements ChatContract.view {
 //            getThreads();
 //            sendMessage();
 
-            deleteMultipleMessage();
-            deleteMessage();
+//            deleteMultipleMessage();
+//            deleteMessage();
 //            editMessage();
 //            forwardMessage();
 
@@ -123,7 +123,7 @@ public class ChatMain implements ChatContract.view {
 //            interactMessage();
 
 //            uploadImage();
-//            uploadFile();
+            uploadFile();
 
         } catch (ConnectionException | InterruptedException e) {
             System.out.println(e);
@@ -655,7 +655,7 @@ public class ChatMain implements ChatContract.view {
      */
     private void uploadFile() {
         RequestUploadFile requestUploadFile = new RequestUploadFile
-                .Builder("D:\\deploy.zip")
+                .Builder("D:\\a.txt")
                 .build();
 
         chatController.uploadFile(requestUploadFile);
