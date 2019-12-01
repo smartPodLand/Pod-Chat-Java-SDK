@@ -147,7 +147,7 @@ public interface ChatContract {
 
         void deliveredMessageList(RequestDeliveredMessageList requestParams);
 
-        void createThreadWithMessage(RequestCreateThread threadRequest);
+        void createThreadWithMessage(RequestCreateThreadWithMessage threadRequest);
 
         String createThread(int threadType, Invitee[] invitee, String threadTitle, String description, String image
                 , String metadata);
@@ -271,7 +271,7 @@ public interface ChatContract {
 //
 //        void uploadFileProgress(Context context, Activity activity, Uri fileUri, ProgressHandler.onProgressFile handler);
 
-        void setAdmin(RequestAddAdmin requestAddAdmin);
+        void setAdmin(RequestAddRole requestAddRole);
 
         void clearHistory(RequestClearHistory requestClearHistory);
 

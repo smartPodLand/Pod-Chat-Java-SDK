@@ -3,10 +3,14 @@ package podChat.networking.retrofithelper;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import okhttp3.ConnectionPool;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class RetrofitHelperPlatformHost {
 
@@ -19,8 +23,18 @@ public class RetrofitHelperPlatformHost {
                     .registerTypeAdapter(Date.class, new MyDateTypeAdapter())
                     .create();
 
+            OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+                    .retryOnConnectionFailure(true)
+                    .connectTimeout(60, TimeUnit.MINUTES)
+                    .writeTimeout(60, TimeUnit.MINUTES)
+                    .readTimeout(60, TimeUnit.MINUTES)
+//                    .connectionPool(new ConnectionPool(5, 5, TimeUnit.MINUTES))
+                    .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                    .build();
+
             retrofit = new Retrofit.Builder()
                     .baseUrl(baseUrl)
+                    .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }

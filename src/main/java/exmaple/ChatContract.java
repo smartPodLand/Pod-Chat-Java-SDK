@@ -97,6 +97,7 @@ public interface ChatContract {
 
         default void onSearchContact(ChatResponse<ResultContact> chatResponse) {
         }
+
         default void onSetRole(ChatResponse<ResultSetAdmin> chatResponse) {
         }
 
@@ -173,7 +174,7 @@ public interface ChatContract {
 
         void deliveredMessageList(RequestDeliveredMessageList requestParams);
 
-        void createThreadWithMessage(RequestCreateThread threadRequest);
+        void createThreadWithMessage(RequestCreateThreadWithMessage threadRequest);
 
 //        String createThread(int threadType, Invitee[] invitee, String threadTitle, String description, String image
 //                , String metadata);
@@ -183,7 +184,7 @@ public interface ChatContract {
 
         void getThreads(Integer count, Long offset, ArrayList<Integer> threadIds, String threadName,
 
-                        long creatorCoreUserId, long partnerCoreUserId, long partnerCoreContactId);
+                        long creatorCoreUserId, long partnerCoreUserId, long partnerCoreContactId, String typeCode);
 
         void getThreads(Integer count, Long offset, ArrayList<Integer> threadIds, String threadName);
 
@@ -207,18 +208,21 @@ public interface ChatContract {
 
         void searchHistory(NosqlListMessageCriteriaVO messageCriteriaVO);
 
-        void getContact(Integer count, Long offset);
+        void getContact(Integer count, Long offset, String typeCode);
 
         void getContact(RequestGetContact request);
 
         void createThread(int threadType, Invitee[] invitee, String threadTitle, String description, String image
-                , String metaData);
+                , String metaData, String typeCode);
 
-        void sendTextMessage(String textMessage, long threadId, Integer messageType, String metaData);
+        void createThread(RequestCreateThread requestCreateThread);
+
+        void sendTextMessage(String textMessage, long threadId, Integer messageType, String metaData,String typeCode);
 
         void sendTextMessage(RequestMessage requestMessage);
 
-        void replyMessage(String messageContent, long threadId, long messageId, String systemMetaData, Integer messageType);
+        void replyMessage(String messageContent, long threadId, long messageId, String systemMetaData
+                , Integer messageType,String typeCode);
 
         // void replyFileMessage(RequestReplyFileMessage request, ProgressHandler.sendFileMessage handler);
 
@@ -244,11 +248,9 @@ public interface ChatContract {
 
         void get(int count, Long offset, long threadId);
 
-        void addContact(String firstName, String lastName, String cellphoneNumber, String email);
+        void addContact(String firstName, String lastName, String cellphoneNumber, String email, String typeCode);
 
         void addContact(RequestAddContact request);
-
-        void removeContact(long id);
 
         void removeContact(RequestRemoveContact requestRemoveContact);
 
@@ -278,8 +280,6 @@ public interface ChatContract {
         void forwardMessage(long threadId, ArrayList<Long> messageIds);
 
         void forwardMessage(RequestForwardMessage request);
-
-        void updateContact(int id, String firstName, String lastName, String cellphoneNumber, String email);
 
         void updateContact(RequestUpdateContact updateContact);
 
@@ -315,7 +315,7 @@ public interface ChatContract {
 //
 //        void uploadFileProgress(Context context, Activity activity, Uri fileUri, ProgressHandler.onProgressFile handler);
 
-        void setAdmin(RequestAddAdmin requestAddAdmin);
+        void setAdmin(RequestAddRole requestAddRole);
 
         void clearHistory(RequestClearHistory requestClearHistory);
 

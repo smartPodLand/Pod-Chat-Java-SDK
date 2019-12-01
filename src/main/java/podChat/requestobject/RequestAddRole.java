@@ -2,12 +2,13 @@ package podChat.requestobject;
 
 import java.util.ArrayList;
 
-public class RequestAddAdmin {
+public class RequestAddRole extends GeneralRequestObject {
 
     private long threadId;
     private ArrayList<RequestRole> roles;
 
-    private RequestAddAdmin(Builder builder) {
+    private RequestAddRole(Builder builder) {
+        super(builder);
         this.threadId = builder.threadId;
         this.roles = builder.roles;
     }
@@ -20,7 +21,15 @@ public class RequestAddAdmin {
         this.roles = roles;
     }
 
-    public static class Builder {
+    public long getThreadId() {
+        return threadId;
+    }
+
+    public void setThreadId(long threadId) {
+        this.threadId = threadId;
+    }
+
+    public static class Builder extends GeneralRequestObject.Builder<Builder> {
         private long threadId;
         private ArrayList<RequestRole> roles;
 
@@ -29,17 +38,14 @@ public class RequestAddAdmin {
             this.roles = roles;
         }
 
-        public RequestAddAdmin build() {
-            return new RequestAddAdmin(this);
+        public RequestAddRole build() {
+            return new RequestAddRole(this);
         }
-    }
 
-    public long getThreadId() {
-        return threadId;
-    }
-
-    public void setThreadId(long threadId) {
-        this.threadId = threadId;
+        @Override
+        protected Builder self() {
+            return this;
+        }
     }
 
 

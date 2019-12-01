@@ -33,11 +33,11 @@ import podChat.util.*;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import javax.activation.MimetypesFileTypeMap;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -312,7 +312,7 @@ public class Chat extends AsyncAdapter {
      * @param threadId           Id of the destination thread
      * @param jsonSystemMetadata It should be Json,if you don't have metaData you can set it to "null"
      */
-    public String sendTextMessage(String textMessage, long threadId, Integer messageType, String jsonSystemMetadata) {
+    public String sendTextMessage(String textMessage, long threadId, Integer messageType, String jsonSystemMetadata, String typeCode) {
 
         String asyncContentWaitQueue;
         String uniqueId = generateUniqueId();
@@ -334,12 +334,16 @@ public class Chat extends AsyncAdapter {
 
             JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessageQueue);
 
-            if (Util.isNullOrEmpty(getTypeCode())) {
+            if (!Util.isNullOrEmpty(typeCode)) {
                 jsonObject.remove("typeCode");
-            } else {
+                jsonObject.addProperty("typeCode", typeCode);
+            } else if (!Util.isNullOrEmpty(getTypeCode())) {
                 jsonObject.remove("typeCode");
                 jsonObject.addProperty("typeCode", getTypeCode());
+            } else {
+                jsonObject.remove("typeCode");
             }
+
             if (!Util.isNullOrEmpty(messageType)) {
                 jsonObject.addProperty("messageType", messageType);
             } else {
@@ -376,8 +380,9 @@ public class Chat extends AsyncAdapter {
         long threadId = requestMessage.getThreadId();
         int messageType = requestMessage.getMessageType();
         String jsonMetaData = requestMessage.getJsonMetaData();
+        String typeCode = requestMessage.getTypeCode();
 
-        return sendTextMessage(textMessage, threadId, messageType, jsonMetaData);
+        return sendTextMessage(textMessage, threadId, messageType, jsonMetaData, typeCode);
     }
 
     /**
@@ -463,7 +468,7 @@ public class Chat extends AsyncAdapter {
      */
     @Deprecated
     public String getThreads(Integer count, Long offset, ArrayList<Integer> threadIds, String threadName,
-                             long creatorCoreUserId, long partnerCoreUserId, long partnerCoreContactId) {
+                             long creatorCoreUserId, long partnerCoreUserId, long partnerCoreContactId, String typeCode) {
 
         String uniqueId;
         count = count != null ? count : 50;
@@ -517,11 +522,14 @@ public class Chat extends AsyncAdapter {
 
                 JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
 
-                if (Util.isNullOrEmpty(getTypeCode())) {
+                if (!Util.isNullOrEmpty(typeCode)) {
                     jsonObject.remove("typeCode");
-                } else {
+                    jsonObject.addProperty("typeCode", typeCode);
+                } else if (!Util.isNullOrEmpty(getTypeCode())) {
                     jsonObject.remove("typeCode");
                     jsonObject.addProperty("typeCode", getTypeCode());
+                } else {
+                    jsonObject.remove("typeCode");
                 }
 
                 sendAsyncMessage(jsonObject.toString(), 3, "Get thread send");
@@ -544,8 +552,10 @@ public class Chat extends AsyncAdapter {
         long partnerCoreUserId = requestThread.getPartnerCoreUserId();
         String threadName = requestThread.getThreadName();
         long count = requestThread.getCount();
+        String typeCode = requestThread.getTypeCode();
 
-        return getThreads((int) count, offset, threadIds, threadName, creatorCoreUserId, partnerCoreUserId, partnerCoreContactId);
+        return getThreads((int) count, offset, threadIds, threadName, creatorCoreUserId, partnerCoreUserId
+                , partnerCoreContactId, typeCode);
     }
 
     /**
@@ -655,11 +665,16 @@ public class Chat extends AsyncAdapter {
             jsonObject.remove("repliedTo");
             jsonObject.remove("contentCount");
 
-            if (Util.isNullOrEmpty(getTypeCode())) {
+            String typeCode = requestClearHistory.getTypeCode();
+
+            if (!Util.isNullOrEmpty(typeCode)) {
                 jsonObject.remove("typeCode");
-            } else {
+                jsonObject.addProperty("typeCode", typeCode);
+            } else if (!Util.isNullOrEmpty(getTypeCode())) {
                 jsonObject.remove("typeCode");
                 jsonObject.addProperty("typeCode", getTypeCode());
+            } else {
+                jsonObject.remove("typeCode");
             }
 
             String asyncContent = jsonObject.toString();
@@ -676,15 +691,16 @@ public class Chat extends AsyncAdapter {
 
         Long offset = request.getOffset();
         Long count = request.getCount();
+        String typeCode = request.getTypeCode();
 
-        return getContacts(count.intValue(), offset);
+        return getContacts(count.intValue(), offset, typeCode);
     }
 
     /**
      * Get all of the contacts of the user
      */
-    public String getContacts(Integer count, Long offset) {
-        return getContactMain(count, offset, false);
+    public String getContacts(Integer count, Long offset, String typeCode) {
+        return getContactMain(count, offset, false, typeCode);
     }
 
     /**
@@ -695,9 +711,7 @@ public class Chat extends AsyncAdapter {
      * @param cellphoneNumber Notice: If you just  put the cellPhoneNumber doesn't necessary to add email
      * @param email           email of the contact
      */
-    public String addContact(String firstName, String lastName, String cellphoneNumber, String email) {
-
-        typeCode = getTypeCode();
+    public String addContact(String firstName, String lastName, String cellphoneNumber, String email, String typeCode) {
 
         if (Util.isNullOrEmpty(firstName)) {
             firstName = "";
@@ -718,13 +732,15 @@ public class Chat extends AsyncAdapter {
 
         if (chatReady) {
 
-            if (Util.isNullOrEmpty(getTypeCode())) {
-                addContactService = contactApi.addContact(getToken(), 1, firstName, lastName, email, uniqueId, cellphoneNumber);
-
-            } else {
+            if (!Util.isNullOrEmpty(typeCode)) {
                 addContactService = contactApi.addContact(getToken(), 1, firstName, lastName, email, uniqueId, cellphoneNumber, typeCode);
 
+            } else if (!Util.isNullOrEmpty(getTypeCode())) {
+                addContactService = contactApi.addContact(getToken(), 1, firstName, lastName, email, uniqueId, cellphoneNumber, getTypeCode());
+            } else {
+                addContactService = contactApi.addContact(getToken(), 1, firstName, lastName, email, uniqueId, cellphoneNumber);
             }
+
             showInfoLog("ADD_CONTACT");
 
             RetrofitUtil.request(addContactService, new ApiListener<Contacts>() {
@@ -753,7 +769,11 @@ public class Chat extends AsyncAdapter {
 
                 @Override
                 public void onServerError(Response<Contacts> response) {
-                    showErrorLog(response.body().getMessage());
+                    if (response.body() != null) {
+                        showErrorLog(response.body().getMessage());
+                    } else {
+                        showErrorLog(response.raw().toString());
+                    }
                 }
             });
 
@@ -777,10 +797,9 @@ public class Chat extends AsyncAdapter {
         String lastName = request.getLastName();
         String email = request.getEmail();
         String cellphoneNumber = request.getCellphoneNumber();
+        String typeCode = request.getTypeCode();
 
-        typeCode = getTypeCode();
-
-        return addContact(firstName, lastName, cellphoneNumber, email);
+        return addContact(firstName, lastName, cellphoneNumber, email, typeCode);
     }
 
     /**
@@ -788,17 +807,19 @@ public class Chat extends AsyncAdapter {
      *
      * @param userId id of the user that we want to remove from contact list
      */
-    public String removeContact(long userId) {
+    public String removeContact(long userId, String typeCode) {
         String uniqueId = generateUniqueId();
 
         Call<ContactRemove> removeContactObservable;
 
         if (chatReady) {
 
-            if (Util.isNullOrEmpty(getTypeCode())) {
-                removeContactObservable = contactApi.removeContact(getToken(), 1, userId);
-            } else {
+            if (!Util.isNullOrEmpty(typeCode)) {
+                removeContactObservable = contactApi.removeContact(getToken(), 1, userId, typeCode);
+            } else if (!Util.isNullOrEmpty(getTypeCode())) {
                 removeContactObservable = contactApi.removeContact(getToken(), 1, userId, getTypeCode());
+            } else {
+                removeContactObservable = contactApi.removeContact(getToken(), 1, userId);
             }
 
             RetrofitUtil.request(removeContactObservable, new ApiListener<ContactRemove>() {
@@ -850,14 +871,15 @@ public class Chat extends AsyncAdapter {
      */
     public String removeContact(RequestRemoveContact request) {
         long userId = request.getUserId();
-        return removeContact(userId);
+        String typeCode = request.getTypeCode();
+        return removeContact(userId, typeCode);
     }
 
     /**
      * Update contacts
      * all of the params all required to update
      */
-    public String updateContact(long userId, String firstName, String lastName, String cellphoneNumber, String email) {
+    public String updateContact(long userId, String firstName, String lastName, String cellphoneNumber, String email, String typeCode) {
 
         String uniqueId = generateUniqueId();
 
@@ -880,10 +902,12 @@ public class Chat extends AsyncAdapter {
         if (chatReady) {
             Call<UpdateContact> updateContactObservable;
 
-            if (Util.isNullOrEmpty(getTypeCode())) {
-                updateContactObservable = contactApi.updateContact(getToken(), 1, userId, firstName, lastName, email, uniqueId, cellphoneNumber);
-            } else {
+            if (!Util.isNullOrEmpty(typeCode)) {
+                updateContactObservable = contactApi.updateContact(getToken(), 1, userId, firstName, lastName, email, uniqueId, cellphoneNumber, typeCode);
+            } else if (!Util.isNullOrEmpty(getTypeCode())) {
                 updateContactObservable = contactApi.updateContact(getToken(), 1, userId, firstName, lastName, email, uniqueId, cellphoneNumber, getTypeCode());
+            } else {
+                updateContactObservable = contactApi.updateContact(getToken(), 1, userId, firstName, lastName, email, uniqueId, cellphoneNumber);
             }
 
             RetrofitUtil.request(updateContactObservable, new ApiListener<UpdateContact>() {
@@ -952,8 +976,9 @@ public class Chat extends AsyncAdapter {
         String email = request.getEmail();
         String cellphoneNumber = request.getCellphoneNumber();
         long userId = request.getUserId();
+        String typeCode = request.getTypeCode();
 
-        return updateContact(userId, firstName, lastName, cellphoneNumber, email);
+        return updateContact(userId, firstName, lastName, cellphoneNumber, email, typeCode);
     }
 
     /**
@@ -964,7 +989,7 @@ public class Chat extends AsyncAdapter {
         String uniqueId = generateUniqueId();
         String type_code;
 
-        if (requestSearchContact.getTypeCode() != null && !requestSearchContact.getTypeCode().isEmpty()) {
+        if (!Util.isNullOrEmpty(requestSearchContact.getTypeCode())) {
             type_code = requestSearchContact.getTypeCode();
         } else {
             type_code = getTypeCode();
@@ -1038,7 +1063,7 @@ public class Chat extends AsyncAdapter {
      * @param deleteForAll If you want to delete message for everyone you can set it true if u don't want
      *                     you can set it false or even null.
      */
-    public String deleteMessage(Long messageId, Boolean deleteForAll) {
+    public String deleteMessage(Long messageId, Boolean deleteForAll, String typeCode) {
         String uniqueId = generateUniqueId();
 
         if (chatReady) {
@@ -1060,11 +1085,14 @@ public class Chat extends AsyncAdapter {
 
             JsonObject jsonObject = (JsonObject) gson.toJsonTree(baseMessage);
 
-            if (Util.isNullOrEmpty(getTypeCode())) {
+            if (!Util.isNullOrEmpty(typeCode)) {
                 jsonObject.remove("typeCode");
-            } else {
+                jsonObject.addProperty("typeCode", typeCode);
+            } else if (!Util.isNullOrEmpty(getTypeCode())) {
                 jsonObject.remove("typeCode");
                 jsonObject.addProperty("typeCode", getTypeCode());
+            } else {
+                jsonObject.remove("typeCode");
             }
 
             String asyncContent = jsonObject.toString();
@@ -1083,7 +1111,7 @@ public class Chat extends AsyncAdapter {
      * @param threadId   destination thread id
      * @param messageIds Array of message ids that we want to forward them
      */
-    public List<String> forwardMessage(long threadId, ArrayList<Long> messageIds) {
+    public List<String> forwardMessage(long threadId, ArrayList<Long> messageIds, String typeCode) {
         ArrayList<String> uniqueIds = new ArrayList<>();
         ArrayList<Callback> callbacks = new ArrayList<>();
 
@@ -1118,11 +1146,14 @@ public class Chat extends AsyncAdapter {
             jsonObject.remove("metadata");
             jsonObject.remove("repliedTo");
 
-            if (Util.isNullOrEmpty(getTypeCode())) {
+            if (!Util.isNullOrEmpty(typeCode)) {
                 jsonObject.remove("typeCode");
-            } else {
+                jsonObject.addProperty("typeCode", typeCode);
+            } else if (!Util.isNullOrEmpty(getTypeCode())) {
                 jsonObject.remove("typeCode");
                 jsonObject.addProperty("typeCode", getTypeCode());
+            } else {
+                jsonObject.remove("typeCode");
             }
 
             String asyncContent = jsonObject.toString();
@@ -1146,7 +1177,7 @@ public class Chat extends AsyncAdapter {
      * messageIds Array of message ids that we want to forward them
      */
     public List<String> forwardMessage(RequestForwardMessage request) {
-        return forwardMessage(request.getThreadId(), request.getMessageIds());
+        return forwardMessage(request.getThreadId(), request.getMessageIds(), request.getTypeCode());
     }
 
     /**
@@ -1154,7 +1185,7 @@ public class Chat extends AsyncAdapter {
      * @param deleteForAll
      */
 
-    public List<String> deleteMultipleMessage(ArrayList<Long> messageIds, Boolean deleteForAll) {
+    public List<String> deleteMultipleMessage(ArrayList<Long> messageIds, Boolean deleteForAll, String typeCode) {
         String uniqueId = generateUniqueId();
 
         List<String> uniqueIds = new ArrayList<>();
@@ -1196,12 +1227,16 @@ public class Chat extends AsyncAdapter {
             JsonObject jsonObject = (JsonObject) gson.toJsonTree(baseMessage);
 
 
-            if (Util.isNullOrEmpty(getTypeCode())) {
+            if (!Util.isNullOrEmpty(typeCode)) {
                 jsonObject.remove("typeCode");
-            } else {
+                jsonObject.addProperty("typeCode", typeCode);
+            } else if (!Util.isNullOrEmpty(getTypeCode())) {
                 jsonObject.remove("typeCode");
                 jsonObject.addProperty("typeCode", getTypeCode());
+            } else {
+                jsonObject.remove("typeCode");
             }
+
 
             jsonObject.remove("subjectId");
 
@@ -1225,7 +1260,7 @@ public class Chat extends AsyncAdapter {
      */
     public List<String> deleteMultipleMessage(RequestDeleteMessage request) {
 
-        return deleteMultipleMessage(request.getMessageIds(), request.isDeleteForAll());
+        return deleteMultipleMessage(request.getMessageIds(), request.isDeleteForAll(), request.getTypeCode());
     }
 
     /**
@@ -1240,7 +1275,7 @@ public class Chat extends AsyncAdapter {
             return getErrorOutPut(ChatConstant.ERROR_NUMBER_MESSAGEID, ChatConstant.ERROR_CODE_NUMBER_MESSAGEID, null);
 
         }
-        return deleteMessage(request.getMessageIds().get(0), request.isDeleteForAll());
+        return deleteMessage(request.getMessageIds().get(0), request.isDeleteForAll(), request.getTypeCode());
     }
 
     /**
@@ -1298,12 +1333,14 @@ public class Chat extends AsyncAdapter {
 
             JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
 
-            if (Util.isNullOrEmpty(typeCode)) {
-                jsonObject.addProperty("typeCode", getTypeCode());
-//                jsonObject.remove("typeCode");
-            } else {
-//                jsonObject.remove("typeCode");
+            if (!Util.isNullOrEmpty(typeCode)) {
+                jsonObject.remove("typeCode");
                 jsonObject.addProperty("typeCode", typeCode);
+            } else if (!Util.isNullOrEmpty(getTypeCode())) {
+                jsonObject.remove("typeCode");
+                jsonObject.addProperty("typeCode", getTypeCode());
+            } else {
+                jsonObject.remove("typeCode");
             }
 
             jsonObject.remove("lastMessageId");
@@ -1325,6 +1362,18 @@ public class Chat extends AsyncAdapter {
 
     }
 
+    public String createThread(RequestCreateThread requestCreateThread) {
+        int threadType = requestCreateThread.getType();
+        Invitee[] invitee = (Invitee[]) requestCreateThread.getInvitees().toArray();
+        String threadTitle = requestCreateThread.getTitle();
+        String description = requestCreateThread.getDescription();
+        String image = requestCreateThread.getImage();
+        String metadata = requestCreateThread.getMetadata();
+        String typeCode = requestCreateThread.getTypeCode();
+
+        return createThread(threadType, invitee, threadTitle, description, image, metadata, typeCode);
+    }
+
     /**
      * Create the thread to p to p/channel/group. The list below is showing all of the threads type
      * int NORMAL = 0;
@@ -1336,7 +1385,7 @@ public class Chat extends AsyncAdapter {
      * int CHANNEL = 8;
      */
     public String createThread(int threadType, Invitee[] invitee, String threadTitle, String description, String image
-            , String metadata) {
+            , String metadata, String typeCode) {
 
         String uniqueId = generateUniqueId();
 
@@ -1377,11 +1426,14 @@ public class Chat extends AsyncAdapter {
 
             JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
 
-            if (Util.isNullOrEmpty(getTypeCode())) {
+            if (!Util.isNullOrEmpty(typeCode)) {
                 jsonObject.remove("typeCode");
-            } else {
+                jsonObject.addProperty("typeCode", typeCode);
+            } else if (!Util.isNullOrEmpty(getTypeCode())) {
                 jsonObject.remove("typeCode");
                 jsonObject.addProperty("typeCode", getTypeCode());
+            } else {
+                jsonObject.remove("typeCode");
             }
 
             String asyncContent = jsonObject.toString();
@@ -1416,7 +1468,7 @@ public class Chat extends AsyncAdapter {
      * -------------  List<Long> forwardedMessageIds  [Optional]
      * }
      */
-    public ArrayList<String> createThreadWithMessage(RequestCreateThread threadRequest) {
+    public ArrayList<String> createThreadWithMessage(RequestCreateThreadWithMessage threadRequest) {
         List<String> forwardUniqueIds;
         JsonObject innerMessageObj;
         JsonObject jsonObject;
@@ -1488,14 +1540,14 @@ public class Chat extends AsyncAdapter {
 
                 String typeCode = threadRequest.getTypeCode();
 
-                if (Util.isNullOrEmpty(typeCode)) {
-                    if (Util.isNullOrEmpty(getTypeCode())) {
-                        jsonObject.remove("typeCode");
-                    } else {
-                        jsonObject.addProperty("typeCode", getTypeCode());
-                    }
-                } else {
+                if (!Util.isNullOrEmpty(typeCode)) {
+                    jsonObject.remove("typeCode");
                     jsonObject.addProperty("typeCode", typeCode);
+                } else if (!Util.isNullOrEmpty(getTypeCode())) {
+                    jsonObject.remove("typeCode");
+                    jsonObject.addProperty("typeCode", getTypeCode());
+                } else {
+                    jsonObject.remove("typeCode");
                 }
 
                 sendAsyncMessage(jsonObject.toString(), 4, "SEND_CREATE_THREAD_WITH_MESSAGE");
@@ -1597,11 +1649,13 @@ public class Chat extends AsyncAdapter {
         String messageContent = request.getMessageContent();
         String systemMetaData = request.getSystemMetaData();
         int messageType = request.getMessageType();
+        String typeCode = request.getTypeCode();
 
-        return mainReplyMessage(messageContent, threadId, messageId, systemMetaData, messageType, null);
+        return mainReplyMessage(messageContent, threadId, messageId, systemMetaData, messageType, null, typeCode);
     }
 
-    private String mainReplyMessage(String messageContent, long threadId, long messageId, String systemMetaData, Integer messageType, String metaData) {
+    private String mainReplyMessage(String messageContent, long threadId, long messageId, String systemMetaData,
+                                    Integer messageType, String metaData, String typeCode) {
         String uniqueId;
         uniqueId = generateUniqueId();
 
@@ -1625,11 +1679,14 @@ public class Chat extends AsyncAdapter {
             jsonObject.addProperty("systemMetaData", systemMetaData);
         }
 
-        if (Util.isNullOrEmpty(getTypeCode())) {
+        if (!Util.isNullOrEmpty(typeCode)) {
             jsonObject.remove("typeCode");
-        } else {
+            jsonObject.addProperty("typeCode", typeCode);
+        } else if (!Util.isNullOrEmpty(getTypeCode())) {
             jsonObject.remove("typeCode");
             jsonObject.addProperty("typeCode", getTypeCode());
+        } else {
+            jsonObject.remove("typeCode");
         }
 
         if (Util.isNullOrEmpty(messageType)) {
@@ -1658,8 +1715,9 @@ public class Chat extends AsyncAdapter {
      * @param messageId      of the message that we want to reply
      * @param systemMetaData meta data of the message
      */
-    public String replyMessage(String messageContent, long threadId, long messageId, String systemMetaData, Integer messageType) {
-        return mainReplyMessage(messageContent, threadId, messageId, systemMetaData, messageType, null);
+    public String replyMessage(String messageContent, long threadId, long messageId, String systemMetaData
+            , Integer messageType, String typeCode) {
+        return mainReplyMessage(messageContent, threadId, messageId, systemMetaData, messageType, null, typeCode);
     }
 
     /**
@@ -2117,6 +2175,7 @@ public class Chat extends AsyncAdapter {
         String mimeType = lFileUpload.getMimeType();
         File file = lFileUpload.getFile();
         long file_size = lFileUpload.getFileSize();
+        String typeCode = lFileUpload.getTypeCode();
 
         String methodName = lFileUpload.getMethodName();
 
@@ -2167,7 +2226,7 @@ public class Chat extends AsyncAdapter {
                                 listenerManager.callOnLogEvent(jsonMeta);
 
                                 if (!Util.isNullOrEmpty(methodName) && methodName.equals(ChatConstant.METHOD_REPLY_MSG)) {
-                                    mainReplyMessage(description, threadId, messageId, systemMetadata, messageType, jsonMeta);
+                                    mainReplyMessage(description, threadId, messageId, systemMetadata, messageType, jsonMeta, typeCode);
 
                                     showInfoLog("SEND_REPLY_FILE_MESSAGE");
 
@@ -2299,6 +2358,7 @@ public class Chat extends AsyncAdapter {
         String methodName = fileUpload.getMethodName();
         long fileSize = fileUpload.getFileSize();
         String center = fileUpload.getCenter();
+        String typeCode = fileUpload.getTypeCode();
 
         File file = fileUpload.getFile();
         try {
@@ -2391,7 +2451,7 @@ public class Chat extends AsyncAdapter {
                                 }
 
                                 if (!Util.isNullOrEmpty(methodName) && methodName.equals(ChatConstant.METHOD_REPLY_MSG)) {
-                                    mainReplyMessage(description, threadId, messageId, systemMetaData, messageType, metaJson);
+                                    mainReplyMessage(description, threadId, messageId, systemMetaData, messageType, metaJson, typeCode);
 
                                     showInfoLog("SEND_REPLY_FILE_MESSAGE");
 
@@ -2448,6 +2508,13 @@ public class Chat extends AsyncAdapter {
         long messageId = request.getMessageId();
         int messageType = request.getMessageType();
         String methodName = ChatConstant.METHOD_REPLY_MSG;
+        String typeCode;
+
+        if (!Util.isNullOrEmpty(request.getTypeCode())) {
+            typeCode = request.getTypeCode();
+        } else {
+            typeCode = getTypeCode();
+        }
 
         LFileUpload lFileUpload = new LFileUpload();
         lFileUpload.setDescription(messageContent);
@@ -2465,6 +2532,7 @@ public class Chat extends AsyncAdapter {
         lFileUpload.setyC(request.getyC());
         lFileUpload.setwC(request.getwC());
         lFileUpload.sethC(request.gethC());
+        lFileUpload.setTypeCode(typeCode);
 
         try {
             if (filePath != null) {
@@ -2564,11 +2632,13 @@ public class Chat extends AsyncAdapter {
                 jsonObject.remove("metadata");
                 jsonObject.remove("repliedTo");
 
-                if (Util.isNullOrEmpty(getTypeCode())) {
-                    jsonObject.remove("typeCode");
-                } else {
+                if (!Util.isNullOrEmpty(request.getTypeCode())) {
+                    jsonObject.addProperty("typeCode", request.getTypeCode());
+                } else if (!Util.isNullOrEmpty(getTypeCode())) {
                     jsonObject.remove("typeCode");
                     jsonObject.addProperty("typeCode", getTypeCode());
+                } else {
+                    jsonObject.remove("typeCode");
                 }
 
                 sendAsyncMessage(jsonObject.toString(), 4, "SEND_EDIT_MESSAGE");
@@ -2662,7 +2732,12 @@ public class Chat extends AsyncAdapter {
             jsonObject.remove("repliedTo");
 
             String typeCode = request.getTypeCode();
-            if (Util.isNullOrEmpty(typeCode)) {
+
+            if (!Util.isNullOrEmpty(typeCode)) {
+                jsonObject.remove("typeCode");
+                jsonObject.addProperty("typeCode", typeCode);
+            } else if (!Util.isNullOrEmpty(getTypeCode())) {
+                jsonObject.remove("typeCode");
                 jsonObject.addProperty("typeCode", getTypeCode());
             } else {
                 jsonObject.remove("typeCode");
@@ -2681,7 +2756,7 @@ public class Chat extends AsyncAdapter {
      * @param participantIds List of PARTICIPANT IDs that gets from {@link #getThreadParticipants}
      * @param threadId       Id of the thread that we wants to remove their participant
      */
-    public String removeParticipants(long threadId, List<Long> participantIds) {
+    public String removeParticipants(long threadId, List<Long> participantIds, String typeCode) {
         String uniqueId = generateUniqueId();
 
         if (chatReady) {
@@ -2707,11 +2782,14 @@ public class Chat extends AsyncAdapter {
             jsonObject.remove("metadata");
             jsonObject.remove("repliedTo");
 
-            if (Util.isNullOrEmpty(getTypeCode())) {
+            if (!Util.isNullOrEmpty(typeCode)) {
                 jsonObject.remove("typeCode");
-            } else {
+                jsonObject.addProperty("typeCode", typeCode);
+            } else if (!Util.isNullOrEmpty(getTypeCode())) {
                 jsonObject.remove("typeCode");
                 jsonObject.addProperty("typeCode", getTypeCode());
+            } else {
+                jsonObject.remove("typeCode");
             }
 
             String asyncContent = jsonObject.toString();
@@ -2734,13 +2812,13 @@ public class Chat extends AsyncAdapter {
         long threadId = request.getThreadId();
         String typeCode = request.getTypeCode();
 
-        return removeParticipants(threadId, participantIds);
+        return removeParticipants(threadId, participantIds, typeCode);
     }
 
     /**
      * It leaves the thread that you are in there
      */
-    public String leaveThread(long threadId) {
+    public String leaveThread(long threadId, String typeCode) {
         String uniqueId = generateUniqueId();
 
         if (chatReady) {
@@ -2754,11 +2832,14 @@ public class Chat extends AsyncAdapter {
 
             JsonObject jsonObject = (JsonObject) gson.toJsonTree(removeParticipant);
 
-            if (Util.isNullOrEmpty(getTypeCode())) {
+            if (!Util.isNullOrEmpty(typeCode)) {
                 jsonObject.remove("typeCode");
-            } else {
+                jsonObject.addProperty("typeCode", typeCode);
+            } else if (!Util.isNullOrEmpty(getTypeCode())) {
                 jsonObject.remove("typeCode");
                 jsonObject.addProperty("typeCode", getTypeCode());
+            } else {
+                jsonObject.remove("typeCode");
             }
 
             String asyncContent = jsonObject.toString();
@@ -2779,17 +2860,18 @@ public class Chat extends AsyncAdapter {
      */
     public String leaveThread(RequestLeaveThread request) {
 
-        return leaveThread(request.getThreadId());
+        return leaveThread(request.getThreadId(), request.getTypeCode());
     }
 
     /**
-     * @param requestAddAdmin You can add or remove some roles to/from someone in a thread using user id.
+     * @param requestAddRole You can add or remove some roles to/from someone in a thread using user id.
      *                        `setRoleOperation` could be `add` or `remove`
      */
-    public String setAdmin(RequestAddAdmin requestAddAdmin) {
-        long threadId = requestAddAdmin.getThreadId();
-        ArrayList<RequestRole> roles = requestAddAdmin.getRoles();
+    public String setAdmin(RequestAddRole requestAddRole) {
+        long threadId = requestAddRole.getThreadId();
+        ArrayList<RequestRole> roles = requestAddRole.getRoles();
         String uniqueId = generateUniqueId();
+
 
         if (chatReady) {
             ArrayList<UserRoleVO> userRoleVOS = new ArrayList<>();
@@ -2811,6 +2893,12 @@ public class Chat extends AsyncAdapter {
             chatMessage.setTokenIssuer(String.valueOf(TOKEN_ISSUER));
             chatMessage.setUniqueId(uniqueId);
 
+            if (!Util.isNullOrEmpty(requestAddRole.getTypeCode())) {
+                chatMessage.setTypeCode(requestAddRole.getTypeCode());
+            } else {
+                chatMessage.setTypeCode(getTypeCode());
+            }
+
             String asyncContent = gson.toJson(chatMessage);
 
             sendAsyncMessage(asyncContent, 4, "SET_RULE_TO_USER");
@@ -2825,7 +2913,7 @@ public class Chat extends AsyncAdapter {
      * @param threadId  id of the thread
      * @param userId    id of the user
      */
-    public String block(Long contactId, Long userId, Long threadId) {
+    public String block(Long contactId, Long userId, Long threadId, String typeCode) {
         String uniqueId = generateUniqueId();
 
         if (chatReady) {
@@ -2851,11 +2939,14 @@ public class Chat extends AsyncAdapter {
 
             JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
 
-            if (Util.isNullOrEmpty(getTypeCode())) {
+            if (!Util.isNullOrEmpty(typeCode)) {
                 jsonObject.remove("typeCode");
-            } else {
+                jsonObject.addProperty("typeCode", typeCode);
+            } else if (!Util.isNullOrEmpty(getTypeCode())) {
                 jsonObject.remove("typeCode");
                 jsonObject.addProperty("typeCode", getTypeCode());
+            } else {
+                jsonObject.remove("typeCode");
             }
 
             String asyncContent = jsonObject.toString();
@@ -2880,8 +2971,9 @@ public class Chat extends AsyncAdapter {
         Long contactId = request.getContactId();
         long threadId = request.getThreadId();
         long userId = request.getUserId();
+        String typeCode = request.getTypeCode();
 
-        return block(contactId, userId, threadId);
+        return block(contactId, userId, threadId, typeCode);
     }
 
     /**
@@ -2892,7 +2984,7 @@ public class Chat extends AsyncAdapter {
      * @param threadId  Id of the thread
      * @param contactId Id of the contact
      */
-    public String unblock(Long blockId, Long userId, Long threadId, Long contactId) {
+    public String unblock(Long blockId, Long userId, Long threadId, Long contactId, String typeCode) {
         String uniqueId = generateUniqueId();
 
         if (chatReady) {
@@ -2931,12 +3023,14 @@ public class Chat extends AsyncAdapter {
                 jsonObject.addProperty("subjectId", blockId);
             }
 
-
-            if (Util.isNullOrEmpty(getTypeCode())) {
+            if (!Util.isNullOrEmpty(typeCode)) {
                 jsonObject.remove("typeCode");
-            } else {
+                jsonObject.addProperty("typeCode", typeCode);
+            } else if (!Util.isNullOrEmpty(getTypeCode())) {
                 jsonObject.remove("typeCode");
                 jsonObject.addProperty("typeCode", getTypeCode());
+            } else {
+                jsonObject.remove("typeCode");
             }
 
             String asyncContent = jsonObject.toString();
@@ -2963,14 +3057,15 @@ public class Chat extends AsyncAdapter {
         long threadId = request.getThreadId();
         long userId = request.getUserId();
         long blockId = request.getBlockId();
+        String typeCode = request.getTypeCode();
 
-        return unblock(blockId, userId, threadId, contactId);
+        return unblock(blockId, userId, threadId, contactId, typeCode);
     }
 
     /**
      * It gets the list of the contacts that is on block list
      */
-    public String getBlockList(Long count, Long offset) {
+    public String getBlockList(Long count, Long offset, String typeCode) {
         String uniqueId = generateUniqueId();
 
         if (chatReady) {
@@ -2994,11 +3089,14 @@ public class Chat extends AsyncAdapter {
             chatMessage.setUniqueId(uniqueId);
             JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
 
-            if (Util.isNullOrEmpty(getTypeCode())) {
+            if (!Util.isNullOrEmpty(typeCode)) {
                 jsonObject.remove("typeCode");
-            } else {
+                jsonObject.addProperty("typeCode", typeCode);
+            } else if (!Util.isNullOrEmpty(getTypeCode())) {
                 jsonObject.remove("typeCode");
                 jsonObject.addProperty("typeCode", getTypeCode());
+            } else {
+                jsonObject.remove("typeCode");
             }
 
             String asyncContent = jsonObject.toString();
@@ -3015,7 +3113,7 @@ public class Chat extends AsyncAdapter {
      * It gets the list of the contacts that is on block list
      */
     public String getBlockList(RequestBlockList request) {
-        return getBlockList(request.getCount(), request.getOffset());
+        return getBlockList(request.getCount(), request.getOffset(), request.getTypeCode());
     }
 
     public String getMessageDeliveredList(RequestDeliveredMessageList requestParams) {
@@ -3035,7 +3133,7 @@ public class Chat extends AsyncAdapter {
     /**
      * It Mutes the thread so notification is set to off for that thread
      */
-    public String muteThread(long threadId) {
+    public String muteThread(long threadId, String typeCode) {
         String uniqueId = generateUniqueId();
         JsonObject jsonObject;
 
@@ -3057,12 +3155,14 @@ public class Chat extends AsyncAdapter {
                 jsonObject.remove("metadata");
                 jsonObject.remove("repliedTo");
 
-                if (Util.isNullOrEmpty(typeCode)) {
-                    if (Util.isNullOrEmpty(getTypeCode())) {
-                        jsonObject.remove("typeCode");
-                    } else {
-                        jsonObject.addProperty("typeCode", getTypeCode());
-                    }
+                if (!Util.isNullOrEmpty(typeCode)) {
+                    jsonObject.remove("typeCode");
+                    jsonObject.addProperty("typeCode", typeCode);
+                } else if (!Util.isNullOrEmpty(getTypeCode())) {
+                    jsonObject.remove("typeCode");
+                    jsonObject.addProperty("typeCode", getTypeCode());
+                } else {
+                    jsonObject.remove("typeCode");
                 }
 
                 sendAsyncMessage(jsonObject.toString(), 4, "SEND_MUTE_THREAD");
@@ -3082,7 +3182,7 @@ public class Chat extends AsyncAdapter {
      * Mute the thread so notification is off for that thread
      */
     public String muteThread(RequestMuteThread request) {
-        return muteThread(request.getThreadId());
+        return muteThread(request.getThreadId(), request.getTypeCode());
     }
 
     /**
@@ -3094,7 +3194,6 @@ public class Chat extends AsyncAdapter {
         try {
             if (chatReady) {
                 long threadId = request.getThreadId();
-                String typeCode = request.getTypeCode();
 
                 ChatMessage chatMessage = new ChatMessage();
                 chatMessage.setType(ChatMessageType.UN_MUTE_THREAD);
@@ -3109,15 +3208,18 @@ public class Chat extends AsyncAdapter {
                 jsonObject.remove("metadata");
                 jsonObject.remove("repliedTo");
 
-                if (Util.isNullOrEmpty(typeCode)) {
-                    if (Util.isNullOrEmpty(getTypeCode())) {
-                        jsonObject.remove("typeCode");
-                    } else {
-                        jsonObject.addProperty("typeCode", getTypeCode());
-                    }
+                String typeCode = request.getTypeCode();
+
+                if (!Util.isNullOrEmpty(typeCode)) {
+                    jsonObject.remove("typeCode");
+                    jsonObject.addProperty("typeCode", typeCode);
+                } else if (!Util.isNullOrEmpty(getTypeCode())) {
+                    jsonObject.remove("typeCode");
+                    jsonObject.addProperty("typeCode", getTypeCode());
                 } else {
-                    jsonObject.addProperty("typeCode", request.getTypeCode());
+                    jsonObject.remove("typeCode");
                 }
+
 
                 sendAsyncMessage(jsonObject.toString(), 4, "SEND_UN_MUTE_THREAD");
             } else {
@@ -3279,10 +3381,10 @@ public class Chat extends AsyncAdapter {
                 chatMessage.setSubjectId(request.getMessageId());
 
 
-                if (Util.isNullOrEmpty(request.getTypeCode())) {
-                    chatMessage.setTypeCode(getTypeCode());
-                } else {
+                if (!Util.isNullOrEmpty(request.getTypeCode())) {
                     chatMessage.setTypeCode(request.getTypeCode());
+                } else {
+                    chatMessage.setTypeCode(getTypeCode());
                 }
 
                 sendAsyncMessage(gson.toJson(chatMessage), 4, "SEND_INTERACT_MESSAGE");
@@ -3809,11 +3911,16 @@ public class Chat extends AsyncAdapter {
 
         JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
 
-        if (Util.isNullOrEmpty(typeCode)) {
+        if (!Util.isNullOrEmpty(typeCode)) {
+            jsonObject.remove("typeCode");
+            jsonObject.addProperty("typeCode", typeCode);
+        } else if (!Util.isNullOrEmpty(getTypeCode())) {
+            jsonObject.remove("typeCode");
             jsonObject.addProperty("typeCode", getTypeCode());
         } else {
-            jsonObject.addProperty("typeCode", typeCode);
+            jsonObject.remove("typeCode");
         }
+
 
         String asyncContent = jsonObject.toString();
 
@@ -4197,7 +4304,7 @@ public class Chat extends AsyncAdapter {
         showInfoLog("RECEIVE_GET_HISTORY", json);
     }
 
-    private String getContactMain(Integer count, Long offset, boolean syncContact) {
+    private String getContactMain(Integer count, Long offset, boolean syncContact, String typeCode) {
         String uniqueId = generateUniqueId();
 
         count = count != null && count > 0 ? count : 50;
@@ -4231,11 +4338,14 @@ public class Chat extends AsyncAdapter {
             jsonObject.remove("repliedTo");
             jsonObject.remove("subjectId");
 
-            if (Util.isNullOrEmpty(getTypeCode())) {
+            if (!Util.isNullOrEmpty(typeCode)) {
                 jsonObject.remove("typeCode");
-            } else {
+                jsonObject.addProperty("typeCode", typeCode);
+            } else if (!Util.isNullOrEmpty(getTypeCode())) {
                 jsonObject.remove("typeCode");
                 jsonObject.addProperty("typeCode", getTypeCode());
+            } else {
+                jsonObject.remove("typeCode");
             }
 
             String asyncContent = jsonObject.toString();
@@ -4313,16 +4423,16 @@ public class Chat extends AsyncAdapter {
 
                 JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
 
-                if (Util.isNullOrEmpty(requestParams.getTypeCode())) {
-                    if (Util.isNullOrEmpty(getTypeCode())) {
-                        jsonObject.remove("typeCode");
-                    } else {
-                        jsonObject.remove("typeCode");
-                        jsonObject.addProperty("typeCode", getTypeCode());
-                    }
+                String typeCode = requestParams.getTypeCode();
+
+                if (!Util.isNullOrEmpty(typeCode)) {
+                    jsonObject.remove("typeCode");
+                    jsonObject.addProperty("typeCode", typeCode);
+                } else if (!Util.isNullOrEmpty(getTypeCode())) {
+                    jsonObject.remove("typeCode");
+                    jsonObject.addProperty("typeCode", getTypeCode());
                 } else {
                     jsonObject.remove("typeCode");
-                    jsonObject.addProperty("typeCode", requestParams.getTypeCode());
                 }
 
                 String asyncContent = jsonObject.toString();
@@ -4364,16 +4474,16 @@ public class Chat extends AsyncAdapter {
 
                 JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
 
-                if (Util.isNullOrEmpty(requestParams.getTypeCode())) {
-                    if (Util.isNullOrEmpty(getTypeCode())) {
-                        jsonObject.remove("typeCode");
-                    } else {
-                        jsonObject.remove("typeCode");
-                        jsonObject.addProperty("typeCode", getTypeCode());
-                    }
+                String typeCode = requestParams.getTypeCode();
+
+                if (!Util.isNullOrEmpty(typeCode)) {
+                    jsonObject.remove("typeCode");
+                    jsonObject.addProperty("typeCode", typeCode);
+                } else if (!Util.isNullOrEmpty(getTypeCode())) {
+                    jsonObject.remove("typeCode");
+                    jsonObject.addProperty("typeCode", getTypeCode());
                 } else {
                     jsonObject.remove("typeCode");
-                    jsonObject.addProperty("typeCode", requestParams.getTypeCode());
                 }
 
                 String asyncContent = jsonObject.toString();
@@ -4561,7 +4671,8 @@ public class Chat extends AsyncAdapter {
     }
 
     public String getContentType(File file) throws IOException {
-        return Files.probeContentType(file.toPath());
+        MimetypesFileTypeMap fileTypeMap = new MimetypesFileTypeMap();
+        return fileTypeMap.getContentType(file.getName());
     }
 
     private String createFileMetadata(File file, String hashCode, long fileId, String mimeType, long fileSize, String filePath) {

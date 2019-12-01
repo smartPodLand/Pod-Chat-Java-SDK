@@ -7,8 +7,8 @@ import org.mockito.*;
 import podChat.model.ChatResponse;
 import podChat.requestobject.RequestAddRole;
 import podChat.requestobject.RequestConnect;
-import podChat.requestobject.RequestGetAdmin;
 import podChat.requestobject.RequestRole;
+import podChat.requestobject.RequestThreadParticipant;
 import podChat.util.RoleOperation;
 import podChat.util.RoleType;
 
@@ -21,14 +21,13 @@ import java.util.ArrayList;
 @TestInstance(value = TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
-public class AdminScenario implements ChatContract.view {
+public class AuditorScenario implements ChatContract.view {
     @Mock
     static ChatContract.view chatContract;
     @InjectMocks
     static ChatController chatController = Mockito.mock(ChatController.class);
-    long userId = 4781;
-    long threadId = 5941;
-    Gson gson = new Gson();
+    long userId = 1181;
+    long threadId = 5461;
 
     @BeforeEach
     public void initMocks() {
@@ -67,12 +66,13 @@ public class AdminScenario implements ChatContract.view {
 
     @Test
     @Order(3)
-    void addRole() throws InterruptedException {
+    void setRole() throws InterruptedException {
 
         RequestRole requestRole = new RequestRole();
         requestRole.setId(userId);
         requestRole.setRoleTypes(new ArrayList<String>() {{
-            add(RoleType.THREAD_ADMIN);
+            add(RoleType.CHANGE_THREAD_INFO);
+            add(RoleType.READ_THREAD);
         }});
         requestRole.setRoleOperation(RoleOperation.ADD);
 
@@ -100,13 +100,13 @@ public class AdminScenario implements ChatContract.view {
 
     @Test
     @Order(3)
-    void getThreadAdmin2() throws InterruptedException {
+    void getParticipant() throws InterruptedException {
 
-        RequestGetAdmin requestGetAdmin = new RequestGetAdmin
+        RequestThreadParticipant threadParticipant = new RequestThreadParticipant
                 .Builder(threadId)
                 .build();
 
-        chatController.getAdminList(requestGetAdmin);
+        chatController.getThreadParticipant(threadParticipant);
 
         Thread.sleep(2000);
 
@@ -126,7 +126,8 @@ public class AdminScenario implements ChatContract.view {
         RequestRole requestRole = new RequestRole();
         requestRole.setId(userId);
         requestRole.setRoleTypes(new ArrayList<String>() {{
-            add(RoleType.THREAD_ADMIN);
+            add(RoleType.CHANGE_THREAD_INFO);
+            add(RoleType.READ_THREAD);
         }});
         requestRole.setRoleOperation(RoleOperation.REMOVE);
 
@@ -154,13 +155,13 @@ public class AdminScenario implements ChatContract.view {
 
     @Test
     @Order(5)
-    void getThreadAdmin3() throws InterruptedException {
+    void getParticipant2() throws InterruptedException {
 
-        RequestGetAdmin requestGetAdmin = new RequestGetAdmin
+        RequestThreadParticipant threadParticipant = new RequestThreadParticipant
                 .Builder(threadId)
                 .build();
 
-        chatController.getAdminList(requestGetAdmin);
+        chatController.getThreadParticipant(threadParticipant);
 
         Thread.sleep(2000);
 

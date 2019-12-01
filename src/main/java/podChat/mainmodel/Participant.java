@@ -25,6 +25,7 @@ public class Participant {
     private Boolean online;
     private Boolean blocked;
     private Boolean admin;
+    private Boolean auditor;
 
 
     public Participant() {
@@ -48,27 +49,29 @@ public class Participant {
             Boolean myFriend,
             Boolean online,
             Boolean blocked,
-            Boolean admin
+            Boolean admin,
+            Boolean auditor
     ) {
 
-        this.id=id;
-        this.name=name;
-        this.firstName=firstName;
-        this.lastName=lastName;
-        this.image=image;
-        this.notSeenDuration=notSeenDuration;
-        this.contactId=contactId;
-        this.contactName=contactName;
-        this.contactFirstName=contactFirstName;
-        this.contactLastName=contactLastName;
-        this.sendEnable=sendEnable;
-        this.receiveEnable=receiveEnable;
-        this.cellphoneNumber=cellphoneNumber;
-        this.email=email;
-        this.myFriend=myFriend;
-        this.online=online;
-        this.blocked=blocked;
-        this.admin=admin;
+        this.id = id;
+        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.image = image;
+        this.notSeenDuration = notSeenDuration;
+        this.contactId = contactId;
+        this.contactName = contactName;
+        this.contactFirstName = contactFirstName;
+        this.contactLastName = contactLastName;
+        this.sendEnable = sendEnable;
+        this.receiveEnable = receiveEnable;
+        this.cellphoneNumber = cellphoneNumber;
+        this.email = email;
+        this.myFriend = myFriend;
+        this.online = online;
+        this.blocked = blocked;
+        this.admin = admin;
+        this.auditor = auditor;
     }
 
 
@@ -222,5 +225,13 @@ public class Participant {
 
     public void setCoreUserId(long coreUserId) {
         this.coreUserId = coreUserId;
+    }
+
+    public Boolean getAuditor() {
+        return auditor;
+    }
+
+    public void setAuditor(Boolean auditor) {
+        this.auditor = auditor;
     }
 }

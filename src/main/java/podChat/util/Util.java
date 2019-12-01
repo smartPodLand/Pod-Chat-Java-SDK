@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
+import org.springframework.beans.BeanUtils;
 import podChat.mainmodel.Contact;
+import podChat.mainmodel.LinkedUser;
 import podChat.mainmodel.MessageVO;
 import podChat.model.ChatResponse;
 import podChat.model.Contacts;
@@ -31,6 +33,13 @@ public class Util {
         contact.setId(contacts.getResult().get(0).getId());
         contact.setLastName(contacts.getResult().get(0).getLastName());
         contact.setUniqueId(contacts.getResult().get(0).getUniqueId());
+
+        LinkedUser linkedUser = new LinkedUser();
+        BeanUtils.copyProperties(contacts.getResult().get(0).getLinkedUser(), linkedUser);
+        linkedUser.setCoreUserId(contacts.getResult().get(0).getLinkedUser().getId());
+        linkedUser.setId(0);
+
+        contact.setLinkedUser(linkedUser);
 
         resultAddContact.setContact(contact);
 

@@ -69,10 +69,10 @@ public class CreatThreadTest implements ChatContract.view {
         Invitee[] invitees = new Invitee[1];
         Invitee invitee = new Invitee();
         invitee.setIdType(InviteType.TO_BE_USER_CELLPHONE_NUMBER);
-        invitee.setId(9156967335L);
+        invitee.setId("09156967335");
 
         invitees[0] = invitee;
-        chatController.createThread(0, invitees, "sendMessage", "", "", "");
+        chatController.createThread(0, invitees, "sendMessage", "", "", "", "default");
 
         java.lang.Thread.sleep(3000);
 
@@ -92,10 +92,10 @@ public class CreatThreadTest implements ChatContract.view {
         Invitee[] invitees = new Invitee[1];
         Invitee invitee = new Invitee();
         invitee.setIdType(InviteType.TO_BE_USER_ID);
-        invitee.setId(1181);
+        invitee.setId("1181");
 
         invitees[0] = invitee;
-        chatController.createThread(0, invitees, "sendMessage", "", "", "");
+        chatController.createThread(0, invitees, "sendMessage", "", "", "", "default");
 
         java.lang.Thread.sleep(3000);
 
@@ -118,10 +118,10 @@ public class CreatThreadTest implements ChatContract.view {
         Invitee[] invitees = new Invitee[1];
         Invitee invitee = new Invitee();
         invitee.setIdType(InviteType.TO_BE_USER_SSO_ID);
-        invitee.setId(1111111111);
+        invitee.setId("1111111111");
 
         invitees[0] = invitee;
-        chatController.createThread(0, invitees, "sendMessage", "", "", "");
+        chatController.createThread(0, invitees, "sendMessage", "", "", "", "default");
 
         java.lang.Thread.sleep(3000);
 
@@ -143,10 +143,10 @@ public class CreatThreadTest implements ChatContract.view {
         Invitee[] invitees = new Invitee[1];
         Invitee invitee = new Invitee();
         invitee.setIdType(InviteType.TO_BE_USER_CONTACT_ID);
-        invitee.setId(13882);
+        invitee.setId("13882");
 
         invitees[0] = invitee;
-        chatController.createThread(0, invitees, "sendMessage", "", "", "");
+        chatController.createThread(0, invitees, "sendMessage", "", "", "", "default");
 
         java.lang.Thread.sleep(3000);
 
@@ -165,17 +165,17 @@ public class CreatThreadTest implements ChatContract.view {
         Invitee[] invitees = new Invitee[2];
         Invitee invitee = new Invitee();
         invitee.setIdType(InviteType.TO_BE_USER_CONTACT_ID);
-        invitee.setId(13882);
+        invitee.setId("13882");
 
         Invitee invitee2 = new Invitee();
         invitee2.setIdType(InviteType.TO_BE_USER_CONTACT_ID);
-        invitee2.setId(13812);
+        invitee2.setId("13812");
 
 
         invitees[0] = invitee;
         invitees[1] = invitee2;
 
-        chatController.createThread(ThreadType.OWNER_GROUP, invitees, "sendMessage", "", "", "");
+        chatController.createThread(ThreadType.OWNER_GROUP, invitees, "sendMessage", "", "", "", "default");
 
         java.lang.Thread.sleep(3000);
 
@@ -195,17 +195,17 @@ public class CreatThreadTest implements ChatContract.view {
         Invitee[] invitees = new Invitee[2];
         Invitee invitee = new Invitee();
         invitee.setIdType(InviteType.TO_BE_USER_CONTACT_ID);
-        invitee.setId(13882);
+        invitee.setId("13882");
 
         Invitee invitee2 = new Invitee();
         invitee2.setIdType(InviteType.TO_BE_USER_CONTACT_ID);
-        invitee2.setId(13812);
+        invitee2.setId("13812");
 
 
         invitees[0] = invitee;
         invitees[1] = invitee2;
 
-        chatController.createThread(ThreadType.PUBLIC_GROUP, invitees, "sendMessage", "", "", "");
+        chatController.createThread(ThreadType.PUBLIC_GROUP, invitees, "sendMessage", "", "", "", "default");
 
         java.lang.Thread.sleep(3000);
 

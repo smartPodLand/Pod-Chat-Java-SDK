@@ -90,7 +90,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void createThreadWithMessage(RequestCreateThread threadRequest) {
+    public void createThreadWithMessage(RequestCreateThreadWithMessage threadRequest) {
         ArrayList<String> uniqueId = chat.createThreadWithMessage(threadRequest);
     }
 
@@ -101,8 +101,9 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void getThreads(Integer count, Long offset, ArrayList<Integer> threadIds, String threadName, long creatorCoreUserId, long partnerCoreUserId, long partnerCoreContactId) {
-        chat.getThreads(count, offset, threadIds, threadName, creatorCoreUserId, partnerCoreUserId, partnerCoreContactId);
+    public void getThreads(Integer count, Long offset, ArrayList<Integer> threadIds, String threadName
+            , long creatorCoreUserId, long partnerCoreUserId, long partnerCoreContactId, String typeCode) {
+        chat.getThreads(count, offset, threadIds, threadName, creatorCoreUserId, partnerCoreUserId, partnerCoreContactId, typeCode);
     }
 
     @Override
@@ -162,8 +163,8 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void getContact(Integer count, Long offset) {
-        chat.getContacts(count, offset);
+    public void getContact(Integer count, Long offset, String typeCode) {
+        chat.getContacts(count, offset, typeCode);
 
     }
 
@@ -175,13 +176,19 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
 
     @Override
-    public void createThread(int threadType, Invitee[] invitee, String threadTitle, String description, String image, String metaData) {
+    public void createThread(int threadType, Invitee[] invitee, String threadTitle, String description, String image
+            , String metaData, String typeCode) {
 
     }
 
     @Override
-    public void sendTextMessage(String textMessage, long threadId, Integer messageType, String metaData) {
-        chat.sendTextMessage(textMessage, threadId, messageType, metaData);
+    public void createThread(RequestCreateThread requestCreateThread) {
+        chat.createThread(requestCreateThread);
+    }
+
+    @Override
+    public void sendTextMessage(String textMessage, long threadId, Integer messageType, String metaData, String typeCode) {
+        chat.sendTextMessage(textMessage, threadId, messageType, metaData, typeCode);
     }
 
     @Override
@@ -190,8 +197,9 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void replyMessage(String messageContent, long threadId, long messageId, String systemMetaData, Integer messageType) {
-        chat.replyMessage(messageContent, threadId, messageId, messageContent, messageType);
+    public void replyMessage(String messageContent, long threadId, long messageId, String systemMetaData
+            , Integer messageType, String typeCode) {
+        chat.replyMessage(messageContent, threadId, messageId, messageContent, messageType, typeCode);
     }
 
     @Override
@@ -250,8 +258,8 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void addContact(String firstName, String lastName, String cellphoneNumber, String email) {
-        chat.addContact(firstName, lastName, cellphoneNumber, email);
+    public void addContact(String firstName, String lastName, String cellphoneNumber, String email, String typeCode) {
+        chat.addContact(firstName, lastName, cellphoneNumber, email, typeCode);
     }
 
     @Override
@@ -259,10 +267,6 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
         chat.addContact(request);
     }
 
-    @Override
-    public void removeContact(long id) {
-        chat.removeContact(id);
-    }
 
     @Override
     public void removeContact(RequestRemoveContact requestRemoveContact) {
@@ -319,10 +323,6 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
         chat.forwardMessage(request);
     }
 
-    @Override
-    public void updateContact(int id, String firstName, String lastName, String cellphoneNumber, String email) {
-        chat.updateContact(id, firstName, lastName, cellphoneNumber, email);
-    }
 
     @Override
     public void updateContact(RequestUpdateContact updateContact) {
@@ -391,8 +391,8 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void setAdmin(RequestAddAdmin requestAddAdmin) {
-        chat.setAdmin(requestAddAdmin);
+    public void setAdmin(RequestAddRole requestAddRole) {
+        chat.setAdmin(requestAddRole);
     }
 
     @Override

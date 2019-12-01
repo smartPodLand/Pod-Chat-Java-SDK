@@ -9,7 +9,7 @@ import podChat.mainmodel.RequestThreadInnerMessage;
 import podChat.model.ChatResponse;
 import podChat.model.ResultNewMessage;
 import podChat.requestobject.RequestConnect;
-import podChat.requestobject.RequestCreateThread;
+import podChat.requestobject.RequestCreateThreadWithMessage;
 import podChat.util.InviteType;
 import podChat.util.ThreadType;
 import podChat.util.Util;
@@ -83,16 +83,16 @@ public class CreateThreadWithMessage implements ChatContract.view {
                 .build();
 
         Invitee invitee = new Invitee();
-        invitee.setId(4781);
+        invitee.setId("4781");
         invitee.setIdType(InviteType.TO_BE_USER_ID);
 
-        RequestCreateThread requestCreateThread = new RequestCreateThread
+        RequestCreateThreadWithMessage requestCreateThreadWithMessage = new RequestCreateThreadWithMessage
                 .Builder(0, new ArrayList<Invitee>() {{
             add(invitee);
         }})
                 .message(requestThreadInnerMessage)
                 .build();
-        chatController.createThreadWithMessage(requestCreateThread);
+        chatController.createThreadWithMessage(requestCreateThreadWithMessage);
 
         Thread.sleep(10000);
 
@@ -114,16 +114,16 @@ public class CreateThreadWithMessage implements ChatContract.view {
                 .build();
 
         Invitee invitee = new Invitee();
-        invitee.setId(13882);
+        invitee.setId("13882");
         invitee.setIdType(InviteType.TO_BE_USER_CONTACT_ID);
 
-        RequestCreateThread requestCreateThread = new RequestCreateThread
+        RequestCreateThreadWithMessage requestCreateThreadWithMessage = new RequestCreateThreadWithMessage
                 .Builder(0, new ArrayList<Invitee>() {{
             add(invitee);
         }})
                 .message(requestThreadInnerMessage)
                 .build();
-        chatController.createThreadWithMessage(requestCreateThread);
+        chatController.createThreadWithMessage(requestCreateThreadWithMessage);
 
         Thread.sleep(3000);
 
@@ -148,17 +148,17 @@ public class CreateThreadWithMessage implements ChatContract.view {
                 .build();
 
         Invitee invitee = new Invitee();
-        invitee.setId(13882);
-        invitee.setId(13812);
+        invitee.setId("13882");
+        invitee.setId("13812");
         invitee.setIdType(InviteType.TO_BE_USER_CONTACT_ID);
 
-        RequestCreateThread requestCreateThread = new RequestCreateThread
+        RequestCreateThreadWithMessage requestCreateThreadWithMessage = new RequestCreateThreadWithMessage
                 .Builder(ThreadType.OWNER_GROUP, new ArrayList<Invitee>() {{
             add(invitee);
         }})
                 .message(requestThreadInnerMessage)
                 .build();
-        chatController.createThreadWithMessage(requestCreateThread);
+        chatController.createThreadWithMessage(requestCreateThreadWithMessage);
 
         Thread.sleep(3000);
 

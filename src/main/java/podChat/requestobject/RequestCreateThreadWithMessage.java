@@ -1,27 +1,38 @@
 package podChat.requestobject;
 
 import podChat.mainmodel.Invitee;
+import podChat.mainmodel.RequestThreadInnerMessage;
 
 import java.util.List;
 
-public class RequestCreateThread extends BaseRequestObject {
+public class RequestCreateThreadWithMessage extends BaseRequestObject {
 
     private int type;
     private String ownerSsoId;
     private List<Invitee> invitees;
     private String title;
+    private RequestThreadInnerMessage message;
     private String description;
     private String image;
-    private String metadata;
 
-    RequestCreateThread(Builder builder) {
+    RequestCreateThreadWithMessage(Builder builder) {
         super(builder);
         this.type = builder.type;
+        this.message = builder.message;
         this.title = builder.title;
         this.invitees = builder.invitees;
+        this.message = builder.message;
         this.description = builder.description;
         this.image = builder.image;
-        this.metadata = builder.metadata;
+
+    }
+
+    public RequestThreadInnerMessage getMessage() {
+        return message;
+    }
+
+    public void setMessage(RequestThreadInnerMessage message) {
+        this.message = message;
     }
 
     public String getOwnerSsoId() {
@@ -72,29 +83,21 @@ public class RequestCreateThread extends BaseRequestObject {
         this.image = image;
     }
 
-    public String getMetadata() {
-        return metadata;
-    }
-
-    public void setMetadata(String metadata) {
-        this.metadata = metadata;
-    }
-
     public static class Builder extends BaseRequestObject.Builder<Builder> {
         private final int type;
         private final List<Invitee> invitees;
         private String title;
+        private RequestThreadInnerMessage message;
         private String description;
         private String image;
-        private String metadata;
 
         public Builder(int type, List<Invitee> invitees) {
             this.invitees = invitees;
             this.type = type;
         }
 
-        public Builder metadata(String metadata) {
-            this.metadata = metadata;
+        public Builder message(RequestThreadInnerMessage message) {
+            this.message = message;
             return this;
         }
 
@@ -115,13 +118,13 @@ public class RequestCreateThread extends BaseRequestObject {
         }
 
         @Override
-        protected RequestCreateThread.Builder self() {
+        protected RequestCreateThreadWithMessage.Builder self() {
             return this;
         }
 
 
-        public RequestCreateThread build() {
-            return new RequestCreateThread(this);
+        public RequestCreateThreadWithMessage build() {
+            return new RequestCreateThreadWithMessage(this);
         }
     }
 }
