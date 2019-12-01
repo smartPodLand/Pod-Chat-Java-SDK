@@ -24,16 +24,16 @@ import java.util.List;
  */
 public class ChatMain implements ChatContract.view {
     public static String platformHost = "https://sandbox.pod.ir:8043";
-    public static String token = "030c5533b44045da9cba7e07d49a8506";
+    public static String token = "5503bc2731014bf3a0e63fcfcf0e0ce7";
     public static String ssoHost = "https://accounts2.pod.ir";
     public static String fileServer = "https://sandbox.pod.ir:8443";
     public static String serverName = "chat-server";
-    public static String queueServer = "172.16.0.248";
-    public static String queuePort = "61616";
-    public static String queueInput = "queue-in-amjadi-stomp";
-    public static String queueOutput = "queue-out-amjadi-stomp";
-    public static String queueUserName = "root";
-    public static String queuePassword = "zalzalak";
+    public static String queueServer = "***********";
+    public static String queuePort = "*******";
+    public static String queueInput = "queue-*********";
+    public static String queueOutput = "queue-*********";
+    public static String queueUserName = "*****";
+    public static String queuePassword = "*******";
     static ChatController chatController;
     /*    static String platformHost = "http://172.16.110.131:8080";
         static String token = "bebc31c4ead6458c90b607496dae25c6";
@@ -135,7 +135,7 @@ public class ChatMain implements ChatContract.view {
 
             Thread.sleep(2000);
             setAuditorRole();
-//            getParticipant();
+            getParticipant();
         } catch (ConnectionException | InterruptedException e) {
             System.out.println(e);
         }
@@ -178,7 +178,7 @@ public class ChatMain implements ChatContract.view {
             add(RoleType.POST_CHANNEL_MESSAGE);
             add(RoleType.READ_THREAD);
         }});
-        requestRole.setRoleOperation(RoleOperation.ADD);
+        requestRole.setRoleOperation(RoleOperation.REMOVE);
 
 
         ArrayList<RequestRole> requestRoleArrayList = new ArrayList<>();
