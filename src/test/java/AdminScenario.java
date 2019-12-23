@@ -5,11 +5,10 @@ import exmaple.ChatContract;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
 import podChat.model.ChatResponse;
-import podChat.requestobject.RequestAddRole;
 import podChat.requestobject.RequestConnect;
 import podChat.requestobject.RequestGetAdmin;
 import podChat.requestobject.RequestRole;
-import podChat.util.RoleOperation;
+import podChat.requestobject.RequestSetAdmin;
 import podChat.util.RoleType;
 
 import java.util.ArrayList;
@@ -74,17 +73,15 @@ public class AdminScenario implements ChatContract.view {
         requestRole.setRoleTypes(new ArrayList<String>() {{
             add(RoleType.THREAD_ADMIN);
         }});
-        requestRole.setRoleOperation(RoleOperation.ADD);
-
 
         ArrayList<RequestRole> requestRoleArrayList = new ArrayList<>();
         requestRoleArrayList.add(requestRole);
 
-        RequestAddRole requestAddRole = new RequestAddRole
+        RequestSetAdmin requestSetAdmin = new RequestSetAdmin
                 .Builder(threadId, requestRoleArrayList)
                 .build();
 
-        chatController.setAdmin(requestAddRole);
+        chatController.addAdmin(requestSetAdmin);
 
         Thread.sleep(2000);
 
@@ -128,23 +125,21 @@ public class AdminScenario implements ChatContract.view {
         requestRole.setRoleTypes(new ArrayList<String>() {{
             add(RoleType.THREAD_ADMIN);
         }});
-        requestRole.setRoleOperation(RoleOperation.REMOVE);
-
 
         ArrayList<RequestRole> requestRoleArrayList = new ArrayList<>();
         requestRoleArrayList.add(requestRole);
 
-        RequestAddRole requestAddRole = new RequestAddRole
+        RequestSetAdmin requestSetAdmin = new RequestSetAdmin
                 .Builder(threadId, requestRoleArrayList)
                 .build();
 
-        chatController.setAdmin(requestAddRole);
+        chatController.removeAdmin(requestSetAdmin);
 
         Thread.sleep(2000);
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract).onSetRole(argument.capture());
+        Mockito.verify(chatContract).onRemoveRole(argument.capture());
 
         ChatResponse chatResponse = argument.getValue();
 

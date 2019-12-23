@@ -98,8 +98,13 @@ public interface ChatContract {
         default void onSearchContact(ChatResponse<ResultContact> chatResponse) {
         }
 
-        default void onSetRole(ChatResponse<ResultSetAdmin> chatResponse) {
+        default void onSetRole(ChatResponse<ResultSetRole> chatResponse) {
         }
+
+
+        default void onRemoveRole(ChatResponse<ResultSetRole> chatResponse) {
+        }
+
 
         default void onSearchHisory() {
         }
@@ -137,7 +142,7 @@ public interface ChatContract {
         default void OnSeenMessageList(ChatResponse<ResultParticipant> response) {
         }
 
-        default void OnSetRole(ChatResponse<ResultSetAdmin> chatResponse) {
+        default void OnSetRole(ChatResponse<ResultSetRole> chatResponse) {
         }
 
         default void OnInteractMessage(ChatResponse<ResultInteractMessage> chatResponse) {
@@ -217,12 +222,12 @@ public interface ChatContract {
 
         void createThread(RequestCreateThread requestCreateThread);
 
-        void sendTextMessage(String textMessage, long threadId, Integer messageType, String metaData,String typeCode);
+        void sendTextMessage(String textMessage, long threadId, Integer messageType, String metaData, String typeCode);
 
         void sendTextMessage(RequestMessage requestMessage);
 
         void replyMessage(String messageContent, long threadId, long messageId, String systemMetaData
-                , Integer messageType,String typeCode);
+                , Integer messageType, String typeCode);
 
         // void replyFileMessage(RequestReplyFileMessage request, ProgressHandler.sendFileMessage handler);
 
@@ -315,7 +320,13 @@ public interface ChatContract {
 //
 //        void uploadFileProgress(Context context, Activity activity, Uri fileUri, ProgressHandler.onProgressFile handler);
 
-        void setAdmin(RequestAddRole requestAddRole);
+        void addAdmin(RequestSetAdmin requestSetAdmin);
+
+        void removeAdmin(RequestSetAdmin requestSetAdmin);
+
+        void addAuditor(RequestSetAuditor requestSetAuditor);
+
+        void removeAuditor(RequestSetAuditor requestSetAuditor);
 
         void clearHistory(RequestClearHistory requestClearHistory);
 
@@ -327,7 +338,7 @@ public interface ChatContract {
 
         void getBlockList(RequestBlockList request);
 
-        void interactMessage(RequestInteract request);
+        void interactiveMessage(RequestInteract request);
 
     }
 }

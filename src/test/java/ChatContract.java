@@ -271,7 +271,7 @@ public interface ChatContract {
 //
 //        void uploadFileProgress(Context context, Activity activity, Uri fileUri, ProgressHandler.onProgressFile handler);
 
-        void setAdmin(RequestAddRole requestAddRole);
+        void setAdmin(RequestSetAdmin requestSetAdmin);
 
         void clearHistory(RequestClearHistory requestClearHistory);
 

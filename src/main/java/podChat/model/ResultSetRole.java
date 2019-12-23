@@ -2,7 +2,7 @@ package podChat.model;
 
 import java.util.List;
 
-public class ResultSetAdmin {
+public class ResultSetRole {
     private List<Admin> admins;
 
     public List<Admin> getAdmins() {

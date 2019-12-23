@@ -25,11 +25,11 @@ public class RetrofitHelperPlatformHost {
 
             OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
                     .retryOnConnectionFailure(true)
-                    .connectTimeout(60, TimeUnit.MINUTES)
-                    .writeTimeout(60, TimeUnit.MINUTES)
-                    .readTimeout(60, TimeUnit.MINUTES)
+                    .connectTimeout(5, TimeUnit.MINUTES)
+                    .writeTimeout(5, TimeUnit.MINUTES)
+                    .readTimeout(5, TimeUnit.MINUTES)
 //                    .connectionPool(new ConnectionPool(5, 5, TimeUnit.MINUTES))
-                    .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+//                    .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                     .build();
 
             retrofit = new Retrofit.Builder()

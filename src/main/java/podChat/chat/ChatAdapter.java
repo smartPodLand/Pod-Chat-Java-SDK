@@ -206,7 +206,12 @@ public class ChatAdapter implements ChatListener {
     }
 
     @Override
-    public void OnSetRole(String content, ChatResponse<ResultSetAdmin> chatResponse) {
+    public void OnSetRole(String content, ChatResponse<ResultSetRole> chatResponse) {
+
+    }
+
+    @Override
+    public void OnRemoveRole(String content, ChatResponse<ResultSetRole> chatResponse) {
 
     }
 

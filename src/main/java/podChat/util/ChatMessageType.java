@@ -39,6 +39,7 @@ public class ChatMessageType {
     public static final int INTERACT_MESSAGE = 40;
     public static final int SPAM_PV_THREAD = 41;
     public static final int SET_ROLE_TO_USER = 42;
+    public static final int REMOVE_ROLE_FROM_USER = 43;
     public static final int CLEAR_HISTORY = 44;
     public static final int SIGNAL_MESSAGE = 45;
     public static final int GET_THREAD_ADMINS = 48;

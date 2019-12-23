@@ -477,11 +477,22 @@ public class ChatListenerManager {
         }
     }
 
-    public void callOnSetRoleToUser(String json, ChatResponse<ResultSetAdmin> chatResponse) {
+    public void callOnSetRoleToUser(String json, ChatResponse<ResultSetRole> chatResponse) {
 
         for (ChatListener listener : getSynchronizedListeners()) {
             try {
                 listener.OnSetRole(json, chatResponse);
+            } catch (Throwable t) {
+                callHandleCallbackError(listener, t);
+            }
+        }
+    }
+
+    public void callOnRemoveRoleFromUser(String json, ChatResponse<ResultSetRole> chatResponse) {
+
+        for (ChatListener listener : getSynchronizedListeners()) {
+            try {
+                listener.OnRemoveRole(json, chatResponse);
             } catch (Throwable t) {
                 callHandleCallbackError(listener, t);
             }

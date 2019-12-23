@@ -13,10 +13,12 @@ import okhttp3.RequestBody;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.BeanUtils;
 import podAsync.Async;
 import podAsync.AsyncAdapter;
 import podChat.ProgressHandler;
 import podChat.localModel.LFileUpload;
+import podChat.localModel.SetRuleVO;
 import podChat.mainmodel.Thread;
 import podChat.mainmodel.*;
 import podChat.model.Error;
@@ -205,6 +207,10 @@ public class Chat extends AsyncAdapter {
                 handleSetRole(chatMessage);
                 break;
 
+            case ChatMessageType.REMOVE_ROLE_FROM_USER:
+                handleRemoveRole(chatMessage);
+                break;
+
             case ChatMessageType.CLEAR_HISTORY:
                 handleClearHistory(chatMessage);
                 break;
@@ -215,7 +221,7 @@ public class Chat extends AsyncAdapter {
                 break;
 
             case ChatMessageType.INTERACT_MESSAGE:
-                handleInteractMessage(chatMessage);
+                handleInteractiveMessage(chatMessage);
                 break;
         }
     }
@@ -2002,7 +2008,7 @@ public class Chat extends AsyncAdapter {
                                     String json = gson.toJson(chatResponse);
 
                                     listenerManager.callOnUploadFile(json, chatResponse);
-                                    showInfoLog("RECEIVE_UPLOAD_FILE");
+                                    showInfoLog("RECEIVE_UPLOAD_FILE" + json);
                                     listenerManager.callOnLogEvent(json);
                                 }
 
@@ -2864,12 +2870,34 @@ public class Chat extends AsyncAdapter {
     }
 
     /**
-     * @param requestAddRole You can add or remove some roles to/from someone in a thread using user id.
-     *                        `setRoleOperation` could be `add` or `remove`
+     * @param requestSetAuditor You can add auditor role to someone in a thread using user id.
      */
-    public String setAdmin(RequestAddRole requestAddRole) {
-        long threadId = requestAddRole.getThreadId();
-        ArrayList<RequestRole> roles = requestAddRole.getRoles();
+    public String addAuditor(RequestSetAuditor requestSetAuditor) {
+        SetRuleVO setRuleVO = new SetRuleVO();
+        BeanUtils.copyProperties(requestSetAuditor, setRuleVO);
+        setRuleVO.setTypeCode(requestSetAuditor.getTypeCode());
+
+        return setRole(setRuleVO);
+    }
+
+    /**
+     * @param requestSetAdmin You can add admin role to someone in a thread using user id.
+     */
+    public String addAdmin(RequestSetAdmin requestSetAdmin) {
+        SetRuleVO setRuleVO = new SetRuleVO();
+        BeanUtils.copyProperties(requestSetAdmin, setRuleVO);
+        setRuleVO.setTypeCode(requestSetAdmin.getTypeCode());
+
+        return setRole(setRuleVO);
+
+    }
+
+    /**
+     * @param setRuleVO You can add some roles to someone in a thread using user id.
+     */
+    private String setRole(SetRuleVO setRuleVO) {
+        long threadId = setRuleVO.getThreadId();
+        ArrayList<RequestRole> roles = setRuleVO.getRoles();
         String uniqueId = generateUniqueId();
 
 
@@ -2878,10 +2906,8 @@ public class Chat extends AsyncAdapter {
 
             for (RequestRole requestRole : roles) {
                 UserRoleVO userRoleVO = new UserRoleVO();
-                userRoleVO.setCheckThreadMembership(true);
                 userRoleVO.setUserId(requestRole.getId());
                 userRoleVO.setRoles(requestRole.getRoleTypes());
-                userRoleVO.setRoleOperation(requestRole.getRoleOperation());
                 userRoleVOS.add(userRoleVO);
             }
 
@@ -2893,8 +2919,8 @@ public class Chat extends AsyncAdapter {
             chatMessage.setTokenIssuer(String.valueOf(TOKEN_ISSUER));
             chatMessage.setUniqueId(uniqueId);
 
-            if (!Util.isNullOrEmpty(requestAddRole.getTypeCode())) {
-                chatMessage.setTypeCode(requestAddRole.getTypeCode());
+            if (!Util.isNullOrEmpty(setRuleVO.getTypeCode())) {
+                chatMessage.setTypeCode(setRuleVO.getTypeCode());
             } else {
                 chatMessage.setTypeCode(getTypeCode());
             }
@@ -2902,6 +2928,72 @@ public class Chat extends AsyncAdapter {
             String asyncContent = gson.toJson(chatMessage);
 
             sendAsyncMessage(asyncContent, 4, "SET_RULE_TO_USER");
+        }
+        return uniqueId;
+    }
+
+    /**
+     * @param requestSetAuditor You can add auditor role to someone in a thread using user id.
+     */
+    public String removeAuditor(RequestSetAuditor requestSetAuditor) {
+        SetRuleVO setRuleVO = new SetRuleVO();
+
+        BeanUtils.copyProperties(requestSetAuditor, setRuleVO);
+        setRuleVO.setTypeCode(requestSetAuditor.getTypeCode());
+
+        return removeRole(setRuleVO);
+    }
+
+    /**
+     * @param requestSetAdmin You can add admin role to someone in a thread using user id.
+     */
+    public String removeAdmin(RequestSetAdmin requestSetAdmin) {
+        SetRuleVO setRuleVO = new SetRuleVO();
+
+        BeanUtils.copyProperties(requestSetAdmin, setRuleVO);
+        setRuleVO.setTypeCode(requestSetAdmin.getTypeCode());
+
+        return removeRole(setRuleVO);
+
+    }
+
+
+    /**
+     * @param setRuleVO You can remove some roles from someone in a thread using user id.
+     */
+    private String removeRole(SetRuleVO setRuleVO) {
+        long threadId = setRuleVO.getThreadId();
+        ArrayList<RequestRole> roles = setRuleVO.getRoles();
+        String uniqueId = generateUniqueId();
+
+
+        if (chatReady) {
+            ArrayList<UserRoleVO> userRoleVOS = new ArrayList<>();
+
+            for (RequestRole requestRole : roles) {
+                UserRoleVO userRoleVO = new UserRoleVO();
+                userRoleVO.setUserId(requestRole.getId());
+                userRoleVO.setRoles(requestRole.getRoleTypes());
+                userRoleVOS.add(userRoleVO);
+            }
+
+            ChatMessage chatMessage = new ChatMessage();
+            chatMessage.setContent(gson.toJson(userRoleVOS));
+            chatMessage.setSubjectId(threadId);
+            chatMessage.setToken(getToken());
+            chatMessage.setType(ChatMessageType.REMOVE_ROLE_FROM_USER);
+            chatMessage.setTokenIssuer(String.valueOf(TOKEN_ISSUER));
+            chatMessage.setUniqueId(uniqueId);
+
+            if (!Util.isNullOrEmpty(setRuleVO.getTypeCode())) {
+                chatMessage.setTypeCode(setRuleVO.getTypeCode());
+            } else {
+                chatMessage.setTypeCode(getTypeCode());
+            }
+
+            String asyncContent = gson.toJson(chatMessage);
+
+            sendAsyncMessage(asyncContent, 4, "REMOVE_RULE_FROM_USER");
         }
         return uniqueId;
     }
@@ -3639,7 +3731,7 @@ public class Chat extends AsyncAdapter {
 
         String json = gson.toJson(chatResponse);
 
-        listenerManager.callOnDeliveryMessage(json, chatResponse);
+        listenerManager.callOnSeenMessage(json, chatResponse);
 
         showInfoLog("RECEIVED_SEEN_MESSAGE", json);
 
@@ -4191,7 +4283,7 @@ public class Chat extends AsyncAdapter {
         showInfoLog("RECEIVE_CLEAR_HISTORY", jsonClrHistory);
     }
 
-    private void handleInteractMessage(ChatMessage chatMessage) {
+    private void handleInteractiveMessage(ChatMessage chatMessage) {
         ChatResponse<ResultInteractMessage> responseInteractMessage = new ChatResponse<>();
 
         ResultInteractMessage resultInteractMessage = gson.fromJson(chatMessage.getContent(), ResultInteractMessage.class);
@@ -4205,15 +4297,15 @@ public class Chat extends AsyncAdapter {
     }
 
     private void handleSetRole(ChatMessage chatMessage) {
-        ChatResponse<ResultSetAdmin> chatResponse = new ChatResponse<>();
-        ResultSetAdmin resultSetAdmin = new ResultSetAdmin();
+        ChatResponse<ResultSetRole> chatResponse = new ChatResponse<>();
+        ResultSetRole resultSetRole = new ResultSetRole();
 
         ArrayList<Admin> admins = gson.fromJson(chatMessage.getContent(), new TypeToken<ArrayList<Admin>>() {
         }.getType());
 
-        resultSetAdmin.setAdmins(admins);
+        resultSetRole.setAdmins(admins);
 
-        chatResponse.setResult(resultSetAdmin);
+        chatResponse.setResult(resultSetRole);
         chatResponse.setUniqueId(chatMessage.getUniqueId());
 
         String responseJson = gson.toJson(chatResponse);
@@ -4221,6 +4313,25 @@ public class Chat extends AsyncAdapter {
         listenerManager.callOnSetRoleToUser(responseJson, chatResponse);
 
         showInfoLog("RECEIVE_SET_RULE", responseJson);
+    }
+
+    private void handleRemoveRole(ChatMessage chatMessage) {
+        ChatResponse<ResultSetRole> chatResponse = new ChatResponse<>();
+        ResultSetRole resultSetRole = new ResultSetRole();
+
+        ArrayList<Admin> admins = gson.fromJson(chatMessage.getContent(), new TypeToken<ArrayList<Admin>>() {
+        }.getType());
+
+        resultSetRole.setAdmins(admins);
+
+        chatResponse.setResult(resultSetRole);
+        chatResponse.setUniqueId(chatMessage.getUniqueId());
+
+        String responseJson = gson.toJson(chatResponse);
+
+        listenerManager.callOnRemoveRoleFromUser(responseJson, chatResponse);
+
+        showInfoLog("RECEIVE_REMOVE_RULE", responseJson);
     }
 
     private void handleUnBlock(ChatMessage chatMessage, String messageUniqueId) {

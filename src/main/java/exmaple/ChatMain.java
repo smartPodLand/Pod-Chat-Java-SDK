@@ -12,7 +12,6 @@ import podChat.mainmodel.RequestThreadInnerMessage;
 import podChat.model.*;
 import podChat.requestobject.*;
 import podChat.util.InviteType;
-import podChat.util.RoleOperation;
 import podChat.util.RoleType;
 import podChat.util.ThreadType;
 
@@ -24,17 +23,19 @@ import java.util.List;
  */
 public class ChatMain implements ChatContract.view {
     public static String platformHost = "https://sandbox.pod.ir:8043";
-    public static String token = "5503bc2731014bf3a0e63fcfcf0e0ce7";
+    public static String token = "f7568a190a594abbba4cdba375b7d559";
     public static String ssoHost = "https://accounts2.pod.ir";
     public static String fileServer = "https://sandbox.pod.ir:8443";
     public static String serverName = "chat-server";
-    public static String queueServer = "***********";
-    public static String queuePort = "*******";
-    public static String queueInput = "queue-*********";
-    public static String queueOutput = "queue-*********";
-    public static String queueUserName = "*****";
-    public static String queuePassword = "*******";
+    public static String queueServer = "10.56.16.25";
+    public static String queuePort = "61616";
+    public static String queueInput = "queue-in-amjadi-stomp";
+    public static String queueOutput = "queue-out-amjadi-stomp";
+    public static String queueUserName = "root";
+    public static String queuePassword = "zalzalak";
     static ChatController chatController;
+
+
     /*    static String platformHost = "http://172.16.110.131:8080";
         static String token = "bebc31c4ead6458c90b607496dae25c6";
         static String ssoHost = "https://accounts.pod.land";
@@ -120,13 +121,25 @@ public class ChatMain implements ChatContract.view {
 //            getBlockList();
 
 
-//            setRole();
-//            Thread.sleep(2000);
-//            deleteRole();
-//            Thread.sleep(2000);
-//            getAdmin();
+/*
+            addAdmin();
+            Thread.sleep(2000);
+            getAdmin();
+            Thread.sleep(2000);
+            removeAdmin();
+            Thread.sleep(2000);
+            getAdmin();*/
 
-//            interactMessage();
+
+            addAuditor();
+            Thread.sleep(2000);
+            getParticipant();
+            Thread.sleep(2000);
+            removeAuditor();
+            Thread.sleep(2000);
+            getParticipant();
+
+//            interactiveMessage();
 
 //            uploadImage();  //checkit
 //            uploadFile();    ///checkit
@@ -134,8 +147,8 @@ public class ChatMain implements ChatContract.view {
 //            spam();
 
             Thread.sleep(2000);
-            setAuditorRole();
-            getParticipant();
+//            setAuditorRole();
+//            getParticipant();
         } catch (ConnectionException | InterruptedException e) {
             System.out.println(e);
         }
@@ -151,67 +164,85 @@ public class ChatMain implements ChatContract.view {
     /**
      * set role
      */
-    void setRole() {
+
+
+    void addAdmin() {
         RequestRole requestRole = new RequestRole();
         requestRole.setId(4781);
         requestRole.setRoleTypes(new ArrayList<String>() {{
             add(RoleType.THREAD_ADMIN);
         }});
-        requestRole.setRoleOperation(RoleOperation.ADD);
 
 
         ArrayList<RequestRole> requestRoleArrayList = new ArrayList<>();
         requestRoleArrayList.add(requestRole);
 
-        RequestAddRole requestAddRole = new RequestAddRole
+        RequestSetAdmin requestSetAdmin = new RequestSetAdmin
                 .Builder(5941, requestRoleArrayList)
                 .build();
 
-        chatController.setAdmin(requestAddRole);
+        chatController.addAdmin(requestSetAdmin);
 
     }
 
-    void setAuditorRole() {
+    void addAuditor() {
         RequestRole requestRole = new RequestRole();
         requestRole.setId(1181);
         requestRole.setRoleTypes(new ArrayList<String>() {{
             add(RoleType.POST_CHANNEL_MESSAGE);
             add(RoleType.READ_THREAD);
         }});
-        requestRole.setRoleOperation(RoleOperation.REMOVE);
-
 
         ArrayList<RequestRole> requestRoleArrayList = new ArrayList<>();
         requestRoleArrayList.add(requestRole);
 
-        RequestAddRole requestAddRole = new RequestAddRole
+        RequestSetAuditor requestSetAuditor = new RequestSetAuditor
                 .Builder(5461, requestRoleArrayList)
                 .build();
 
-        chatController.setAdmin(requestAddRole);
+        chatController.addAuditor(requestSetAuditor);
 
     }
 
     /**
      * delete role
      */
-    void deleteRole() {
+    void removeAdmin() {
         RequestRole requestRole = new RequestRole();
         requestRole.setId(4781);
         requestRole.setRoleTypes(new ArrayList<String>() {{
             add(RoleType.THREAD_ADMIN);
         }});
-        requestRole.setRoleOperation(RoleOperation.REMOVE);
-
 
         ArrayList<RequestRole> requestRoleArrayList = new ArrayList<>();
         requestRoleArrayList.add(requestRole);
 
-        RequestAddRole requestAddRole = new RequestAddRole
+        RequestSetAdmin requestSetAdmin = new RequestSetAdmin
                 .Builder(5941, requestRoleArrayList)
                 .build();
 
-        chatController.setAdmin(requestAddRole);
+        chatController.removeAdmin(requestSetAdmin);
+
+    }
+
+
+    void removeAuditor() {
+        RequestRole requestRole = new RequestRole();
+        requestRole.setId(1181);
+        requestRole.setRoleTypes(new ArrayList<String>() {{
+            add(RoleType.POST_CHANNEL_MESSAGE);
+            add(RoleType.READ_THREAD);
+        }});
+
+        ArrayList<RequestRole> requestRoleArrayList = new ArrayList<>();
+        requestRoleArrayList.add(requestRole);
+
+        RequestSetAuditor requestSetAuditor = new RequestSetAuditor
+                .Builder(5461, requestRoleArrayList)
+                .build();
+
+
+        chatController.removeAuditor(requestSetAuditor);
 
     }
 
@@ -417,7 +448,7 @@ public class ChatMain implements ChatContract.view {
      */
     private void editMessage() {
         RequestEditMessage requestEditMessage = new RequestEditMessage
-                .Builder("hiii", 56243)
+                .Builder("hiii", 66287)
                 .build();
         chatController.editMessage(requestEditMessage);
     }
@@ -427,7 +458,7 @@ public class ChatMain implements ChatContract.view {
      */
     private void sendMessage() {
         RequestMessage requestThread = new RequestMessage
-                .Builder("seen list", 5461L)
+                .Builder("seen list", 5701)
                 .build();
 
         chatController.sendTextMessage(requestThread);
@@ -502,19 +533,24 @@ public class ChatMain implements ChatContract.view {
 
         chatController.createThread(ThreadType.PUBLIC_GROUP, invitees, "sendMessage", "", "", "");*/
 
-        Invitee[] invitees = new Invitee[1];
+        Invitee[] invitees = new Invitee[2];
         Invitee invitee = new Invitee();
-        invitee.setIdType(InviteType.TO_BE_USER_ID);
-        invitee.setId("4101");
+        invitee.setIdType(InviteType.TO_BE_USER_CONTACT_ID);
+        invitee.setId("13812");
+
+        Invitee invitee2 = new Invitee();
+        invitee2.setIdType(InviteType.TO_BE_USER_CONTACT_ID);
+        invitee2.setId("13882");
 
 //        Invitee invitee2 = new Invitee();
 //        invitee2.setIdType(InviteType.TO_BE_USER_CONTACT_ID);
 //        invitee2.setId(13812);
 
         invitees[0] = invitee;
+        invitees[1] = invitee2;
 //        invitees[1] = invitee2;
 
-        chatController.createThread(ThreadType.NORMAL, invitees, "sendMessage", "", "", "", "default");
+        chatController.createThread(ThreadType.PUBLIC_GROUP, invitees, "sendMessage", "", "", "", "default");
     }
 
     /**
@@ -578,12 +614,12 @@ public class ChatMain implements ChatContract.view {
      * bot message
      */
 
-    private void interactMessage() {
+    private void interactiveMessage() {
         RequestInteract requestInteract = new RequestInteract
-                .Builder(56249, "hello")
+                .Builder(56249, "OK")
                 .build();
 
-        chatController.interactMessage(requestInteract);
+        chatController.interactiveMessage(requestInteract);
     }
 
     /******************************************************************
@@ -676,9 +712,9 @@ public class ChatMain implements ChatContract.view {
 
     private void uploadImage() {
         RequestUploadImage requestUploadImage = new RequestUploadImage
-                .Builder("D:\\b.jpg")
+                .Builder("D:\\index.gif")
                 .build();
-
+        System.out.println(gson.toJson(requestUploadImage));
         chatController.uploadImage(requestUploadImage);
     }
 
@@ -729,6 +765,11 @@ public class ChatMain implements ChatContract.view {
     }
 
     @Override
+    public void onCreateThread(ChatResponse<ResultThread> outPutThread) {
+        System.out.println("");
+    }
+
+    @Override
     public void onError(ErrorOutPut error) {
 //        if (error.getErrorCode() == 21) {
 //            Scanner myObj = new Scanner(System.in);
@@ -762,4 +803,15 @@ public class ChatMain implements ChatContract.view {
     public void onAddContact(ChatResponse<ResultAddContact> chatResponse) {
         System.out.println(gson.toJson(chatResponse));
     }
+
+    @Override
+    public void onSetRole(ChatResponse<ResultSetRole> chatResponse) {
+        System.out.println("helllo");
+    }
+
+    @Override
+    public void onRemoveRole(ChatResponse<ResultSetRole> chatResponse) {
+        System.out.println("helllo");
+    }
+
 }

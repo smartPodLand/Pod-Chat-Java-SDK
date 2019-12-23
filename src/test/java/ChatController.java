@@ -391,9 +391,25 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void setAdmin(RequestAddRole requestAddRole) {
-        chat.setAdmin(requestAddRole);
+    public void addAdmin(RequestSetAdmin requestSetAdmin) {
+        chat.addAdmin(requestSetAdmin);
     }
+
+    @Override
+    public void removeAdmin(RequestSetAdmin requestSetAdmin) {
+        chat.removeAdmin(requestSetAdmin);
+    }
+
+    @Override
+    public void addAuditor(RequestSetAuditor requestSetAuditor) {
+        chat.addAuditor(requestSetAuditor);
+    }
+
+    @Override
+    public void removeAuditor(RequestSetAuditor requestSetAuditor) {
+        chat.removeAuditor(requestSetAuditor);
+    }
+
 
     @Override
     public void clearHistory(RequestClearHistory requestClearHistory) {
@@ -421,7 +437,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void interactMessage(RequestInteract request) {
+    public void interactiveMessage(RequestInteract request) {
         chat.interactMessage(request);
     }
 
@@ -639,7 +655,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void OnSetRole(String content, ChatResponse<ResultSetAdmin> chatResponse) {
+    public void OnSetRole(String content, ChatResponse<ResultSetRole> chatResponse) {
         super.OnSetRole(content, chatResponse);
         view.onSetRole(chatResponse);
     }

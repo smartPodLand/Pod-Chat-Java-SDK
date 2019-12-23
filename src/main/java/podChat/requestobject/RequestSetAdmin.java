@@ -2,12 +2,12 @@ package podChat.requestobject;
 
 import java.util.ArrayList;
 
-public class RequestAddRole extends GeneralRequestObject {
+public class RequestSetAdmin extends GeneralRequestObject {
 
     private long threadId;
     private ArrayList<RequestRole> roles;
 
-    private RequestAddRole(Builder builder) {
+    private RequestSetAdmin(Builder builder) {
         super(builder);
         this.threadId = builder.threadId;
         this.roles = builder.roles;
@@ -38,8 +38,8 @@ public class RequestAddRole extends GeneralRequestObject {
             this.roles = roles;
         }
 
-        public RequestAddRole build() {
-            return new RequestAddRole(this);
+        public RequestSetAdmin build() {
+            return new RequestSetAdmin(this);
         }
 
         @Override

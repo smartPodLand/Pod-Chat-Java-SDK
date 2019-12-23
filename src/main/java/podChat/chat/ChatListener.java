@@ -163,8 +163,13 @@ public interface ChatListener {
     default void OnGetThreadAdmin(String content) {
     }
 
-    default void OnSetRole(String content, ChatResponse<ResultSetAdmin> chatResponse) {
+    default void OnSetRole(String content, ChatResponse<ResultSetRole> chatResponse) {
+
     }
+    default void OnRemoveRole(String content, ChatResponse<ResultSetRole> chatResponse) {
+
+    }
+
 
     default void OnInteractMessage(String content, ChatResponse<ResultInteractMessage> chatResponse) {
     }
