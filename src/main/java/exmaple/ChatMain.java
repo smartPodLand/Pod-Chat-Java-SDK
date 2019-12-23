@@ -23,30 +23,21 @@ import java.util.List;
  */
 public class ChatMain implements ChatContract.view {
     public static String platformHost = "https://sandbox.pod.ir:8043";
-    public static String token = "f7568a190a594abbba4cdba375b7d559";
-    public static String ssoHost = "https://accounts2.pod.ir";
+    public static String token = "5503bc2731014bf3a0e63fcfcf0e0ce7";
+    public static String ssoHost = "https://accounts.pod.ir";
     public static String fileServer = "https://sandbox.pod.ir:8443";
     public static String serverName = "chat-server";
-    public static String queueServer = "10.56.16.25";
-    public static String queuePort = "61616";
-    public static String queueInput = "queue-in-amjadi-stomp";
-    public static String queueOutput = "queue-out-amjadi-stomp";
-    public static String queueUserName = "root";
-    public static String queuePassword = "zalzalak";
+    public static String queueServer = "**********";
+    public static String queuePort = "******";
+    public static String queueInput = "queue-******";
+    public static String queueOutput = "queue-********";
+    public static String queueUserName = "******";
+    public static String queuePassword = "********";
+    public static Long chatId = 4101L;
     static ChatController chatController;
 
 
-    /*    static String platformHost = "http://172.16.110.131:8080";
-        static String token = "bebc31c4ead6458c90b607496dae25c6";
-        static String ssoHost = "https://accounts.pod.land";
-        static String fileServer = "http://172.16.110.131:8080";
-        static String serverName = "chat-server";
-        static String queueServer = "192.168.112.23";
-        static String queuePort = "61616";
-        static String queueInput = "queue-in-local_chat";
-        static String queueOutput = "queue-in-local_chat";
-        static String queueUserName = "root";
-        static String queuePassword = "j]Bm0RU8gLhbPUG";*/
+
     private static Logger logger = LogManager.getLogger(Async.class);
     Gson gson = new Gson();
 
