@@ -23,16 +23,16 @@ import java.util.List;
  */
 public class ChatMain implements ChatContract.view {
     public static String platformHost = "https://sandbox.pod.ir:8043";
-    public static String token = "4f2ae3a3752a405a8b9e35f0e850315e";
+    public static String token = "8022ac9161a6443fb9180dc9b63a1b56";
     public static String ssoHost = "https://accounts.pod.ir";
     public static String fileServer = "https://core.pod.ir";
     public static String serverName = "chat-server";
-    public static String queueServer = "10.56.16.25";
-    public static String queuePort = "61616";
-    public static String queueInput = "queue-in-amjadi-stomp";
-    public static String queueOutput = "queue-out-amjadi-stomp";
-    public static String queueUserName = "root";
-    public static String queuePassword = "zalzalak";
+    public static String queueServer = "***";
+    public static String queuePort = "***";
+    public static String queueInput = "**";
+    public static String queueOutput = "****";
+    public static String queueUserName = "****";
+    public static String queuePassword = "******";
     public static Long chatId = 4101L;
     static ChatController chatController;
 
@@ -88,8 +88,8 @@ public class ChatMain implements ChatContract.view {
 //            Thread.sleep(2000);
 //            getParticipant();
 
-//            createThreadWithMessage();
-            createThreadWithFileMessage();
+            createThreadWithMessage();
+//            createThreadWithFileMessage();
 //            leaveThread();
 //            replyMessage();
 //            replyFileMessage(); /// check it
@@ -434,7 +434,7 @@ public class ChatMain implements ChatContract.view {
                 .build();
 
         Invitee invitee = new Invitee();
-        invitee.setId("09387181694");
+        invitee.setId("09900449643");
         invitee.setIdType(InviteType.TO_BE_USER_CELLPHONE_NUMBER);
 
 //        Invitee invitee1 = new Invitee();
