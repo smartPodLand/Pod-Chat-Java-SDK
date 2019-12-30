@@ -3,126 +3,62 @@ package podChat.mainmodel;
 import java.util.List;
 
 public class Thread {
-    private long id;
-    private long joinDate;
-    private Inviter inviter;
-    private LastMessageVO lastMessageVO;
+    private Long id;
+    private Long joinDate;
+    private Participant inviter;
     private String title;
     private List<Participant> participants;
-    private long time;
+    private Long time;
     private String lastMessage;
     private String lastParticipantName;
+    private Boolean group;
+    private Long partner;
     private String lastParticipantImage;
-    private boolean group;
-    private long partner;
+    private Long unreadCount;
+    private Long lastSeenMessageId;
+    private Long lastSeenMessageTime;
+    private Integer lastSeenMessageNanos;
+    private MessageVO lastMessageVO;
+    private Long partnerLastSeenMessageId;
+    private Long partnerLastSeenMessageTime;
+    private Integer partnerLastSeenMessageNanos;
+    private Long partnerLastDeliveredMessageId;
+    private Long partnerLastDeliveredMessageTime;
+    private Integer partnerLastDeliveredMessageNanos;
+    private Integer type;
     private String image;
     private String description;
-    private long unreadCount;
-
-    @Deprecated
-    private long lastSeenMessageId;
-
-    private long lastSeenMessageNanos;
-    private long lastSeenMessageTime;
-
-    @Deprecated
-    private long partnerLastSeenMessageId;
-
-    private long partnerLastSeenMessageTime;
-    private long partnerLastSeenMessageNanos;
-
-    @Deprecated
-    private long partnerLastDeliveredMessageId;
-
-    private long partnerLastDeliveredMessageTime;
-    private long partnerLastDeliveredMessageNanos;
-
-    @Deprecated
-    private long partnerLastMessageId;
-
-    private int type;
-    private boolean mute;
     private String metadata;
-    private boolean canEditInfo;
-    private long participantCount;
+    private Boolean mute;
+    private Long participantCount;
+    private Boolean canEditInfo;
     private Boolean canSpam;
     private Boolean admin;
+    private Boolean mentioned;
+    private Boolean pin;
 
-    public Thread(long id,
-                  long joinDate,
-                  Inviter inviter,
-                  LastMessageVO lastMessageVO,
-                  String title,
-                  List<Participant> participants,
-                  long time,
-                  String lastMessage,
-                  String lastParticipantName,
-                  String lastParticipantImage,
-                  boolean group,
-                  long partner,
-                  String image,
-                  String description,
-                  long unreadCount,
-                  long lastSeenMessageId,
-                  long partnerLastMessageId,
-                  long partnerLastSeenMessageId,
-                  long partnerLastDeliveredMessageId,
-                  long lastSeenMessageNanos,
-                  long lastSeenMessageTime,
-                  long partnerLastSeenMessageTime,
-                  long partnerLastSeenMessageNanos,
-                  long partnerLastDeliveredMessageTime,
-                  long partnerLastDeliveredMessageNanos,
-                  int type,
-                  boolean mute,
-                  String metadata,
-                  boolean canEditInfo,
-                  long participantCount,
-                  Boolean canSpam,
-                  Boolean admin) {
-        this.id = id;
-        this.joinDate = joinDate;
-        this.inviter = inviter;
-        this.lastMessageVO = lastMessageVO;
-        this.title = title;
-        this.participants = participants;
-        this.time = time;
-        this.lastMessage = lastMessage;
-        this.lastParticipantName = lastParticipantName;
-        this.lastParticipantImage = lastParticipantImage;
-        this.group = group;
-        this.partner = partner;
-        this.image = image;
-        this.description = description;
-        this.unreadCount = unreadCount;
-        this.lastSeenMessageId = lastSeenMessageId;
-        this.partnerLastMessageId = partnerLastMessageId;
-        this.partnerLastSeenMessageId = partnerLastSeenMessageId;
-        this.partnerLastDeliveredMessageId = partnerLastDeliveredMessageId;
-        this.lastSeenMessageNanos = lastSeenMessageNanos;
-        this.lastSeenMessageTime = lastSeenMessageTime;
-        this.partnerLastSeenMessageTime = partnerLastSeenMessageTime;
-        this.partnerLastSeenMessageNanos = partnerLastSeenMessageNanos;
-        this.partnerLastDeliveredMessageTime = partnerLastDeliveredMessageTime;
-        this.partnerLastDeliveredMessageNanos = partnerLastDeliveredMessageNanos;
-        this.type = type;
-        this.mute = mute;
-        this.metadata = metadata;
-        this.canEditInfo = canEditInfo;
-        this.participantCount = participantCount;
-        this.canSpam = canSpam;
-        this.admin = admin;
-    }
-
-    public Thread() {
-    }
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getJoinDate() {
+        return joinDate;
+    }
+
+    public void setJoinDate(Long joinDate) {
+        this.joinDate = joinDate;
+    }
+
+    public Participant getInviter() {
+        return inviter;
+    }
+
+    public void setInviter(Participant inviter) {
+        this.inviter = inviter;
     }
 
     public String getTitle() {
@@ -141,124 +77,12 @@ public class Thread {
         this.participants = participants;
     }
 
-    public long getTime() {
+    public Long getTime() {
         return time;
     }
 
-    public void setTime(long time) {
+    public void setTime(Long time) {
         this.time = time;
-    }
-
-    public String getLastParticipantName() {
-        return lastParticipantName;
-    }
-
-    public void setLastParticipantName(String lastParticipantName) {
-        this.lastParticipantName = lastParticipantName;
-    }
-
-    public boolean isGroup() {
-        return group;
-    }
-
-    public void setGroup(boolean group) {
-        this.group = group;
-    }
-
-    public long getPartner() {
-        return partner;
-    }
-
-    public void setPartner(long partner) {
-        this.partner = partner;
-    }
-
-    public long getUnreadCount() {
-        return unreadCount;
-    }
-
-    public void setUnreadCount(long unreadCount) {
-        this.unreadCount = unreadCount;
-    }
-
-    public long getLastSeenMessageId() {
-        return lastSeenMessageId;
-    }
-
-    public void setLastSeenMessageId(long lastSeenMessageId) {
-        this.lastSeenMessageId = lastSeenMessageId;
-    }
-
-    public long getJoinDate() {
-        return joinDate;
-    }
-
-    public void setJoinDate(long joinDate) {
-        this.joinDate = joinDate;
-    }
-
-    public Inviter getInviter() {
-        return inviter;
-    }
-
-    public void setInviter(Inviter inviter) {
-        this.inviter = inviter;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public LastMessageVO getLastMessageVO() {
-        return lastMessageVO;
-    }
-
-    public void setLastMessageVO(LastMessageVO lastMessageVO) {
-        this.lastMessageVO = lastMessageVO;
-    }
-
-    public long getPartnerLastMessageId() {
-        return partnerLastMessageId;
-    }
-
-    public void setPartnerLastMessageId(long partnerLastMessageId) {
-        this.partnerLastMessageId = partnerLastMessageId;
-    }
-
-    public long getPartnerLastDeliveredMessageId() {
-        return partnerLastDeliveredMessageId;
-    }
-
-    public void setPartnerLastDeliveredMessageId(long partnerLastDeliveredMessageId) {
-        this.partnerLastDeliveredMessageId = partnerLastDeliveredMessageId;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public boolean isMute() {
-        return mute;
-    }
-
-    public void setMute(boolean mute) {
-        this.mute = mute;
-    }
-
-    public long getParticipantCount() {
-        return participantCount;
-    }
-
-    public void setParticipantCount(long participantCount) {
-        this.participantCount = participantCount;
     }
 
     public String getLastMessage() {
@@ -269,20 +93,148 @@ public class Thread {
         this.lastMessage = lastMessage;
     }
 
-    public boolean isCanEditInfo() {
-        return canEditInfo;
+    public String getLastParticipantName() {
+        return lastParticipantName;
     }
 
-    public void setCanEditInfo(boolean canEditInfo) {
-        this.canEditInfo = canEditInfo;
+    public void setLastParticipantName(String lastParticipantName) {
+        this.lastParticipantName = lastParticipantName;
     }
 
-    public long getPartnerLastSeenMessageId() {
+    public Boolean getGroup() {
+        return group;
+    }
+
+    public void setGroup(Boolean group) {
+        this.group = group;
+    }
+
+    public Long getPartner() {
+        return partner;
+    }
+
+    public void setPartner(Long partner) {
+        this.partner = partner;
+    }
+
+    public String getLastParticipantImage() {
+        return lastParticipantImage;
+    }
+
+    public void setLastParticipantImage(String lastParticipantImage) {
+        this.lastParticipantImage = lastParticipantImage;
+    }
+
+    public Long getUnreadCount() {
+        return unreadCount;
+    }
+
+    public void setUnreadCount(Long unreadCount) {
+        this.unreadCount = unreadCount;
+    }
+
+    public Long getLastSeenMessageId() {
+        return lastSeenMessageId;
+    }
+
+    public void setLastSeenMessageId(Long lastSeenMessageId) {
+        this.lastSeenMessageId = lastSeenMessageId;
+    }
+
+    public Long getLastSeenMessageTime() {
+        return lastSeenMessageTime;
+    }
+
+    public void setLastSeenMessageTime(Long lastSeenMessageTime) {
+        this.lastSeenMessageTime = lastSeenMessageTime;
+    }
+
+    public Integer getLastSeenMessageNanos() {
+        return lastSeenMessageNanos;
+    }
+
+    public void setLastSeenMessageNanos(Integer lastSeenMessageNanos) {
+        this.lastSeenMessageNanos = lastSeenMessageNanos;
+    }
+
+    public MessageVO getLastMessageVO() {
+        return lastMessageVO;
+    }
+
+    public void setLastMessageVO(MessageVO lastMessageVO) {
+        this.lastMessageVO = lastMessageVO;
+    }
+
+    public Long getPartnerLastSeenMessageId() {
         return partnerLastSeenMessageId;
     }
 
-    public void setPartnerLastSeenMessageId(long partnerLastSeenMessageId) {
+    public void setPartnerLastSeenMessageId(Long partnerLastSeenMessageId) {
         this.partnerLastSeenMessageId = partnerLastSeenMessageId;
+    }
+
+    public Long getPartnerLastSeenMessageTime() {
+        return partnerLastSeenMessageTime;
+    }
+
+    public void setPartnerLastSeenMessageTime(Long partnerLastSeenMessageTime) {
+        this.partnerLastSeenMessageTime = partnerLastSeenMessageTime;
+    }
+
+    public Integer getPartnerLastSeenMessageNanos() {
+        return partnerLastSeenMessageNanos;
+    }
+
+    public void setPartnerLastSeenMessageNanos(Integer partnerLastSeenMessageNanos) {
+        this.partnerLastSeenMessageNanos = partnerLastSeenMessageNanos;
+    }
+
+    public Long getPartnerLastDeliveredMessageId() {
+        return partnerLastDeliveredMessageId;
+    }
+
+    public void setPartnerLastDeliveredMessageId(Long partnerLastDeliveredMessageId) {
+        this.partnerLastDeliveredMessageId = partnerLastDeliveredMessageId;
+    }
+
+    public Long getPartnerLastDeliveredMessageTime() {
+        return partnerLastDeliveredMessageTime;
+    }
+
+    public void setPartnerLastDeliveredMessageTime(Long partnerLastDeliveredMessageTime) {
+        this.partnerLastDeliveredMessageTime = partnerLastDeliveredMessageTime;
+    }
+
+    public Integer getPartnerLastDeliveredMessageNanos() {
+        return partnerLastDeliveredMessageNanos;
+    }
+
+    public void setPartnerLastDeliveredMessageNanos(Integer partnerLastDeliveredMessageNanos) {
+        this.partnerLastDeliveredMessageNanos = partnerLastDeliveredMessageNanos;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getMetadata() {
@@ -293,12 +245,28 @@ public class Thread {
         this.metadata = metadata;
     }
 
-    public String getLastParticipantImage() {
-        return lastParticipantImage;
+    public Boolean getMute() {
+        return mute;
     }
 
-    public void setLastParticipantImage(String lastParticipantImage) {
-        this.lastParticipantImage = lastParticipantImage;
+    public void setMute(Boolean mute) {
+        this.mute = mute;
+    }
+
+    public Long getParticipantCount() {
+        return participantCount;
+    }
+
+    public void setParticipantCount(Long participantCount) {
+        this.participantCount = participantCount;
+    }
+
+    public Boolean getCanEditInfo() {
+        return canEditInfo;
+    }
+
+    public void setCanEditInfo(Boolean canEditInfo) {
+        this.canEditInfo = canEditInfo;
     }
 
     public Boolean getCanSpam() {
@@ -317,59 +285,19 @@ public class Thread {
         this.admin = admin;
     }
 
-    public String getDescription() {
-        return description;
+    public Boolean getMentioned() {
+        return mentioned;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setMentioned(Boolean mentioned) {
+        this.mentioned = mentioned;
     }
 
-    public long getLastSeenMessageNanos() {
-        return lastSeenMessageNanos;
+    public Boolean getPin() {
+        return pin;
     }
 
-    public void setLastSeenMessageNanos(long lastSeenMessageNanos) {
-        this.lastSeenMessageNanos = lastSeenMessageNanos;
-    }
-
-    public long getLastSeenMessageTime() {
-        return lastSeenMessageTime;
-    }
-
-    public void setLastSeenMessageTime(long lastSeenMessageTime) {
-        this.lastSeenMessageTime = lastSeenMessageTime;
-    }
-
-    public long getPartnerLastSeenMessageTime() {
-        return partnerLastSeenMessageTime;
-    }
-
-    public void setPartnerLastSeenMessageTime(long partnerLastSeenMessageTime) {
-        this.partnerLastSeenMessageTime = partnerLastSeenMessageTime;
-    }
-
-    public long getPartnerLastSeenMessageNanos() {
-        return partnerLastSeenMessageNanos;
-    }
-
-    public void setPartnerLastSeenMessageNanos(long partnerLastSeenMessageNanos) {
-        this.partnerLastSeenMessageNanos = partnerLastSeenMessageNanos;
-    }
-
-    public long getPartnerLastDeliveredMessageTime() {
-        return partnerLastDeliveredMessageTime;
-    }
-
-    public void setPartnerLastDeliveredMessageTime(long partnerLastDeliveredMessageTime) {
-        this.partnerLastDeliveredMessageTime = partnerLastDeliveredMessageTime;
-    }
-
-    public long getPartnerLastDeliveredMessageNanos() {
-        return partnerLastDeliveredMessageNanos;
-    }
-
-    public void setPartnerLastDeliveredMessageNanos(long partnerLastDeliveredMessageNanos) {
-        this.partnerLastDeliveredMessageNanos = partnerLastDeliveredMessageNanos;
+    public void setPin(Boolean pin) {
+        this.pin = pin;
     }
 }

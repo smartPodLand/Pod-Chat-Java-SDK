@@ -265,6 +265,27 @@ public class ChatListenerManager {
     }
 
 
+    public void callOnPinThread(String content, ChatResponse<ResultPin> outPut) {
+        for (ChatListener listener : getSynchronizedListeners()) {
+            try {
+                listener.onPin(content, outPut);
+            } catch (Throwable t) {
+                callHandleCallbackError(listener, t);
+            }
+        }
+    }
+
+    public void callOnUnPinThread(String content, ChatResponse<ResultPin> outPut) {
+        for (ChatListener listener : getSynchronizedListeners()) {
+            try {
+                listener.onUnPin(content, outPut);
+            } catch (Throwable t) {
+                callHandleCallbackError(listener, t);
+            }
+        }
+    }
+
+
     public void callOnCreateThread(String content, ChatResponse<ResultThread> response) {
         for (ChatListener listener : getSynchronizedListeners()) {
             try {
@@ -509,5 +530,17 @@ public class ChatListenerManager {
             }
         }
     }
+
+    public void callOnUserInfo(String json, ChatResponse<ResultUserInfo> chatResponse) {
+
+        for (ChatListener listener : getSynchronizedListeners()) {
+            try {
+                listener.onUserInfo(json, chatResponse);
+            } catch (Throwable t) {
+                callHandleCallbackError(listener, t);
+            }
+        }
+    }
+
 
 }

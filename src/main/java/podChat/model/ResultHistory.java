@@ -1,9 +1,6 @@
 package podChat.model;
 
 
-import podChat.cachemodel.queue.Failed;
-import podChat.cachemodel.queue.Sending;
-import podChat.cachemodel.queue.Uploading;
 import podChat.mainmodel.MessageVO;
 
 import java.util.List;
@@ -15,11 +12,6 @@ public class ResultHistory {
     private boolean hasNext;
     private long nextOffset;
 
-    private List<Sending> sending;
-
-    private List<Failed> failed;
-
-    private List<Uploading> uploadingQueue;
 
     public long getContentCount() {
         return contentCount;
@@ -53,27 +45,4 @@ public class ResultHistory {
         this.history = history;
     }
 
-    public List<Sending> getSending() {
-        return sending;
-    }
-
-    public void setSending(List<Sending> sending) {
-        this.sending = sending;
-    }
-
-    public List<Failed> getFailed() {
-        return failed;
-    }
-
-    public void setFailed(List<Failed> failed) {
-        this.failed = failed;
-    }
-
-    public List<Uploading> getUploadingQueue() {
-        return uploadingQueue;
-    }
-
-    public void setUploadingQueue(List<Uploading> uploadingQueue) {
-        this.uploadingQueue = uploadingQueue;
-    }
 }

@@ -1,5 +1,6 @@
 package podChat.model;
 
+
 import podChat.mainmodel.MessageVO;
 
 public class ResultNewMessage {

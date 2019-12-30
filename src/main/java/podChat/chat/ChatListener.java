@@ -166,11 +166,24 @@ public interface ChatListener {
     default void OnSetRole(String content, ChatResponse<ResultSetRole> chatResponse) {
 
     }
+
     default void OnRemoveRole(String content, ChatResponse<ResultSetRole> chatResponse) {
 
     }
 
 
     default void OnInteractMessage(String content, ChatResponse<ResultInteractMessage> chatResponse) {
+    }
+
+    default void onUserInfo(String content, ChatResponse<ResultUserInfo> response) {
+
+    }
+
+    default void onPin(String content, ChatResponse<ResultPin> response) {
+
+    }
+
+    default void onUnPin(String content, ChatResponse<ResultPin> response) {
+
     }
 }

@@ -105,6 +105,10 @@ public interface ChatContract {
         default void onRemoveRole(ChatResponse<ResultSetRole> chatResponse) {
         }
 
+        default void onUserInfo(){
+
+        }
+
 
         default void onSearchHisory() {
         }
@@ -147,6 +151,13 @@ public interface ChatContract {
 
         default void OnInteractMessage(ChatResponse<ResultInteractMessage> chatResponse) {
         }
+
+        default void onPin(ChatResponse<ResultPin> chatResponse) {
+        }
+
+        default void onUnPin(ChatResponse<ResultPin> chatResponse) {
+        }
+
 
     }
 
@@ -221,6 +232,7 @@ public interface ChatContract {
                 , String metaData, String typeCode);
 
         void createThread(RequestCreateThread requestCreateThread);
+        void createThreadWithFileMessage(RequestCreateThreadWithMessage requestCreateThreadWithMessage);
 
         void sendTextMessage(String textMessage, long threadId, Integer messageType, String metaData, String typeCode);
 
@@ -339,6 +351,10 @@ public interface ChatContract {
         void getBlockList(RequestBlockList request);
 
         void interactiveMessage(RequestInteract request);
+
+        void pin(RequestPinThread request);
+
+        void unPin(RequestPinThread request);
 
     }
 }

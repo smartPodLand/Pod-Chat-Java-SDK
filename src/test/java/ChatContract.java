@@ -125,6 +125,13 @@ public interface ChatContract {
 
         default void onGetThreadAdmin() {
         }
+
+        default void onPin(ChatResponse<ResultPin> chatResponse) {
+        }
+
+        default void onUnPin(ChatResponse<ResultPin> chatResponse) {
+        }
+
     }
 
     interface controller {

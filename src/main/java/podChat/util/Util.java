@@ -7,7 +7,6 @@ import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.BeanUtils;
 import podChat.mainmodel.Contact;
 import podChat.mainmodel.LinkedUser;
-import podChat.mainmodel.MessageVO;
 import podChat.model.ChatResponse;
 import podChat.model.Contacts;
 import podChat.model.ResultAddContact;
@@ -69,9 +68,6 @@ public class Util {
         return list == null || list.size() == 0;
     }
 
-    public static boolean isNullOrEmptyMessageVO(List<MessageVO> list) {
-        return list == null || list.size() == 0;
-    }
 
     public static <T extends Number> boolean isNullOrEmptyNumber(List<T> list) {
         return list == null || list.size() == 0;

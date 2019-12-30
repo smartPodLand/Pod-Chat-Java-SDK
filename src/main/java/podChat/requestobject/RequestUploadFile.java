@@ -6,20 +6,8 @@ package podChat.requestobject;
 public class RequestUploadFile {
     private String filePath;
 
-    RequestUploadFile(Builder builder) {
-        this.filePath = builder.filePath;
-    }
-
-    public static class Builder {
-        private String filePath;
-
-        public Builder(String filePath) {
-            this.filePath = filePath;
-        }
-
-        public RequestUploadFile build() {
-            return new RequestUploadFile(this);
-        }
+    protected RequestUploadFile(Builder<?> builder) {
+        filePath = builder.filePath;
     }
 
     public String getFilePath() {
@@ -28,5 +16,23 @@ public class RequestUploadFile {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
+    }
+
+    public static class Builder<T extends Builder<T>> {
+
+        private String filePath;
+
+        public Builder(String filePath) {
+            this.filePath = filePath;
+        }
+
+    /*    public T RequestUploadFile(StringBuilder filePath) {
+            filePath = filePath;
+            return (T) this;
+        }*/
+
+        public RequestUploadFile build() {
+            return new RequestUploadFile(this);
+        }
     }
 }

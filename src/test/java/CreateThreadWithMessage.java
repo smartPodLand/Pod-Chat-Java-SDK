@@ -34,7 +34,7 @@ public class CreateThreadWithMessage implements ChatContract.view {
     Gson gson = new Gson();
 
     @BeforeEach
-    public void initMocks() {
+    void initMocks() {
         MockitoAnnotations.initMocks(this);
     }
 
@@ -170,35 +170,5 @@ public class CreateThreadWithMessage implements ChatContract.view {
 
 
     }
-
-
-   /* //Only if client is online, the test will passed
-    @Test
-    @Order(3)
-    void seenMessage() throws InterruptedException {
-        Thread.sleep(3000);
-        ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
-
-        Mockito.verify(chatContract).onGetDeliverMessage(argument.capture());
-
-        ResultMessage resultMessage = (ResultMessage) argument.getValue().getResult();
-
-        Assertions.assertTrue(!Util.isNullOrEmpty(resultMessage.getMessageId()));
-    }
-
-    //Only if client is online, the test will passed
-    @Test
-    @Order(3)
-    void deliveredMessage() throws InterruptedException {
-        Thread.sleep(3000);
-        ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
-
-        Mockito.verify(chatContract).onGetSeenMessage(argument.capture());
-
-        ResultMessage resultMessage = (ResultMessage) argument.getValue().getResult();
-
-        Assertions.assertTrue(!Util.isNullOrEmpty(resultMessage.getMessageId()));
-    }*/
-
 
 }

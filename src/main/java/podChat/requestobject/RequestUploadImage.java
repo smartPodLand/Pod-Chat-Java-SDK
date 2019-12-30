@@ -1,9 +1,7 @@
 package podChat.requestobject;
 
 
-public class RequestUploadImage {
-
-    private String filePath;
+public class RequestUploadImage extends RequestUploadFile {
     private int xC;
     private int yC;
     private int hC;
@@ -11,57 +9,12 @@ public class RequestUploadImage {
 
 
     RequestUploadImage(Builder builder) {
-        this.filePath = builder.filePath;
+        super(builder);
         this.xC = builder.xC;
         this.yC = builder.yC;
         this.hC = builder.hC;
         this.wC = builder.wC;
 
-    }
-
-    public static class Builder {
-        private String filePath;
-        private int xC;
-        private int yC;
-        private int hC;
-        private int wC;
-
-        public Builder(String filePath) {
-            this.filePath = filePath;
-        }
-
-        public Builder xC(int xC) {
-            this.xC = xC;
-            return this;
-        }
-
-        public Builder yC(int yC) {
-            this.yC = yC;
-            return this;
-        }
-
-        public Builder hC(int hC) {
-            this.hC = hC;
-            return this;
-        }
-
-        public Builder wC(int wC) {
-            this.wC = wC;
-            return this;
-        }
-
-        public RequestUploadImage build() {
-            return new RequestUploadImage(this);
-        }
-    }
-
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
     }
 
     public int getxC() {
@@ -99,4 +52,41 @@ public class RequestUploadImage {
         this.wC = wC;
         return this;
     }
+
+    public static class Builder extends RequestUploadFile.Builder<Builder> {
+        private int xC;
+        private int yC;
+        private int hC;
+        private int wC;
+
+        public Builder(String filePath) {
+            super(filePath);
+        }
+
+        public Builder xC(int xC) {
+            this.xC = xC;
+            return this;
+        }
+
+        public Builder yC(int yC) {
+            this.yC = yC;
+            return this;
+        }
+
+        public Builder hC(int hC) {
+            this.hC = hC;
+            return this;
+        }
+
+        public Builder wC(int wC) {
+            this.wC = wC;
+            return this;
+        }
+
+        public RequestUploadImage build() {
+            return new RequestUploadImage(this);
+        }
+
+    }
+
 }

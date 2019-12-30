@@ -148,7 +148,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     @Override
     public void getUserInfo() {
-
+chat.getUserInfo();
     }
 
     @Override
@@ -186,6 +186,11 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void createThread(RequestCreateThread requestCreateThread) {
         chat.createThread(requestCreateThread);
+    }
+
+    @Override
+    public void createThreadWithFileMessage(RequestCreateThreadWithMessage requestCreateThreadWithMessage) {
+        chat.createThreadWithFileMessage(requestCreateThreadWithMessage);
     }
 
     @Override
@@ -441,6 +446,16 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void interactiveMessage(RequestInteract request) {
         chat.interactMessage(request);
+    }
+
+    @Override
+    public void pin(RequestPinThread request) {
+        chat.pinThread(request);
+    }
+
+    @Override
+    public void unPin(RequestPinThread request) {
+        chat.unPinThread(request);
     }
 
 

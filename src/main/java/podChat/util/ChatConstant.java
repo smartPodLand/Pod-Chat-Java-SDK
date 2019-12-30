@@ -38,6 +38,6 @@ public class ChatConstant {
 
     public static final String METHOD_REPLY_MSG = "replyMessage";
     public static final String METHOD_LOCATION_MSG = "locationMessage";
-    public static final String ERROR_NUMBER_MESSAGEID = "Number of messageIds exceeded! Just add one message Id";
+    public static final String ERROR_NUMBER_MESSAGE_ID = "Number of messageIds exceeded! Just add one message Id";
 
 }

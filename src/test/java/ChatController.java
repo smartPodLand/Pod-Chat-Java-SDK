@@ -187,6 +187,11 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
+    public void createThreadWithFileMessage(RequestCreateThreadWithMessage requestCreateThreadWithMessage) {
+
+    }
+
+    @Override
     public void sendTextMessage(String textMessage, long threadId, Integer messageType, String metaData, String typeCode) {
         chat.sendTextMessage(textMessage, threadId, messageType, metaData, typeCode);
     }
@@ -441,6 +446,16 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
         chat.interactMessage(request);
     }
 
+    @Override
+    public void pin(RequestPinThread request) {
+        chat.pinThread(request);
+    }
+
+    @Override
+    public void unPin(RequestPinThread request) {
+        chat.unPinThread(request);
+    }
+
     //View
     @Override
     public void onDeliver(String content, ChatResponse<ResultMessage> chatResponse) {
@@ -660,6 +675,16 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
         view.onSetRole(chatResponse);
     }
 
+    @Override
+    public void onPin(String content, ChatResponse<ResultPin> response) {
+        super.onPin(content, response);
+        view.onPin(response);
+    }
 
+    @Override
+    public void onUnPin(String content, ChatResponse<ResultPin> response) {
+        super.onUnPin(content, response);
+        view.onUnPin(response);
+    }
 }
 
