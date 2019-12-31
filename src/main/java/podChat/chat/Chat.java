@@ -3575,61 +3575,183 @@ public class Chat extends AsyncAdapter {
         return uniqueId;
     }
 
-    public String createThreadWithFileMessage(RequestCreateThreadWithMessage requestCreateThreadWithMessage) {
-        String uniqueId = generateUniqueId();
+    public ArrayList<String> createThreadWithFileMessage(RequestCreateThreadWithFile request) {
+        ArrayList<String> uniqueIds = new ArrayList<>();
+
+        String threadUniqId = generateUniqueId();
+        uniqueIds.add(threadUniqId);
+
+        System.out.println(threadUniqId);
+
+        String newMsgUniqueId = generateMessageUniqueId(request, uniqueIds);
+
+        System.out.println(newMsgUniqueId);
+
+        List<String> forwardUniqueIds = generateForwardingMessageId(request, uniqueIds);
 
         if (chatReady) {
-            if (requestCreateThreadWithMessage.getFile() != null && requestCreateThreadWithMessage.getFile() instanceof RequestUploadImage) {
+            if (request.getFile() != null && request.getFile() instanceof RequestUploadImage) {
 
-                uploadImage((RequestUploadImage) requestCreateThreadWithMessage.getFile(), uniqueId, result -> {
+                uploadImage((RequestUploadImage) request.getFile(), threadUniqId, metaData -> {
                     RequestThreadInnerMessage requestThreadInnerMessage;
 
-                    if (requestCreateThreadWithMessage.getMessage() == null) {
+                    if (request.getMessage() == null) {
                         requestThreadInnerMessage = new RequestThreadInnerMessage
                                 .Builder()
-                                .metadata(result)
+                                .metadata(metaData)
                                 .build();
                     } else {
-                        requestThreadInnerMessage = requestCreateThreadWithMessage.getMessage();
-                        requestThreadInnerMessage.setMetadata(result);
+                        requestThreadInnerMessage = request.getMessage();
+                        requestThreadInnerMessage.setMetadata(metaData);
                     }
 
 
-                    requestCreateThreadWithMessage.setMessage(requestThreadInnerMessage);
-                    requestCreateThreadWithMessage.setFile(null);
+                    request.setMessage(requestThreadInnerMessage);
+                    request.setFile(null);
 
-                    createThreadWithMessage(requestCreateThreadWithMessage);
+                    createThreadWithMessage(request, threadUniqId, newMsgUniqueId, forwardUniqueIds);
 
                 });
 
-            } else {
-                uploadFile(requestCreateThreadWithMessage.getFile().getFilePath(), uniqueId, result -> {
+            } else if (request.getFile() != null) {
+
+                uploadFile(request.getFile().getFilePath(), threadUniqId, metaData -> {
                     RequestThreadInnerMessage requestThreadInnerMessage;
 
-                    if (requestCreateThreadWithMessage.getMessage() == null) {
+
+                    if (request.getMessage() == null) {
                         requestThreadInnerMessage = new RequestThreadInnerMessage
                                 .Builder()
-                                .metadata(result)
+                                .metadata(metaData)
                                 .build();
                     } else {
-                        requestThreadInnerMessage = requestCreateThreadWithMessage.getMessage();
-                        requestThreadInnerMessage.setMetadata(result);
+                        requestThreadInnerMessage = request.getMessage();
+                        requestThreadInnerMessage.setMetadata(metaData);
                     }
 
 
-                    requestCreateThreadWithMessage.setMessage(requestThreadInnerMessage);
-                    requestCreateThreadWithMessage.setFile(null);
+                    request.setMessage(requestThreadInnerMessage);
+                    request.setFile(null);
 
-                    createThreadWithMessage(requestCreateThreadWithMessage);
+                    createThreadWithMessage(request, threadUniqId, newMsgUniqueId, forwardUniqueIds);
 
                 });
             }
 
         } else {
-            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+            getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, threadUniqId);
         }
 
-        return uniqueId;
+        return uniqueIds;
+    }
+
+    private List<String> generateForwardingMessageId(RequestCreateThreadWithMessage request, ArrayList<String> uniqueIds) {
+        List<String> forwardUniqueIds = null;
+
+        if (request.getMessage() != null && !Util.isNullOrEmptyNumber(request.getMessage().getForwardedMessageIds())) {
+            List<Long> messageIds = request.getMessage().getForwardedMessageIds();
+            forwardUniqueIds = new ArrayList<>();
+
+            for (long ids : messageIds) {
+                String frwMsgUniqueId = generateUniqueId();
+
+                System.out.println(frwMsgUniqueId);
+
+                forwardUniqueIds.add(frwMsgUniqueId);
+                uniqueIds.add(frwMsgUniqueId);
+            }
+        }
+        return forwardUniqueIds;
+    }
+
+    private String generateMessageUniqueId(RequestCreateThreadWithMessage request, ArrayList<String> uniqueIds) {
+        String newMsgUniqueId = null;
+        if (request.getMessage() != null && !Util.isNullOrEmpty(request.getMessage().getText())) {
+            newMsgUniqueId = generateUniqueId();
+            uniqueIds.add(newMsgUniqueId);
+        }
+        return newMsgUniqueId;
+    }
+
+    private void createThreadWithMessage(RequestCreateThreadWithMessage threadRequest,
+                                         String threadUniqueId,
+                                         String messageUniqueId,
+                                         List<String> forwardUniqueIds) {
+        JsonObject innerMessageObj = null;
+        JsonObject jsonObject;
+
+        try {
+            if (chatReady) {
+
+                if (threadRequest.getMessage() != null) {
+                    RequestThreadInnerMessage innerMessage = threadRequest.getMessage();
+                    innerMessageObj = (JsonObject) gson.toJsonTree(innerMessage);
+
+                    if (Util.isNullOrEmpty(threadRequest.getMessage().getType())) {
+                        innerMessageObj.remove("type");
+                    }
+
+                    if (Util.isNullOrEmpty(threadRequest.getMessage().getText())) {
+                        innerMessageObj.remove("message");
+                    } else {
+                        innerMessageObj.addProperty("uniqueId", messageUniqueId);
+                    }
+
+                    if (!Util.isNullOrEmptyNumber(threadRequest.getMessage().getForwardedMessageIds())) {
+
+                        /** Its generated new unique id for each forward message*/
+                        JsonElement element = gson.toJsonTree(forwardUniqueIds, new TypeToken<List<Long>>() {
+                        }.getType());
+
+                        JsonArray jsonArray = element.getAsJsonArray();
+                        innerMessageObj.add("forwardedUniqueIds", jsonArray);
+                    } else {
+                        innerMessageObj.remove("forwardedUniqueIds");
+                        innerMessageObj.remove("forwardedMessageIds");
+                    }
+                }
+
+                JsonObject jsonObjectCreateThread = (JsonObject) gson.toJsonTree(threadRequest);
+
+                jsonObjectCreateThread.remove("count");
+                jsonObjectCreateThread.remove("offset");
+                jsonObjectCreateThread.add("message", innerMessageObj);
+
+                ChatMessage chatMessage = new ChatMessage();
+                chatMessage.setContent(jsonObjectCreateThread.toString());
+                chatMessage.setType(ChatMessageType.INVITATION);
+                chatMessage.setUniqueId(threadUniqueId);
+                chatMessage.setToken(getToken());
+                chatMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
+
+
+                jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
+
+                jsonObject.remove("repliedTo");
+                jsonObject.remove("subjectId");
+                jsonObject.remove("systemMetadata");
+                jsonObject.remove("contentCount");
+
+                String typeCode = threadRequest.getTypeCode();
+
+                if (!Util.isNullOrEmpty(typeCode)) {
+                    jsonObject.remove("typeCode");
+                    jsonObject.addProperty("typeCode", typeCode);
+                } else if (!Util.isNullOrEmpty(getTypeCode())) {
+                    jsonObject.remove("typeCode");
+                    jsonObject.addProperty("typeCode", getTypeCode());
+                } else {
+                    jsonObject.remove("typeCode");
+                }
+
+                sendAsyncMessage(jsonObject.toString(), 4, "SEND_CREATE_THREAD_WITH_MESSAGE");
+            } else {
+                getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, threadUniqueId);
+            }
+
+        } catch (Throwable e) {
+            showErrorLog(e.getCause().getMessage());
+        }
     }
 
 

@@ -97,7 +97,6 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
         chat.createThreadWithMessage(threadRequest);
     }
 
-
     @Override
     public void getThreads(RequestThread requestThread) {
         chat.getThreads(requestThread);
@@ -148,7 +147,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     @Override
     public void getUserInfo() {
-chat.getUserInfo();
+        chat.getUserInfo();
     }
 
     @Override
@@ -189,7 +188,7 @@ chat.getUserInfo();
     }
 
     @Override
-    public void createThreadWithFileMessage(RequestCreateThreadWithMessage requestCreateThreadWithMessage) {
+    public void createThreadWithFileMessage(RequestCreateThreadWithFile requestCreateThreadWithMessage) {
         chat.createThreadWithFileMessage(requestCreateThreadWithMessage);
     }
 

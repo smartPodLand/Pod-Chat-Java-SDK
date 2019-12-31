@@ -12,15 +12,13 @@ public class RequestCreateThreadWithMessage extends BaseRequestObject {
     private List<Invitee> invitees;
     private String title;
     private RequestThreadInnerMessage message;
-    private RequestUploadFile file;
     private String description;
     private String image;
 
-    RequestCreateThreadWithMessage(Builder builder) {
+    RequestCreateThreadWithMessage(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
         this.message = builder.message;
-        this.file = builder.file;
         this.title = builder.title;
         this.invitees = builder.invitees;
         this.description = builder.description;
@@ -34,14 +32,6 @@ public class RequestCreateThreadWithMessage extends BaseRequestObject {
 
     public void setMessage(RequestThreadInnerMessage message) {
         this.message = message;
-    }
-
-    public RequestUploadFile getFile() {
-        return file;
-    }
-
-    public void setFile(RequestUploadFile file) {
-        this.file = file;
     }
 
     public String getOwnerSsoId() {
@@ -92,12 +82,11 @@ public class RequestCreateThreadWithMessage extends BaseRequestObject {
         this.image = image;
     }
 
-    public static class Builder extends BaseRequestObject.Builder<Builder> {
+    public static class Builder<T extends Builder<T>> extends BaseRequestObject.Builder<Builder> {
         private final int type;
         private final List<Invitee> invitees;
         private String title;
         private RequestThreadInnerMessage message;
-        private RequestUploadFile file;
         private String description;
         private String image;
 
@@ -108,11 +97,6 @@ public class RequestCreateThreadWithMessage extends BaseRequestObject {
 
         public Builder message(RequestThreadInnerMessage message) {
             this.message = message;
-            return this;
-        }
-
-        public Builder file(RequestUploadFile file) {
-            this.file = file;
             return this;
         }
 

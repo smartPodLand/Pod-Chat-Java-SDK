@@ -91,7 +91,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     @Override
     public void createThreadWithMessage(RequestCreateThreadWithMessage threadRequest) {
-        ArrayList<String> uniqueId = chat.createThreadWithMessage(threadRequest);
+
     }
 
 
@@ -187,9 +187,10 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void createThreadWithFileMessage(RequestCreateThreadWithMessage requestCreateThreadWithMessage) {
+    public void createThreadWithFileMessage(RequestCreateThreadWithFile requestCreateThreadWithMessage) {
 
     }
+
 
     @Override
     public void sendTextMessage(String textMessage, long threadId, Integer messageType, String metaData, String typeCode) {

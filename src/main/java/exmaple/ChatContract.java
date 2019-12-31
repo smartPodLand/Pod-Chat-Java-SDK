@@ -232,7 +232,7 @@ public interface ChatContract {
                 , String metaData, String typeCode);
 
         void createThread(RequestCreateThread requestCreateThread);
-        void createThreadWithFileMessage(RequestCreateThreadWithMessage requestCreateThreadWithMessage);
+        void createThreadWithFileMessage(RequestCreateThreadWithFile requestCreateThreadWithMessage);
 
         void sendTextMessage(String textMessage, long threadId, Integer messageType, String metaData, String typeCode);
 
