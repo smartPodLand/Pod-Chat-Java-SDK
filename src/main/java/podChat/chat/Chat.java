@@ -63,10 +63,8 @@ public class Chat extends AsyncAdapter {
     private long lastSentMessageTime;
     private boolean chatReady = false;
     private boolean asyncReady = false;
-    private long retryStepUserInfo = 1;
     private int signalIntervalTime;
     private int expireAmount;
-    private boolean userInfoResponse = false;
     private long ttl;
     private String ssoHost;
     private QueueConfigVO queueConfigVO;
@@ -144,7 +142,7 @@ public class Chat extends AsyncAdapter {
 
             case ChatMessageType.GET_THREADS:
                 handleGetThreads(chatMessage);
-                handleResponseMessage(chatMessage, messageUniqueId);
+//                handleResponseMessage(chatMessage, messageUniqueId);
                 break;
 
             case ChatMessageType.REMOVED_FROM_THREAD:

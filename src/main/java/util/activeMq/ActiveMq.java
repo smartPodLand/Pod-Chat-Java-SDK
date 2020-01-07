@@ -86,6 +86,7 @@ public class ActiveMq {
                     this.conConnection = factory.createConnection(
                             queueConfigVO.getQueueUserName(),
                             queueConfigVO.getQueuePassword());
+
                     conConnection.start();
 
                     proSession = proConnection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
