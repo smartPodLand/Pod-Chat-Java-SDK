@@ -1,6 +1,6 @@
 package podChat.model;
 
-public class ResultPin {
+public class ResultPinThread {
     private long threadId;
 
     public long getThreadId() {

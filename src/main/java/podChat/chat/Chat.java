@@ -171,6 +171,8 @@ public class Chat extends AsyncAdapter {
             case ChatMessageType.MUTE_THREAD:
             case ChatMessageType.UNPIN_THREAD:
             case ChatMessageType.PIN_THREAD:
+            case ChatMessageType.PIN_MESSAGE:
+            case ChatMessageType.UNPIN_MESSAGE:
             case ChatMessageType.USER_INFO:
             case ChatMessageType.DELETE_MESSAGE:
             case ChatMessageType.EDIT_MESSAGE:
@@ -3441,6 +3443,113 @@ public class Chat extends AsyncAdapter {
         return uniqueId;
     }
 
+
+    /**
+     * Pin a message only in a channel or group; pin message requester should have writer role
+     *
+     * @param requestPinMessage
+     * @return
+     */
+    public String pinMessage(RequestPinMessage requestPinMessage) {
+        String uniqueId = generateUniqueId();
+        JsonObject jsonObject;
+
+        try {
+            if (chatReady) {
+
+                ChatMessage chatMessage = new ChatMessage();
+                chatMessage.setType(ChatMessageType.PIN_MESSAGE);
+                chatMessage.setToken(getToken());
+                chatMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
+                chatMessage.setSubjectId(requestPinMessage.getMessageId());
+
+                PinMessage pinMessage = new PinMessage();
+                pinMessage.setNotifyAll(requestPinMessage.getNotifyAll());
+
+                chatMessage.setContent(gson.toJson(pinMessage));
+
+                chatMessage.setUniqueId(uniqueId);
+
+                jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
+                jsonObject.remove("contentCount");
+                jsonObject.remove("systemMetadata");
+                jsonObject.remove("metadata");
+                jsonObject.remove("repliedTo");
+
+                String typeCode = requestPinMessage.getTypeCode();
+
+                if (!Util.isNullOrEmpty(typeCode)) {
+                    jsonObject.remove("typeCode");
+                    jsonObject.addProperty("typeCode", typeCode);
+                } else if (!Util.isNullOrEmpty(getTypeCode())) {
+                    jsonObject.remove("typeCode");
+                    jsonObject.addProperty("typeCode", getTypeCode());
+                } else {
+                    jsonObject.remove("typeCode");
+                }
+
+                sendAsyncMessage(jsonObject.toString(), 4, "SEND_PIN_MESSAGE");
+
+            } else {
+                getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+            }
+
+        } catch (Exception e) {
+            showErrorLog(e.getCause().getMessage());
+        }
+
+        return uniqueId;
+    }
+
+
+    /**
+     * Unpin the message already pined with message id
+     *
+     * @param requestPinThread
+     * @return
+     */
+    public String unPinMessage(RequestPinMessage requestPinThread) {
+        String uniqueId = generateUniqueId();
+        JsonObject jsonObject;
+        try {
+            if (chatReady) {
+                ChatMessage chatMessage = new ChatMessage();
+                chatMessage.setType(ChatMessageType.UNPIN_MESSAGE);
+                chatMessage.setToken(getToken());
+                chatMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
+                chatMessage.setSubjectId(requestPinThread.getMessageId());
+                chatMessage.setUniqueId(uniqueId);
+
+                jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
+                jsonObject.remove("contentCount");
+                jsonObject.remove("systemMetadata");
+                jsonObject.remove("metadata");
+                jsonObject.remove("repliedTo");
+
+                String typeCode = requestPinThread.getTypeCode();
+
+                if (!Util.isNullOrEmpty(typeCode)) {
+                    jsonObject.remove("typeCode");
+                    jsonObject.addProperty("typeCode", typeCode);
+                } else if (!Util.isNullOrEmpty(getTypeCode())) {
+                    jsonObject.remove("typeCode");
+                    jsonObject.addProperty("typeCode", getTypeCode());
+                } else {
+                    jsonObject.remove("typeCode");
+                }
+
+
+                sendAsyncMessage(jsonObject.toString(), 4, "SEND_UN_PIN_MESSAGE");
+            } else {
+                getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+            }
+        } catch (Exception e) {
+            showErrorLog(e.getCause().getMessage());
+        }
+        return uniqueId;
+    }
+
+
     public String getAdminList(RequestGetAdmin requestGetAdmin) {
         int count = (int) requestGetAdmin.getCount();
         long offset = requestGetAdmin.getOffset();
@@ -3579,13 +3688,13 @@ public class Chat extends AsyncAdapter {
         String threadUniqId = generateUniqueId();
         uniqueIds.add(threadUniqId);
 
-        System.out.println(threadUniqId);
+        String newMsgUniqueId = generateUniqueId();
 
-        String newMsgUniqueId = generateMessageUniqueId(request, uniqueIds);
+        List<String> forwardUniqueIds = generateForwardingMessageId(request);
 
-        System.out.println(newMsgUniqueId);
-
-        List<String> forwardUniqueIds = generateForwardingMessageId(request, uniqueIds);
+        if (!Util.isNullOrEmpty(forwardUniqueIds)) {
+            uniqueIds.addAll(forwardUniqueIds);
+        }
 
         if (chatReady) {
             if (request.getFile() != null && request.getFile() instanceof RequestUploadImage) {
@@ -3643,7 +3752,7 @@ public class Chat extends AsyncAdapter {
         return uniqueIds;
     }
 
-    private List<String> generateForwardingMessageId(RequestCreateThreadWithMessage request, ArrayList<String> uniqueIds) {
+    private List<String> generateForwardingMessageId(RequestCreateThreadWithMessage request) {
         List<String> forwardUniqueIds = null;
 
         if (request.getMessage() != null && !Util.isNullOrEmptyNumber(request.getMessage().getForwardedMessageIds())) {
@@ -3656,19 +3765,9 @@ public class Chat extends AsyncAdapter {
                 System.out.println(frwMsgUniqueId);
 
                 forwardUniqueIds.add(frwMsgUniqueId);
-                uniqueIds.add(frwMsgUniqueId);
             }
         }
         return forwardUniqueIds;
-    }
-
-    private String generateMessageUniqueId(RequestCreateThreadWithMessage request, ArrayList<String> uniqueIds) {
-        String newMsgUniqueId = null;
-        if (request.getMessage() != null && !Util.isNullOrEmpty(request.getMessage().getText())) {
-            newMsgUniqueId = generateUniqueId();
-            uniqueIds.add(newMsgUniqueId);
-        }
-        return newMsgUniqueId;
     }
 
     private void createThreadWithMessage(RequestCreateThreadWithMessage threadRequest,
@@ -3691,9 +3790,10 @@ public class Chat extends AsyncAdapter {
 
                     if (Util.isNullOrEmpty(threadRequest.getMessage().getText())) {
                         innerMessageObj.remove("message");
-                    } else {
-                        innerMessageObj.addProperty("uniqueId", messageUniqueId);
                     }
+
+                    innerMessageObj.addProperty("uniqueId", messageUniqueId);
+
 
                     if (!Util.isNullOrEmptyNumber(threadRequest.getMessage().getForwardedMessageIds())) {
 
@@ -4300,6 +4400,15 @@ public class Chat extends AsyncAdapter {
                     handleOutPutSeenMessageList(chatMessage);
                     break;
 
+                case ChatMessageType.PIN_MESSAGE:
+                    handlePinMessage(chatMessage);
+                    break;
+
+                case ChatMessageType.UNPIN_MESSAGE:
+                    handleUnpinMessage(chatMessage);
+                    break;
+
+
             }
 
         } catch (Throwable e) {
@@ -4308,7 +4417,7 @@ public class Chat extends AsyncAdapter {
     }
 
     private void handleUnpinThread(ChatMessage chatMessage) {
-        ChatResponse<ResultPin> resultUnPinChatResponse = new ChatResponse<>();
+        ChatResponse<ResultPinThread> resultUnPinChatResponse = new ChatResponse<>();
         String unpinThreadJson = reformatPinThread(chatMessage, resultUnPinChatResponse);
 
         listenerManager.callOnUnPinThread(unpinThreadJson, resultUnPinChatResponse);
@@ -4317,12 +4426,31 @@ public class Chat extends AsyncAdapter {
     }
 
     private void handlePinThread(ChatMessage chatMessage) {
-        ChatResponse<ResultPin> resultPinChatResponse = new ChatResponse<>();
+        ChatResponse<ResultPinThread> resultPinChatResponse = new ChatResponse<>();
         String pingThreadJson = reformatPinThread(chatMessage, resultPinChatResponse);
 
         listenerManager.callOnPinThread(pingThreadJson, resultPinChatResponse);
 
         showInfoLog("RECEIVE_PIN_THREAD", pingThreadJson);
+    }
+
+
+    private void handleUnpinMessage(ChatMessage chatMessage) {
+        ChatResponse<ResultPinMessage> resultUnPinChatResponse = new ChatResponse<>();
+        String unpinThreadJson = reformatPinMessage(chatMessage, resultUnPinChatResponse);
+
+        listenerManager.callOnUnPinMessage(unpinThreadJson, resultUnPinChatResponse);
+
+        showInfoLog("RECEIVE_UN_PIN_MESSAGE", unpinThreadJson);
+    }
+
+    private void handlePinMessage(ChatMessage chatMessage) {
+        ChatResponse<ResultPinMessage> resultPinChatResponse = new ChatResponse<>();
+        String pingThreadJson = reformatPinMessage(chatMessage, resultPinChatResponse);
+
+        listenerManager.callOnPinMessage(pingThreadJson, resultPinChatResponse);
+
+        showInfoLog("RECEIVE_PIN_MESSAGE", pingThreadJson);
     }
 
     private void handleUnMuteThread(ChatMessage chatMessage) {
@@ -5132,8 +5260,8 @@ public class Chat extends AsyncAdapter {
     }
 
 
-    private String reformatPinThread(ChatMessage chatMessage, ChatResponse<ResultPin> outPut) {
-        ResultPin requestPinThread = new ResultPin();
+    private String reformatPinThread(ChatMessage chatMessage, ChatResponse<ResultPinThread> outPut) {
+        ResultPinThread requestPinThread = new ResultPinThread();
         requestPinThread.setThreadId(Long.parseLong(chatMessage.getContent()));
         outPut.setResult(requestPinThread);
         outPut.setHasError(false);
@@ -5142,6 +5270,19 @@ public class Chat extends AsyncAdapter {
         gson.toJson(outPut);
         return gson.toJson(outPut);
     }
+
+    private String reformatPinMessage(ChatMessage chatMessage, ChatResponse<ResultPinMessage> outPut) {
+
+        ResultPinMessage resultPinMessage = gson.fromJson(chatMessage.getContent(), ResultPinMessage.class);
+
+        outPut.setResult(resultPinMessage);
+        outPut.setHasError(false);
+        outPut.setErrorMessage("");
+        outPut.setUniqueId(chatMessage.getUniqueId());
+        gson.toJson(outPut);
+        return gson.toJson(outPut);
+    }
+
 
     private ChatResponse<ResultThread> reformatCreateThread(ChatMessage chatMessage) {
 

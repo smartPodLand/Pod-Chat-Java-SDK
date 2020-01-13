@@ -19,6 +19,7 @@ public class Thread {
     private Long lastSeenMessageTime;
     private Integer lastSeenMessageNanos;
     private MessageVO lastMessageVO;
+    private PinMessageVO pinMessageVO;
     private Long partnerLastSeenMessageId;
     private Long partnerLastSeenMessageTime;
     private Integer partnerLastSeenMessageNanos;
@@ -299,5 +300,13 @@ public class Thread {
 
     public void setPin(Boolean pin) {
         this.pin = pin;
+    }
+
+    public PinMessageVO getPinMessageVO() {
+        return pinMessageVO;
+    }
+
+    public void setPinMessageVO(PinMessageVO pinMessageVO) {
+        this.pinMessageVO = pinMessageVO;
     }
 }

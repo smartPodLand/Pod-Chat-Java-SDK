@@ -1,5 +1,4 @@
 import Constant.Constant;
-import com.google.gson.Gson;
 import exception.ConnectionException;
 import exmaple.ChatContract;
 import org.junit.jupiter.api.*;
@@ -14,7 +13,7 @@ import podChat.requestobject.RequestPinThread;
 
 @TestInstance(value = TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class PinUnPin implements ChatContract.view {
+class PinUnPinThread implements ChatContract.view {
     @Mock
     static ChatContract.view chatContract;
     @InjectMocks
@@ -65,13 +64,13 @@ class PinUnPin implements ChatContract.view {
                 .Builder(threadId)
                 .build();
 
-        chatController.pin(requestPinThread);
+        chatController.pinThread(requestPinThread);
 
         Thread.sleep(2000);
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract).onPin(argument.capture());
+        Mockito.verify(chatContract).onPinThread(argument.capture());
 
         ChatResponse chatResponse = argument.getValue();
 
@@ -86,13 +85,13 @@ class PinUnPin implements ChatContract.view {
                 .Builder(threadId)
                 .build();
 
-        chatController.unPin(requestPinThread);
+        chatController.unPinThread(requestPinThread);
 
         Thread.sleep(2000);
 
         ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
 
-        Mockito.verify(chatContract).onUnPin(argument.capture());
+        Mockito.verify(chatContract).onUnPinThread(argument.capture());
 
         ChatResponse chatResponse = argument.getValue();
 

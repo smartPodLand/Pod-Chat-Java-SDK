@@ -448,13 +448,23 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void pin(RequestPinThread request) {
+    public void pinThread(RequestPinThread request) {
         chat.pinThread(request);
     }
 
     @Override
-    public void unPin(RequestPinThread request) {
+    public void unPinThread(RequestPinThread request) {
         chat.unPinThread(request);
+    }
+
+    @Override
+    public void pinMessage(RequestPinMessage request) {
+
+    }
+
+    @Override
+    public void unPinMessage(RequestPinMessage request) {
+
     }
 
     //View
@@ -624,16 +634,6 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
         view.onUnblock(outPutBlock);
     }
 
-    @Override
-    public void onMapSearch(String content, OutPutMapNeshan outPutMapNeshan) {
-        super.onMapSearch(content, outPutMapNeshan);
-        view.onMapSearch();
-    }
-
-    @Override
-    public void onMapRouting(String content) {
-        view.onMapRouting();
-    }
 
     @Override
     public void onGetBlockList(String content, ChatResponse<ResultBlockList> outPutBlockList) {
@@ -677,15 +677,15 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void onPin(String content, ChatResponse<ResultPin> response) {
-        super.onPin(content, response);
-        view.onPin(response);
+    public void onPinThread(String content, ChatResponse<ResultPinThread> response) {
+        super.onPinThread(content, response);
+        view.onPinThread(response);
     }
 
     @Override
-    public void onUnPin(String content, ChatResponse<ResultPin> response) {
-        super.onUnPin(content, response);
-        view.onUnPin(response);
+    public void onUnPinThread(String content, ChatResponse<ResultPinThread> response) {
+        super.onUnPinThread(content, response);
+        view.onUnPinThread(response);
     }
 }
 

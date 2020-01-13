@@ -265,26 +265,46 @@ public class ChatListenerManager {
     }
 
 
-    public void callOnPinThread(String content, ChatResponse<ResultPin> outPut) {
+    public void callOnPinThread(String content, ChatResponse<ResultPinThread> outPut) {
         for (ChatListener listener : getSynchronizedListeners()) {
             try {
-                listener.onPin(content, outPut);
+                listener.onPinThread(content, outPut);
             } catch (Throwable t) {
                 callHandleCallbackError(listener, t);
             }
         }
     }
 
-    public void callOnUnPinThread(String content, ChatResponse<ResultPin> outPut) {
+    public void callOnUnPinThread(String content, ChatResponse<ResultPinThread> outPut) {
         for (ChatListener listener : getSynchronizedListeners()) {
             try {
-                listener.onUnPin(content, outPut);
+                listener.onUnPinThread(content, outPut);
             } catch (Throwable t) {
                 callHandleCallbackError(listener, t);
             }
         }
     }
 
+
+    public void callOnPinMessage(String content, ChatResponse<ResultPinMessage> outPut) {
+        for (ChatListener listener : getSynchronizedListeners()) {
+            try {
+                listener.onPinMessage(content, outPut);
+            } catch (Throwable t) {
+                callHandleCallbackError(listener, t);
+            }
+        }
+    }
+
+    public void callOnUnPinMessage(String content, ChatResponse<ResultPinMessage> outPut) {
+        for (ChatListener listener : getSynchronizedListeners()) {
+            try {
+                listener.onUnPinMessage(content, outPut);
+            } catch (Throwable t) {
+                callHandleCallbackError(listener, t);
+            }
+        }
+    }
 
     public void callOnCreateThread(String content, ChatResponse<ResultThread> response) {
         for (ChatListener listener : getSynchronizedListeners()) {

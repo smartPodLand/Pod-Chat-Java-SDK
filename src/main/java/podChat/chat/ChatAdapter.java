@@ -104,25 +104,6 @@ public class ChatAdapter implements ChatListener {
 
     }
 
-    @Override
-    public void onMapSearch(String content, OutPutMapNeshan outPutMapNeshan) {
-
-    }
-
-    @Override
-    public void onMapRouting(String content) {
-
-    }
-
-    @Override
-    public void OnMapReverse(String json, ChatResponse<ResultMapReverse> chatResponse) {
-
-    }
-
-//    @Override
-//    public void OnStaticMap(ChatResponse<ResultStaticMapImage> chatResponse) {
-//
-//    }
 
     @Override
     public void OnGetThreadAdmin(String content) {
@@ -150,10 +131,6 @@ public class ChatAdapter implements ChatListener {
 
     }
 
-    @Override
-    public void onSyncContact(String content, ChatResponse<Contacts> chatResponse) {
-
-    }
 
     @Override
     public void onThreadAddParticipant(String content, ChatResponse<ResultAddParticipant> outPutAddParticipant) {

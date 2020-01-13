@@ -79,13 +79,6 @@ public interface ChatListener {
 
     }
 
-    default void onMapSearch(String content, OutPutMapNeshan outPutMapNeshan) {
-
-    }
-
-    default void onMapRouting(String content) {
-
-    }
 
     default void onNewMessage(String content, ChatResponse<ResultNewMessage> response) {
 
@@ -107,10 +100,6 @@ public interface ChatListener {
 
     }
 
-    default void onSyncContact(String content, ChatResponse<Contacts> chatResponse) {
-
-    }
-
     default void onSearchContact(String content, ChatResponse<ResultContact> response) {
 
     }
@@ -127,8 +116,6 @@ public interface ChatListener {
 
     }
 
-    default void OnMapReverse(String json, ChatResponse<ResultMapReverse> response) {
-    }
 
     default void onLastSeenUpdated(String content) {
     }
@@ -179,11 +166,19 @@ public interface ChatListener {
 
     }
 
-    default void onPin(String content, ChatResponse<ResultPin> response) {
+    default void onPinThread(String content, ChatResponse<ResultPinThread> response) {
 
     }
 
-    default void onUnPin(String content, ChatResponse<ResultPin> response) {
+    default void onUnPinThread(String content, ChatResponse<ResultPinThread> response) {
 
     }
+    default void onPinMessage(String content, ChatResponse<ResultPinMessage> response) {
+
+    }
+
+    default void onUnPinMessage(String content, ChatResponse<ResultPinMessage> response) {
+
+    }
+
 }

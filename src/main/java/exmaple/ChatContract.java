@@ -105,7 +105,7 @@ public interface ChatContract {
         default void onRemoveRole(ChatResponse<ResultSetRole> chatResponse) {
         }
 
-        default void onUserInfo(){
+        default void onUserInfo() {
 
         }
 
@@ -152,10 +152,17 @@ public interface ChatContract {
         default void OnInteractMessage(ChatResponse<ResultInteractMessage> chatResponse) {
         }
 
-        default void onPin(ChatResponse<ResultPin> chatResponse) {
+        default void onPinThread(ChatResponse<ResultPinThread> chatResponse) {
         }
 
-        default void onUnPin(ChatResponse<ResultPin> chatResponse) {
+        default void onUnPinThread(ChatResponse<ResultPinThread> chatResponse) {
+        }
+
+
+        default void onPinMessage(ChatResponse<ResultPinMessage> chatResponse) {
+        }
+
+        default void onUnPinMessage(ChatResponse<ResultPinMessage> chatResponse) {
         }
 
 
@@ -232,6 +239,7 @@ public interface ChatContract {
                 , String metaData, String typeCode);
 
         void createThread(RequestCreateThread requestCreateThread);
+
         void createThreadWithFileMessage(RequestCreateThreadWithFile requestCreateThreadWithMessage);
 
         void sendTextMessage(String textMessage, long threadId, Integer messageType, String metaData, String typeCode);
@@ -352,9 +360,12 @@ public interface ChatContract {
 
         void interactiveMessage(RequestInteract request);
 
-        void pin(RequestPinThread request);
+        void pinThread(RequestPinThread request);
 
-        void unPin(RequestPinThread request);
+        void unPinThread(RequestPinThread request);
 
+        void pinMessage(RequestPinMessage request);
+
+        void unPinMessage(RequestPinMessage request);
     }
 }
