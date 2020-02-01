@@ -1,7 +1,9 @@
 package podChat.model;
 
-public class ChatResponse<T> extends BaseOutPut {
+import com.google.gson.Gson;
 
+public class ChatResponse<T> extends BaseOutPut {
+    private Gson gson = new Gson();
     private T result;
 
     public T getResult() {
@@ -10,5 +12,9 @@ public class ChatResponse<T> extends BaseOutPut {
 
     public void setResult(T result) {
         this.result = result;
+    }
+
+    public String getJson(ChatResponse<T> result) {
+        return gson.toJson(result);
     }
 }

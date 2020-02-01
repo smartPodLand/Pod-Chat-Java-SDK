@@ -9,8 +9,6 @@ public class ChatMessage {
     private long subjectId;
     private String uniqueId;
     private String content;
-    // Mr.zhiani said that it is useless.....
-//    private long time;
     private int contentCount;
     private String systemMetadata;
     private String metadata;

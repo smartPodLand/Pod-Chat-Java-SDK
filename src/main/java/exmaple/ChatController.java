@@ -635,7 +635,6 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
 
-
     @Override
     public void onGetBlockList(String content, ChatResponse<ResultBlockList> outPutBlockList) {
         super.onGetBlockList(content, outPutBlockList);

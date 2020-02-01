@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class ChatMain implements ChatContract.view {
     public static String platformHost = "https://sandbox.pod.ir:8043";
-    public static String token = "621a2bfe124d421199c2a22952e112af";
+    public static String token = "670c89bd097141789c1596334ec2a95a";
     public static String ssoHost = "https://accounts.pod.ir";
     public static String fileServer = "https://core.pod.ir";
     public static String serverName = "chat-server";
@@ -103,7 +103,7 @@ public class ChatMain implements ChatContract.view {
 //            Thread.sleep(2000);
 //            unmute();
 
-//            getHistory();
+            getHistory();
 //            clearHistory();
 
 //            block();
@@ -152,15 +152,15 @@ public class ChatMain implements ChatContract.view {
 
 //            spam();
 
-            Thread.sleep(2000);
+//            Thread.sleep(2000);
 //            setAuditorRole();
 //            getParticipant();
 
-            pinMessage();
+//            pinMessage();
+//            Thread.sleep(2000);
+//            getThreads();
             Thread.sleep(2000);
-            getThreads();
-            Thread.sleep(2000);
-            unPinMessage();
+//            unPinMessage();
 //            chatController.getUserInfo();
         } catch (ConnectionException | InterruptedException e) {
             System.out.println(e);
@@ -388,7 +388,7 @@ public class ChatMain implements ChatContract.view {
 
         chatController.getHistory(requestGetHistory);*/
         RequestGetHistory requestGetHistory2 = new RequestGetHistory
-                .Builder(6630)
+                .Builder(7109)
 //                .uniqueIds(new String[]{"a98d00af-6cb7-4174-a82a-a8ec68af0bb1"})
                 .build();
 
@@ -504,7 +504,7 @@ public class ChatMain implements ChatContract.view {
      */
     private void sendMessage() {
         RequestMessage requestThread = new RequestMessage
-                .Builder("سلام", 6630)
+                .Builder("@ma.amjadi", 7108)
                 .build();
 
         chatController.sendTextMessage(requestThread);
@@ -516,9 +516,6 @@ public class ChatMain implements ChatContract.view {
     private void getThreads() {
         RequestThread requestThread = new RequestThread
                 .Builder()
-                .threadIds(new ArrayList<Integer>() {{
-                    add(6630);
-                }})
                 .build();
 
         chatController.getThreads(requestThread);
@@ -883,8 +880,10 @@ public class ChatMain implements ChatContract.view {
 
     @Override
     public void onSetRole(ChatResponse<ResultSetRole> chatResponse) {
+         chatResponse.getJson(chatResponse);
         System.out.println("helllo");
     }
+
 
     @Override
     public void onRemoveRole(ChatResponse<ResultSetRole> chatResponse) {

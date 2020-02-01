@@ -1,19 +1,15 @@
 package podChat.requestobject;
 
 
-import podChat.mainmodel.NosqlSearchMetadataCriteria;
-
 public class RequestGetHistory extends BaseRequestObject {
     private long threadId;
     private String order; // ASC OR DESC
     private long userId;
     private long id;
-    private String query;
     private long fromTime;
     private long fromTimeNanos;
     private long toTime;
     private long toTimeNanos;
-    private NosqlSearchMetadataCriteria metadataCriteria;
     private long firstMessageId;
     private long lastMessageId;
     private String[] uniqueIds;
@@ -24,14 +20,12 @@ public class RequestGetHistory extends BaseRequestObject {
         this.order = builder.order;
         this.firstMessageId = builder.firstMessageId;
         this.lastMessageId = builder.lastMessageId;
-        this.query = builder.query;
         this.userId = builder.userId;
         this.id = builder.id;
         this.fromTime = builder.fromTime;
         this.fromTimeNanos = builder.fromTimeNanos;
         this.toTime = builder.toTime;
         this.toTimeNanos = builder.toTimeNanos;
-        this.metadataCriteria = builder.metadataCriteria;
         this.uniqueIds = builder.uniqueIds;
 
     }
@@ -84,22 +78,6 @@ public class RequestGetHistory extends BaseRequestObject {
         this.id = id;
     }
 
-    public String getQuery() {
-        return query;
-    }
-
-    public void setQuery(String query) {
-        this.query = query;
-    }
-
-    public NosqlSearchMetadataCriteria getMetadataCriteria() {
-        return metadataCriteria;
-    }
-
-    public void setMetadataCriteria(NosqlSearchMetadataCriteria metadataCriteria) {
-        this.metadataCriteria = metadataCriteria;
-    }
-
     public long getFromTime() {
         return fromTime;
     }
@@ -147,12 +125,10 @@ public class RequestGetHistory extends BaseRequestObject {
         private long lastMessageId;
         private long userId;
         private long id;
-        private String query;
         private long fromTime;
         private long fromTimeNanos;
         private long toTime;
         private long toTimeNanos;
-        private NosqlSearchMetadataCriteria metadataCriteria;
         private String[] uniqueIds;
 
         public Builder(long threadId) {
@@ -205,20 +181,8 @@ public class RequestGetHistory extends BaseRequestObject {
             return this;
         }
 
-
         public Builder id(long id) {
             this.id = id;
-            return this;
-        }
-
-
-        public Builder query(String query) {
-            this.query = query;
-            return this;
-        }
-
-        public Builder metadataCriteria(NosqlSearchMetadataCriteria metadataCriteria) {
-            this.metadataCriteria = metadataCriteria;
             return this;
         }
 
