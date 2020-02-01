@@ -4,88 +4,87 @@ import podChat.mainmodel.ResultDeleteMessage;
 import podChat.model.*;
 
 public class ChatAdapter implements ChatListener {
+    public ChatAdapter() {
+        super();
+    }
+
     @Override
-    public void onDeliver(String content, ChatResponse<ResultMessage> chatResponse) {
+    public void onError(ErrorOutPut error) {
 
     }
 
     @Override
-    public void onError(String content, ErrorOutPut error) {
-    }
-
-    @Override
-    public void onGetContacts(String content,  ChatResponse<ResultContact> outPutContact) {
+    public void onGetContacts(ChatResponse<ResultContact> response) {
 
     }
 
     @Override
-    public void onGetHistory(String content, ChatResponse<ResultHistory> history) {
+    public void onGetHistory(ChatResponse<ResultHistory> history) {
 
     }
 
     @Override
-    public void onGetThread(String content, ChatResponse<ResultThreads> thread) {
+    public void onGetThread(ChatResponse<ResultThreads> thread) {
 
     }
 
     @Override
-    public void onThreadInfoUpdated(String content, ChatResponse<ResultThread> response) {
+    public void onThreadInfoUpdated(ChatResponse<ResultThread> response) {
 
     }
 
     @Override
-    public void onBlock(String content, ChatResponse<ResultBlock> outPutBlock) {
+    public void onBlock(ChatResponse<ResultBlock> response) {
 
     }
 
     @Override
-    public void onUnBlock(String content, ChatResponse<ResultBlock> outPutBlock) {
+    public void onUnBlock(ChatResponse<ResultBlock> response) {
 
     }
 
     @Override
-    public void onSeen(String content, ChatResponse<ResultMessage> chatResponse) {
+    public void onSeen(ChatResponse<ResultMessage> response) {
 
     }
 
     @Override
-    public void onMuteThread(String content, ChatResponse<ResultMute> outPutMute) {
+    public void onDeliver(ChatResponse<ResultMessage> response) {
 
     }
 
     @Override
-    public void onUnmuteThread(String content, ChatResponse<ResultMute> outPutUnMute) {
-
-    }
-
-
-    @Override
-    public void onSent(String content, ChatResponse<ResultMessage> chatResponse) {
+    public void onSent(ChatResponse<ResultMessage> response) {
 
     }
 
     @Override
-    public void onCreateThread(String content, ChatResponse<ResultThread> outPutThread) {
+    public void onMuteThread(ChatResponse<ResultMute> response) {
 
     }
 
     @Override
-    public void onGetThreadParticipant(String content, ChatResponse<ResultParticipant> outPutParticipant) {
+    public void onUnmuteThread(ChatResponse<ResultMute> response) {
 
     }
 
     @Override
-    public void onEditedMessage(String content, ChatResponse<ResultNewMessage> chatResponse) {
+    public void onCreateThread(ChatResponse<ResultThread> response) {
 
     }
 
     @Override
-    public void onUploadImageFile(String content, ChatResponse<ResultImageFile> chatResponse) {
+    public void onGetThreadParticipant(ChatResponse<ResultParticipant> response) {
 
     }
 
     @Override
-    public void onContactAdded(String content,ChatResponse<ResultAddContact> chatResponse) {
+    public void onEditedMessage(ChatResponse<ResultNewMessage> response) {
+
+    }
+
+    @Override
+    public void onContactAdded(ChatResponse<ResultAddContact> response) {
 
     }
 
@@ -95,55 +94,57 @@ public class ChatAdapter implements ChatListener {
     }
 
     @Override
-    public void onRemoveContact(String content, ChatResponse<ResultRemoveContact> response) {
+    public void onRemoveContact(ChatResponse<ResultRemoveContact> response) {
 
     }
 
     @Override
-    public void onRenameThread(String content, OutPutThread outPutThread) {
-
-    }
-
-
-    @Override
-    public void OnGetThreadAdmin(String content) {
+    public void onRenameThread(OutPutThread outPutThread) {
 
     }
 
     @Override
-    public void onNewMessage(String content, ChatResponse<ResultNewMessage> outPutNewMessage) {
+    public void onNewMessage(ChatResponse<ResultNewMessage> response) {
 
     }
 
     @Override
-    public void onDeleteMessage(String content, ChatResponse<ResultDeleteMessage> outPutDeleteMessage) {
+    public void onDeleteMessage(ChatResponse<ResultDeleteMessage> response) {
 
     }
 
     @Override
-    public void onUpdateContact(String content, ChatResponse<ResultUpdateContact> chatResponse) {
-
-    }
-
-
-    @Override
-    public void onUploadFile(String content, ChatResponse<ResultFile> chatResponse) {
-
-    }
-
-
-    @Override
-    public void onThreadAddParticipant(String content, ChatResponse<ResultAddParticipant> outPutAddParticipant) {
+    public void onUpdateContact(ChatResponse<ResultUpdateContact> response) {
 
     }
 
     @Override
-    public void onThreadRemoveParticipant(String content, ChatResponse<ResultParticipant> chatResponse) {
+    public void onUploadFile(ChatResponse<ResultFile> response) {
 
     }
 
     @Override
-    public void onThreadLeaveParticipant(String content, ChatResponse<ResultLeaveThread> response) {
+    public void onUploadImageFile(ChatResponse<ResultImageFile> response) {
+
+    }
+
+    @Override
+    public void onSearchContact(ChatResponse<ResultContact> response) {
+
+    }
+
+    @Override
+    public void onThreadAddParticipant(ChatResponse<ResultAddParticipant> response) {
+
+    }
+
+    @Override
+    public void onThreadRemoveParticipant(ChatResponse<ResultParticipant> response) {
+
+    }
+
+    @Override
+    public void onThreadLeaveParticipant(ChatResponse<ResultLeaveThread> response) {
 
     }
 
@@ -158,47 +159,112 @@ public class ChatAdapter implements ChatListener {
     }
 
     @Override
-    public void onGetBlockList(String content, ChatResponse<ResultBlockList> outPutBlockList) {
+    public void onGetBlockList(ChatResponse<ResultBlockList> response) {
 
     }
 
     @Override
-    public void onUpdateThreadInfo(String threadJson, ChatResponse<ResultThread> chatResponse) {
+    public void onUpdateThreadInfo(String threadJson, ChatResponse<ResultThread> response) {
 
     }
 
     @Override
-    public void OnDeliveredMessageList(String content, ChatResponse<ResultParticipant> chatResponse) {
+    public void OnDeliveredMessageList(ChatResponse<ResultParticipant> response) {
 
     }
 
     @Override
-    public void OnSeenMessageList(String content,ChatResponse<ResultParticipant> chatResponse) {
+    public void OnSeenMessageList(ChatResponse<ResultParticipant> response) {
 
     }
 
     @Override
-    public void onSearchContact(String content, ChatResponse<ResultContact> chatResponse) {
+    public void OnRemovedFromThread(ChatResponse<ResultThread> chatResponse) {
 
     }
 
     @Override
-    public void OnSetRole(String content, ChatResponse<ResultSetRole> chatResponse) {
+    public void OnLogEvent(String log) {
 
     }
 
     @Override
-    public void OnRemoveRole(String content, ChatResponse<ResultSetRole> chatResponse) {
+    public void OnClearHistory(ChatResponse<ResultClearHistory> chatResponse) {
 
     }
 
     @Override
-    public void OnClearHistory(String content, ChatResponse<ResultClearHistory> chatResponse) {
+    public void OnGetThreadAdmin(String content) {
 
     }
 
     @Override
-    public void OnInteractMessage(String content, ChatResponse<ResultInteractMessage> chatResponse) {
+    public void OnSetRole(ChatResponse<ResultSetRole> chatResponse) {
 
+    }
+
+    @Override
+    public void OnRemoveRole(ChatResponse<ResultSetRole> chatResponse) {
+
+    }
+
+    @Override
+    public void OnInteractMessage(ChatResponse<ResultInteractMessage> chatResponse) {
+
+    }
+
+    @Override
+    public void onUserInfo(ChatResponse<ResultUserInfo> response) {
+
+    }
+
+    @Override
+    public void onGetCurrentUserRoles(ChatResponse<ResultCurrentUserRoles> response) {
+
+    }
+
+    @Override
+    public void onPinThread(ChatResponse<ResultPinThread> response) {
+
+    }
+
+    @Override
+    public void onUnPinThread(ChatResponse<ResultPinThread> response) {
+
+    }
+
+    @Override
+    public void onPinMessage(ChatResponse<ResultPinMessage> response) {
+
+    }
+
+    @Override
+    public void onUnPinMessage(ChatResponse<ResultPinMessage> response) {
+
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
     }
 }

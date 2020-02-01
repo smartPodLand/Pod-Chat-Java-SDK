@@ -9,6 +9,7 @@ public class RequestThread extends BaseRequestObject {
     private long creatorCoreUserId;
     private long partnerCoreUserId;
     private long partnerCoreContactId;
+    private boolean New;
 
     RequestThread(Builder builder) {
         super(builder);
@@ -17,6 +18,55 @@ public class RequestThread extends BaseRequestObject {
         this.creatorCoreUserId = builder.creatorCoreUserId;
         this.partnerCoreUserId = builder.partnerCoreUserId;
         this.partnerCoreContactId = builder.partnerCoreContactId;
+        this.New = builder.New;
+    }
+
+    public ArrayList<Integer> getThreadIds() {
+        return threadIds;
+    }
+
+    public void setThreadIds(ArrayList<Integer> threadIds) {
+        this.threadIds = threadIds;
+    }
+
+    public long getCreatorCoreUserId() {
+        return creatorCoreUserId;
+    }
+
+    public void setCreatorCoreUserId(long creatorCoreUserId) {
+        this.creatorCoreUserId = creatorCoreUserId;
+    }
+
+    public long getPartnerCoreUserId() {
+        return partnerCoreUserId;
+    }
+
+    public void setPartnerCoreUserId(long partnerCoreUserId) {
+        this.partnerCoreUserId = partnerCoreUserId;
+    }
+
+    public long getPartnerCoreContactId() {
+        return partnerCoreContactId;
+    }
+
+    public void setPartnerCoreContactId(long partnerCoreContactId) {
+        this.partnerCoreContactId = partnerCoreContactId;
+    }
+
+    public String getThreadName() {
+        return threadName;
+    }
+
+    public void setThreadName(String threadName) {
+        this.threadName = threadName;
+    }
+
+    public boolean isNew() {
+        return New;
+    }
+
+    public void setNew(boolean aNew) {
+        New = aNew;
     }
 
     public static class Builder extends BaseRequestObject.Builder<Builder> {
@@ -25,6 +75,7 @@ public class RequestThread extends BaseRequestObject {
         private long creatorCoreUserId;
         private long partnerCoreUserId;
         private long partnerCoreContactId;
+        private boolean New;
 
 
         public Builder threadName(String threadName) {
@@ -55,6 +106,10 @@ public class RequestThread extends BaseRequestObject {
             return this;
         }
 
+        public Builder New(boolean aNew) {
+            this.New = aNew;
+            return this;
+        }
 
         public RequestThread build() {
             return new RequestThread(this);
@@ -65,45 +120,5 @@ public class RequestThread extends BaseRequestObject {
         protected Builder self() {
             return this;
         }
-    }
-
-    public ArrayList<Integer> getThreadIds() {
-        return threadIds;
-    }
-
-    public long getCreatorCoreUserId() {
-        return creatorCoreUserId;
-    }
-
-    public void setCreatorCoreUserId(long creatorCoreUserId) {
-        this.creatorCoreUserId = creatorCoreUserId;
-    }
-
-    public long getPartnerCoreUserId() {
-        return partnerCoreUserId;
-    }
-
-    public void setPartnerCoreUserId(long partnerCoreUserId) {
-        this.partnerCoreUserId = partnerCoreUserId;
-    }
-
-    public long getPartnerCoreContactId() {
-        return partnerCoreContactId;
-    }
-
-    public void setPartnerCoreContactId(long partnerCoreContactId) {
-        this.partnerCoreContactId = partnerCoreContactId;
-    }
-
-    public void setThreadIds(ArrayList<Integer> threadIds) {
-        this.threadIds = threadIds;
-    }
-
-    public String getThreadName() {
-        return threadName;
-    }
-
-    public void setThreadName(String threadName) {
-        this.threadName = threadName;
     }
 }

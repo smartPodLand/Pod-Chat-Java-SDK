@@ -27,7 +27,7 @@ public interface ChatContract {
         default void onGetThreadList(String content, ChatResponse<ResultThreads> thread) {
         }
 
-        default void onGetThreadHistory() {
+        default void onGetThreadHistory(ChatResponse<ResultHistory> resultHistoryChatResponse) {
         }
 
         default void onGetContacts(String content, ChatResponse<ResultContact> response) {
@@ -176,10 +176,6 @@ public interface ChatContract {
         void mapSearch(String searchTerm, Double latitude, Double longitude);
 
         void mapRouting(String origin, String destination);
-
-        void mapStaticImage(RequestMapStaticImage request);
-
-        void mapReverse(RequestMapReverse request);
 
         void getUserInfo(ChatHandler handler);
 

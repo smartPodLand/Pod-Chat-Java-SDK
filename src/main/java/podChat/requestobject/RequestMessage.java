@@ -52,15 +52,12 @@ public class RequestMessage extends GeneralRequestObject {
         private String jsonMetaData;
         private long threadId;
 
-        public Builder(String textMessage, long threadId) {
+        public Builder(String textMessage, long threadId, int messageType) {
             this.textMessage = textMessage;
             this.threadId = threadId;
+            this.messageType = messageType;
         }
 
-        public Builder messageType(int messageType) {
-            this.messageType = messageType;
-            return this;
-        }
 
         public Builder jsonMetaData(String jsonMetaData) {
             this.jsonMetaData = jsonMetaData;

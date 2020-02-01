@@ -1,4 +1,3 @@
-import com.google.gson.Gson;
 import exception.ConnectionException;
 import exmaple.ChatContract;
 import podChat.ProgressHandler;
@@ -26,7 +25,7 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
         chat.addListener(this);
         chat.addListener(new ChatListener() {
             @Override
-            public void onSent(String content, ChatResponse<ResultMessage> response) {
+            public void onSent(ChatResponse<ResultMessage> response) {
             }
         });
 
@@ -119,27 +118,6 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void connect(RequestConnect requestConnect) throws ConnectionException {
         chat.connect(requestConnect);
-    }
-
-
-    @Override
-    public void mapSearch(String searchTerm, Double latitude, Double longitude) {
-
-    }
-
-    @Override
-    public void mapRouting(String origin, String destination) {
-
-    }
-
-    @Override
-    public void mapStaticImage(RequestMapStaticImage request) {
-
-    }
-
-    @Override
-    public void mapReverse(RequestMapReverse request) {
-
     }
 
     @Override
@@ -256,6 +234,16 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     @Override
     public void getThreadParticipant(RequestThreadParticipant request) {
         chat.getThreadParticipants(request);
+    }
+
+    @Override
+    public void getMentionedList(RequestGetMentionedList requestGetMentionedList) {
+        chat.getMentionedList(requestGetMentionedList);
+    }
+
+    @Override
+    public void getCurrentUserRoles(RequestCurrentUserRoles requestCurrentUserRoles) {
+        chat.getCurrentUserRoles(requestCurrentUserRoles);
     }
 
     @Override
@@ -469,136 +457,136 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     //View
     @Override
-    public void onDeliver(String content, ChatResponse<ResultMessage> chatResponse) {
-        super.onDeliver(content, chatResponse);
+    public void onDeliver(ChatResponse<ResultMessage> chatResponse) {
+        super.onDeliver(chatResponse);
         view.onGetDeliverMessage(chatResponse);
     }
 
     @Override
-    public void onGetThread(String content, ChatResponse<ResultThreads> thread) {
-        super.onGetThread(content, thread);
+    public void onGetThread(ChatResponse<ResultThreads> thread) {
+        super.onGetThread(thread);
         view.onGetThreadList(thread);
     }
 
     @Override
-    public void onThreadInfoUpdated(String content, ChatResponse<ResultThread> response) {
+    public void onThreadInfoUpdated(ChatResponse<ResultThread> response) {
     }
 
     @Override
-    public void onGetContacts(String content, ChatResponse<ResultContact> outPutContact) {
-        super.onGetContacts(content, outPutContact);
+    public void onGetContacts(ChatResponse<ResultContact> outPutContact) {
+        super.onGetContacts(outPutContact);
         view.onGetContacts(outPutContact);
     }
 
     @Override
-    public void onSeen(String content, ChatResponse<ResultMessage> chatResponse) {
-        super.onSeen(content, chatResponse);
+    public void onSeen(ChatResponse<ResultMessage> chatResponse) {
+        super.onSeen(chatResponse);
         view.onGetSeenMessage(chatResponse);
     }
 
 
     @Override
-    public void onSent(String content, ChatResponse<ResultMessage> chatResponse) {
-        super.onSent(content, chatResponse);
+    public void onSent(ChatResponse<ResultMessage> chatResponse) {
+        super.onSent(chatResponse);
         view.onSentMessage(chatResponse);
     }
 
 
     @Override
-    public void onCreateThread(String content, ChatResponse<ResultThread> outPutThread) {
-        super.onCreateThread(content, outPutThread);
+    public void onCreateThread(ChatResponse<ResultThread> outPutThread) {
+        super.onCreateThread(outPutThread);
         view.onCreateThread(outPutThread);
     }
 
     @Override
-    public void onGetThreadParticipant(String content, ChatResponse<ResultParticipant> outPutParticipant) {
-        super.onGetThreadParticipant(content, outPutParticipant);
+    public void onGetThreadParticipant(ChatResponse<ResultParticipant> outPutParticipant) {
+        super.onGetThreadParticipant(outPutParticipant);
         view.onGetThreadParticipant(outPutParticipant);
     }
 
     @Override
-    public void onEditedMessage(String content, ChatResponse<ResultNewMessage> chatResponse) {
-        super.onEditedMessage(content, chatResponse);
+    public void onEditedMessage(ChatResponse<ResultNewMessage> chatResponse) {
+        super.onEditedMessage(chatResponse);
         view.onEditMessage(chatResponse);
     }
 
     @Override
-    public void onGetHistory(String content, ChatResponse<ResultHistory> history) {
-        super.onGetHistory(content, history);
+    public void onGetHistory(ChatResponse<ResultHistory> history) {
+        super.onGetHistory(history);
         view.onGetThreadHistory(history);
     }
 
     @Override
-    public void onMuteThread(String content, ChatResponse<ResultMute> outPutMute) {
-        super.onMuteThread(content, outPutMute);
+    public void onMuteThread(ChatResponse<ResultMute> outPutMute) {
+        super.onMuteThread(outPutMute);
         view.onMuteThread(outPutMute);
     }
 
     @Override
-    public void onUnmuteThread(String content, ChatResponse<ResultMute> outPutMute) {
-        super.onUnmuteThread(content, outPutMute);
+    public void onUnmuteThread(ChatResponse<ResultMute> outPutMute) {
+        super.onUnmuteThread(outPutMute);
         view.onUnMuteThread(outPutMute);
     }
 
     @Override
-    public void onRenameThread(String content, OutPutThread outPutThread) {
-        super.onRenameThread(content, outPutThread);
+    public void onRenameThread(OutPutThread outPutThread) {
+        super.onRenameThread(outPutThread);
         view.onRenameGroupThread();
     }
 
     @Override
-    public void onContactAdded(String content, ChatResponse<ResultAddContact> chatResponse) {
-        super.onContactAdded(content, chatResponse);
+    public void onContactAdded(ChatResponse<ResultAddContact> chatResponse) {
+        super.onContactAdded(chatResponse);
         view.onAddContact(chatResponse);
     }
 
     @Override
-    public void onUpdateContact(String content, ChatResponse<ResultUpdateContact> chatResponse) {
-        super.onUpdateContact(content, chatResponse);
+    public void onUpdateContact(ChatResponse<ResultUpdateContact> chatResponse) {
+        super.onUpdateContact(chatResponse);
         view.onUpdateContact(chatResponse);
     }
 
     @Override
-    public void onUploadFile(String content, ChatResponse<ResultFile> response) {
-        super.onUploadFile(content, response);
+    public void onUploadFile(ChatResponse<ResultFile> response) {
+        super.onUploadFile(response);
         view.onUploadFile(response);
     }
 
 
     @Override
-    public void onUploadImageFile(String content, ChatResponse<ResultImageFile> chatResponse) {
-        super.onUploadImageFile(content, chatResponse);
+    public void onUploadImageFile(ChatResponse<ResultImageFile> chatResponse) {
+        super.onUploadImageFile(chatResponse);
         view.onUploadImageFile(chatResponse);
     }
 
     @Override
-    public void onRemoveContact(String content, ChatResponse<ResultRemoveContact> response) {
-        super.onRemoveContact(content, response);
+    public void onRemoveContact(ChatResponse<ResultRemoveContact> response) {
+        super.onRemoveContact(response);
         view.onRemoveContact(response);
     }
 
     @Override
-    public void onThreadAddParticipant(String content, ChatResponse<ResultAddParticipant> outPutAddParticipant) {
-        super.onThreadAddParticipant(content, outPutAddParticipant);
+    public void onThreadAddParticipant(ChatResponse<ResultAddParticipant> outPutAddParticipant) {
+        super.onThreadAddParticipant(outPutAddParticipant);
         view.onAddParticipant(outPutAddParticipant);
     }
 
     @Override
-    public void onThreadRemoveParticipant(String content, ChatResponse<ResultParticipant> chatResponse) {
-        super.onThreadRemoveParticipant(content, chatResponse);
+    public void onThreadRemoveParticipant(ChatResponse<ResultParticipant> chatResponse) {
+        super.onThreadRemoveParticipant(chatResponse);
         view.onRemoveParticipant(chatResponse);
     }
 
 
     @Override
-    public void onDeleteMessage(String content, ChatResponse<ResultDeleteMessage> outPutDeleteMessage) {
-        super.onDeleteMessage(content, outPutDeleteMessage);
+    public void onDeleteMessage(ChatResponse<ResultDeleteMessage> outPutDeleteMessage) {
+        super.onDeleteMessage(outPutDeleteMessage);
         view.onDeleteMessage(outPutDeleteMessage);
     }
 
     @Override
-    public void onThreadLeaveParticipant(String content, ChatResponse<ResultLeaveThread> response) {
-        super.onThreadLeaveParticipant(content, response);
+    public void onThreadLeaveParticipant(ChatResponse<ResultLeaveThread> response) {
+        super.onThreadLeaveParticipant(response);
         view.onLeaveThread(response);
     }
 
@@ -608,11 +596,9 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void onNewMessage(String content, ChatResponse<ResultNewMessage> chatResponse) {
-        super.onNewMessage(content, chatResponse);
-        Gson gson = new Gson();
-        OutPutNewMessage outPutNewMessage = gson.fromJson(content, OutPutNewMessage.class);
-        ResultNewMessage result = outPutNewMessage.getResult();
+    public void onNewMessage(ChatResponse<ResultNewMessage> chatResponse) {
+        super.onNewMessage(chatResponse);
+        ResultNewMessage result = chatResponse.getResult();
         MessageVO messageVO = result.getMessageVO();
         Participant participant = messageVO.getParticipant();
 
@@ -623,69 +609,75 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void onBlock(String content, ChatResponse<ResultBlock> outPutBlock) {
-        super.onBlock(content, outPutBlock);
+    public void onBlock(ChatResponse<ResultBlock> outPutBlock) {
+        super.onBlock(outPutBlock);
         view.onBlock(outPutBlock);
     }
 
     @Override
-    public void onUnBlock(String content, ChatResponse<ResultBlock> outPutBlock) {
-        super.onUnBlock(content, outPutBlock);
+    public void onUnBlock(ChatResponse<ResultBlock> outPutBlock) {
+        super.onUnBlock(outPutBlock);
         view.onUnblock(outPutBlock);
     }
 
 
     @Override
-    public void onGetBlockList(String content, ChatResponse<ResultBlockList> outPutBlockList) {
-        super.onGetBlockList(content, outPutBlockList);
+    public void onGetBlockList(ChatResponse<ResultBlockList> outPutBlockList) {
+        super.onGetBlockList(outPutBlockList);
         view.onGetBlockList(outPutBlockList);
     }
 
     @Override
-    public void OnSeenMessageList(String content, ChatResponse<ResultParticipant> chatResponse) {
+    public void OnSeenMessageList(ChatResponse<ResultParticipant> chatResponse) {
         view.OnSeenMessageList(chatResponse);
     }
 
     @Override
-    public void onSearchContact(String content, ChatResponse<ResultContact> chatResponse) {
-        super.onSearchContact(content, chatResponse);
+    public void onSearchContact(ChatResponse<ResultContact> chatResponse) {
+        super.onSearchContact(chatResponse);
         view.onSearchContact(chatResponse);
     }
 
     @Override
-    public void onError(String content, ErrorOutPut error) {
-        super.onError(content, error);
+    public void onError(ErrorOutPut error) {
+        super.onError(error);
         view.onError(error);
     }
 
     @Override
-    public void OnClearHistory(String content, ChatResponse<ResultClearHistory> chatResponse) {
-        super.OnClearHistory(content, chatResponse);
+    public void OnClearHistory(ChatResponse<ResultClearHistory> chatResponse) {
+        super.OnClearHistory(chatResponse);
         view.OnClearHistory(chatResponse);
     }
 
     @Override
-    public void OnDeliveredMessageList(String content, ChatResponse<ResultParticipant> chatResponse) {
-        super.OnDeliveredMessageList(content, chatResponse);
+    public void OnDeliveredMessageList(ChatResponse<ResultParticipant> chatResponse) {
+        super.OnDeliveredMessageList(chatResponse);
         view.OnDeliveredMessageList(chatResponse);
     }
 
     @Override
-    public void OnSetRole(String content, ChatResponse<ResultSetRole> chatResponse) {
-        super.OnSetRole(content, chatResponse);
+    public void OnSetRole(ChatResponse<ResultSetRole> chatResponse) {
+        super.OnSetRole(chatResponse);
         view.onSetRole(chatResponse);
     }
 
     @Override
-    public void onPinThread(String content, ChatResponse<ResultPinThread> response) {
-        super.onPinThread(content, response);
+    public void onPinThread(ChatResponse<ResultPinThread> response) {
+        super.onPinThread(response);
         view.onPinThread(response);
     }
 
     @Override
-    public void onUnPinThread(String content, ChatResponse<ResultPinThread> response) {
-        super.onUnPinThread(content, response);
+    public void onUnPinThread(ChatResponse<ResultPinThread> response) {
+        super.onUnPinThread(response);
         view.onUnPinThread(response);
+    }
+
+    @Override
+    public void onGetCurrentUserRoles(ChatResponse<ResultCurrentUserRoles> response) {
+        super.onGetCurrentUserRoles(response);
+        view.onGetCurrentUserRoles(response);
     }
 }
 

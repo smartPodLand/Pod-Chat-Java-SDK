@@ -5,6 +5,7 @@ public abstract class BaseOutPut {
     private String errorMessage;
     private long errorCode;
     private String uniqueId;
+    private long subjectId;
 
     public boolean hasError() {
         return hasError;
@@ -38,4 +39,11 @@ public abstract class BaseOutPut {
         this.uniqueId = uniqueId;
     }
 
+    public long getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(long subjectId) {
+        this.subjectId = subjectId;
+    }
 }
