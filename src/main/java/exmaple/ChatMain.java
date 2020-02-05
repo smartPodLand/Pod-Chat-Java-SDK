@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class ChatMain implements ChatContract.view {
     public static String platformHost = "https://sandbox.pod.ir:8043";
-    public static String token = "6e091d0f6f0a415293728492fd517bef";
+    public static String token = "3cfd9a6a359d4288b082b777984a9328";
     public static String ssoHost = "https://accounts.pod.ir";
     public static String fileServer = "https://core.pod.ir";
     public static String serverName = "chat-server";
@@ -62,7 +62,7 @@ public class ChatMain implements ChatContract.view {
 
             chatController.connect(requestConnect);
 
-//            addContact();
+            addContact();
 //            Thread.sleep(2000);
 //            getcontact();
 //            Thread.sleep(2000);
@@ -166,7 +166,7 @@ public class ChatMain implements ChatContract.view {
 
 //            getCurrentUserRoles();
 
-            getMentionedList();
+//            getMentionedList();
 
         } catch (ConnectionException | InterruptedException e) {
             System.out.println(e);
@@ -224,7 +224,7 @@ public class ChatMain implements ChatContract.view {
     }
 
 
-    void  getCurrentUserRoles(){
+    void getCurrentUserRoles() {
         RequestCurrentUserRoles requestCurrentUserRoles = new RequestCurrentUserRoles
                 .Builder(6629)
                 .build();
@@ -294,7 +294,7 @@ public class ChatMain implements ChatContract.view {
     void addContact() {
         RequestAddContact requestAddContact = new RequestAddContact
                 .Builder()
-                .cellphoneNumber("09157770684")
+                .userName("fkheirkhah")
                 .lastName("خیرخواه")
                 .build();
         chatController.addContact(requestAddContact);
@@ -472,7 +472,7 @@ public class ChatMain implements ChatContract.view {
 
     }
 
-    private void getMentionedList(){
+    private void getMentionedList() {
         RequestGetMentionedList requestGetMentionedList = new RequestGetMentionedList
                 .Builder(7108)
 //                .allMentioned(true)
@@ -532,7 +532,7 @@ public class ChatMain implements ChatContract.view {
      */
     private void sendMessage() {
         RequestMessage requestThread = new RequestMessage
-                .Builder("@ma.amjadi", 7108, TextMessageType.TEXT)
+                .Builder("hi @fkheirkhah", 5182, TextMessageType.TEXT)
                 .build();
 
         chatController.sendTextMessage(requestThread);
@@ -544,7 +544,7 @@ public class ChatMain implements ChatContract.view {
     private void getThreads() {
         RequestThread requestThread = new RequestThread
                 .Builder()
-                .New(true)
+                .isNew(true)
                 .build();
 
         chatController.getThreads(requestThread);
@@ -609,7 +609,7 @@ public class ChatMain implements ChatContract.view {
 
         Invitee[] invitees = new Invitee[1];
         Invitee invitee = new Invitee();
-        invitee.setIdType(InviteType.TO_BE_USER_CONTACT_ID);
+        invitee.setIdType(InviteType.TO_BE_USER_CELLPHONE_NUMBER);
         invitee.setId("13812");
 
 //        Invitee invitee2 = new Invitee();

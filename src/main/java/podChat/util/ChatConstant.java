@@ -13,6 +13,7 @@ public class ChatConstant {
     public static final int ERROR_CODE_INVALID_FILE_URI = 6010;
     public static final int ERROR_CODE_NUMBER_MESSAGEID = 6011;
     public static final int ERROR_CODE_CROP_VALUES = 6012;
+    public static final int ERROR_CODE_MISSING_INPUT = 6013;
     public static final int ERROR_CODE_CANT_GET_USER_INFO = 6100;
     public static final int ERROR_CODE_CONNECTION_NOT_ESTABLISHED = 6101;
     public static final int ERROR_CODE_NETWORK_ERROR = 6200;
@@ -20,8 +21,8 @@ public class ChatConstant {
     public static final int ERROR_CODE_NOT_IMAGE = 6301;
 
     public static final String ERROR_INVALID_TOKEN = "Invalid Token!";
-    public static final String ERROR_INVALID_URI = "Invalid Uri!";
-    public static final String ERROR_INVALID_FILE_URI = "Invalid File Uri!";
+    public static final String ERROR_INVALID_URI = "Invalid file path!";
+    public static final String ERROR_INVALID_FILE_URI = "Invalid File Path!";
     public static final String ERROR_UNKNOWN_EXCEPTION = "Unknown Exception";
     public static final String ERROR_CHECK_URL = "Url must end in /";
     public static final String ERROR_CURRENT_DEVICE = "There Is No Current Device!";
@@ -35,6 +36,7 @@ public class ChatConstant {
     public static final String ERROR_CROP_VALUES = "Crop value(s) is not valid!";
     public static final String ERROR_CANT_GET_USER_INFO = "Cant get UserInfo!";
     public static final String ERROR_CONNECTION_NOT_ESTABLISHED = "Getting User Info Retry Count exceeded 5 times; Connection Can Not Establish!";
+    public static final String ERROR_MISSING_INPUT_ADD_CONTACT = "Enter either phoneNumber or UserName ";
 
     public static final String METHOD_REPLY_MSG = "replyMessage";
     public static final String METHOD_LOCATION_MSG = "locationMessage";

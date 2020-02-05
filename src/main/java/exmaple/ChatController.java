@@ -256,11 +256,6 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
     }
 
     @Override
-    public void addContact(String firstName, String lastName, String cellphoneNumber, String email, String typeCode) {
-        chat.addContact(firstName, lastName, cellphoneNumber, email, typeCode);
-    }
-
-    @Override
     public void addContact(RequestAddContact request) {
         chat.addContact(request);
     }

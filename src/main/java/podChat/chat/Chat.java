@@ -364,15 +364,12 @@ public class Chat extends AsyncAdapter {
 
     /**
      * Get the list of threads or you can just pass the thread id that you want
-     *
-     * @param count  number of thread
-     * @param offset specified offset you want
      */
     public String getThreads(RequestThread requestThread) {
 
         String uniqueId;
-        requestThread.setCount(requestThread.getCount() > 0 ? requestThread.getCount() :50);
-        requestThread.setOffset(requestThread.getOffset()>0 ?requestThread.getOffset() :0);
+        requestThread.setCount(requestThread.getCount() > 0 ? requestThread.getCount() : 50);
+        requestThread.setOffset(requestThread.getOffset() > 0 ? requestThread.getOffset() : 0);
 
         uniqueId = generateUniqueId();
         try {
@@ -704,28 +701,23 @@ public class Chat extends AsyncAdapter {
         return getContactMain(count, offset, typeCode);
     }
 
+
     /**
      * Add one contact to the contact list
-     *
-     * @param firstName       Notice: if just put fistName without lastName its ok.
-     * @param lastName        last name of the contact
-     * @param cellphoneNumber Notice: If you just  put the cellPhoneNumber doesn't necessary to add email
-     * @param email           email of the contact
+     * <p>
+     * firstName       Notice: if just put fistName without lastName its ok.
+     * lastName        last name of the contact
+     * cellphoneNumber Notice: If you just  put the cellPhoneNumber doesn't necessary to add email
+     * email           email of the contact
      */
-    public String addContact(String firstName, String lastName, String cellphoneNumber, String email, String typeCode) {
+    public String addContact(RequestAddContact request) {
 
-        if (Util.isNullOrEmpty(firstName)) {
-            firstName = "";
-        }
-        if (Util.isNullOrEmpty(lastName)) {
-            lastName = "";
-        }
-        if (Util.isNullOrEmpty(email)) {
-            email = "";
-        }
-        if (Util.isNullOrEmpty(cellphoneNumber)) {
-            cellphoneNumber = "";
-        }
+        String firstName = request.getFirstName();
+        String lastName = request.getLastName();
+        String email = request.getEmail();
+        String cellphoneNumber = request.getCellphoneNumber();
+        String typeCode = request.getTypeCode();
+        String userName = request.getUserName();
 
         String uniqueId = generateUniqueId();
 
@@ -733,12 +725,16 @@ public class Chat extends AsyncAdapter {
 
         if (chatReady) {
 
-            if (!Util.isNullOrEmpty(typeCode)) {
-                addContactService = contactApi.addContact(getToken(), TOKEN_ISSUER, firstName, lastName, email, uniqueId, cellphoneNumber, typeCode);
+            addContactService = contactApi.addContact(getToken(),
+                    TOKEN_ISSUER,
+                    firstName,
+                    lastName,
+                    email,
+                    uniqueId,
+                    cellphoneNumber,
+                    userName,
+                    !Util.isNullOrEmpty(typeCode) ? typeCode : getTypeCode());
 
-            } else {
-                addContactService = contactApi.addContact(getToken(), TOKEN_ISSUER, firstName, lastName, email, uniqueId, cellphoneNumber, getTypeCode());
-            }
             showInfoLog("ADD_CONTACT");
 
             RetrofitUtil.request(addContactService, new ApiListener<Contacts>() {
@@ -779,25 +775,6 @@ public class Chat extends AsyncAdapter {
             getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
         }
         return uniqueId;
-    }
-
-    /**
-     * Add one contact to the contact list
-     * <p>
-     * firstName       Notice: if just put fistName without lastName its ok.
-     * lastName        last name of the contact
-     * cellphoneNumber Notice: If you just  put the cellPhoneNumber doesn't necessary to add email
-     * email           email of the contact
-     */
-    public String addContact(RequestAddContact request) {
-
-        String firstName = request.getFirstName();
-        String lastName = request.getLastName();
-        String email = request.getEmail();
-        String cellphoneNumber = request.getCellphoneNumber();
-        String typeCode = request.getTypeCode();
-
-        return addContact(firstName, lastName, cellphoneNumber, email, typeCode);
     }
 
     /**

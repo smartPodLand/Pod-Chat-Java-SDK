@@ -272,8 +272,6 @@ public interface ChatContract {
 
         void get(int count, Long offset, long threadId);
 
-        void addContact(String firstName, String lastName, String cellphoneNumber, String email, String typeCode);
-
         void addContact(RequestAddContact request);
 
         void removeContact(RequestRemoveContact requestRemoveContact);

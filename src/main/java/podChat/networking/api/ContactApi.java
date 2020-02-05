@@ -20,6 +20,7 @@ public interface ContactApi {
             , @Field("firstName") String firstName
             , @Field("lastName") String lastName
             , @Field("email") String email
+            , @Field("username") String username
             , @Field("uniqueId") String uniqueId
             , @Field("cellphoneNumber") String cellphoneNumber
     );
@@ -35,6 +36,7 @@ public interface ContactApi {
             , @Field("email") String email
             , @Field("uniqueId") String uniqueId
             , @Field("cellphoneNumber") String cellphoneNumber
+            , @Field("username") String username
             , @Field("typeCode") String typeCode
     );
 
