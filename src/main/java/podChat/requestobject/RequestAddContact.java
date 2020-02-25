@@ -109,9 +109,6 @@ public class RequestAddContact extends GeneralRequestObject {
             if (Util.isNullOrEmpty(this.cellphoneNumber)) {
                 this.cellphoneNumber = "";
             }
-            if (Util.isNullOrEmpty(this.userName)) {
-                this.userName = "";
-            }
 
             return new RequestAddContact(this);
         }

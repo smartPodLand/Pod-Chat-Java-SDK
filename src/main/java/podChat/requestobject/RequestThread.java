@@ -18,7 +18,7 @@ public class RequestThread extends BaseRequestObject {
         this.creatorCoreUserId = builder.creatorCoreUserId;
         this.partnerCoreUserId = builder.partnerCoreUserId;
         this.partnerCoreContactId = builder.partnerCoreContactId;
-        this.isNew = builder.New;
+        this.isNew = builder.isNew;
     }
 
     public ArrayList<Integer> getThreadIds() {
@@ -65,9 +65,6 @@ public class RequestThread extends BaseRequestObject {
         return isNew;
     }
 
-    public void setNew(boolean isNew) {
-        isNew = isNew;
-    }
 
     public static class Builder extends BaseRequestObject.Builder<Builder> {
         private ArrayList<Integer> threadIds;
@@ -75,7 +72,7 @@ public class RequestThread extends BaseRequestObject {
         private long creatorCoreUserId;
         private long partnerCoreUserId;
         private long partnerCoreContactId;
-        private boolean New;
+        private boolean isNew;
 
 
         public Builder threadName(String threadName) {
@@ -106,8 +103,8 @@ public class RequestThread extends BaseRequestObject {
             return this;
         }
 
-        public Builder isNew(boolean aNew) {
-            this.New = aNew;
+        public Builder newMessages() {
+            this.isNew = true;
             return this;
         }
 

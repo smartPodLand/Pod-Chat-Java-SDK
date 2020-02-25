@@ -11,6 +11,7 @@ import podChat.model.ResultNewMessage;
 import podChat.requestobject.RequestConnect;
 import podChat.requestobject.RequestCreateThreadWithMessage;
 import podChat.util.InviteType;
+import podChat.util.TextMessageType;
 import podChat.util.ThreadType;
 import podChat.util.Util;
 
@@ -89,7 +90,8 @@ public class CreateThreadWithMessage implements ChatContract.view {
         RequestCreateThreadWithMessage requestCreateThreadWithMessage = new RequestCreateThreadWithMessage
                 .Builder(0, new ArrayList<Invitee>() {{
             add(invitee);
-        }})
+        }},
+                TextMessageType.TEXT)
                 .message(requestThreadInnerMessage)
                 .build();
         chatController.createThreadWithMessage(requestCreateThreadWithMessage);
@@ -120,7 +122,7 @@ public class CreateThreadWithMessage implements ChatContract.view {
         RequestCreateThreadWithMessage requestCreateThreadWithMessage = new RequestCreateThreadWithMessage
                 .Builder(0, new ArrayList<Invitee>() {{
             add(invitee);
-        }})
+        }}, TextMessageType.TEXT)
                 .message(requestThreadInnerMessage)
                 .build();
         chatController.createThreadWithMessage(requestCreateThreadWithMessage);
@@ -155,7 +157,7 @@ public class CreateThreadWithMessage implements ChatContract.view {
         RequestCreateThreadWithMessage requestCreateThreadWithMessage = new RequestCreateThreadWithMessage
                 .Builder(ThreadType.OWNER_GROUP, new ArrayList<Invitee>() {{
             add(invitee);
-        }})
+        }}, TextMessageType.TEXT)
                 .message(requestThreadInnerMessage)
                 .build();
         chatController.createThreadWithMessage(requestCreateThreadWithMessage);

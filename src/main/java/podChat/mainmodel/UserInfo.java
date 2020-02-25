@@ -1,6 +1,8 @@
 package podChat.mainmodel;
 
 
+import podChat.model.ChatProfileVO;
+
 public class UserInfo {
 
     private long id;
@@ -9,6 +11,7 @@ public class UserInfo {
     private String name;
     private String cellphoneNumber;
     private String image;
+    private ChatProfileVO chatProfileVO;
 
     public long getId() {
         return id;
@@ -56,5 +59,13 @@ public class UserInfo {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public ChatProfileVO getChatProfileVO() {
+        return chatProfileVO;
+    }
+
+    public void setChatProfileVO(ChatProfileVO chatProfileVO) {
+        this.chatProfileVO = chatProfileVO;
     }
 }

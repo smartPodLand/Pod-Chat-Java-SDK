@@ -3,6 +3,9 @@ package podChat.requestobject;
 public abstract class GeneralRequestObject  {
     private String typeCode;
 
+    public GeneralRequestObject() {
+    }
+
     GeneralRequestObject(Builder<?> builder){
         this.typeCode = builder.typeCode;
     }

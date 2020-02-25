@@ -574,5 +574,16 @@ public class ChatListenerManager {
         }
     }
 
+    public void callOnUpdateProfile(ChatResponse<ResultUpdateProfile> chatResponse) {
+
+        for (ChatListener listener : getSynchronizedListeners()) {
+            try {
+                listener.onUpdateProfile(chatResponse);
+            } catch (Throwable t) {
+                callHandleCallbackError(listener, t);
+            }
+        }
+    }
+
 
 }

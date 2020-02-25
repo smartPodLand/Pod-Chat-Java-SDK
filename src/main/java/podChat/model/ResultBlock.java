@@ -1,15 +1,13 @@
 package podChat.model;
 
-import podChat.mainmodel.Contact;
-
 public class ResultBlock {
-    private Contact contact;
+    private BlockedUserVO contact;
 
-    public Contact getContact() {
+    public BlockedUserVO getContact() {
         return contact;
     }
 
-    public void setContact(Contact contact) {
+    public void setContact(BlockedUserVO contact) {
         this.contact = contact;
     }
 }

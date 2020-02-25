@@ -364,5 +364,7 @@ public interface ChatContract {
         void pinMessage(RequestPinMessage request);
 
         void unPinMessage(RequestPinMessage request);
+
+        void updateProfile(RequestUpdateProfile request);
     }
 }

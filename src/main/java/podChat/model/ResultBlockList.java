@@ -1,21 +1,19 @@
 package podChat.model;
 
 
-import podChat.mainmodel.Contact;
-
 import java.util.List;
 
 public class ResultBlockList {
-    private List<Contact> contacts;
+    private List<BlockedUserVO> contacts;
     private long contentCount;
     private boolean hasNext;
     private long nextOffset;
 
-    public List<Contact> getContacts() {
+    public List<BlockedUserVO> getContacts() {
         return contacts;
     }
 
-    public void setContacts(List<Contact> contacts) {
+    public void setContacts(List<BlockedUserVO> contacts) {
         this.contacts = contacts;
     }
 

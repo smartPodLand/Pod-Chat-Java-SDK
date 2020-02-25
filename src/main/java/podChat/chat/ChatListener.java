@@ -170,6 +170,9 @@ public interface ChatListener {
 
     }
 
+    default void onUpdateProfile(ChatResponse<ResultUpdateProfile> response) {
+
+    }
 
     default void onPinThread(ChatResponse<ResultPinThread> response) {
 

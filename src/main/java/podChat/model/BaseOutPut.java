@@ -1,7 +1,7 @@
 package podChat.model;
 
 public abstract class BaseOutPut {
-    private boolean hasError;
+    private boolean hasError = false;
     private String errorMessage;
     private long errorCode;
     private String uniqueId;

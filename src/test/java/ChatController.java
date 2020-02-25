@@ -450,6 +450,11 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     }
 
+    @Override
+    public void updateProfile(RequestUpdateProfile request) {
+
+    }
+
     //View
     @Override
     public void onDeliver(ChatResponse<ResultMessage> chatResponse) {

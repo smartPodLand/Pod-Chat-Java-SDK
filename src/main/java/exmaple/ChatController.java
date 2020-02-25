@@ -452,6 +452,11 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
         chat.unPinMessage(request);
     }
 
+    @Override
+    public void updateProfile(RequestUpdateProfile request) {
+        chat.updateProfile(request);
+    }
+
 
     //View
     @Override
