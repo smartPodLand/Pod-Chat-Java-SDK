@@ -1408,6 +1408,10 @@ public class Chat extends AsyncAdapter {
                         uniqueIds.add(newMsgUniqueId);
                     }
 
+                    if (threadRequest.getMessageType() != 0) {
+                        innerMessageObj.addProperty("messageType", threadRequest.getMessageType());
+                    }
+
                     if (!Util.isNullOrEmptyNumber(threadRequest.getMessage().getForwardedMessageIds())) {
 
                         /** Its generated new unique id for each forward message*/
@@ -1435,26 +1439,18 @@ public class Chat extends AsyncAdapter {
 
                 jsonObjectCreateThread.remove("count");
                 jsonObjectCreateThread.remove("offset");
+                jsonObjectCreateThread.remove("messageType");
                 jsonObjectCreateThread.add("message", innerMessageObj);
 
-                ChatMessage chatMessage = new ChatMessage();
-                chatMessage.setContent(jsonObjectCreateThread.toString());
-                chatMessage.setType(ChatMessageType.INVITATION);
-                chatMessage.setUniqueId(threadUniqueId);
-                chatMessage.setToken(getToken());
-                chatMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
-                chatMessage.setTypeCode(!Util.isNullOrEmpty(threadRequest.getTypeCode()) ? threadRequest.getTypeCode() : getTypeCode());
-                chatMessage.setMessageType(threadRequest.getMessageType());
+                BaseMessage baseMessage = new BaseMessage();
+                baseMessage.setContent(jsonObjectCreateThread.toString());
+                baseMessage.setType(ChatMessageType.INVITATION);
+                baseMessage.setUniqueId(threadUniqueId);
+                baseMessage.setToken(getToken());
+                baseMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
+                baseMessage.setTypeCode(!Util.isNullOrEmpty(threadRequest.getTypeCode()) ? threadRequest.getTypeCode() : getTypeCode());
 
-
-                jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
-
-                jsonObject.remove("repliedTo");
-                jsonObject.remove("subjectId");
-                jsonObject.remove("systemMetadata");
-                jsonObject.remove("contentCount");
-
-                sendAsyncMessage(jsonObject.toString(), AsyncMessageType.MESSAGE, "SEND_CREATE_THREAD_WITH_MESSAGE");
+                sendAsyncMessage(gson.toJson(baseMessage), AsyncMessageType.MESSAGE, "SEND_CREATE_THREAD_WITH_MESSAGE");
 
             } else {
                 getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, threadUniqueId);
@@ -1574,6 +1570,7 @@ public class Chat extends AsyncAdapter {
         chatMessage.setMetadata(metaData);
         chatMessage.setType(ChatMessageType.MESSAGE);
         chatMessage.setTypeCode(!Util.isNullOrEmpty(typeCode) ? typeCode : getTypeCode());
+        chatMessage.setMessageType(messageType);
 
         JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
 
@@ -1584,12 +1581,6 @@ public class Chat extends AsyncAdapter {
             jsonObject.addProperty("systemMetaData", systemMetaData);
         }
 
-        if (Util.isNullOrEmpty(messageType)) {
-            jsonObject.remove("messageType");
-        } else {
-            jsonObject.remove("messageType");
-            jsonObject.addProperty("messageType", messageType);
-        }
 
         String asyncContent = jsonObject.toString();
 
@@ -3478,7 +3469,6 @@ public class Chat extends AsyncAdapter {
                         requestThreadInnerMessage.setMetadata(metaData);
                     }
 
-
                     request.setMessage(requestThreadInnerMessage);
                     request.setFile(null);
 
@@ -3541,7 +3531,6 @@ public class Chat extends AsyncAdapter {
                                          String messageUniqueId,
                                          List<String> forwardUniqueIds) {
         JsonObject innerMessageObj = null;
-        JsonObject jsonObject;
 
         try {
             if (chatReady) {
@@ -3557,6 +3546,9 @@ public class Chat extends AsyncAdapter {
 
                     innerMessageObj.addProperty("uniqueId", messageUniqueId);
 
+                    if (threadRequest.getMessageType() != 0) {
+                        innerMessageObj.addProperty("messageType", threadRequest.getMessageType());
+                    }
 
                     if (!Util.isNullOrEmptyNumber(threadRequest.getMessage().getForwardedMessageIds())) {
 
@@ -3576,26 +3568,19 @@ public class Chat extends AsyncAdapter {
 
                 jsonObjectCreateThread.remove("count");
                 jsonObjectCreateThread.remove("offset");
+                jsonObjectCreateThread.remove("messageType");
                 jsonObjectCreateThread.add("message", innerMessageObj);
 
-                ChatMessage chatMessage = new ChatMessage();
-                chatMessage.setContent(jsonObjectCreateThread.toString());
-                chatMessage.setType(ChatMessageType.INVITATION);
-                chatMessage.setUniqueId(threadUniqueId);
-                chatMessage.setToken(getToken());
-                chatMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
-                chatMessage.setTypeCode(!Util.isNullOrEmpty(threadRequest.getTypeCode()) ? threadRequest.getTypeCode() : getTypeCode());
-                chatMessage.setMessageType(threadRequest.getMessageType());
+                BaseMessage baseMessage = new BaseMessage();
+                baseMessage.setContent(jsonObjectCreateThread.toString());
+                baseMessage.setType(ChatMessageType.INVITATION);
+                baseMessage.setUniqueId(threadUniqueId);
+                baseMessage.setToken(getToken());
+                baseMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
+                baseMessage.setTypeCode(!Util.isNullOrEmpty(threadRequest.getTypeCode()) ? threadRequest.getTypeCode() : getTypeCode());
 
 
-                jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
-
-                jsonObject.remove("repliedTo");
-                jsonObject.remove("subjectId");
-                jsonObject.remove("systemMetadata");
-                jsonObject.remove("contentCount");
-
-                sendAsyncMessage(jsonObject.toString(), AsyncMessageType.MESSAGE, "SEND_CREATE_THREAD_WITH_MESSAGE");
+                sendAsyncMessage(gson.toJson(baseMessage), AsyncMessageType.MESSAGE, "SEND_CREATE_THREAD_WITH_MESSAGE");
             } else {
                 getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, threadUniqueId);
             }
@@ -5123,6 +5108,9 @@ public class Chat extends AsyncAdapter {
         }
 
         metaDataFile.setFile(metaDataContent);
+        metaDataFile.setName(fileName);
+        metaDataFile.setId(fileId);
+
 
         return gson.toJson(metaDataFile);
     }
@@ -5168,6 +5156,9 @@ public class Chat extends AsyncAdapter {
         } else {
             MetaDataImageFile metaData = new MetaDataImageFile();
             metaData.setFile(fileMetaData);
+            metaData.setId(imageId);
+            metaData.setName(originalName);
+
             return gson.toJson(metaData);
         }
     }

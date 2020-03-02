@@ -7,6 +7,7 @@ import org.mockito.*;
 import podChat.model.ChatResponse;
 import podChat.requestobject.RequestConnect;
 import podChat.requestobject.RequestReplyFileMessage;
+import podChat.util.TextMessageType;
 
 /**
  * Created By Khojasteh on 8/6/2019
@@ -63,7 +64,7 @@ public class ReplyFileMessage implements ChatContract.view {
     void replyImageFileMessage() throws InterruptedException {
 
         RequestReplyFileMessage requestReplyFileMessage = new RequestReplyFileMessage
-                .Builder("this is test", 5461, 47921, "C:\\Users\\fanap-10\\Pictures\\Saved Pictures\\a.jpg")
+                .Builder("this is test", 5461, 47921, "C:\\Users\\fanap-10\\Pictures\\Saved Pictures\\a.jpg", TextMessageType.PICTURE)
                 .xC(0)
                 .yC(0)
                 .hC(100)
@@ -89,7 +90,7 @@ public class ReplyFileMessage implements ChatContract.view {
     void replyFileMessage() throws InterruptedException {
 
         RequestReplyFileMessage requestReplyFileMessage = new RequestReplyFileMessage
-                .Builder("this is test", 5461, 47921, "F:\\models.txt")
+                .Builder("this is test", 5461, 47921, "F:\\models.txt",TextMessageType.FILE)
                 .build();
         chatController.replyFileMessage(requestReplyFileMessage, null);
 

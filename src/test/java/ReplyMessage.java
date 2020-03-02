@@ -8,6 +8,7 @@ import podChat.model.ChatResponse;
 import podChat.model.ErrorOutPut;
 import podChat.requestobject.RequestConnect;
 import podChat.requestobject.RequestReplyMessage;
+import podChat.util.TextMessageType;
 
 /**
  * Created By Khojasteh on 8/6/2019
@@ -64,7 +65,7 @@ public class ReplyMessage implements ChatContract.view {
     @Order(2)
     void replyMessageWithError() throws InterruptedException {
         RequestReplyMessage requestReplyMessage = new RequestReplyMessage
-                .Builder("hi ", 5461, 1222)
+                .Builder("hi ", 5461, 1222, TextMessageType.TEXT)
                 .build();
 
         chatController.replyMessage(requestReplyMessage);
@@ -84,7 +85,7 @@ public class ReplyMessage implements ChatContract.view {
     @Order(2)
     void replyMessage() throws InterruptedException {
         RequestReplyMessage requestReplyMessage = new RequestReplyMessage
-                .Builder("hi ", 3042, 46862)
+                .Builder("hi ", 3042, 46862,TextMessageType.TEXT)
                 .build();
 
         chatController.replyMessage(requestReplyMessage);

@@ -6,8 +6,6 @@ import java.util.List;
 public class ResultBlockList {
     private List<BlockedUserVO> contacts;
     private long contentCount;
-    private boolean hasNext;
-    private long nextOffset;
 
     public List<BlockedUserVO> getContacts() {
         return contacts;
@@ -25,19 +23,4 @@ public class ResultBlockList {
         this.contentCount = contentCount;
     }
 
-    public boolean isHasNext() {
-        return hasNext;
-    }
-
-    public void setHasNext(boolean hasNext) {
-        this.hasNext = hasNext;
-    }
-
-    public long getNextOffset() {
-        return nextOffset;
-    }
-
-    public void setNextOffset(long nextOffset) {
-        this.nextOffset = nextOffset;
-    }
 }

@@ -28,68 +28,6 @@ public class RequestReplyFileMessage extends GeneralRequestObject {
         this.wC = builder.wC;
     }
 
-    public static class Builder extends GeneralRequestObject.Builder<Builder> {
-        private String messageContent;
-        private long threadId;
-        private long messageId;
-        private String systemMetaData;
-        private String filePath;
-        private int messageType;
-        private int xC;
-        private int yC;
-        private int hC;
-        private int wC;
-
-
-        public Builder(String messageContent, long threadId, long messageId, String filePath) {
-            this.messageContent = messageContent;
-            this.threadId = threadId;
-            this.messageId = messageId;
-            this.filePath = filePath;
-        }
-
-        public Builder messageType(int messageType) {
-            this.messageType = messageType;
-            return this;
-        }
-
-        public Builder systemMetaData(String systemMetaData) {
-            this.systemMetaData = systemMetaData;
-            return this;
-        }
-
-        public Builder xC(int xC) {
-            this.xC = xC;
-            return this;
-        }
-
-        public Builder yC(int yC) {
-            this.yC = yC;
-            return this;
-        }
-
-        public Builder wC(int wC) {
-            this.wC = wC;
-            return this;
-        }
-
-        public Builder hC(int hC) {
-            this.hC = hC;
-            return this;
-        }
-
-        public RequestReplyFileMessage build() {
-            return new RequestReplyFileMessage(this);
-        }
-
-
-        @Override
-        protected Builder self() {
-            return this;
-        }
-
-    }
-
     public String getMessageContent() {
         return messageContent;
     }
@@ -172,5 +110,63 @@ public class RequestReplyFileMessage extends GeneralRequestObject {
     public RequestReplyFileMessage setwC(int wC) {
         this.wC = wC;
         return this;
+    }
+
+    public static class Builder extends GeneralRequestObject.Builder<Builder> {
+        private String messageContent;
+        private long threadId;
+        private long messageId;
+        private String systemMetaData;
+        private String filePath;
+        private int messageType;
+        private int xC;
+        private int yC;
+        private int hC;
+        private int wC;
+
+
+        public Builder(String messageContent, long threadId, long messageId, String filePath, int messageType) {
+            this.messageContent = messageContent;
+            this.threadId = threadId;
+            this.messageId = messageId;
+            this.filePath = filePath;
+            this.messageType = messageType;
+        }
+
+        public Builder systemMetaData(String systemMetaData) {
+            this.systemMetaData = systemMetaData;
+            return this;
+        }
+
+        public Builder xC(int xC) {
+            this.xC = xC;
+            return this;
+        }
+
+        public Builder yC(int yC) {
+            this.yC = yC;
+            return this;
+        }
+
+        public Builder wC(int wC) {
+            this.wC = wC;
+            return this;
+        }
+
+        public Builder hC(int hC) {
+            this.hC = hC;
+            return this;
+        }
+
+        public RequestReplyFileMessage build() {
+            return new RequestReplyFileMessage(this);
+        }
+
+
+        @Override
+        protected Builder self() {
+            return this;
+        }
+
     }
 }

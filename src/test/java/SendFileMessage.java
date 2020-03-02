@@ -7,6 +7,7 @@ import org.mockito.*;
 import podChat.model.ChatResponse;
 import podChat.requestobject.RequestConnect;
 import podChat.requestobject.RequestFileMessage;
+import podChat.util.TextMessageType;
 
 /**
  * Created By Khojasteh on 8/6/2019
@@ -63,7 +64,7 @@ public class SendFileMessage implements ChatContract.view {
     void sendImageFileMessage() throws InterruptedException {
 
         RequestFileMessage requestFileMessage = new RequestFileMessage
-                .Builder(5461, "C:\\Users\\fanap-10\\Pictures\\Saved Pictures\\a.jpg")
+                .Builder(5461, "C:\\Users\\fanap-10\\Pictures\\Saved Pictures\\a.jpg", TextMessageType.PICTURE)
                 .description("this is test image")
                 .xC(0)
                 .yC(0)
@@ -89,7 +90,7 @@ public class SendFileMessage implements ChatContract.view {
     void sendTextFileMessage() throws InterruptedException {
 
         RequestFileMessage requestFileMessage = new RequestFileMessage
-                .Builder(5461, "F:\\models.txt")
+                .Builder(5461, "F:\\models.txt",TextMessageType.TEXT)
                 .description("this is test image")
                 .build();
 

@@ -1,5 +1,7 @@
 package podChat.model;
 
+import podChat.mainmodel.Contact;
+
 /**
  * Created By F.Khojasteh on 2/25/2020
  */
@@ -11,6 +13,7 @@ public class BlockedUserVO {
     private String nickName;
     private String profileImage;
     private long coreUserId;
+    private Contact contactVO;
 
     public long getId() {
         return id;
@@ -58,5 +61,13 @@ public class BlockedUserVO {
 
     public void setCoreUserId(long coreUserId) {
         this.coreUserId = coreUserId;
+    }
+
+    public Contact getContactVO() {
+        return contactVO;
+    }
+
+    public void setContactVO(Contact contactVO) {
+        this.contactVO = contactVO;
     }
 }

@@ -23,17 +23,30 @@ import java.util.List;
  * Created By Khojasteh on 7/27/2019
  */
 public class ChatMain implements ChatContract.view {
+//    public static String platformHost = "https://sandbox.pod.ir:8043";
+//    public static String token = "c0ec3f4e05cc4f54b81513881af1c827";
+//    public static String ssoHost = "https://accounts.pod.ir";
+//    public static String fileServer = "https://core.pod.ir";
+//    public static String serverName = "chat-server";
+//    public static String queueServer = "10.56.16.25";
+//    public static String queuePort = "61616";
+//    public static String queueInput = "queue-in-amjadi-stomp";
+//    public static String queueOutput = "queue-out-amjadi-stomp";
+//    public static String queueUserName = "root";
+//    public static String queuePassword = "zalzalak";
+//    public static Long chatId = 4101L;
+
     public static String platformHost = "https://sandbox.pod.ir:8043";
-    public static String token = "c3bdb0f36b9e4688ad51b3b20bb4cc7d";
+    public static String token = "753a6f7065bb453b9cbe5e615afef222";
     public static String ssoHost = "https://accounts.pod.ir";
     public static String fileServer = "https://core.pod.ir";
-    public static String serverName = "chat-server";
-    public static String queueServer = "10.56.16.25";
+    public static String serverName = "chatlocal";
+    public static String queueServer = "192.168.112.23";
     public static String queuePort = "61616";
-    public static String queueInput = "queue-in-amjadi-stomp";
-    public static String queueOutput = "queue-out-amjadi-stomp";
+    public static String queueInput = "queue-in-integration";
+    public static String queueOutput = "queue-out-integration";
     public static String queueUserName = "root";
-    public static String queuePassword = "zalzalak";
+    public static String queuePassword = "j]Bm0RU8gLhbPUG";
     public static Long chatId = 4101L;
     static ChatController chatController;
 
@@ -93,7 +106,7 @@ public class ChatMain implements ChatContract.view {
 //            createThreadWithFileMessage();
 //            leaveThread();
 //            replyMessage();
-//            replyFileMessage(); /// check it
+            replyFileMessage(); /// check it
 
 //            Thread.sleep(2000);
 
@@ -108,7 +121,7 @@ public class ChatMain implements ChatContract.view {
 //            clearHistory();
 
 //            block();
-            unblock();
+//            unblock();
 //            Thread.sleep(2000);
 //            getBlockList();
 
@@ -169,6 +182,9 @@ public class ChatMain implements ChatContract.view {
 //            getMentionedList();
 
 //            updateProfile();
+
+
+//            sendFileMessage();
 
         } catch (ConnectionException | InterruptedException e) {
             System.out.println(e);
@@ -383,7 +399,7 @@ public class ChatMain implements ChatContract.view {
         RequestUnBlock requestUnBlock = new RequestUnBlock
                 .Builder()
 //                (6061)
-                .blockId(2221)
+                .blockId(2222)
                 .build();
 
         chatController.unBlock(requestUnBlock);
@@ -478,9 +494,9 @@ public class ChatMain implements ChatContract.view {
         invitee.setId("09900449643");
         invitee.setIdType(InviteType.TO_BE_USER_CELLPHONE_NUMBER);
 
-        Invitee invitee1 = new Invitee();
-        invitee1.setId("09156967335");
-        invitee1.setIdType(InviteType.TO_BE_USER_CELLPHONE_NUMBER);
+//        Invitee invitee1 = new Invitee();
+//        invitee1.setId("09156967335");
+//        invitee1.setIdType(InviteType.TO_BE_USER_CELLPHONE_NUMBER);
 //        Invitee invitee1 = new Invitee();
 //        invitee1.setId(1181);
 //        invitee1.setIdType(InviteType.TO_BE_USER_ID);
@@ -488,7 +504,6 @@ public class ChatMain implements ChatContract.view {
         RequestCreateThreadWithMessage requestCreateThreadWithMessage = new RequestCreateThreadWithMessage
                 .Builder(ThreadType.NORMAL, new ArrayList<Invitee>() {{
             add(invitee);
-            add(invitee1);
         }},
                 TextMessageType.TEXT)
                 .message(requestThreadInnerMessage)
@@ -532,8 +547,8 @@ public class ChatMain implements ChatContract.view {
                 .Builder(ThreadType.NORMAL, new ArrayList<Invitee>() {{
             add(invitee);
         }}, requestUploadFile,
-                TextMessageType.TEXT)
-//                .message(requestThreadInnerMessage)
+                TextMessageType.PICTURE)
+                .message(requestThreadInnerMessage)
                 .description("tesssssssssssst")
                 .build();
 
@@ -569,7 +584,7 @@ public class ChatMain implements ChatContract.view {
     private void getThreads() {
         RequestThread requestThread = new RequestThread
                 .Builder()
-                .newMessages()
+//                .newMessages()
                 .build();
 
         chatController.getThreads(requestThread);
@@ -608,7 +623,7 @@ public class ChatMain implements ChatContract.view {
      */
     private void replyMessage() {
         RequestReplyMessage requestReplyMessage = new RequestReplyMessage
-                .Builder("hi", 6362, 72301)
+                .Builder("hi", 6362, 72301, TextMessageType.TEXT)
                 .build();
 
         chatController.replyMessage(requestReplyMessage);
@@ -800,12 +815,8 @@ public class ChatMain implements ChatContract.view {
      */
     private void sendFileMessage() {
         RequestFileMessage requestFileMessage = new RequestFileMessage
-                .Builder(5461, "C:\\Users\\fanap-10\\Pictures\\Saved Pictures\\a.jpg")
-                .description("this is test image")
-                .xC(0)
-                .yC(0)
-                .hC(100)
-                .wC(200)
+                .Builder(5461, "D:\\chat.txt",TextMessageType.FILE)
+                .description("this is test")
                 .build();
 
         chatController.uploadFileMessage(requestFileMessage, null);
@@ -825,7 +836,11 @@ public class ChatMain implements ChatContract.view {
 
 
         RequestReplyFileMessage requestReplyFileMessage = new RequestReplyFileMessage
-                .Builder("this is test", 5461, 55202, "C:\\Users\\fanap_soft\\Desktop\\chat output\\b.jpg")
+                .Builder("this is test",
+                5461,
+                55202,
+                "C:\\Users\\fanap_soft\\Desktop\\chat output\\b.jpg"
+                , TextMessageType.PICTURE)
                 .xC(0)
                 .yC(0)
                 .hC(100)

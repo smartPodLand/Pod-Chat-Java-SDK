@@ -13,6 +13,7 @@ public class Contact {
     private String uniqueId;
     private long notSeenDuration;
     private boolean hasUser;
+    private String profileImage;
 
     public Contact() {
     }
@@ -140,5 +141,13 @@ public class Contact {
 
     public void setCreationDate(long creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 }

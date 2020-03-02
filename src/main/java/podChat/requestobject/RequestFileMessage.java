@@ -114,18 +114,14 @@ public class RequestFileMessage {
         private int hC;
         private int wC;
 
-        public Builder(long threadId, String filePath) {
+        public Builder(long threadId, String filePath, int messageType) {
             this.threadId = threadId;
             this.filePath = filePath;
+            this.messageType = messageType;
         }
 
         public Builder systemMetadata(String systemMetadata) {
             this.systemMetadata = systemMetadata;
-            return this;
-        }
-
-        public Builder messageType(int messageType) {
-            this.messageType = messageType;
             return this;
         }
 
