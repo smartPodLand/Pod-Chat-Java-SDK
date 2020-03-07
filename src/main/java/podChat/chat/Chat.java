@@ -1386,7 +1386,6 @@ public class Chat extends AsyncAdapter {
     public ArrayList<String> createThreadWithMessage(RequestCreateThreadWithMessage threadRequest) {
         List<String> forwardUniqueIds;
         JsonObject innerMessageObj = null;
-        JsonObject jsonObject;
 
         String threadUniqueId = generateUniqueId();
 
@@ -3047,22 +3046,15 @@ public class Chat extends AsyncAdapter {
         try {
             if (chatReady) {
 
-                ChatMessage chatMessage = new ChatMessage();
-                chatMessage.setType(ChatMessageType.MUTE_THREAD);
-                chatMessage.setToken(getToken());
-                chatMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
-                chatMessage.setSubjectId(threadId);
-                chatMessage.setTypeCode(!Util.isNullOrEmpty(typeCode) ? typeCode : getTypeCode());
-                chatMessage.setUniqueId(uniqueId);
+                BaseMessage baseMessage = new BaseMessage();
+                baseMessage.setType(ChatMessageType.MUTE_THREAD);
+                baseMessage.setToken(getToken());
+                baseMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
+                baseMessage.setSubjectId(threadId);
+                baseMessage.setTypeCode(!Util.isNullOrEmpty(typeCode) ? typeCode : getTypeCode());
+                baseMessage.setUniqueId(uniqueId);
 
-                jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
-                jsonObject.remove("contentCount");
-                jsonObject.remove("systemMetadata");
-                jsonObject.remove("metadata");
-                jsonObject.remove("repliedTo");
-
-
-                sendAsyncMessage(jsonObject.toString(), AsyncMessageType.MESSAGE, "SEND_MUTE_THREAD");
+                sendAsyncMessage(gson.toJson(baseMessage), AsyncMessageType.MESSAGE, "SEND_MUTE_THREAD");
 
             } else {
                 getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);

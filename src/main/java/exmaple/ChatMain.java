@@ -37,7 +37,7 @@ public class ChatMain implements ChatContract.view {
 //    public static Long chatId = 4101L;
 
     public static String platformHost = "https://sandbox.pod.ir:8043";
-    public static String token = "753a6f7065bb453b9cbe5e615afef222";
+    public static String token = "bebc31c4ead6458c90b607496dae25c6";
     public static String ssoHost = "https://accounts.pod.ir";
     public static String fileServer = "https://core.pod.ir";
     public static String serverName = "chatlocal";
@@ -102,11 +102,11 @@ public class ChatMain implements ChatContract.view {
 //            Thread.sleep(2000);
 //            getParticipant();
 //chatController.getUserInfo();
-//            createThreadWithMessage();
+            createThreadWithMessage();
 //            createThreadWithFileMessage();
 //            leaveThread();
 //            replyMessage();
-            replyFileMessage(); /// check it
+//            replyFileMessage(); /// check it
 
 //            Thread.sleep(2000);
 
@@ -491,7 +491,7 @@ public class ChatMain implements ChatContract.view {
                 .build();
 
         Invitee invitee = new Invitee();
-        invitee.setId("09900449643");
+        invitee.setId("09151242904");
         invitee.setIdType(InviteType.TO_BE_USER_CELLPHONE_NUMBER);
 
 //        Invitee invitee1 = new Invitee();
@@ -572,7 +572,7 @@ public class ChatMain implements ChatContract.view {
      */
     private void sendMessage() {
         RequestMessage requestThread = new RequestMessage
-                .Builder("hi", 5461, TextMessageType.TEXT)
+                .Builder("hi", 1, TextMessageType.TEXT)
                 .build();
 
         chatController.sendTextMessage(requestThread);
@@ -751,7 +751,7 @@ public class ChatMain implements ChatContract.view {
 
     private void pinMessage() {
         RequestPinMessage requestPinMessage = new RequestPinMessage
-                .Builder(75293L)
+                .Builder(88287L)
                 .build();
 
         chatController.pinMessage(requestPinMessage);
