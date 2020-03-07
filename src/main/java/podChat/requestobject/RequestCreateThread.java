@@ -14,7 +14,7 @@ public class RequestCreateThread extends BaseRequestObject {
     private String image;
     private String metadata;
 
-    RequestCreateThread(Builder builder) {
+    RequestCreateThread(Builder<?> builder) {
         super(builder);
         this.type = builder.type;
         this.title = builder.title;
@@ -80,7 +80,7 @@ public class RequestCreateThread extends BaseRequestObject {
         this.metadata = metadata;
     }
 
-    public static class Builder extends BaseRequestObject.Builder<Builder> {
+    public static class Builder<T extends RequestCreateThread.Builder<T>> extends BaseRequestObject.Builder<Builder> {
         private final int type;
         private final List<Invitee> invitees;
         private String title;

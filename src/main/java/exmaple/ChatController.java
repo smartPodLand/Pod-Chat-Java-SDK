@@ -457,6 +457,11 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
         chat.updateProfile(request);
     }
 
+    @Override
+    public void isNameAvailable(RequestIsNameAvailable request) {
+        chat.isNameAvailable(request);
+    }
+
 
     //View
     @Override

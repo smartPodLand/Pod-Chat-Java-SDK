@@ -366,5 +366,7 @@ public interface ChatContract {
         void unPinMessage(RequestPinMessage request);
 
         void updateProfile(RequestUpdateProfile request);
+
+        void isNameAvailable(RequestIsNameAvailable request);
     }
 }

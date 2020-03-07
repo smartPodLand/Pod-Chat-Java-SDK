@@ -219,6 +219,10 @@ public class Chat extends AsyncAdapter {
             case ChatMessageType.UPDATE_PROFILE:
                 handleUpdateProfile(chatMessage);
                 break;
+
+            case ChatMessageType.IS_NAME_AVAILABLE:
+                handleIsNameAvailable(chatMessage);
+                break;
         }
     }
 
@@ -1291,7 +1295,7 @@ public class Chat extends AsyncAdapter {
 
     }
 
-    public String createThread(RequestCreateThread requestCreateThread) {
+    public String createThread(RequestCreatePublicGroupOrChannelThread requestCreateThread) {
         int threadType = requestCreateThread.getType();
         Invitee[] invitee = (Invitee[]) requestCreateThread.getInvitees().toArray();
         String threadTitle = requestCreateThread.getTitle();
@@ -1299,8 +1303,9 @@ public class Chat extends AsyncAdapter {
         String image = requestCreateThread.getImage();
         String metadata = requestCreateThread.getMetadata();
         String typeCode = requestCreateThread.getTypeCode();
+        String uniqueName = requestCreateThread.getUniqueName();
 
-        return createThread(threadType, invitee, threadTitle, description, image, metadata, typeCode);
+        return createThread(threadType, invitee, threadTitle, description, image, metadata, typeCode );
     }
 
     /**
@@ -3041,8 +3046,6 @@ public class Chat extends AsyncAdapter {
      */
     public String muteThread(long threadId, String typeCode) {
         String uniqueId = generateUniqueId();
-        JsonObject jsonObject;
-
         try {
             if (chatReady) {
 
@@ -3079,27 +3082,20 @@ public class Chat extends AsyncAdapter {
      */
     public String unMuteThread(RequestMuteThread request) {
         String uniqueId = generateUniqueId();
-        JsonObject jsonObject;
         try {
             if (chatReady) {
                 long threadId = request.getThreadId();
 
-                ChatMessage chatMessage = new ChatMessage();
-                chatMessage.setType(ChatMessageType.UN_MUTE_THREAD);
-                chatMessage.setToken(getToken());
-                chatMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
-                chatMessage.setSubjectId(threadId);
-                chatMessage.setUniqueId(uniqueId);
-                chatMessage.setTypeCode(!Util.isNullOrEmpty(request.getTypeCode()) ? request.getTypeCode() : getTypeCode());
-
-                jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
-                jsonObject.remove("contentCount");
-                jsonObject.remove("systemMetadata");
-                jsonObject.remove("metadata");
-                jsonObject.remove("repliedTo");
+                BaseMessage baseMessage = new BaseMessage();
+                baseMessage.setType(ChatMessageType.UN_MUTE_THREAD);
+                baseMessage.setToken(getToken());
+                baseMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
+                baseMessage.setSubjectId(threadId);
+                baseMessage.setUniqueId(uniqueId);
+                baseMessage.setTypeCode(!Util.isNullOrEmpty(request.getTypeCode()) ? request.getTypeCode() : getTypeCode());
 
 
-                sendAsyncMessage(jsonObject.toString(), AsyncMessageType.MESSAGE, "SEND_UN_MUTE_THREAD");
+                sendAsyncMessage(gson.toJson(baseMessage), AsyncMessageType.MESSAGE, "SEND_UN_MUTE_THREAD");
             } else {
                 getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
             }
@@ -3115,7 +3111,6 @@ public class Chat extends AsyncAdapter {
     @Deprecated
     public String unMuteThread(long threadId) {
         String uniqueId = generateUniqueId();
-
         try {
             if (chatReady) {
                 ChatMessage chatMessage = new ChatMessage();
@@ -3155,28 +3150,18 @@ public class Chat extends AsyncAdapter {
      */
     public String pinThread(RequestPinThread requestPinThread) {
         String uniqueId = generateUniqueId();
-        JsonObject jsonObject;
-
         try {
             if (chatReady) {
 
-                ChatMessage chatMessage = new ChatMessage();
-                chatMessage.setType(ChatMessageType.PIN_THREAD);
-                chatMessage.setToken(getToken());
-                chatMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
-                chatMessage.setSubjectId(requestPinThread.getThreadId());
-                chatMessage.setTypeCode(!Util.isNullOrEmpty(requestPinThread.getTypeCode()) ? requestPinThread.getTypeCode() : getTypeCode());
+                BaseMessage baseMessage = new BaseMessage();
+                baseMessage.setType(ChatMessageType.PIN_THREAD);
+                baseMessage.setToken(getToken());
+                baseMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
+                baseMessage.setSubjectId(requestPinThread.getThreadId());
+                baseMessage.setTypeCode(!Util.isNullOrEmpty(requestPinThread.getTypeCode()) ? requestPinThread.getTypeCode() : getTypeCode());
+                baseMessage.setUniqueId(uniqueId);
 
-
-                chatMessage.setUniqueId(uniqueId);
-
-                jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
-                jsonObject.remove("contentCount");
-                jsonObject.remove("systemMetadata");
-                jsonObject.remove("metadata");
-                jsonObject.remove("repliedTo");
-
-                sendAsyncMessage(jsonObject.toString(), AsyncMessageType.MESSAGE, "SEND_PIN_THREAD");
+                sendAsyncMessage(gson.toJson(baseMessage), AsyncMessageType.MESSAGE, "SEND_PIN_THREAD");
 
             } else {
                 getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
@@ -3198,27 +3183,19 @@ public class Chat extends AsyncAdapter {
      */
     public String unPinThread(RequestPinThread requestPinThread) {
         String uniqueId = generateUniqueId();
-        JsonObject jsonObject;
         try {
             if (chatReady) {
                 long threadId = requestPinThread.getThreadId();
 
-                ChatMessage chatMessage = new ChatMessage();
-                chatMessage.setType(ChatMessageType.UNPIN_THREAD);
-                chatMessage.setToken(getToken());
-                chatMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
-                chatMessage.setSubjectId(threadId);
-                chatMessage.setUniqueId(uniqueId);
-                chatMessage.setTypeCode(!Util.isNullOrEmpty(requestPinThread.getTypeCode()) ? requestPinThread.getTypeCode() : getTypeCode());
+                BaseMessage baseMessage = new BaseMessage();
+                baseMessage.setType(ChatMessageType.UNPIN_THREAD);
+                baseMessage.setToken(getToken());
+                baseMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
+                baseMessage.setSubjectId(threadId);
+                baseMessage.setUniqueId(uniqueId);
+                baseMessage.setTypeCode(!Util.isNullOrEmpty(requestPinThread.getTypeCode()) ? requestPinThread.getTypeCode() : getTypeCode());
 
-                jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
-                jsonObject.remove("contentCount");
-                jsonObject.remove("systemMetadata");
-                jsonObject.remove("metadata");
-                jsonObject.remove("repliedTo");
-
-
-                sendAsyncMessage(jsonObject.toString(), AsyncMessageType.MESSAGE, "SEND_UN_PIN_THREAD");
+                sendAsyncMessage(gson.toJson(baseMessage), AsyncMessageType.MESSAGE, "SEND_UN_PIN_THREAD");
             } else {
                 getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
             }
@@ -3237,32 +3214,25 @@ public class Chat extends AsyncAdapter {
      */
     public String pinMessage(RequestPinMessage requestPinMessage) {
         String uniqueId = generateUniqueId();
-        JsonObject jsonObject;
 
         try {
             if (chatReady) {
 
-                ChatMessage chatMessage = new ChatMessage();
-                chatMessage.setType(ChatMessageType.PIN_MESSAGE);
-                chatMessage.setToken(getToken());
-                chatMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
-                chatMessage.setSubjectId(requestPinMessage.getMessageId());
-                chatMessage.setTypeCode(!Util.isNullOrEmpty(requestPinMessage.getTypeCode()) ? requestPinMessage.getTypeCode() : getTypeCode());
+                BaseMessage baseMessage = new BaseMessage();
+                baseMessage.setType(ChatMessageType.PIN_MESSAGE);
+                baseMessage.setToken(getToken());
+                baseMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
+                baseMessage.setSubjectId(requestPinMessage.getMessageId());
+                baseMessage.setTypeCode(!Util.isNullOrEmpty(requestPinMessage.getTypeCode()) ? requestPinMessage.getTypeCode() : getTypeCode());
 
                 PinMessage pinMessage = new PinMessage();
                 pinMessage.setNotifyAll(requestPinMessage.getNotifyAll());
 
-                chatMessage.setContent(gson.toJson(pinMessage));
-                chatMessage.setUniqueId(uniqueId);
-
-                jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
-                jsonObject.remove("contentCount");
-                jsonObject.remove("systemMetadata");
-                jsonObject.remove("metadata");
-                jsonObject.remove("repliedTo");
+                baseMessage.setContent(gson.toJson(pinMessage));
+                baseMessage.setUniqueId(uniqueId);
 
 
-                sendAsyncMessage(jsonObject.toString(), AsyncMessageType.MESSAGE, "SEND_PIN_MESSAGE");
+                sendAsyncMessage(gson.toJson(baseMessage), AsyncMessageType.MESSAGE, "SEND_PIN_MESSAGE");
 
             } else {
                 getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
@@ -3284,24 +3254,17 @@ public class Chat extends AsyncAdapter {
      */
     public String unPinMessage(RequestPinMessage requestPinMessage) {
         String uniqueId = generateUniqueId();
-        JsonObject jsonObject;
         try {
             if (chatReady) {
-                ChatMessage chatMessage = new ChatMessage();
-                chatMessage.setType(ChatMessageType.UNPIN_MESSAGE);
-                chatMessage.setToken(getToken());
-                chatMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
-                chatMessage.setSubjectId(requestPinMessage.getMessageId());
-                chatMessage.setUniqueId(uniqueId);
-                chatMessage.setTypeCode(!Util.isNullOrEmpty(requestPinMessage.getTypeCode()) ? requestPinMessage.getTypeCode() : getTypeCode());
+                BaseMessage baseMessage = new BaseMessage();
+                baseMessage.setType(ChatMessageType.UNPIN_MESSAGE);
+                baseMessage.setToken(getToken());
+                baseMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
+                baseMessage.setSubjectId(requestPinMessage.getMessageId());
+                baseMessage.setUniqueId(uniqueId);
+                baseMessage.setTypeCode(!Util.isNullOrEmpty(requestPinMessage.getTypeCode()) ? requestPinMessage.getTypeCode() : getTypeCode());
 
-                jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
-                jsonObject.remove("contentCount");
-                jsonObject.remove("systemMetadata");
-                jsonObject.remove("metadata");
-                jsonObject.remove("repliedTo");
-
-                sendAsyncMessage(jsonObject.toString(), AsyncMessageType.MESSAGE, "SEND_UN_PIN_MESSAGE");
+                sendAsyncMessage(gson.toJson(baseMessage), AsyncMessageType.MESSAGE, "SEND_UN_PIN_MESSAGE");
 
             } else {
                 getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
@@ -3790,6 +3753,35 @@ public class Chat extends AsyncAdapter {
 
 
                 sendAsyncMessage(gson.toJson(baseMessage), AsyncMessageType.MESSAGE, "SEND_UPDATE_PROFILE");
+
+            } else {
+                getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+            }
+
+        } catch (Exception e) {
+            showErrorLog(e.getCause().getMessage());
+        }
+
+        return uniqueId;
+    }
+
+
+
+    public String isNameAvailable(RequestIsNameAvailable requestIsNameAvailable) {
+        String uniqueId = generateUniqueId();
+        try {
+            if (chatReady) {
+
+                BaseMessage baseMessage = new BaseMessage();
+                baseMessage.setType(ChatMessageType.IS_NAME_AVAILABLE);
+                baseMessage.setToken(getToken());
+                baseMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
+                baseMessage.setContent(requestIsNameAvailable.getUniqueName());
+                baseMessage.setTypeCode(!Util.isNullOrEmpty(requestIsNameAvailable.getTypeCode()) ?
+                        requestIsNameAvailable.getTypeCode(): getTypeCode());
+                baseMessage.setUniqueId(uniqueId);
+
+                sendAsyncMessage(gson.toJson(baseMessage), AsyncMessageType.MESSAGE, "SEND_IS_NAME_AVAILABLE");
 
             } else {
                 getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
@@ -4585,6 +4577,22 @@ public class Chat extends AsyncAdapter {
         showInfoLog("RECEIVE_UPDATE_PROFILE", gson.toJson(response));
     }
 
+
+    private void handleIsNameAvailable(ChatMessage chatMessage) {
+
+        ChatResponse<ResultIsNameAvailable> response = new ChatResponse<>();
+
+        ResultIsNameAvailable resultIsNameAvailable = gson.fromJson(chatMessage.getContent(), ResultIsNameAvailable.class);
+
+        response.setResult(resultIsNameAvailable);
+        response.setUniqueId(chatMessage.getUniqueId());
+        response.setSubjectId(chatMessage.getSubjectId());
+
+
+        listenerManager.callOnIsNameAvailable(response);
+
+        showInfoLog("RECEIVE_IS_NAME_AVAILABLE", gson.toJson(response));
+    }
     private void handleSetRole(ChatMessage chatMessage) {
         ChatResponse<ResultSetRole> chatResponse = new ChatResponse<>();
         ResultSetRole resultSetRole = new ResultSetRole();

@@ -455,6 +455,11 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     }
 
+    @Override
+    public void isNameAvailable(RequestIsNameAvailable request) {
+
+    }
+
     //View
     @Override
     public void onDeliver(ChatResponse<ResultMessage> chatResponse) {

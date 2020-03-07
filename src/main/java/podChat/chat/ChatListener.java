@@ -190,4 +190,8 @@ public interface ChatListener {
 
     }
 
+    default void onIsNameAvailable(ChatResponse<ResultIsNameAvailable> response) {
+
+    }
+
 }

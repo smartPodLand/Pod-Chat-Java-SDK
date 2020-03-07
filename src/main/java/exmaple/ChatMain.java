@@ -16,6 +16,7 @@ import podChat.util.RoleType;
 import podChat.util.TextMessageType;
 import podChat.util.ThreadType;
 
+import javax.print.attribute.standard.RequestingUserName;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,8 +103,11 @@ public class ChatMain implements ChatContract.view {
 //            Thread.sleep(2000);
 //            getParticipant();
 //chatController.getUserInfo();
-            createThreadWithMessage();
+//            createThreadWithMessage();
 //            createThreadWithFileMessage();
+            createPublicGroupOrChannelThread();
+//            isNameAvailable();
+
 //            leaveThread();
 //            replyMessage();
 //            replyFileMessage(); /// check it
@@ -185,6 +189,7 @@ public class ChatMain implements ChatContract.view {
 
 
 //            sendFileMessage();
+
 
         } catch (ConnectionException | InterruptedException e) {
             System.out.println(e);
@@ -663,6 +668,26 @@ public class ChatMain implements ChatContract.view {
     }
 
     /**
+     * create public group or channel thread
+     */
+
+    private void createPublicGroupOrChannelThread() {
+        Invitee[] invitees = new Invitee[1];
+        Invitee invitee = new Invitee();
+        invitee.setIdType(InviteType.TO_BE_USER_CELLPHONE_NUMBER);
+        invitee.setId("09151242904");
+        invitees[0] = invitee;
+
+        RequestCreatePublicGroupOrChannelThread requestCreateThread = new RequestCreatePublicGroupOrChannelThread
+                .Builder(ThreadType.PUBLIC_GROUP, new ArrayList<Invitee>() {{
+            add(invitee);
+        }}, "test")
+                .build();
+
+        chatController.createThread(requestCreateThread);
+    }
+
+    /**
      * seen message list
      */
     private void getSeenList() {
@@ -765,6 +790,15 @@ public class ChatMain implements ChatContract.view {
         chatController.unPinMessage(requestPinMessage);
     }
 
+
+    private void isNameAvailable() {
+        RequestIsNameAvailable requestIsNameAvailable = new RequestIsNameAvailable
+                .Builder("test")
+                .build();
+
+        chatController.isNameAvailable(requestIsNameAvailable);
+    }
+
     /******************************************************************
      *                           PARTICIPANT                          *
      * ****************************************************************/
@@ -815,7 +849,7 @@ public class ChatMain implements ChatContract.view {
      */
     private void sendFileMessage() {
         RequestFileMessage requestFileMessage = new RequestFileMessage
-                .Builder(5461, "D:\\chat.txt",TextMessageType.FILE)
+                .Builder(5461, "D:\\chat.txt", TextMessageType.FILE)
                 .description("this is test")
                 .build();
 

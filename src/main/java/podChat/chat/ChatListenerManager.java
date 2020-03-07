@@ -585,5 +585,16 @@ public class ChatListenerManager {
         }
     }
 
+    public void callOnIsNameAvailable(ChatResponse<ResultIsNameAvailable> chatResponse) {
+
+        for (ChatListener listener : getSynchronizedListeners()) {
+            try {
+                listener.onIsNameAvailable(chatResponse);
+            } catch (Throwable t) {
+                callHandleCallbackError(listener, t);
+            }
+        }
+    }
+
 
 }
