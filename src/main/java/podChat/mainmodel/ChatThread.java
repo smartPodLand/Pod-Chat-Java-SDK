@@ -19,6 +19,7 @@ public class ChatThread {
     private String title;
     private String description;
     private String image;
+    private String uniqueName;
     private String metadata;
 
     public String getOwnerSsoId() {
@@ -75,5 +76,13 @@ public class ChatThread {
 
     public void setMetadata(String metadata) {
         this.metadata = metadata;
+    }
+
+    public String getUniqueName() {
+        return uniqueName;
+    }
+
+    public void setUniqueName(String uniqueName) {
+        this.uniqueName = uniqueName;
     }
 }

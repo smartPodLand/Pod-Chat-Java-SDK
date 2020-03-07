@@ -1,32 +1,14 @@
 package podChat.model;
 
-public class ResultPinMessage {
+public class ResultUnreadMessageCount {
 
-    private long messageId;
-    private String text;
-    private boolean notifyAll;
+    private long count;
 
-    public long getMessageId() {
-        return messageId;
+    public long getCount() {
+        return count;
     }
 
-    public void setMessageId(long messageId) {
-        this.messageId = messageId;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public boolean isNotifyAll() {
-        return notifyAll;
-    }
-
-    public void setNotifyAll(boolean notifyAll) {
-        this.notifyAll = notifyAll;
+    public void setCount(long count) {
+        this.count = count;
     }
 }

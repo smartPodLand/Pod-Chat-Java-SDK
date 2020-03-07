@@ -230,9 +230,6 @@ public interface ChatContract {
 
         void getContact(RequestGetContact request);
 
-        void createThread(int threadType, Invitee[] invitee, String threadTitle, String description, String image
-                , String metaData, String typeCode);
-
         void createThread(RequestCreateThread requestCreateThread);
 
         void createThreadWithFileMessage(RequestCreateThreadWithFile requestCreateThreadWithMessage);
@@ -368,5 +365,9 @@ public interface ChatContract {
         void updateProfile(RequestUpdateProfile request);
 
         void isNameAvailable(RequestIsNameAvailable request);
+
+        void joinThead(RequestJoinThread request);
+
+        void countUnreadMessage(RequestUnreadMessageCount request);
     }
 }

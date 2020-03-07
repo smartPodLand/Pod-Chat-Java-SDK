@@ -597,4 +597,27 @@ public class ChatListenerManager {
     }
 
 
+    public void callOnJoinThread(ChatResponse<ResultThread> chatResponse) {
+
+        for (ChatListener listener : getSynchronizedListeners()) {
+            try {
+                listener.onJoinThread(chatResponse);
+            } catch (Throwable t) {
+                callHandleCallbackError(listener, t);
+            }
+        }
+    }
+
+    public void callOnCountUnreadMessage(ChatResponse<ResultUnreadMessageCount> chatResponse) {
+
+        for (ChatListener listener : getSynchronizedListeners()) {
+            try {
+                listener.onCountUnreadMessage(chatResponse);
+            } catch (Throwable t) {
+                callHandleCallbackError(listener, t);
+            }
+        }
+    }
+
+
 }

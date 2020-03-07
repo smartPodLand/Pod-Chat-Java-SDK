@@ -37,6 +37,7 @@ public class ChatMessageType {
     public static final int SEEN_MESSAGE_LIST = 32;
     public static final int IS_NAME_AVAILABLE = 34;
     public static final int DELIVERED_MESSAGE_LIST = 33;
+    public static final int JOIN_THREAD = 39;
     public static final int INTERACT_MESSAGE = 40;
     public static final int SPAM_PV_THREAD = 41;
     public static final int SET_ROLE_TO_USER = 42;
@@ -49,6 +50,7 @@ public class ChatMessageType {
     public static final int UNPIN_MESSAGE = 51;
     public static final int UPDATE_PROFILE = 52;
     public static final int USER_ROLES = 54;
+    public static final int ALL_UNREAD_MESSAGE_COUNT = 61;
     public static final int ERROR = 999;
 
 }

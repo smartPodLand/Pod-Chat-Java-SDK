@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class ChatMain implements ChatContract.view {
 //    public static String platformHost = "https://sandbox.pod.ir:8043";
-//    public static String token = "c0ec3f4e05cc4f54b81513881af1c827";
+//    public static String token = "713993ca3ba541bcb1127dca094b2977";
 //    public static String ssoHost = "https://accounts.pod.ir";
 //    public static String fileServer = "https://core.pod.ir";
 //    public static String serverName = "chat-server";
@@ -37,10 +37,11 @@ public class ChatMain implements ChatContract.view {
 //    public static String queuePassword = "zalzalak";
 //    public static Long chatId = 4101L;
 
-    public static String platformHost = "https://sandbox.pod.ir:8043";
+    public static String platformHost = "http://172.16.110.235:8003/srv/bptest-core/";
+//    public static String token = "3c4d62b6068043aa898cf7426d5cae68";
     public static String token = "bebc31c4ead6458c90b607496dae25c6";
-    public static String ssoHost = "https://accounts.pod.ir";
-    public static String fileServer = "https://core.pod.ir";
+    public static String ssoHost = "http://172.16.110.76";
+    public static String fileServer = "http://172.16.110.76:8080";
     public static String serverName = "chatlocal";
     public static String queueServer = "192.168.112.23";
     public static String queuePort = "61616";
@@ -76,6 +77,7 @@ public class ChatMain implements ChatContract.view {
 
             chatController.connect(requestConnect);
 
+
 //            addContact();
 //            Thread.sleep(2000);
 //            getcontact();
@@ -105,7 +107,7 @@ public class ChatMain implements ChatContract.view {
 //chatController.getUserInfo();
 //            createThreadWithMessage();
 //            createThreadWithFileMessage();
-            createPublicGroupOrChannelThread();
+//            createPublicGroupOrChannelThread();
 //            isNameAvailable();
 
 //            leaveThread();
@@ -191,6 +193,7 @@ public class ChatMain implements ChatContract.view {
 //            sendFileMessage();
 
 
+            countUnreadMessage();
         } catch (ConnectionException | InterruptedException e) {
             System.out.println(e);
         }
@@ -332,9 +335,9 @@ public class ChatMain implements ChatContract.view {
     void addContact() {
         RequestAddContact requestAddContact = new RequestAddContact
                 .Builder()
-                .cellphoneNumber("09157770684")
-                .lastName("خیرخواه")
-                .firstName("فرهاد")
+                .cellphoneNumber("09148401824")
+                .lastName("فاطمه")
+                .firstName("خجسته")
                 .build();
         Gson gson = new Gson();
         System.out.println(gson.toJson(requestAddContact));
@@ -496,7 +499,7 @@ public class ChatMain implements ChatContract.view {
                 .build();
 
         Invitee invitee = new Invitee();
-        invitee.setId("09151242904");
+        invitee.setId("09122964316");
         invitee.setIdType(InviteType.TO_BE_USER_CELLPHONE_NUMBER);
 
 //        Invitee invitee1 = new Invitee();
@@ -577,7 +580,7 @@ public class ChatMain implements ChatContract.view {
      */
     private void sendMessage() {
         RequestMessage requestThread = new RequestMessage
-                .Builder("hi", 1, TextMessageType.TEXT)
+                .Builder("hi", 7129, TextMessageType.TEXT)
                 .build();
 
         chatController.sendTextMessage(requestThread);
@@ -664,7 +667,13 @@ public class ChatMain implements ChatContract.view {
         invitees[0] = invitee;
 //        invitees[1] = invitee2;
 
-        chatController.createThread(ThreadType.NORMAL, invitees, "sendMessage", "", "", "", "default");
+        RequestCreateThread requestCreateThread = new RequestCreateThread
+                .Builder<>(ThreadType.NORMAL, new ArrayList<Invitee>() {{
+            add(invitee);
+        }})
+                .build();
+
+        chatController.createThread(requestCreateThread);
     }
 
     /**
@@ -675,7 +684,7 @@ public class ChatMain implements ChatContract.view {
         Invitee[] invitees = new Invitee[1];
         Invitee invitee = new Invitee();
         invitee.setIdType(InviteType.TO_BE_USER_CELLPHONE_NUMBER);
-        invitee.setId("09151242904");
+        invitee.setId("09148401824");
         invitees[0] = invitee;
 
         RequestCreatePublicGroupOrChannelThread requestCreateThread = new RequestCreatePublicGroupOrChannelThread
@@ -729,6 +738,19 @@ public class ChatMain implements ChatContract.view {
                 .build();
 
         chatController.unMuteThread(requestMuteThread);
+    }
+
+
+    /**
+     * count unread messages
+     */
+    private void countUnreadMessage() {
+        RequestUnreadMessageCount requestMuteThread = new RequestUnreadMessageCount
+                .Builder()
+                .mute(true)
+                .build();
+
+        chatController.countUnreadMessage(requestMuteThread);
     }
 
     /**

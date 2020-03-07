@@ -154,12 +154,6 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
 
     @Override
-    public void createThread(int threadType, Invitee[] invitee, String threadTitle, String description, String image
-            , String metaData, String typeCode) {
-
-    }
-
-    @Override
     public void createThread(RequestCreateThread requestCreateThread) {
         chat.createThread(requestCreateThread);
     }
@@ -457,6 +451,16 @@ public class ChatController extends ChatAdapter implements ChatContract.controll
 
     @Override
     public void isNameAvailable(RequestIsNameAvailable request) {
+
+    }
+
+    @Override
+    public void joinThead(RequestJoinThread request) {
+
+    }
+
+    @Override
+    public void countUnreadMessage(RequestUnreadMessageCount request) {
 
     }
 

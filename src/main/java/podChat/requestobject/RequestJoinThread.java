@@ -1,31 +1,32 @@
 package podChat.requestobject;
 
 
-import java.util.ArrayList;
+public class RequestJoinThread extends GeneralRequestObject {
 
-public class RequestForwardMessage extends GeneralRequestObject{
+    private String uniqueName;
 
-    private long threadId;
-    private ArrayList<Long> messageIds;
-
-     RequestForwardMessage(Builder builder){
+    RequestJoinThread(Builder builder) {
         super(builder);
-        this.threadId = builder.threadId;
-        this.messageIds = builder.messageIds;
+        this.uniqueName = builder.uniqueName;
     }
 
+    public String getUniqueName() {
+        return uniqueName;
+    }
 
-    public static class Builder extends GeneralRequestObject.Builder<Builder>{
-        private long threadId;
-        private ArrayList<Long> messageIds;
+    public void setUniqueName(String uniqueName) {
+        this.uniqueName = uniqueName;
+    }
 
-        public Builder (long threadId,ArrayList<Long> messageIds){
-            this.threadId = threadId;
-            this.messageIds = messageIds;
+    public static class Builder extends GeneralRequestObject.Builder<Builder> {
+        private String uniqueName;
+
+        public Builder(String uniqueName) {
+            this.uniqueName = uniqueName;
         }
 
-        public RequestForwardMessage build(){
-            return new RequestForwardMessage(this);
+        public RequestJoinThread build() {
+            return new RequestJoinThread(this);
         }
 
 
@@ -36,20 +37,6 @@ public class RequestForwardMessage extends GeneralRequestObject{
 
 
     }
-    public long getThreadId() {
-        return threadId;
-    }
 
-    public void setThreadId(long threadId) {
-        this.threadId = threadId;
-    }
-
-    public ArrayList<Long> getMessageIds() {
-        return messageIds;
-    }
-
-    public void setMessageIds(ArrayList<Long> messageIds) {
-        this.messageIds = messageIds;
-    }
 
 }

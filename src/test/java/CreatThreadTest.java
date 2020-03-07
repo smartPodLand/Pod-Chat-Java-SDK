@@ -8,8 +8,11 @@ import podChat.mainmodel.Invitee;
 import podChat.model.ChatResponse;
 import podChat.model.ErrorOutPut;
 import podChat.requestobject.RequestConnect;
+import podChat.requestobject.RequestCreateThread;
 import podChat.util.InviteType;
 import podChat.util.ThreadType;
+
+import java.util.ArrayList;
 
 /**
  * Created By Khojasteh on 8/6/2019
@@ -72,7 +75,14 @@ public class CreatThreadTest implements ChatContract.view {
         invitee.setId("09156967335");
 
         invitees[0] = invitee;
-        chatController.createThread(0, invitees, "sendMessage", "", "", "", "default");
+
+        RequestCreateThread requestCreateThread = new RequestCreateThread
+                .Builder<>(ThreadType.NORMAL, new ArrayList<Invitee>() {{
+            add(invitee);
+        }})
+                .build();
+
+        chatController.createThread(requestCreateThread);
 
         java.lang.Thread.sleep(3000);
 
@@ -95,7 +105,14 @@ public class CreatThreadTest implements ChatContract.view {
         invitee.setId("1181");
 
         invitees[0] = invitee;
-        chatController.createThread(0, invitees, "sendMessage", "", "", "", "default");
+
+        RequestCreateThread requestCreateThread = new RequestCreateThread
+                .Builder<>(ThreadType.NORMAL, new ArrayList<Invitee>() {{
+            add(invitee);
+        }})
+                .build();
+
+        chatController.createThread(requestCreateThread);
 
         java.lang.Thread.sleep(3000);
 
@@ -121,7 +138,14 @@ public class CreatThreadTest implements ChatContract.view {
         invitee.setId("1111111111");
 
         invitees[0] = invitee;
-        chatController.createThread(0, invitees, "sendMessage", "", "", "", "default");
+
+        RequestCreateThread requestCreateThread = new RequestCreateThread
+                .Builder<>(ThreadType.NORMAL, new ArrayList<Invitee>() {{
+            add(invitee);
+        }})
+                .build();
+
+        chatController.createThread(requestCreateThread);
 
         java.lang.Thread.sleep(3000);
 
@@ -146,7 +170,14 @@ public class CreatThreadTest implements ChatContract.view {
         invitee.setId("13882");
 
         invitees[0] = invitee;
-        chatController.createThread(0, invitees, "sendMessage", "", "", "", "default");
+
+        RequestCreateThread requestCreateThread = new RequestCreateThread
+                .Builder<>(ThreadType.NORMAL, new ArrayList<Invitee>() {{
+            add(invitee);
+        }})
+                .build();
+
+        chatController.createThread(requestCreateThread);
 
         java.lang.Thread.sleep(3000);
 
@@ -175,7 +206,13 @@ public class CreatThreadTest implements ChatContract.view {
         invitees[0] = invitee;
         invitees[1] = invitee2;
 
-        chatController.createThread(ThreadType.OWNER_GROUP, invitees, "sendMessage", "", "", "", "default");
+        RequestCreateThread requestCreateThread = new RequestCreateThread
+                .Builder<>(ThreadType.NORMAL, new ArrayList<Invitee>() {{
+            add(invitee);
+        }})
+                .build();
+
+        chatController.createThread(requestCreateThread);
 
         java.lang.Thread.sleep(3000);
 
@@ -205,7 +242,13 @@ public class CreatThreadTest implements ChatContract.view {
         invitees[0] = invitee;
         invitees[1] = invitee2;
 
-        chatController.createThread(ThreadType.PUBLIC_GROUP, invitees, "sendMessage", "", "", "", "default");
+        RequestCreateThread requestCreateThread = new RequestCreateThread
+                .Builder<>(ThreadType.NORMAL, new ArrayList<Invitee>() {{
+            add(invitee);
+        }})
+                .build();
+
+        chatController.createThread(requestCreateThread);
 
         java.lang.Thread.sleep(3000);
 

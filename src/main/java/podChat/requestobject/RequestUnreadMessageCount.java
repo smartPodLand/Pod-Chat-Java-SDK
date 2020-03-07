@@ -1,32 +1,33 @@
 package podChat.requestobject;
 
 
-public class RequestCountUnreadMessage extends GeneralRequestObject {
+public class RequestUnreadMessageCount extends GeneralRequestObject {
 
-    private boolean mute;
+    private Boolean mute;
 
-    RequestCountUnreadMessage(Builder builder) {
+    RequestUnreadMessageCount(Builder builder) {
         super(builder);
-        this.mute = builder.uniqueName;
+        this.mute = builder.mute;
     }
 
-    public String getUniqueName() {
-        return uniqueName;
+    public Boolean getMute() {
+        return mute;
     }
 
-    public void setUniqueName(String uniqueName) {
-        this.uniqueName = uniqueName;
+    public void setMute(Boolean mute) {
+        this.mute = mute;
     }
 
     public static class Builder extends GeneralRequestObject.Builder<Builder> {
-        private boolean mute;
+        private Boolean mute;
 
-        public Builder(String uniqueName) {
-            this.uniqueName = uniqueName;
+        public Builder mute(Boolean mute) {
+            this.mute = mute;
+            return this;
         }
 
-        public RequestCountUnreadMessage build() {
-            return new RequestCountUnreadMessage(this);
+        public RequestUnreadMessageCount build() {
+            return new RequestUnreadMessageCount(this);
         }
 
 

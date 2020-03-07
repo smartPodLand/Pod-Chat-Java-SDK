@@ -223,6 +223,15 @@ public class Chat extends AsyncAdapter {
             case ChatMessageType.IS_NAME_AVAILABLE:
                 handleIsNameAvailable(chatMessage);
                 break;
+
+            case ChatMessageType.JOIN_THREAD:
+                handleJoinThread(chatMessage);
+                break;
+
+
+            case ChatMessageType.ALL_UNREAD_MESSAGE_COUNT:
+                handleCountUnreadMessage(chatMessage);
+                break;
         }
     }
 
@@ -1295,17 +1304,22 @@ public class Chat extends AsyncAdapter {
 
     }
 
-    public String createThread(RequestCreatePublicGroupOrChannelThread requestCreateThread) {
+    public String createThread(RequestCreateThread requestCreateThread) {
         int threadType = requestCreateThread.getType();
-        Invitee[] invitee = (Invitee[]) requestCreateThread.getInvitees().toArray();
+        Invitee[] invitee = requestCreateThread.getInvitees().stream().toArray(Invitee[]::new);
         String threadTitle = requestCreateThread.getTitle();
         String description = requestCreateThread.getDescription();
         String image = requestCreateThread.getImage();
         String metadata = requestCreateThread.getMetadata();
         String typeCode = requestCreateThread.getTypeCode();
-        String uniqueName = requestCreateThread.getUniqueName();
 
-        return createThread(threadType, invitee, threadTitle, description, image, metadata, typeCode );
+        String uniqueName = null;
+
+        if (requestCreateThread instanceof RequestCreatePublicGroupOrChannelThread) {
+            uniqueName = ((RequestCreatePublicGroupOrChannelThread) requestCreateThread).getUniqueName();
+        }
+
+        return createThread(threadType, invitee, threadTitle, description, image, metadata, typeCode, uniqueName);
     }
 
     /**
@@ -1319,7 +1333,7 @@ public class Chat extends AsyncAdapter {
      * int CHANNEL = 8;
      */
     public String createThread(int threadType, Invitee[] invitee, String threadTitle, String description, String image
-            , String metadata, String typeCode) {
+            , String metadata, String typeCode, String uniqueName) {
 
         String uniqueId = generateUniqueId();
 
@@ -1330,6 +1344,10 @@ public class Chat extends AsyncAdapter {
             chatThread.setType(threadType);
             chatThread.setInvitees(invitees);
             chatThread.setTitle(threadTitle);
+
+            if (!Util.isNullOrEmpty(uniqueName)) {
+                chatThread.setUniqueName(uniqueName);
+            }
 
             JsonObject chatThreadObject = (JsonObject) gson.toJsonTree(chatThread);
 
@@ -1356,9 +1374,15 @@ public class Chat extends AsyncAdapter {
             }
             String contentThreadChat = chatThreadObject.toString();
 
-            ChatMessage chatMessage = getChatMessage(contentThreadChat, uniqueId, getTypeCode());
+            BaseMessage baseMessage = new BaseMessage();
+            baseMessage.setContent(contentThreadChat);
+            baseMessage.setType(ChatMessageType.INVITATION);
+            baseMessage.setToken(getToken());
+            baseMessage.setUniqueId(uniqueId);
+            baseMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
+            baseMessage.setTypeCode(!Util.isNullOrEmpty(typeCode) ? typeCode : getTypeCode());
 
-            sendAsyncMessage(gson.toJson(chatMessage), AsyncMessageType.MESSAGE, "SEND_CREATE_THREAD");
+            sendAsyncMessage(gson.toJson(baseMessage), AsyncMessageType.MESSAGE, "SEND_CREATE_THREAD");
 
         } else {
             getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
@@ -3765,8 +3789,12 @@ public class Chat extends AsyncAdapter {
         return uniqueId;
     }
 
-
-
+    /**
+     * Check whether selected name for public group or channel already exists or not
+     *
+     * @param requestIsNameAvailable
+     * @return
+     */
     public String isNameAvailable(RequestIsNameAvailable requestIsNameAvailable) {
         String uniqueId = generateUniqueId();
         try {
@@ -3778,10 +3806,82 @@ public class Chat extends AsyncAdapter {
                 baseMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
                 baseMessage.setContent(requestIsNameAvailable.getUniqueName());
                 baseMessage.setTypeCode(!Util.isNullOrEmpty(requestIsNameAvailable.getTypeCode()) ?
-                        requestIsNameAvailable.getTypeCode(): getTypeCode());
+                        requestIsNameAvailable.getTypeCode() : getTypeCode());
                 baseMessage.setUniqueId(uniqueId);
 
                 sendAsyncMessage(gson.toJson(baseMessage), AsyncMessageType.MESSAGE, "SEND_IS_NAME_AVAILABLE");
+
+            } else {
+                getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+            }
+
+        } catch (Exception e) {
+            showErrorLog(e.getCause().getMessage());
+        }
+
+        return uniqueId;
+    }
+
+    /**
+     * join to a public group or channel with its name
+     *
+     * @param requestJoinThread
+     * @return
+     */
+    public String joinThread(RequestJoinThread requestJoinThread) {
+        String uniqueId = generateUniqueId();
+        try {
+            if (chatReady) {
+
+                BaseMessage baseMessage = new BaseMessage();
+                baseMessage.setType(ChatMessageType.JOIN_THREAD);
+                baseMessage.setToken(getToken());
+                baseMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
+                baseMessage.setContent(requestJoinThread.getUniqueName());
+                baseMessage.setTypeCode(!Util.isNullOrEmpty(requestJoinThread.getTypeCode()) ?
+                        requestJoinThread.getTypeCode() : getTypeCode());
+                baseMessage.setUniqueId(uniqueId);
+
+                sendAsyncMessage(gson.toJson(baseMessage), AsyncMessageType.MESSAGE, "SEND_JOINT_THREAD");
+
+            } else {
+                getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
+            }
+
+        } catch (Exception e) {
+            showErrorLog(e.getCause().getMessage());
+        }
+
+        return uniqueId;
+    }
+
+    /**
+     * Count unread messages.
+     * If mute param is false , the result will be total count of all unread messages in unmuted threads.
+     *
+     * @param request
+     * @return
+     */
+
+    public String countUnreadMessage(RequestUnreadMessageCount request) {
+        String uniqueId = generateUniqueId();
+        try {
+            if (chatReady) {
+
+                BaseMessage baseMessage = new BaseMessage();
+                baseMessage.setType(ChatMessageType.ALL_UNREAD_MESSAGE_COUNT);
+                baseMessage.setToken(getToken());
+                baseMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
+                if (request.getMute() != null) {
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("mute", request.getMute());
+                    baseMessage.setContent(jsonObject.toString());
+                }
+                baseMessage.setTypeCode(!Util.isNullOrEmpty(request.getTypeCode()) ?
+                        request.getTypeCode() : getTypeCode());
+                baseMessage.setUniqueId(uniqueId);
+
+                sendAsyncMessage(gson.toJson(baseMessage), AsyncMessageType.MESSAGE, "SEND_ALL_UNREAD_MESSAGE_COUNT");
 
             } else {
                 getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);
@@ -4593,6 +4693,47 @@ public class Chat extends AsyncAdapter {
 
         showInfoLog("RECEIVE_IS_NAME_AVAILABLE", gson.toJson(response));
     }
+
+    private void handleJoinThread(ChatMessage chatMessage) {
+
+        ChatResponse<ResultThread> response = new ChatResponse<>();
+
+        Thread thread = gson.fromJson(chatMessage.getContent(), Thread.class);
+
+        ResultThread resultThread = new ResultThread();
+        resultThread.setThread(thread);
+
+        response.setResult(resultThread);
+        response.setUniqueId(chatMessage.getUniqueId());
+        response.setSubjectId(chatMessage.getSubjectId());
+
+
+        listenerManager.callOnJoinThread(response);
+
+        showInfoLog("RECEIVE_JOIN_THREAD", gson.toJson(response));
+    }
+
+
+    private void handleCountUnreadMessage(ChatMessage chatMessage) {
+
+        ChatResponse<ResultUnreadMessageCount> response = new ChatResponse<>();
+
+        Long unreadMessageCount = gson.fromJson(chatMessage.getContent(), Long.class);
+
+        ResultUnreadMessageCount resultUnreadMessageCount = new ResultUnreadMessageCount();
+        resultUnreadMessageCount.setCount(unreadMessageCount);
+
+
+        response.setResult(resultUnreadMessageCount);
+        response.setUniqueId(chatMessage.getUniqueId());
+        response.setSubjectId(chatMessage.getSubjectId());
+
+
+        listenerManager.callOnCountUnreadMessage(response);
+
+        showInfoLog("RECEIVE_ALL_UNREAD_MESSAGE_COUNT", gson.toJson(response));
+    }
+
     private void handleSetRole(ChatMessage chatMessage) {
         ChatResponse<ResultSetRole> chatResponse = new ChatResponse<>();
         ResultSetRole resultSetRole = new ResultSetRole();
@@ -4929,18 +5070,6 @@ public class Chat extends AsyncAdapter {
         }
     }
 
-    private ChatMessage getChatMessage(String contentThreadChat, String uniqueId, String typeCode) {
-        ChatMessage chatMessage = new ChatMessage();
-
-        chatMessage.setContent(contentThreadChat);
-        chatMessage.setType(ChatMessageType.INVITATION);
-        chatMessage.setToken(getToken());
-        chatMessage.setUniqueId(uniqueId);
-        chatMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
-        chatMessage.setTypeCode(!Util.isNullOrEmpty(typeCode) ? typeCode : getTypeCode());
-
-        return chatMessage;
-    }
 
     /**
      * Get the manager that manages registered listeners.

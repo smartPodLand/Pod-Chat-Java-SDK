@@ -194,4 +194,11 @@ public interface ChatListener {
 
     }
 
+    default void onJoinThread(ChatResponse<ResultThread> response) {
+
+    }
+
+    default void onCountUnreadMessage(ChatResponse<ResultUnreadMessageCount> response) {
+
+    }
 }
