@@ -23,13 +23,16 @@ public class RetrofitHelperPlatformHost {
                     .registerTypeAdapter(Date.class, new MyDateTypeAdapter())
                     .create();
 
+//            HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+//            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
             OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
                     .retryOnConnectionFailure(true)
                     .connectTimeout(5, TimeUnit.MINUTES)
                     .writeTimeout(5, TimeUnit.MINUTES)
                     .readTimeout(5, TimeUnit.MINUTES)
 //                    .connectionPool(new ConnectionPool(5, 5, TimeUnit.MINUTES))
-//                    .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                    .addInterceptor(new HttpLoggingInterceptor())
                     .build();
 
             retrofit = new Retrofit.Builder()

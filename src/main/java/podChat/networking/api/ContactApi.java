@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public interface ContactApi {
 
-    @POST("/srv/basic-platform/nzh/addContacts")
+    @POST("nzh/addContacts")
     @FormUrlEncoded
     Call<Contacts> addContact(@Header("_token_") String token
             , @Header("_token_issuer_") int tokenIssuer
@@ -27,7 +27,7 @@ public interface ContactApi {
 
     /* addContact Without type code */
 
-    @POST("/srv/basic-platform/nzh/addContacts")
+    @POST("nzh/addContacts")
     @FormUrlEncoded
     Call<Contacts> addContact(@Header("_token_") String token
             , @Header("_token_issuer_") int tokenIssuer
@@ -66,14 +66,14 @@ public interface ContactApi {
     );
 
 
-    @POST("/srv/basic-platform/nzh/removeContacts")
+    @POST("nzh/removeContacts")
     @FormUrlEncoded
     Call<ContactRemove> removeContact(@Header("_token_") String token
             , @Header("_token_issuer_") int tokenIssuer
             , @Field("id") long userId);
 
 
-    @POST("/srv/basic-platform/nzh/removeContacts")
+    @POST("nzh/removeContacts")
     @FormUrlEncoded
     Call<ContactRemove> removeContact(@Header("_token_") String token
             , @Header("_token_issuer_") int tokenIssuer
@@ -82,7 +82,7 @@ public interface ContactApi {
     );
 
     /* Update contact without type code*/
-    @POST("/srv/basic-platform/nzh/updateContacts")
+    @POST("nzh/updateContacts")
     @FormUrlEncoded
     Call<UpdateContact> updateContact(@Header("_token_") String token
             , @Header("_token_issuer_") int tokenIssuer
@@ -95,7 +95,7 @@ public interface ContactApi {
 
 
     /* Update contact with type code*/
-    @POST("/srv/basic-platform/nzh/updateContacts")
+    @POST("nzh/updateContacts")
     @FormUrlEncoded
     Call<UpdateContact> updateContact(@Header("_token_") String token
             , @Header("_token_issuer_") int tokenIssuer
@@ -107,7 +107,7 @@ public interface ContactApi {
             , @Field("cellphoneNumber") String cellphoneNumber
             , @Field("typeCode") String typeCode);
 
-    @GET("/srv/basic-platform/nzh/listContacts")
+    @GET("nzh/listContacts")
     Call<SearchContactVO> searchContact(@Header("_token_") String token
             , @Header("_token_issuer_") int tokenIssuer
             , @Query("id") String id

@@ -3248,12 +3248,14 @@ public class Chat extends AsyncAdapter {
                 baseMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
                 baseMessage.setSubjectId(requestPinMessage.getMessageId());
                 baseMessage.setTypeCode(!Util.isNullOrEmpty(requestPinMessage.getTypeCode()) ? requestPinMessage.getTypeCode() : getTypeCode());
-
-                PinMessage pinMessage = new PinMessage();
-                pinMessage.setNotifyAll(requestPinMessage.getNotifyAll());
-
-                baseMessage.setContent(gson.toJson(pinMessage));
                 baseMessage.setUniqueId(uniqueId);
+
+                if (requestPinMessage.getNotifyAll() != null) {
+                    PinMessage pinMessage = new PinMessage();
+                    pinMessage.setNotifyAll(requestPinMessage.getNotifyAll());
+
+                    baseMessage.setContent(gson.toJson(pinMessage));
+                }
 
 
                 sendAsyncMessage(gson.toJson(baseMessage), AsyncMessageType.MESSAGE, "SEND_PIN_MESSAGE");
@@ -4895,24 +4897,15 @@ public class Chat extends AsyncAdapter {
             jObj.remove("count");
             jObj.addProperty("size", count);
 
-            ChatMessage chatMessage = new ChatMessage();
-            chatMessage.setContent(jObj.toString());
-            chatMessage.setType(ChatMessageType.GET_CONTACTS);
-            chatMessage.setToken(getToken());
-            chatMessage.setUniqueId(uniqueId);
-            chatMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
-            chatMessage.setTypeCode(!Util.isNullOrEmpty(typeCode) ? typeCode : getTypeCode());
+            BaseMessage baseMessage = new BaseMessage();
+            baseMessage.setContent(jObj.toString());
+            baseMessage.setType(ChatMessageType.GET_CONTACTS);
+            baseMessage.setToken(getToken());
+            baseMessage.setUniqueId(uniqueId);
+            baseMessage.setTokenIssuer(Integer.toString(TOKEN_ISSUER));
+            baseMessage.setTypeCode(!Util.isNullOrEmpty(typeCode) ? typeCode : getTypeCode());
 
-            JsonObject jsonObject = (JsonObject) gson.toJsonTree(chatMessage);
-            jsonObject.remove("contentCount");
-            jsonObject.remove("systemMetadata");
-            jsonObject.remove("metadata");
-            jsonObject.remove("repliedTo");
-            jsonObject.remove("subjectId");
-
-            String asyncContent = jsonObject.toString();
-
-            sendAsyncMessage(asyncContent, AsyncMessageType.MESSAGE, "GET_CONTACT_SEND");
+            sendAsyncMessage(gson.toJson(baseMessage), AsyncMessageType.MESSAGE, "GET_CONTACT_SEND");
 
         } else {
             getErrorOutPut(ChatConstant.ERROR_CHAT_READY, ChatConstant.ERROR_CODE_CHAT_READY, uniqueId);

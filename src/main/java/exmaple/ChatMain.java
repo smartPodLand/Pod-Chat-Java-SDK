@@ -37,9 +37,12 @@ public class ChatMain implements ChatContract.view {
 //    public static String queuePassword = "zalzalak";
 //    public static Long chatId = 4101L;
 
+
     public static String platformHost = "http://172.16.110.235:8003/srv/bptest-core/";
-//    public static String token = "3c4d62b6068043aa898cf7426d5cae68";
-    public static String token = "bebc31c4ead6458c90b607496dae25c6";
+//    public static String token = "3c4d62b6068043aa898cf7426d5cae68"; //jiji
+    public static String token = "bebc31c4ead6458c90b607496dae25c6"; //alexi
+//    public static String token = "3c4d62b6068043aa898cf7426d5cae68"; //fifi
+//    public static String token = "f19933ae1b1e424db9965a243bf3bcd3"; //zizi
     public static String ssoHost = "http://172.16.110.76";
     public static String fileServer = "http://172.16.110.76:8080";
     public static String serverName = "chatlocal";
@@ -110,6 +113,8 @@ public class ChatMain implements ChatContract.view {
 //            createPublicGroupOrChannelThread();
 //            isNameAvailable();
 
+//            joinThread();
+
 //            leaveThread();
 //            replyMessage();
 //            replyFileMessage(); /// check it
@@ -176,7 +181,7 @@ public class ChatMain implements ChatContract.view {
 //            setAuditorRole();
 //            getParticipant();
 
-//            pinMessage();
+            pinMessage();
 //            Thread.sleep(2000);
 //            getThreads();
             Thread.sleep(2000);
@@ -193,7 +198,7 @@ public class ChatMain implements ChatContract.view {
 //            sendFileMessage();
 
 
-            countUnreadMessage();
+//            countUnreadMessage();
         } catch (ConnectionException | InterruptedException e) {
             System.out.println(e);
         }
@@ -335,7 +340,7 @@ public class ChatMain implements ChatContract.view {
     void addContact() {
         RequestAddContact requestAddContact = new RequestAddContact
                 .Builder()
-                .cellphoneNumber("09148401824")
+                .cellphoneNumber("09151242904")
                 .lastName("فاطمه")
                 .firstName("خجسته")
                 .build();
@@ -580,7 +585,7 @@ public class ChatMain implements ChatContract.view {
      */
     private void sendMessage() {
         RequestMessage requestThread = new RequestMessage
-                .Builder("hi", 7129, TextMessageType.TEXT)
+                .Builder("hi", 7149, TextMessageType.TEXT)
                 .build();
 
         chatController.sendTextMessage(requestThread);
@@ -683,14 +688,14 @@ public class ChatMain implements ChatContract.view {
     private void createPublicGroupOrChannelThread() {
         Invitee[] invitees = new Invitee[1];
         Invitee invitee = new Invitee();
-        invitee.setIdType(InviteType.TO_BE_USER_CELLPHONE_NUMBER);
-        invitee.setId("09148401824");
+        invitee.setIdType(InviteType.TO_BE_USER_CONTACT_ID);
+        invitee.setId("578");
         invitees[0] = invitee;
 
         RequestCreatePublicGroupOrChannelThread requestCreateThread = new RequestCreatePublicGroupOrChannelThread
                 .Builder(ThreadType.PUBLIC_GROUP, new ArrayList<Invitee>() {{
             add(invitee);
-        }}, "test")
+        }}, "jiThread")
                 .build();
 
         chatController.createThread(requestCreateThread);
@@ -753,6 +758,14 @@ public class ChatMain implements ChatContract.view {
         chatController.countUnreadMessage(requestMuteThread);
     }
 
+    private void joinThread(){
+        RequestJoinThread requestJoinThread = new RequestJoinThread
+                .Builder("jiThread")
+                .build();
+
+        chatController.joinThead(requestJoinThread);
+    }
+
     /**
      * spam thread
      */
@@ -798,7 +811,7 @@ public class ChatMain implements ChatContract.view {
 
     private void pinMessage() {
         RequestPinMessage requestPinMessage = new RequestPinMessage
-                .Builder(88287L)
+                .Builder(89288L)
                 .build();
 
         chatController.pinMessage(requestPinMessage);
