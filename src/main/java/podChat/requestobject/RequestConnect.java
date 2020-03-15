@@ -1,9 +1,10 @@
 package podChat.requestobject;
 
 
+import java.util.List;
+
 public class RequestConnect extends BaseRequestObject {
-    private String queueServer;
-    private String queuePort;
+    private List<String> socketAddresses;
     private String queueInput;
     private String queueOutput;
     private String queueUserName;
@@ -18,8 +19,7 @@ public class RequestConnect extends BaseRequestObject {
 
     public RequestConnect(Builder builder) {
         super(builder);
-        this.queueServer = builder.queueServer;
-        this.queuePort = builder.queuePort;
+        this.socketAddresses = builder.socketAddresses;
         this.queueInput = builder.queueInput;
         this.queueOutput = builder.queueOutput;
         this.queueUserName = builder.queueUserName;
@@ -32,20 +32,13 @@ public class RequestConnect extends BaseRequestObject {
         this.chatId = builder.chatId;
     }
 
-    public String getQueueServer() {
-        return queueServer;
+
+    public List<String> getSocketAddresses() {
+        return socketAddresses;
     }
 
-    public void setQueueServer(String queueServer) {
-        this.queueServer = queueServer;
-    }
-
-    public String getQueuePort() {
-        return queuePort;
-    }
-
-    public void setQueuePort(String queuePort) {
-        this.queuePort = queuePort;
+    public void setSocketAddresses(List<String> socketAddresses) {
+        this.socketAddresses = socketAddresses;
     }
 
     public String getQueueInput() {
@@ -129,8 +122,7 @@ public class RequestConnect extends BaseRequestObject {
     }
 
     public static class Builder extends BaseRequestObject.Builder<Builder> {
-        private String queueServer;
-        private String queuePort;
+        private List<String> socketAddresses;
         private String queueInput;
         private String queueOutput;
         private String queueUserName;
@@ -144,14 +136,12 @@ public class RequestConnect extends BaseRequestObject {
         private Long chatId;
 
 
-        public Builder(String queueServer, String queuePort, String queueInput, String queueOutput,
+        public Builder(List<String> socketAddresses, String queueInput, String queueOutput,
                        String queueUserName, String queuePassword, String severName, String token,
                        String ssoHost, String platformHost, String fileServer, Long chatId) {
-            this.queueServer = queueServer;
-            this.queuePort = queuePort;
             this.queueInput = queueInput;
             this.queueOutput = queueOutput;
-            this.queuePort = queuePort;
+            this.socketAddresses = socketAddresses;
             this.queueUserName = queueUserName;
             this.queuePassword = queuePassword;
             this.fileServer = fileServer;

@@ -9,8 +9,7 @@ public class Constant {
     public static String ssoHost = "https://accounts.pod.ir";
     public static String fileServer = "https://core.pod.ir";
     public static String serverName = "chat-server";
-    public static String queueServer = "***";
-    public static String queuePort = "***";
+    public static String socketAddress = "***";
     public static String queueInput = "**";
     public static String queueOutput = "****";
     public static String queueUserName = "****";

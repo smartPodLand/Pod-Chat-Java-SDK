@@ -7,6 +7,8 @@ import podChat.model.ChatResponse;
 import podChat.requestobject.RequestConnect;
 import podChat.requestobject.RequestPinThread;
 
+import java.util.ArrayList;
+
 /**
  * Created By Khojasteh on 8/6/2019
  */
@@ -33,8 +35,9 @@ class PinUnPinThread implements ChatContract.view {
             chatController = new ChatController(chatContract);
 
             RequestConnect requestConnect = new RequestConnect
-                    .Builder(Constant.queueServer,
-                    Constant.queuePort,
+                    .Builder(new ArrayList<String>() {{
+                add(Constant.socketAddress);
+            }},
                     Constant.queueInput,
                     Constant.queueOutput,
                     Constant.queueUserName,

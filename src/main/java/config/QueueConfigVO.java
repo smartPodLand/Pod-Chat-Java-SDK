@@ -1,11 +1,13 @@
 package config;
 
+import java.util.List;
+
 /**
  * Created By Khojasteh on 8/24/2019
  */
 public class QueueConfigVO {
 
-    private String queueServer;
+    private List<String> socketAddresses;
     private String queuePort;
     private String queueInput;
     private String queueOutput;
@@ -13,9 +15,8 @@ public class QueueConfigVO {
     private String queuePassword;
     private int queueReconnectTime;
 
-    public QueueConfigVO(String queueServer, String queuePort, String queueInput, String queueOutput, String queueUserName, String queuePassword) {
-        this.queueServer = queueServer;
-        this.queuePort = queuePort;
+    public QueueConfigVO(List<String> socketAddresses, String queueInput, String queueOutput, String queueUserName, String queuePassword) {
+        this.socketAddresses = socketAddresses;
         this.queueInput = queueInput;
         this.queueOutput = queueOutput;
         this.queueUserName = queueUserName;
@@ -39,13 +40,6 @@ public class QueueConfigVO {
         this.queueOutput = queueOutput;
     }
 
-    public String getQueueServer() {
-        return queueServer;
-    }
-
-    public void setQueueServer(String queueServer) {
-        this.queueServer = queueServer;
-    }
 
     public String getQueuePort() {
         return queuePort;
@@ -79,4 +73,11 @@ public class QueueConfigVO {
         this.queueReconnectTime = queueReconnectTime;
     }
 
+    public List<String> getSocketAddresses() {
+        return socketAddresses;
+    }
+
+    public void setSocketAddresses(List<String> socketAddresses) {
+        this.socketAddresses = socketAddresses;
+    }
 }

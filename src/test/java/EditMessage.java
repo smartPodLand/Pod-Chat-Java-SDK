@@ -9,6 +9,7 @@ import podChat.model.ErrorOutPut;
 import podChat.requestobject.RequestConnect;
 import podChat.requestobject.RequestEditMessage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,8 +39,9 @@ public class EditMessage implements ChatContract.view {
             chatController = new ChatController(chatContract);
 
             RequestConnect requestConnect = new RequestConnect
-                    .Builder(Constant.queueServer,
-                    Constant.queuePort,
+                    .Builder(new ArrayList<String>() {{
+                add(Constant.socketAddress);
+            }},
                     Constant.queueInput,
                     Constant.queueOutput,
                     Constant.queueUserName,

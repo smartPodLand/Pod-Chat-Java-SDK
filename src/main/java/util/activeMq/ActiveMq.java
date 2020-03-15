@@ -13,7 +13,9 @@ import javax.jms.*;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.IllegalStateException;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 
 /**
@@ -53,10 +55,8 @@ public class ActiveMq {
                 queueConfigVO.getQueueUserName(),
                 queueConfigVO.getQueuePassword(),
                 new StringBuilder()
-                        .append("failover:(tcp://")
-                        .append(queueConfigVO.getQueueServer())
-                        .append(":")
-                        .append(queueConfigVO.getQueuePort())
+                        .append("failover:(")
+                        .append(getSocketAddress(queueConfigVO.getSocketAddresses()))
                         .append(")?jms.useAsyncSend=true")
                         .append("&jms.sendTimeout=").append(queueConfigVO.getQueueReconnectTime())
                         .toString());
@@ -260,5 +260,9 @@ public class ActiveMq {
 
     private void showErrorLog(Throwable throwable) {
         if (Chat.isLoggable) logger.error("\n \n" + throwable.getMessage());
+    }
+
+    private String getSocketAddress(List<String> socketAddresses) {
+        return String.join(",", socketAddresses.stream().map(s -> "tcp://" + s).collect(Collectors.toList()));
     }
 }

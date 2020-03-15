@@ -8,6 +8,8 @@ import podChat.model.ChatResponse;
 import podChat.requestobject.RequestConnect;
 import podChat.requestobject.RequestGetMentionedList;
 
+import java.util.ArrayList;
+
 /**
  * Created By Khojasteh on 8/6/2019
  */
@@ -33,8 +35,9 @@ public class GetMentionedList implements ChatContract.view {
             chatController = new ChatController(chatContract);
 
             RequestConnect requestConnect = new RequestConnect
-                    .Builder(Constant.queueServer,
-                    Constant.queuePort,
+                    .Builder(new ArrayList<String>() {{
+                add(Constant.socketAddress);
+            }},
                     Constant.queueInput,
                     Constant.queueOutput,
                     Constant.queueUserName,

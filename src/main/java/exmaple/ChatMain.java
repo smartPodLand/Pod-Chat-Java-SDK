@@ -39,15 +39,14 @@ public class ChatMain implements ChatContract.view {
 
 
     public static String platformHost = "http://172.16.110.235:8003/srv/bptest-core/";
-//    public static String token = "3c4d62b6068043aa898cf7426d5cae68"; //jiji
+    //    public static String token = "3c4d62b6068043aa898cf7426d5cae68"; //jiji
     public static String token = "bebc31c4ead6458c90b607496dae25c6"; //alexi
-//    public static String token = "3c4d62b6068043aa898cf7426d5cae68"; //fifi
+    //    public static String token = "3c4d62b6068043aa898cf7426d5cae68"; //fifi
 //    public static String token = "f19933ae1b1e424db9965a243bf3bcd3"; //zizi
     public static String ssoHost = "http://172.16.110.76";
     public static String fileServer = "http://172.16.110.76:8080";
     public static String serverName = "chatlocal";
-    public static String queueServer = "192.168.112.23";
-    public static String queuePort = "61616";
+    public static String socketAddress = "192.168.112.23:61616";
     public static String queueInput = "queue-in-integration";
     public static String queueOutput = "queue-out-integration";
     public static String queueUserName = "root";
@@ -64,8 +63,9 @@ public class ChatMain implements ChatContract.view {
         try {
 
             RequestConnect requestConnect = new RequestConnect
-                    .Builder(queueServer,
-                    queuePort,
+                    .Builder(new ArrayList<String>() {{
+                add(socketAddress);
+            }},
                     queueInput,
                     queueOutput,
                     queueUserName,
@@ -110,7 +110,7 @@ public class ChatMain implements ChatContract.view {
 //chatController.getUserInfo();
 //            createThreadWithMessage();
 //            createThreadWithFileMessage();
-//            createPublicGroupOrChannelThread();
+            createPublicGroupOrChannelThread();
 //            isNameAvailable();
 
 //            joinThread();
@@ -758,7 +758,7 @@ public class ChatMain implements ChatContract.view {
         chatController.countUnreadMessage(requestMuteThread);
     }
 
-    private void joinThread(){
+    private void joinThread() {
         RequestJoinThread requestJoinThread = new RequestJoinThread
                 .Builder("jiThread")
                 .build();

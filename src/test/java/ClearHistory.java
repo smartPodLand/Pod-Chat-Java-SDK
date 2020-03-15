@@ -9,6 +9,7 @@ import podChat.model.ErrorOutPut;
 import podChat.requestobject.RequestClearHistory;
 import podChat.requestobject.RequestConnect;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,8 +39,9 @@ public class ClearHistory implements ChatContract.view {
             chatController = new ChatController(chatContract);
 
             RequestConnect requestConnect = new RequestConnect
-                    .Builder(Constant.queueServer,
-                    Constant.queuePort,
+                    .Builder(new ArrayList<String>() {{
+                add(Constant.socketAddress);
+            }},
                     Constant.queueInput,
                     Constant.queueOutput,
                     Constant.queueUserName,

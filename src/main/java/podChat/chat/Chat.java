@@ -293,7 +293,7 @@ public class Chat extends AsyncAdapter {
                 setTypeCode(typeCode);
 
             setFileServer(requestConnect.getFileServer());
-            this.queueConfigVO = new QueueConfigVO(requestConnect.getQueueServer(), requestConnect.getQueuePort(), requestConnect.getQueueInput(), requestConnect.getQueueOutput(), requestConnect.getQueueUserName(), requestConnect.getQueuePassword());
+            this.queueConfigVO = new QueueConfigVO(requestConnect.getSocketAddresses(), requestConnect.getQueueInput(), requestConnect.getQueueOutput(), requestConnect.getQueueUserName(), requestConnect.getQueuePassword());
 
             contactApi = RetrofitHelperPlatformHost.getInstance(getPlatformHost()).create(ContactApi.class);
 
