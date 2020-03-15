@@ -58,6 +58,7 @@ public class ActiveMq {
                         .append("failover:(")
                         .append(getSocketAddress(queueConfigVO.getSocketAddresses()))
                         .append(")?jms.useAsyncSend=true")
+                        .append("&randomize=true")
                         .append("&jms.sendTimeout=").append(queueConfigVO.getQueueReconnectTime())
                         .toString());
 
