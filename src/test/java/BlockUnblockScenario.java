@@ -44,7 +44,7 @@ public class BlockUnblockScenario implements ChatContract.view {
 
             RequestConnect requestConnect = new RequestConnect
                     .Builder(new ArrayList<String>() {{
-                add(Constant.socketAddress);
+                add(Constant.uris);
             }},
                     Constant.queueInput,
                     Constant.queueOutput,

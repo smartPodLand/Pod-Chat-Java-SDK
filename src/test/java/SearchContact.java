@@ -7,8 +7,6 @@ import org.mockito.*;
 import podChat.mainmodel.RequestSearchContact;
 import podChat.model.ChatResponse;
 import podChat.requestobject.RequestConnect;
-import podChat.requestobject.RequestUploadFile;
-import podChat.requestobject.RequestUploadImage;
 
 import java.util.ArrayList;
 
@@ -40,7 +38,7 @@ public class SearchContact implements ChatContract.view {
 
             RequestConnect requestConnect = new RequestConnect
                     .Builder(new ArrayList<String>() {{
-                add(Constant.socketAddress);
+                add(Constant.uris);
             }},
                     Constant.queueInput,
                     Constant.queueOutput,

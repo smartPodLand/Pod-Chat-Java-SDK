@@ -262,7 +262,7 @@ public class Chat extends AsyncAdapter {
     }
 
     /**
-     * @param requestConnect socketAddress        {**REQUIRED**}  Address of the socket
+     * @param requestConnect uris        {**REQUIRED**}  Address of the socket
      *                       platformHost         {**REQUIRED**}  Address of the platform host
      *                       token                {**REQUIRED**}  Token for Authentication
      *                       fileServer           {**REQUIRED**}  Address of the file server

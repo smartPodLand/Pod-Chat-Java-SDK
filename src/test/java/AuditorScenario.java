@@ -5,7 +5,6 @@ import org.junit.jupiter.api.*;
 import org.mockito.*;
 import podChat.model.ChatResponse;
 import podChat.requestobject.*;
-import podChat.util.RoleOperation;
 import podChat.util.RoleType;
 
 import java.util.ArrayList;
@@ -38,7 +37,7 @@ public class AuditorScenario implements ChatContract.view {
 
             RequestConnect requestConnect = new RequestConnect
                     .Builder(new ArrayList<String>() {{
-                add(Constant.socketAddress);
+                add(Constant.uris);
             }},
                     Constant.queueInput,
                     Constant.queueOutput,

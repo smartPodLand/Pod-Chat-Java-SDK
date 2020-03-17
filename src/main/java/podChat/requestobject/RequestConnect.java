@@ -19,7 +19,7 @@ public class RequestConnect extends BaseRequestObject {
 
     public RequestConnect(Builder builder) {
         super(builder);
-        this.uris = builder.socketAddresses;
+        this.uris = builder.uris;
         this.queueInput = builder.queueInput;
         this.queueOutput = builder.queueOutput;
         this.queueUserName = builder.queueUserName;
@@ -122,7 +122,7 @@ public class RequestConnect extends BaseRequestObject {
     }
 
     public static class Builder extends BaseRequestObject.Builder<Builder> {
-        private List<String> socketAddresses;
+        private List<String> uris;
         private String queueInput;
         private String queueOutput;
         private String queueUserName;
@@ -136,12 +136,12 @@ public class RequestConnect extends BaseRequestObject {
         private Long chatId;
 
 
-        public Builder(List<String> socketAddresses, String queueInput, String queueOutput,
+        public Builder(List<String> uris, String queueInput, String queueOutput,
                        String queueUserName, String queuePassword, String severName, String token,
                        String ssoHost, String platformHost, String fileServer, Long chatId) {
             this.queueInput = queueInput;
             this.queueOutput = queueOutput;
-            this.socketAddresses = socketAddresses;
+            this.uris = uris;
             this.queueUserName = queueUserName;
             this.queuePassword = queuePassword;
             this.fileServer = fileServer;

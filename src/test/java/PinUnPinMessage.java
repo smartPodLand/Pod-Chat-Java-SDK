@@ -6,8 +6,6 @@ import org.mockito.*;
 import podChat.model.ChatResponse;
 import podChat.requestobject.RequestConnect;
 import podChat.requestobject.RequestPinMessage;
-import podChat.requestobject.RequestPinThread;
-import sun.misc.Request;
 
 import java.util.ArrayList;
 
@@ -38,7 +36,7 @@ class PinUnPinMessage implements ChatContract.view {
 
             RequestConnect requestConnect = new RequestConnect
                     .Builder(new ArrayList<String>() {{
-                add(Constant.socketAddress);
+                add(Constant.uris);
             }},
                     Constant.queueInput,
                     Constant.queueOutput,

@@ -1,5 +1,4 @@
 import Constant.Constant;
-import com.google.gson.Gson;
 import exception.ConnectionException;
 import exmaple.ChatContract;
 import org.junit.jupiter.api.*;
@@ -36,7 +35,7 @@ public class GetMentionedList implements ChatContract.view {
 
             RequestConnect requestConnect = new RequestConnect
                     .Builder(new ArrayList<String>() {{
-                add(Constant.socketAddress);
+                add(Constant.uris);
             }},
                     Constant.queueInput,
                     Constant.queueOutput,

@@ -263,7 +263,7 @@ public class ActiveMq {
         if (Chat.isLoggable) logger.error("\n \n" + throwable.getMessage());
     }
 
-    private String getSocketAddress(List<String> socketAddresses) {
-        return String.join(",", socketAddresses.stream().map(s -> "tcp://" + s).collect(Collectors.toList()));
+    private String getSocketAddress(List<String> uris) {
+        return String.join(",", uris.stream().map(s -> "tcp://" + s).collect(Collectors.toList()));
     }
 }
