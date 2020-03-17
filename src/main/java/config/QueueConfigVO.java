@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class QueueConfigVO {
 
-    private List<String> socketAddresses;
+    private List<String> uris;
     private String queuePort;
     private String queueInput;
     private String queueOutput;
@@ -15,8 +15,8 @@ public class QueueConfigVO {
     private String queuePassword;
     private int queueReconnectTime;
 
-    public QueueConfigVO(List<String> socketAddresses, String queueInput, String queueOutput, String queueUserName, String queuePassword) {
-        this.socketAddresses = socketAddresses;
+    public QueueConfigVO(List<String> uris, String queueInput, String queueOutput, String queueUserName, String queuePassword) {
+        this.uris = uris;
         this.queueInput = queueInput;
         this.queueOutput = queueOutput;
         this.queueUserName = queueUserName;
@@ -73,11 +73,11 @@ public class QueueConfigVO {
         this.queueReconnectTime = queueReconnectTime;
     }
 
-    public List<String> getSocketAddresses() {
-        return socketAddresses;
+    public List<String> getUris() {
+        return uris;
     }
 
-    public void setSocketAddresses(List<String> socketAddresses) {
-        this.socketAddresses = socketAddresses;
+    public void setUris(List<String> uris) {
+        this.uris = uris;
     }
 }

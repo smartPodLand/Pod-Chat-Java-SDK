@@ -4,7 +4,7 @@ package podChat.requestobject;
 import java.util.List;
 
 public class RequestConnect extends BaseRequestObject {
-    private List<String> socketAddresses;
+    private List<String> uris;
     private String queueInput;
     private String queueOutput;
     private String queueUserName;
@@ -19,7 +19,7 @@ public class RequestConnect extends BaseRequestObject {
 
     public RequestConnect(Builder builder) {
         super(builder);
-        this.socketAddresses = builder.socketAddresses;
+        this.uris = builder.socketAddresses;
         this.queueInput = builder.queueInput;
         this.queueOutput = builder.queueOutput;
         this.queueUserName = builder.queueUserName;
@@ -33,12 +33,12 @@ public class RequestConnect extends BaseRequestObject {
     }
 
 
-    public List<String> getSocketAddresses() {
-        return socketAddresses;
+    public List<String> getUris() {
+        return uris;
     }
 
-    public void setSocketAddresses(List<String> socketAddresses) {
-        this.socketAddresses = socketAddresses;
+    public void setUris(List<String> uris) {
+        this.uris = uris;
     }
 
     public String getQueueInput() {
