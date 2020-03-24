@@ -45,7 +45,7 @@ public class ChatMain implements ChatContract.view {
     public static String ssoHost = "http://172.16.110.76";
     public static String fileServer = "http://172.16.110.76:8080";
     public static String serverName = "chatlocal";
-    public static String uris = "192.168.112.23:61616";
+    public static String uri = "192.168.112.23:61616";
     public static String queueInput = "queue-in-integration";
     public static String queueOutput = "queue-out-integration";
     public static String queueUserName = "root";
@@ -63,7 +63,7 @@ public class ChatMain implements ChatContract.view {
 
             RequestConnect requestConnect = new RequestConnect
                     .Builder(new ArrayList<String>() {{
-                add(uris);
+                add(uri);
             }},
                     queueInput,
                     queueOutput,
