@@ -102,14 +102,14 @@ public class ChatMain implements ChatContract.view {
 //            editMessage();
 //            forwardMessage();
 
-//            addParticipant();
+            addParticipant();
 //            removeParticipant();
 //            Thread.sleep(2000);
 //            getParticipant();
 //chatController.getUserInfo();
 //            createThreadWithMessage();
 //            createThreadWithFileMessage();
-            createPublicGroupOrChannelThread();
+//            createPublicGroupOrChannelThread();
 //            isNameAvailable();
 
 //            joinThread();
@@ -180,7 +180,7 @@ public class ChatMain implements ChatContract.view {
 //            setAuditorRole();
 //            getParticipant();
 
-            pinMessage();
+//            pinMessage();
 //            Thread.sleep(2000);
 //            getThreads();
             Thread.sleep(2000);
@@ -694,7 +694,7 @@ public class ChatMain implements ChatContract.view {
         RequestCreatePublicGroupOrChannelThread requestCreateThread = new RequestCreatePublicGroupOrChannelThread
                 .Builder(ThreadType.PUBLIC_GROUP, new ArrayList<Invitee>() {{
             add(invitee);
-        }}, "jiThread")
+        }}, "jijiThread")
                 .build();
 
         chatController.createThread(requestCreateThread);
@@ -855,7 +855,7 @@ public class ChatMain implements ChatContract.view {
      */
     private void getParticipant() {
         RequestThreadParticipant threadParticipant = new RequestThreadParticipant
-                .Builder(6630)
+                .Builder(7308)
                 .build();
 
         chatController.getThreadParticipant(threadParticipant);
@@ -867,8 +867,8 @@ public class ChatMain implements ChatContract.view {
     private void addParticipant() {
         RequestAddParticipants addParticipants = RequestAddParticipants
                 .newBuilder()
-                .threadId(6630L)
-                .withUsername("fkheirkhah")
+                .threadId(7308L)
+                .withCoreUserIds(1507L,1556L)
                 .build();
 
         chatController.addParticipants(addParticipants);

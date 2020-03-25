@@ -9,12 +9,14 @@ public class RequestAddParticipants extends GeneralRequestObject {
     private long threadId;
     private List<Long> contactIds;
     private List<String> userNames;
+    private List<Long> coreUserIds;
 
     RequestAddParticipants(Builder builder) {
         super(builder);
         this.contactIds = builder.contactIds;
         this.threadId = builder.threadId;
         this.userNames = builder.userNames;
+        this.coreUserIds = builder.coreUserIds;
     }
 
     public RequestAddParticipants() {
@@ -49,6 +51,13 @@ public class RequestAddParticipants extends GeneralRequestObject {
         this.userNames = userNames;
     }
 
+    public List<Long> getCoreUserIds() {
+        return coreUserIds;
+    }
+
+    public void setCoreUserIds(List<Long> coreUserIds) {
+        this.coreUserIds = coreUserIds;
+    }
 
     public static interface ThreadIdStep {
 
@@ -71,6 +80,13 @@ public class RequestAddParticipants extends GeneralRequestObject {
 
         BuildStep withContactIds(List<Long> contactIds);
 
+        BuildStep withCoreUserId(Long coreUserId);
+
+        BuildStep withCoreUserIds(Long... coreUserIds);
+
+        BuildStep withCoreUserIds(List<Long> coreUserIds);
+
+
     }
 
 
@@ -86,6 +102,7 @@ public class RequestAddParticipants extends GeneralRequestObject {
         private long threadId;
         private List<Long> contactIds;
         private List<String> userNames;
+        private List<Long> coreUserIds;
 
         @Deprecated
         public Builder(long threadId, List<Long> contactIds) {
@@ -116,6 +133,7 @@ public class RequestAddParticipants extends GeneralRequestObject {
         private long threadId;
         private List<Long> contactIds;
         private List<String> userNames;
+        private List<Long> coreUserIds;
 
 
         @Override
@@ -157,16 +175,38 @@ public class RequestAddParticipants extends GeneralRequestObject {
         }
 
         @Override
+        public BuildStep withCoreUserId(Long coreUserId) {
+            coreUserIds = new ArrayList<>();
+            this.coreUserIds.add(coreUserId);
+            return this;
+        }
+
+        @Override
+        public BuildStep withCoreUserIds(Long... coreUserIds) {
+            this.coreUserIds = Arrays.asList(coreUserIds);
+            return this;
+        }
+
+        @Override
+        public BuildStep withCoreUserIds(List<Long> coreUserIds) {
+            this.coreUserIds = coreUserIds;
+            return this;
+        }
+
+        @Override
         public RequestAddParticipants build() {
 
             RequestAddParticipants request = new RequestAddParticipants();
 
             request.setThreadId(threadId);
 
-
-            if (contactIds != null)
+            if (contactIds != null) {
                 request.setContactIds(contactIds);
-            else request.setUserNames(userNames);
+            } else if (userNames != null) {
+                request.setUserNames(userNames);
+            } else if (coreUserIds != null) {
+                request.setCoreUserIds(coreUserIds);
+            }
 
             return request;
         }

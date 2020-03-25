@@ -88,6 +88,30 @@ public class AddParticipant implements ChatContract.view {
 
     }
 
+    @Test
+    @Order(2)
+    void addParticipantWithCoreUserId() throws InterruptedException {
+
+        RequestAddParticipants addParticipants = RequestAddParticipants
+                .newBuilder()
+                .threadId(7308L)
+                .withCoreUserIds(1507L,1556L)
+                .build();
+
+        chatController.addParticipants(addParticipants);
+
+        Thread.sleep(5000);
+
+        ArgumentCaptor<ChatResponse> argument = ArgumentCaptor.forClass(ChatResponse.class);
+        Mockito.verify(chatContract, Mockito.times(1)).onAddParticipant(argument.capture());
+
+        List<ChatResponse> sentMessage = argument.getAllValues();
+
+        Assertions.assertTrue(!sentMessage.isEmpty());
+
+
+    }
+
     // The thread id does not exist
     @Test
     @Order(2)

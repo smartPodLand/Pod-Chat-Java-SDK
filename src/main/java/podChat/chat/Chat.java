@@ -2642,6 +2642,15 @@ public class Chat extends AsyncAdapter {
                     participantsJsonArray.add(jsonElement);
                 });
 
+            }else if (!Util.isNullOrEmpty(request.getCoreUserIds())) {
+                request.getCoreUserIds().forEach(coreUserId -> {
+                    Invitee invitee = new Invitee();
+                    invitee.setId(Long.toString(coreUserId));
+                    invitee.setIdType(InviteType.TO_BE_USER_ID);
+                    JsonElement jsonElement = gson.toJsonTree(invitee);
+                    participantsJsonArray.add(jsonElement);
+                });
+
             }
 
             BaseMessage baseMessage = new BaseMessage();
