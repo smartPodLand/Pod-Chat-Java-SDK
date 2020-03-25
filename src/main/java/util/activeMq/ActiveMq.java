@@ -60,6 +60,7 @@ public class ActiveMq {
                         .append(")?jms.useAsyncSend=true")
                         .append("&randomize=true")
                         .append("&jms.sendTimeout=").append(queueConfigVO.getQueueReconnectTime())
+                        .append("&jms.prefetchPolicy.queuePrefetch=1")
                         .toString());
 
         if (factory != null) {

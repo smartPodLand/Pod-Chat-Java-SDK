@@ -1,8 +1,5 @@
 package podChat.requestobject;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.gson.annotations.Expose;
 import podChat.mainmodel.Invitee;
 import podChat.mainmodel.RequestThreadInnerMessage;
 

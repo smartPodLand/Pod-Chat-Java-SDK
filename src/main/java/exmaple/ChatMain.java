@@ -102,7 +102,7 @@ public class ChatMain implements ChatContract.view {
 //            editMessage();
 //            forwardMessage();
 
-            addParticipant();
+//            addParticipant();
 //            removeParticipant();
 //            Thread.sleep(2000);
 //            getParticipant();
@@ -148,7 +148,7 @@ public class ChatMain implements ChatContract.view {
 
 //            pinThread();
 //            Thread.sleep(2000);
-//            getThreads();
+            getThreads();
 
 
 //            unPinThread();
@@ -353,7 +353,7 @@ public class ChatMain implements ChatContract.view {
      */
     private void removeContact() {
         RequestRemoveContact requestRemoveContact = new RequestRemoveContact
-                .Builder(20714)
+                .Builder(8559)
                 .build();
 
         chatController.removeContact(requestRemoveContact);
@@ -364,7 +364,7 @@ public class ChatMain implements ChatContract.view {
      */
     private void updateContact() {
         RequestUpdateContact requestUpdateContact = new RequestUpdateContact
-                .Builder(13882, "زهرا", "مظلوم", "09156452709", "zahra@gmail.com")
+                .Builder(8559, "زهرا", "مظلوم", "0911111111111", "zahra@gmail.com")
                 .build();
 
         chatController.updateContact(requestUpdateContact);
@@ -376,7 +376,8 @@ public class ChatMain implements ChatContract.view {
     private void searchContact() {
         RequestSearchContact searchContact = new RequestSearchContact
                 .Builder()
-                .cellphoneNumber("09156452709")
+                .firstName("JiJi")
+
                 .build();
 
         chatController.searchContact(searchContact);
@@ -398,7 +399,7 @@ public class ChatMain implements ChatContract.view {
     private void block() {
         RequestBlock requestBlock = new RequestBlock
                 .Builder()
-                .contactId(13882)
+                .contactId(578)
                 .build();
 
         chatController.block(requestBlock);
@@ -410,8 +411,9 @@ public class ChatMain implements ChatContract.view {
     private void unblock() {
         RequestUnBlock requestUnBlock = new RequestUnBlock
                 .Builder()
+                .contactId(578)
 //                (6061)
-                .blockId(2222)
+//                .blockId(2222)
                 .build();
 
         chatController.unBlock(requestUnBlock);
@@ -452,7 +454,7 @@ public class ChatMain implements ChatContract.view {
 
         chatController.getHistory(requestGetHistory);*/
         RequestGetHistory requestGetHistory2 = new RequestGetHistory
-                .Builder(7109)
+                .Builder(7149)
 //                .uniqueIds(new String[]{"a98d00af-6cb7-4174-a82a-a8ec68af0bb1"})
                 .build();
 
@@ -486,7 +488,7 @@ public class ChatMain implements ChatContract.view {
     private void deleteMessage() {
         RequestDeleteMessage deleteMessage = new RequestDeleteMessage
                 .Builder(new ArrayList<Long>() {{
-            add(86368L);
+            add(91292L);
         }})
                 .deleteForAll(true)
                 .build();
@@ -574,7 +576,7 @@ public class ChatMain implements ChatContract.view {
      */
     private void editMessage() {
         RequestEditMessage requestEditMessage = new RequestEditMessage
-                .Builder("hiii", 72301)
+                .Builder("hiii", 91288)
                 .build();
         chatController.editMessage(requestEditMessage);
     }
@@ -584,7 +586,7 @@ public class ChatMain implements ChatContract.view {
      */
     private void sendMessage() {
         RequestMessage requestThread = new RequestMessage
-                .Builder("hi", 7149, TextMessageType.TEXT)
+                .Builder("hi", 7129, TextMessageType.TEXT)
                 .build();
 
         chatController.sendTextMessage(requestThread);
@@ -622,8 +624,8 @@ public class ChatMain implements ChatContract.view {
      */
     private void forwardMessage() {
         RequestForwardMessage forwardMessage = new RequestForwardMessage
-                .Builder(6362, new ArrayList<Long>() {{
-            add(72301L);
+                .Builder(7129, new ArrayList<Long>() {{
+            add(91290L);
         }})
                 .build();
 
@@ -635,7 +637,7 @@ public class ChatMain implements ChatContract.view {
      */
     private void replyMessage() {
         RequestReplyMessage requestReplyMessage = new RequestReplyMessage
-                .Builder("hi", 6362, 72301, TextMessageType.TEXT)
+                .Builder("hi", 7129, 91288, TextMessageType.TEXT)
                 .build();
 
         chatController.replyMessage(requestReplyMessage);
@@ -661,8 +663,8 @@ public class ChatMain implements ChatContract.view {
 
         Invitee[] invitees = new Invitee[1];
         Invitee invitee = new Invitee();
-        invitee.setIdType(InviteType.TO_BE_USER_CELLPHONE_NUMBER);
-        invitee.setId("13812");
+        invitee.setIdType(InviteType.TO_BE_USER_ID);
+        invitee.setId("15503");
 
 //        Invitee invitee2 = new Invitee();
 //        invitee2.setIdType(InviteType.TO_BE_USER_CONTACT_ID);
@@ -705,7 +707,7 @@ public class ChatMain implements ChatContract.view {
      */
     private void getSeenList() {
         RequestSeenMessageList requestSeenMessageList = new RequestSeenMessageList
-                .Builder(55216)
+                .Builder(91290)
                 .build();
 
         chatController.seenMessageList(requestSeenMessageList);
@@ -868,7 +870,7 @@ public class ChatMain implements ChatContract.view {
         RequestAddParticipants addParticipants = RequestAddParticipants
                 .newBuilder()
                 .threadId(7308L)
-                .withCoreUserIds(1507L,1556L)
+                .withUsername("pooria")
                 .build();
 
         chatController.addParticipants(addParticipants);
@@ -883,7 +885,7 @@ public class ChatMain implements ChatContract.view {
      */
     private void sendFileMessage() {
         RequestFileMessage requestFileMessage = new RequestFileMessage
-                .Builder(5461, "D:\\chat.txt", TextMessageType.FILE)
+                .Builder(7129, "D:\\chat.txt", TextMessageType.FILE)
                 .description("this is test")
                 .build();
 
@@ -905,14 +907,10 @@ public class ChatMain implements ChatContract.view {
 
         RequestReplyFileMessage requestReplyFileMessage = new RequestReplyFileMessage
                 .Builder("this is test",
-                5461,
-                55202,
-                "C:\\Users\\fanap_soft\\Desktop\\chat output\\b.jpg"
+                7129,
+                91290,
+                "D:\\download.jpg"
                 , TextMessageType.PICTURE)
-                .xC(0)
-                .yC(0)
-                .hC(100)
-                .wC(200)
                 .build();
         chatController.replyFileMessage(requestReplyFileMessage, null);
     }
