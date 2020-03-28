@@ -38,9 +38,9 @@ public class ChatMain implements ChatContract.view {
 
 
     public static String platformHost = "http://172.16.110.235:8003/srv/bptest-core/";
-    //    public static String token = "3c4d62b6068043aa898cf7426d5cae68"; //jiji
+//        public static String token = "3c4d62b6068043aa898cf7426d5cae68"; //jiji
     public static String token = "bebc31c4ead6458c90b607496dae25c6"; //alexi
-    //    public static String token = "3c4d62b6068043aa898cf7426d5cae68"; //fifi
+//        public static String token = "3c4d62b6068043aa898cf7426d5cae68"; //fifi
 //    public static String token = "f19933ae1b1e424db9965a243bf3bcd3"; //zizi
     public static String ssoHost = "http://172.16.110.76";
     public static String fileServer = "http://172.16.110.76:8080";
@@ -79,6 +79,7 @@ public class ChatMain implements ChatContract.view {
 
             chatController.connect(requestConnect);
 
+            chatController.getUserInfo();
 
 //            addContact();
 //            Thread.sleep(2000);
@@ -105,7 +106,7 @@ public class ChatMain implements ChatContract.view {
 //            addParticipant();
 //            removeParticipant();
 //            Thread.sleep(2000);
-//            getParticipant();
+            getParticipant();
 //chatController.getUserInfo();
 //            createThreadWithMessage();
 //            createThreadWithFileMessage();
@@ -136,19 +137,19 @@ public class ChatMain implements ChatContract.view {
 //            getBlockList();
 
 
-/*
-            addAdmin();
-            Thread.sleep(2000);
-            getAdmin();
-            Thread.sleep(2000);
-            removeAdmin();
-            Thread.sleep(2000);
-            getAdmin();*/
+//
+//            addAdmin();
+//            Thread.sleep(2000);
+//            getAdmin();
+//            Thread.sleep(2000);
+//            removeAdmin();
+//            Thread.sleep(2000);
+//            getAdmin();
 
 
 //            pinThread();
 //            Thread.sleep(2000);
-            getThreads();
+//            getThreads();
 
 
 //            unPinThread();
@@ -177,7 +178,7 @@ public class ChatMain implements ChatContract.view {
 //            spam();
 
 //            Thread.sleep(2000);
-//            setAuditorRole();
+
 //            getParticipant();
 
 //            pinMessage();
@@ -271,7 +272,7 @@ public class ChatMain implements ChatContract.view {
 
     void getCurrentUserRoles() {
         RequestCurrentUserRoles requestCurrentUserRoles = new RequestCurrentUserRoles
-                .Builder(6629)
+                .Builder(7149)
                 .build();
 
 
@@ -528,9 +529,9 @@ public class ChatMain implements ChatContract.view {
 
     private void getMentionedList() {
         RequestGetMentionedList requestGetMentionedList = new RequestGetMentionedList
-                .Builder(7108)
-//                .allMentioned(true)
-                .unreadMentioned(true)
+                .Builder(7308)
+                .allMentioned(true)
+//                .unreadMentioned(true)
                 .build();
 
 
@@ -586,7 +587,7 @@ public class ChatMain implements ChatContract.view {
      */
     private void sendMessage() {
         RequestMessage requestThread = new RequestMessage
-                .Builder("hi", 7129, TextMessageType.TEXT)
+                .Builder("hi @JiJi Jijuli", 7308, TextMessageType.TEXT)
                 .build();
 
         chatController.sendTextMessage(requestThread);
@@ -664,7 +665,7 @@ public class ChatMain implements ChatContract.view {
         Invitee[] invitees = new Invitee[1];
         Invitee invitee = new Invitee();
         invitee.setIdType(InviteType.TO_BE_USER_ID);
-        invitee.setId("15503");
+        invitee.setId("15596");
 
 //        Invitee invitee2 = new Invitee();
 //        invitee2.setIdType(InviteType.TO_BE_USER_CONTACT_ID);
@@ -696,7 +697,7 @@ public class ChatMain implements ChatContract.view {
         RequestCreatePublicGroupOrChannelThread requestCreateThread = new RequestCreatePublicGroupOrChannelThread
                 .Builder(ThreadType.PUBLIC_GROUP, new ArrayList<Invitee>() {{
             add(invitee);
-        }}, "jijiThread")
+        }}, "jijiiThread")
                 .build();
 
         chatController.createThread(requestCreateThread);
@@ -751,17 +752,17 @@ public class ChatMain implements ChatContract.view {
      * count unread messages
      */
     private void countUnreadMessage() {
-        RequestUnreadMessageCount requestMuteThread = new RequestUnreadMessageCount
+        RequestUnreadMessageCount requestUnreadMessageCount = new RequestUnreadMessageCount
                 .Builder()
                 .mute(true)
                 .build();
 
-        chatController.countUnreadMessage(requestMuteThread);
+        chatController.countUnreadMessage(requestUnreadMessageCount);
     }
 
     private void joinThread() {
         RequestJoinThread requestJoinThread = new RequestJoinThread
-                .Builder("jiThread")
+                .Builder("jijiThread")
                 .build();
 
         chatController.joinThead(requestJoinThread);
@@ -773,7 +774,7 @@ public class ChatMain implements ChatContract.view {
 
     private void spam() {
         RequestSpam requestSpam = new RequestSpam
-                .Builder(6450)
+                .Builder(7330)
                 .build();
 
         chatController.spam(requestSpam);
@@ -795,7 +796,7 @@ public class ChatMain implements ChatContract.view {
 
     private void pinThread() {
         RequestPinThread requestPinThread = new RequestPinThread
-                .Builder(5461)
+                .Builder(7129)
                 .build();
 
         chatController.pinThread(requestPinThread);
@@ -820,7 +821,7 @@ public class ChatMain implements ChatContract.view {
 
     private void unPinMessage() {
         RequestPinMessage requestPinMessage = new RequestPinMessage
-                .Builder(75293L)
+                .Builder(89288L)
                 .build();
 
         chatController.unPinMessage(requestPinMessage);

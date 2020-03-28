@@ -1,5 +1,7 @@
 package podChat.mainmodel;
 
+import podChat.model.ChatProfileVO;
+
 import java.util.List;
 
 public class Participant {
@@ -26,6 +28,7 @@ public class Participant {
     private String keyId ;
     private List<String> roles;
     private String username;
+    private ChatProfileVO chatProfileVO;
 
     public Long getId() {
         return id;
@@ -209,5 +212,13 @@ public class Participant {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public ChatProfileVO getChatProfileVO() {
+        return chatProfileVO;
+    }
+
+    public void setChatProfileVO(ChatProfileVO chatProfileVO) {
+        this.chatProfileVO = chatProfileVO;
     }
 }

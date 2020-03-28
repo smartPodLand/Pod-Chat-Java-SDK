@@ -4852,6 +4852,7 @@ public class Chat extends AsyncAdapter {
 
         setUserId(userInfo.getId());
         result.setUser(userInfo);
+
         outPutUserInfo.setErrorCode(0);
         outPutUserInfo.setErrorMessage("");
         outPutUserInfo.setHasError(false);

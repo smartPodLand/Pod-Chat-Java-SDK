@@ -6,12 +6,39 @@ import podChat.model.ChatProfileVO;
 public class UserInfo {
 
     private long id;
+    private long coreUserId;
     private boolean sendEnable;
     private boolean receiveEnable;
     private String name;
+    private String email;
+    private String username;
     private String cellphoneNumber;
     private String image;
     private ChatProfileVO chatProfileVO;
+
+    public long getCoreUserId() {
+        return coreUserId;
+    }
+
+    public void setCoreUserId(long coreUserId) {
+        this.coreUserId = coreUserId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public long getId() {
         return id;
