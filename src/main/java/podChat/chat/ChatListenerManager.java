@@ -477,10 +477,10 @@ public class ChatListenerManager {
         }
     }
 
-    public void callOnUpdateThreadInfo(String threadJson, ChatResponse<ResultThread> chatResponse) {
+    public void callOnUpdateThreadInfo(ChatResponse<ResultThread> chatResponse) {
         for (ChatListener listener : getSynchronizedListeners()) {
             try {
-                listener.onUpdateThreadInfo(threadJson, chatResponse);
+                listener.onUpdateThreadInfo(chatResponse);
             } catch (Throwable t) {
                 callHandleCallbackError(listener, t);
             }

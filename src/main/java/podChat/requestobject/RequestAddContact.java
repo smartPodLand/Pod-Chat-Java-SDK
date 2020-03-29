@@ -21,6 +21,14 @@ public class RequestAddContact extends GeneralRequestObject {
         this.userName = builder.userName;
     }
 
+    public RequestAddContact() {
+    }
+
+    public static AddContactStep newBuilder() {
+
+        return new Steps();
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -59,6 +67,43 @@ public class RequestAddContact extends GeneralRequestObject {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public static interface AddContactStep {
+
+        ActionStep firstName(String firstName);
+
+        ActionStep lastName(String lastName);
+
+        ActionStep firstNameLastName(String firstName, String lastName);
+
+
+    }
+
+    public static interface ActionStep {
+
+        BuildStep phoneNumber(String cellPhoneNumber);
+
+        BuildStep phoneNumberEmail(String cellPhoneNumber, String email);
+
+        BuildStep phoneNumberEmailUserName(String cellPhoneNumber, String email, String username);
+
+        BuildStep phoneNumberUserName(String cellPhoneNumber, String username);
+
+        BuildStep email(String email);
+
+        BuildStep emailUserName(String email, String username);
+
+        BuildStep userName(String userName);
+
+
+    }
+
+    public static interface BuildStep {
+
+
+        RequestAddContact build();
+
     }
 
     public static class Builder extends GeneralRequestObject.Builder<Builder> {
@@ -116,6 +161,95 @@ public class RequestAddContact extends GeneralRequestObject {
         @Override
         protected Builder self() {
             return this;
+        }
+    }
+
+    private static class Steps implements AddContactStep, ActionStep, BuildStep {
+        private String firstName;
+        private String lastName;
+        private String cellphoneNumber;
+        private String email;
+        private String userName;
+
+
+        @Override
+        public ActionStep firstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        @Override
+        public ActionStep lastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        @Override
+        public ActionStep firstNameLastName(String firstName, String lastName) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            return this;
+        }
+
+        @Override
+        public BuildStep phoneNumber(String cellphoneNumber) {
+            this.cellphoneNumber = cellphoneNumber;
+            return this;
+        }
+
+        @Override
+        public BuildStep phoneNumberEmail(String cellPhoneNumber, String email) {
+            this.cellphoneNumber = cellPhoneNumber;
+            this.email = email;
+            return this;
+        }
+
+        @Override
+        public BuildStep phoneNumberEmailUserName(String cellPhoneNumber, String email, String username) {
+            this.cellphoneNumber = cellPhoneNumber;
+            this.email = email;
+            this.userName = username;
+            return this;
+        }
+
+        @Override
+        public BuildStep phoneNumberUserName(String cellPhoneNumber, String username) {
+            this.cellphoneNumber = cellPhoneNumber;
+            this.userName = username;
+            return this;
+        }
+
+        @Override
+        public BuildStep email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        @Override
+        public BuildStep emailUserName(String email, String username) {
+            this.email = email;
+            this.userName = username;
+            return this;
+        }
+
+        @Override
+        public BuildStep userName(String userName) {
+            this.userName = userName;
+            return this;
+        }
+
+        @Override
+        public RequestAddContact build() {
+
+            RequestAddContact request = new RequestAddContact();
+
+            request.setUserName(userName != null ? userName : "");
+            request.setLastName(lastName != null ? lastName : "");
+            request.setFirstName(firstName != null ? firstName : "");
+            request.setEmail(email != null ? email : "");
+            request.setCellphoneNumber(cellphoneNumber != null ? cellphoneNumber : "");
+
+            return request;
         }
     }
 }

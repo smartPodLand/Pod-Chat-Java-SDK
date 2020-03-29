@@ -38,9 +38,9 @@ public class ChatMain implements ChatContract.view {
 
 
     public static String platformHost = "http://172.16.110.235:8003/srv/bptest-core/";
-//        public static String token = "3c4d62b6068043aa898cf7426d5cae68"; //jiji
+    //        public static String token = "3c4d62b6068043aa898cf7426d5cae68"; //jiji
     public static String token = "bebc31c4ead6458c90b607496dae25c6"; //alexi
-//        public static String token = "3c4d62b6068043aa898cf7426d5cae68"; //fifi
+    //        public static String token = "3c4d62b6068043aa898cf7426d5cae68"; //fifi
 //    public static String token = "f19933ae1b1e424db9965a243bf3bcd3"; //zizi
     public static String ssoHost = "http://172.16.110.76";
     public static String fileServer = "http://172.16.110.76:8080";
@@ -81,7 +81,7 @@ public class ChatMain implements ChatContract.view {
 
             chatController.getUserInfo();
 
-//            addContact();
+            addContact();
 //            Thread.sleep(2000);
 //            getcontact();
 //            Thread.sleep(2000);
@@ -106,7 +106,7 @@ public class ChatMain implements ChatContract.view {
 //            addParticipant();
 //            removeParticipant();
 //            Thread.sleep(2000);
-            getParticipant();
+//            getParticipant();
 //chatController.getUserInfo();
 //            createThreadWithMessage();
 //            createThreadWithFileMessage();
@@ -338,12 +338,19 @@ public class ChatMain implements ChatContract.view {
      * add contact
      */
     void addContact() {
-        RequestAddContact requestAddContact = new RequestAddContact
-                .Builder()
-                .cellphoneNumber("09151242904")
-                .lastName("فاطمه")
-                .firstName("خجسته")
+//        RequestAddContact requestAddContact = new RequestAddContact
+//                .Builder()
+//                .cellphoneNumber("09151242904")
+//                .lastName("فاطمه")
+//                .firstName("خجسته")
+//                .build();
+
+        RequestAddContact requestAddContact = RequestAddContact
+                .newBuilder()
+                .firstName("pooria")
+                .userName("pooria")
                 .build();
+
         Gson gson = new Gson();
         System.out.println(gson.toJson(requestAddContact));
         chatController.addContact(requestAddContact);
@@ -412,9 +419,9 @@ public class ChatMain implements ChatContract.view {
     private void unblock() {
         RequestUnBlock requestUnBlock = new RequestUnBlock
                 .Builder()
-                .contactId(578)
+//                .contactId(578)
 //                (6061)
-//                .blockId(2222)
+                .blockId(2182)
                 .build();
 
         chatController.unBlock(requestUnBlock);
@@ -599,6 +606,10 @@ public class ChatMain implements ChatContract.view {
     private void getThreads() {
         RequestThread requestThread = new RequestThread
                 .Builder()
+                .threadIds(new ArrayList<Integer>() {{
+                    add(7330);
+                    add(7129);
+                }})
 //                .newMessages()
                 .build();
 
@@ -845,8 +856,8 @@ public class ChatMain implements ChatContract.view {
      */
     private void removeParticipant() {
         RequestRemoveParticipants requestRemoveParticipants = new RequestRemoveParticipants
-                .Builder(5941, new ArrayList<Long>() {{
-            add(1181L);
+                .Builder(7308, new ArrayList<Long>() {{
+            add(15503L);
         }})
                 .build();
 

@@ -164,7 +164,7 @@ public class ChatAdapter implements ChatListener {
     }
 
     @Override
-    public void onUpdateThreadInfo(String threadJson, ChatResponse<ResultThread> response) {
+    public void onUpdateThreadInfo(ChatResponse<ResultThread> response) {
 
     }
 

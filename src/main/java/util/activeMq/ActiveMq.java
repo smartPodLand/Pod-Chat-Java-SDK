@@ -23,26 +23,18 @@ import java.util.stream.Collectors;
  */
 public class ActiveMq {
     private static Logger logger = LogManager.getLogger(ActiveMq.class);
-
+    ConnectionFactory factory;
+    IoAdapter ioAdapter;
     private MessageProducer producer;
     private MessageConsumer consumer;
-
     private Session proSession;
     private Session conSession;
-
     private Connection proConnection;
     private Connection conConnection;
-
-
     private Destination inputQueue;
     private Destination outputQueue;
-
     private QueueConfigVO queueConfigVO;
-
     private AtomicBoolean reconnect = new AtomicBoolean(false);
-    ConnectionFactory factory;
-
-    IoAdapter ioAdapter;
 
     public ActiveMq(final IoAdapter ioAdapter, QueueConfigVO queueConfigVO) throws ConnectionException {
         this.ioAdapter = ioAdapter;
@@ -108,7 +100,7 @@ public class ActiveMq {
                     break;
 
                 } catch (JMSException exception) {
-                    logger.error("Reconnecting exception");
+                    logger.error("Reconnecting exception " + exception);
                     try {
                         Thread.sleep(2000);
                     } catch (InterruptedException e1) {
@@ -159,53 +151,6 @@ public class ActiveMq {
 
     }
 
-    private class QueueMessageListener implements MessageListener {
-        @Override
-        public void onMessage(Message message) {
-            try {
-                message.acknowledge();
-
-                if (message instanceof BytesMessage) {
-                    BytesMessage bytesMessage = (BytesMessage) message;
-                    byte[] buffer = new byte[(int) bytesMessage.getBodyLength()];
-                    int readBytes = bytesMessage.readBytes(buffer);
-
-                    if (readBytes != bytesMessage.getBodyLength()) {
-                        throw new IOException("Inconsistance message length");
-                    }
-
-                    String json = new String(buffer/*, "utf-8"*/);
-
-                    ioAdapter.onReceiveMessage(json);
-
-                }
-            } catch (JMSException s) {
-                try {
-                    throw s;
-                } catch (JMSException e) {
-                    showErrorLog("jms Exception: " + e);
-                }
-            } catch (Throwable e) {
-                showErrorLog("An exception occurred: " + e);
-            }
-        }
-    }
-
-
-    private class QueueExceptionListener implements ExceptionListener {
-        @Override
-        public void onException(JMSException exception) {
-            close();
-            showErrorLog("JMSException occurred: " + exception);
-            try {
-                Thread.sleep(queueConfigVO.getQueueReconnectTime());
-                connect();
-            } catch (InterruptedException e) {
-                showErrorLog("An exception occurred: " + e);
-            }
-        }
-    }
-
     private void close() {
         try {
             producer.close();
@@ -249,7 +194,6 @@ public class ActiveMq {
         if (Chat.isLoggable) logger.info("\n \n" + json);
     }
 
-
     private void showErrorLog(String i, String json) {
         if (Chat.isLoggable) logger.error(i + "\n \n" + json);
     }
@@ -265,5 +209,51 @@ public class ActiveMq {
 
     private String getSocketAddress(List<String> uris) {
         return String.join(",", uris.stream().map(s -> "tcp://" + s).collect(Collectors.toList()));
+    }
+
+    private class QueueMessageListener implements MessageListener {
+        @Override
+        public void onMessage(Message message) {
+            try {
+                message.acknowledge();
+
+                if (message instanceof BytesMessage) {
+                    BytesMessage bytesMessage = (BytesMessage) message;
+                    byte[] buffer = new byte[(int) bytesMessage.getBodyLength()];
+                    int readBytes = bytesMessage.readBytes(buffer);
+
+                    if (readBytes != bytesMessage.getBodyLength()) {
+                        throw new IOException("Inconsistance message length");
+                    }
+
+                    String json = new String(buffer/*, "utf-8"*/);
+
+                    ioAdapter.onReceiveMessage(json);
+
+                }
+            } catch (JMSException s) {
+                try {
+                    throw s;
+                } catch (JMSException e) {
+                    showErrorLog("jms Exception: " + e);
+                }
+            } catch (Throwable e) {
+                showErrorLog("An exception occurred: " + e);
+            }
+        }
+    }
+
+    private class QueueExceptionListener implements ExceptionListener {
+        @Override
+        public void onException(JMSException exception) {
+            close();
+            showErrorLog("JMSException occurred: " + exception);
+            try {
+                Thread.sleep(queueConfigVO.getQueueReconnectTime());
+                connect();
+            } catch (InterruptedException e) {
+                showErrorLog("An exception occurred: " + e);
+            }
+        }
     }
 }

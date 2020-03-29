@@ -126,7 +126,7 @@ public interface ChatListener {
     default void onGetBlockList(ChatResponse<ResultBlockList> response) {
     }
 
-    default void onUpdateThreadInfo(String threadJson, ChatResponse<ResultThread> response) {
+    default void onUpdateThreadInfo(ChatResponse<ResultThread> response) {
     }
 
     default void OnDeliveredMessageList(ChatResponse<ResultParticipant> response) {

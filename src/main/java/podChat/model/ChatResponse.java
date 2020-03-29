@@ -15,6 +15,6 @@ public class ChatResponse<T> extends BaseOutPut {
 
     public String getJson() {
         Gson gson = new Gson();
-        return gson.toJson(result);
+        return gson.toJson(this);
     }
 }

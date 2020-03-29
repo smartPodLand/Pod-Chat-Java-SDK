@@ -97,6 +97,7 @@ public class RequestAddParticipants extends GeneralRequestObject {
 
     }
 
+    @Deprecated
     public static class Builder extends GeneralRequestObject.Builder<Builder> {
 
         private long threadId;
@@ -217,6 +218,4 @@ public class RequestAddParticipants extends GeneralRequestObject {
             return this;
         }
     }
-
-
 }
